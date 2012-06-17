@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+
+# api ignores
+api/target
+
+# omod ignores
+omod/target
