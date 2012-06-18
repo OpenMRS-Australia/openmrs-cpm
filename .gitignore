@@ -5,8 +5,12 @@
 *.war
 *.ear
 
-# api ignores
-api/target
+# Maven build directories
+target
 
-# omod ignores
-omod/target
+# IntelliJ project files
+.idea
+*.iml
+
+# Mac OS X
+.DS_Store
