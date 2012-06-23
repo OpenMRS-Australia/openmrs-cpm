@@ -22,9 +22,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://svn.openmrs.org/openmrs-modules/cpm/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/cpm/trunk/</developerConnection>
-		<url>https://svn.openmrs.org/openmrs-modules/cpm/trunk/</url>
+		<connection>scm:git:https://github.com/johnsyweb/openmrs-cpm.git</connection>
+		<developerConnection>scm:git:https://github.com/johnsyweb/openmrs-cpm.git</developerConnection>
+		<url>https://github.com/johnsyweb/openmrs-cpm</url>
 	</scm>
 
 	<modules>
