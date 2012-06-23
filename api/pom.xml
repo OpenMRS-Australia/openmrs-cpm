@@ -10,7 +10,7 @@
 
 	<artifactId>cpm-api</artifactId>
 	<packaging>jar</packaging>
-	<name>Concept Proposal Module Module API</name>
+	<name>Concept Proposal Module API</name>
 	<description>API project for ConceptProposalModule</description>
 
 	<dependencies>

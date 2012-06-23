@@ -29,42 +29,42 @@ public class ConceptProposalModuleActivator implements ModuleActivator {
 	 * @see ModuleActivator#willRefreshContext()
 	 */
 	public void willRefreshContext() {
-		log.info("Refreshing Concept Proposal Module Module");
+		log.info("Refreshing Concept Proposal Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#contextRefreshed()
 	 */
 	public void contextRefreshed() {
-		log.info("Concept Proposal Module Module refreshed");
+		log.info("Concept Proposal Module refreshed");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStart()
 	 */
 	public void willStart() {
-		log.info("Starting Concept Proposal Module Module");
+		log.info("Starting Concept Proposal Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		log.info("Concept Proposal Module Module started");
+		log.info("Concept Proposal Module started");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStop()
 	 */
 	public void willStop() {
-		log.info("Stopping Concept Proposal Module Module");
+		log.info("Stopping Concept Proposal Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#stopped()
 	 */
 	public void stopped() {
-		log.info("Concept Proposal Module Module stopped");
+		log.info("Concept Proposal Module stopped");
 	}
 		
 }

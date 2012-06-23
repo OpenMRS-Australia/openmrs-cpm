@@ -6,7 +6,7 @@
 	<artifactId>cpm</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Concept Proposal Module Module</name>
+	<name>Concept Proposal Module</name>
 	<description>Enable sharing of concepts</description>
 	<url>https://wiki.openmrs.org/display/docs/Concept+Proposal+Module+Module+Module</url>
 	

@@ -10,7 +10,7 @@
 
 	<artifactId>cpm-omod</artifactId>
 	<packaging>jar</packaging>
-	<name>Concept Proposal Module Module OMOD</name>
+	<name>Concept Proposal Module OMOD</name>
 	<description>OMOD project for ConceptProposalModule</description>
 
 	<dependencies>
