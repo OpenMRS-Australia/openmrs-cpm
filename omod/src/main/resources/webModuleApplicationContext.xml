@@ -22,5 +22,7 @@
 
 	<!-- Add here beans related to the web context -->
 
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+	<context:component-scan base-package="org.openmrs.module.cpm.web.controller" />
 		
 </beans>
