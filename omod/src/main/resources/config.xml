@@ -19,7 +19,10 @@
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.ConceptProposalModuleActivator</activator>
 	
-	
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
+	</extension>
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				

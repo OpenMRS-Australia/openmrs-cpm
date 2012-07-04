@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("module/cpm/concept.list")
 public class CpmController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "module/cpm/concept.form", method = RequestMethod.GET)
+	public String createConceptForm() {
+		return "/module/cpm/conceptCreate";
+	}
+
+	@RequestMapping(value = "module/cpm/concept.list", method = RequestMethod.GET)
 	public String listConcepts() {
 		return "/module/cpm/conceptList";
 	}
