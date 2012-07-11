@@ -1,4 +1,4 @@
-package org.openmrs.module.cpmn;
+package org.openmrs.module.cpm;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;

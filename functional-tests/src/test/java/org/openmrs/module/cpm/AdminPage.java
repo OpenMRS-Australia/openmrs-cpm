@@ -1,4 +1,4 @@
-package org.openmrs.module.cpmn;
+package org.openmrs.module.cpm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
