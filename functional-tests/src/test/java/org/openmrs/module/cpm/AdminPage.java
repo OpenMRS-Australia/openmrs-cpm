@@ -1,6 +1,5 @@
 package org.openmrs.module.cpm;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -19,17 +18,12 @@ public class AdminPage {
 	}
 
 	/**
-	 * not really sure if this ist ja the right way to wrap selenium in a page object
+	 * Checks if there's one and only one create proposal link
 	 *
 	 * @return True if the link exists, false otherwise
 	 */
 	public boolean hasCreateProposalLink() {
-		try {
-			driver.findElement(By.cssSelector("a[href=\"" + createProposalUrl  + "\"]"));
-			return true;
-		} catch (final NoSuchElementException e) {
-			return false;
-		}
+		return driver.findElements(By.cssSelector("a[href=\"" + createProposalUrl  + "\"]")).size() == 1;
 	}
 
 	private void login() {
