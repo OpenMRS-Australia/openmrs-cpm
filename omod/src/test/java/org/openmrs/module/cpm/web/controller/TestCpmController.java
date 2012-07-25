@@ -14,16 +14,22 @@ public class TestCpmController extends BaseModuleContextSensitiveTest {
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
+	private final CpmController controller = new CpmController();
 
 	@Test
 	public void testCreateConceptForm() throws Exception {
-
 		request = new MockHttpServletRequest("GET", "/module/cpm/concept.form");
-		final CpmController controller = new CpmController();
 		final ModelAndView handle = adapter.handle(request, response, controller);
 		assertEquals("/module/cpm/conceptCreate", handle.getViewName());
 		assertEquals(200, response.getStatus());
+	}
 
+	@Test
+	public void testMonitorProposalsList() throws Exception {
+		request = new MockHttpServletRequest("GET", "/module/cpm/monitor.list");
+		final ModelAndView handle = adapter.handle(request, response, controller);
+		assertEquals("/module/cpm/monitor", handle.getViewName());
+		assertEquals(200, response.getStatus());
 	}
 
 }
