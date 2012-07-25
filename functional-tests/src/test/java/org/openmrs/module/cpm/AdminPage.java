@@ -5,14 +5,20 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AdminPage {
 
-	private static final String USERNAME = "Admin";
-	private static final String PASSWORD = "Admin123";
+	private static final String createProposalUrl = "/openmrs/module/cpm/concept.form";
+	private static final String monitorProposalsUrl = "/openmrs/module/cpm/monitor.list";
+
+	private String username;
+	private String password;
+	private String adminPageUrl;
+
 	private final RemoteWebDriver driver;
-	private final String adminPageUrl = "http://localhost:8080/openmrs/admin";
-	private final String createProposalUrl = "/openmrs/module/cpm/concept.form";
 
 	public AdminPage(final RemoteWebDriver driver) {
 		this.driver = driver;
+	}
+
+	public void navigateToAdminPage() {
 		driver.get(adminPageUrl);
 		login();
 	}
@@ -26,11 +32,39 @@ public class AdminPage {
 		return driver.findElements(By.cssSelector("a[href=\"" + createProposalUrl  + "\"]")).size() == 1;
 	}
 
+	public boolean hasMonitorProposalsLink() {
+		return driver.findElements(By.cssSelector("a[href=\"" + monitorProposalsUrl + "\"]")).size() == 1;
+	}
+
 	private void login() {
-		final WebElement username = driver.findElement(By.name("uname"));
-		username.sendKeys(USERNAME);
-		final WebElement password = driver.findElement(By.name("pw"));
-		password.sendKeys(PASSWORD);
-		password.submit();
+		final WebElement usernameElement = driver.findElement(By.name("uname"));
+		usernameElement.sendKeys(username);
+		final WebElement passwordElement = driver.findElement(By.name("pw"));
+		passwordElement.sendKeys(password);
+		passwordElement.submit();
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public String getAdminPageUrl() {
+		return adminPageUrl;
+	}
+
+	public void setAdminPageUrl(final String adminPageUrl) {
+		this.adminPageUrl = adminPageUrl;
 	}
 }
