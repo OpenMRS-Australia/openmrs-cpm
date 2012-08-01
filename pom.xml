@@ -9,13 +9,13 @@
 	<name>Concept Proposal Module</name>
 	<description>Enable sharing of concepts</description>
 	<url>https://wiki.openmrs.org/display/docs/Concept+Proposal+Module+Module+Module</url>
-	
+
 	<developers>
 		<developer>
 			<name>kramuenk</name>
 		</developer>
 	</developers>
-	
+
 	<organization>
 		<name>OpenMRS</name>
 		<url>http://openmrs.org</url>
@@ -30,8 +30,9 @@
 	<modules>
 		<module>api</module>
 		<module>omod</module>
+		<module>functional-tests</module>
 	</modules>
-	
+
 	<properties>
 		<openMRSVersion>1.9.0</openMRSVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,7 +40,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-		
+
 			<!--
 			Libraries to add as dependencies with compile or runtime scope:
 			Find matching dependencies in the maven central repository.
@@ -50,11 +51,11 @@
 				<scope>compile</scope>
 			</dependency>
 			-->
-			
-			
+
+
 
 			<!-- Begin OpenMRS core -->
-			
+
 			<dependency>
 				<groupId>org.openmrs.api</groupId>
 				<artifactId>openmrs-api</artifactId>
@@ -70,7 +71,7 @@
 				<type>jar</type>
 				<scope>provided</scope>
 			</dependency>
-						
+
 			<dependency>
 				<groupId>org.openmrs.api</groupId>
 				<artifactId>openmrs-api</artifactId>
@@ -78,7 +79,7 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.openmrs.web</groupId>
 				<artifactId>openmrs-web</artifactId>
@@ -86,7 +87,7 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.openmrs.test</groupId>
 				<artifactId>openmrs-test</artifactId>
@@ -94,7 +95,7 @@
 				<type>pom</type>
 				<scope>test</scope>
 			</dependency>
-						
+
 			<!-- End OpenMRS core -->
 
 		</dependencies>

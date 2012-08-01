@@ -5,6 +5,12 @@
 *.war
 *.ear
 
+# Eclipse dirs
+.metadata
+.project
+.classpath
+*.settings
+
 # Maven build directories
 target
 
