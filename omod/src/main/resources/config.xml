@@ -5,7 +5,7 @@
 	<!-- Module Properties -->
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
-	<version>${project.parent.version}</version>
+	<version>${project.parent.version}-SHA1-${buildNumber}</version>
 	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
 	<author>kramuenk</author>
 	<description>
