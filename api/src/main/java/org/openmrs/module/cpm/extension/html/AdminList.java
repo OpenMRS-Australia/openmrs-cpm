@@ -13,7 +13,7 @@
  */
 package org.openmrs.module.cpm.extension.html;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.openmrs.module.Extension;
@@ -48,7 +48,7 @@ public class AdminList extends AdministrationSectionExt {
 	@Override
 	public Map<String, String> getLinks() {
 
-		final Map<String, String> map = new HashMap<String, String>();
+		final Map<String, String> map = new LinkedHashMap<String, String>();
 
 		map.put("module/cpm/concept.form", "Create Proposal");
 		map.put("module/cpm/monitor.list", "Monitor Proposals");
