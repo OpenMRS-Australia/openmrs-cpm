@@ -7,8 +7,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -16,20 +19,37 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class TestAdminPageLinks {
 
 	private AdminPage page;
-	private final FirefoxDriver driver = new FirefoxDriver();
+	private static FirefoxDriver driver;
+	
+	@BeforeClass
+	public static void beforeClass() {
+		driver = new FirefoxDriver();
+	}
 
 	@Before
 	public void load() throws FileNotFoundException, IOException {
+		String username = ""; 
+		String password = "";
+		String adminPageUrl = "";
 
-		final Properties p = new Properties();
-		final InputStream is = getClass().getResourceAsStream("/config.properties");
-
-		p.load(new InputStreamReader(is));
-
+		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
+			username = System.getenv("openmrs_username");
+			password = System.getenv("openmrs_password");
+			adminPageUrl = String.format("http://%s/openmrs/admin",System.getenv("openmrs_server"));
+		} else {
+			final Properties p = new Properties();
+			final InputStream is = getClass().getResourceAsStream("/config.properties");
+			
+			p.load(new InputStreamReader(is));
+			username = p.getProperty("username");
+			password = p.getProperty("password");
+			adminPageUrl = p.getProperty("adminPageUrl");
+		}
+		
 		page = new AdminPage(driver);
-		page.setUsername(p.getProperty("username"));
-		page.setPassword(p.getProperty("password"));
-		page.setAdminPageUrl(p.getProperty("adminPageUrl"));
+		page.setUsername(username);
+		page.setPassword(password);
+		page.setAdminPageUrl(adminPageUrl);
 		page.navigateToAdminPage();
 	}
 
@@ -42,9 +62,14 @@ public class TestAdminPageLinks {
 	public void testMonitorProposalsLink() {
 		assertTrue(page.hasMonitorProposalsLink());
 	}
-
+	
 	@After
-	public void dasIstJaKaputt() {
+	public void logout() {
+		page.logout();
+	}
+
+	@AfterClass
+	public static void afterClass() {
 		driver.quit();
 	}
 
