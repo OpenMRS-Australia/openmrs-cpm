@@ -53,7 +53,7 @@
 	}
 </script>
 
-<h2><openmrs:message code="dictionary.title" /></h2>
+<h2 id="headerText">Create a Concept Proposal</h2>
 
 <a href="<%= request.getContextPath() %>/downloadDictionary.csv"><openmrs:message code="dictionary.download.link"/></a> <openmrs:message code="dictionary.download.description"/><br />
 <br />

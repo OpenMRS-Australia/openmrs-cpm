@@ -6,6 +6,6 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/admin/index.htm" />
 
-<h2><openmrs:message code="cpm.monitor.title" /></h2>
+<h2 id="headerText"><openmrs:message code="cpm.monitor.title" /></h2>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>

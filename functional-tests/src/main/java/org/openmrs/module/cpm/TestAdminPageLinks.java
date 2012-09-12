@@ -1,4 +1,5 @@
 package org.openmrs.module.cpm;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
@@ -46,21 +47,24 @@ public class TestAdminPageLinks {
 			adminPageUrl = p.getProperty("adminPageUrl");
 		}
 		
-		page = new AdminPage(driver);
-		page.setUsername(username);
-		page.setPassword(password);
-		page.setAdminPageUrl(adminPageUrl);
-		page.navigateToAdminPage();
+		page = new AdminPage(driver, adminPageUrl);
+		page.login(username, password);
 	}
 
 	@Test
-	public void testCreateProposalLink() {
-		assertTrue(page.hasCreateProposalLink());
+	public void shouldNavigateToCreateProposalPage() {
+		assertNotNull(page.getCreateProposalLink());
+		
+		CreateProposalPage createProposalPage = page.navigateToCreateProposalPage();
+		assertEquals("Create a Concept Proposal", createProposalPage.getHeaderText());
 	}
 
 	@Test
-	public void testMonitorProposalsLink() {
-		assertTrue(page.hasMonitorProposalsLink());
+	public void shouldNavigateToMonitorProposalsPage() {
+		assertNotNull(page.getMonitorProposalsLink());
+		
+		MonitorProposalsPage monitorProposalsPage = page.navigateToMonitorProposals();
+		assertEquals("Monitor Submitted Proposals", monitorProposalsPage.getHeaderText());
 	}
 	
 	@After
