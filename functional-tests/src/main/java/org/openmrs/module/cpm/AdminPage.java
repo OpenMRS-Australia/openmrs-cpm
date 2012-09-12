@@ -67,4 +67,8 @@ public class AdminPage {
 	public void setAdminPageUrl(final String adminPageUrl) {
 		this.adminPageUrl = adminPageUrl;
 	}
+
+	public void logout() {
+		driver.findElement(By.linkText("Log out")).click();
+	}
 }
