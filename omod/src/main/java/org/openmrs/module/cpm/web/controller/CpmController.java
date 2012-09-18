@@ -23,6 +23,11 @@ public class CpmController {
 		return "/module/cpm/monitor";
 	}
 
+	@RequestMapping(value = "module/cpm/testharness.list", method = RequestMethod.GET)
+	public String testHarness() {
+		return "/module/cpm/testharness";
+	}
+
 //	@RequestMapping(value = "module/cpm/concept.list", method = RequestMethod.GET)
 //	public String listConcepts() {
 //		return "/module/cpm/conceptList";

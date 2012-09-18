@@ -1,52 +1,7 @@
-<%@ taglib prefix="h"
-	uri="/WEB-INF/view/module/metadatasharing/taglib/openmrsObjectHandler.tld"%>
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <openmrs:require privilege="Share Metadata" otherwise="/login.htm"
 	redirect="/module/metadatasharing/managePackages.form" />
-<c:choose>
-	<c:when test="${empty type}">
-		<script type="text/javascript">
-			var $j = jQuery.noConflict();
-			function showItems(type) {
-				var selectItems = $j('#selectItems');
-				selectItems.load('selectItems.form?type='
-						+ encodeURIComponent(type));
-			}
-			$j(document).ready(function() {
-				var chooseTypeTable = $j("#chooseTypeTable").dataTable({
-					"bJQueryUI" : true,
-					"bSort" : false,
-					"bPaginate" : false,
-					"sDom" : "<t>"
-				});
-			});
-		</script>
-		<table id="chooseTypeTable">
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="type" items="${types}">
-					<c:if test="${empty packageItems.items[type] }">
-						<tr>
-							<td>${type}</td>
-							<td style="width: 70%"><a
-								href="addAllItems.form?includeRetired=true&type=${type}"><spring:message
-										code="metadatasharing.addAll" /> </a>&nbsp;<a
-								href="addAllItems.form?includeRetired=false&type=${type}"><spring:message
-										code="metadatasharing.addNonRetired" /> </a>&nbsp;<a
-								href="javascript:showItems('${type}')"><spring:message
-										code="metadatasharing.chooseIndividually" /> </a></td>
-						</tr>
-					</c:if>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:when>
-	<c:otherwise>
+
 		<script type="text/javascript">
 			var $j = jQuery.noConflict();
 			var addedUuids = [];
@@ -112,7 +67,7 @@
 													"bAutoWidth" : false,
 													"bSort" : false,
 													"iDisplayLength" : 25,
-													"sDom" : '<"fg-toolbar ui-corner-tl ui-corner-tr ui-helper-clearfix"lfr>t<"fg-toolbar ui-corner-bl ui-corner-br ui-helper-clearfix"ip>__$tag________________________________________________________',
+													"sDom" : '<"fg-toolbar ui-corner-tl ui-corner-tr ui-helper-clearfix"lfr>t<"fg-toolbar ui-corner-bl ui-corner-br ui-helper-clearfix"ip>',
 													"fnRowCallback" : function(
 															nRow, aData,
 															iDisplayIndex) {
@@ -136,7 +91,7 @@
 
 														$j(":first-child", nRow)
 																.replaceWith(
-																		'<td><input type="che___________________________________________$tag_________________________________________________________$ta_$tag__________________________________________________________$tag_________________________________________________________$ta_$tag_____________________________________________________________________$tag__________________________________________________________$tag_________________________________________________________$ta_$tag_____________________________________________________________________$tag');
+																		'<td><input type="checkbox" name="uuids" value="' + uuid + '"' + checked + '/></td>');
 
 														$j("input[name=uuids]",
 																nRow)
@@ -234,41 +189,45 @@
 																										"td:first-child",
 																										el)
 																										.hasClass(
+																												"retired");
+																								$j(
+																										"td:first-child input",
+																										el)
+																										.attr(
+																												'checked',
+																												!retired);
+																							});
+																		}
+																		$j(
+																				"tr td:first-child input",
+																				metadataTable)
+																				.change();
+																	});
+													$j(this).val("Include");
+												});
+							});
 		</script>
-		<p>
-			<spring:message code="metadatasharing.type" />
-			: ${type}
-		</p>
-		<p>
-			<spring:message code="metadatasharing.chooseMetadata" />
-		</p>
 		<div>
 			<table id="selectItemsTable" style="width: 90%">
 				<thead>
 					<tr>
 						<th style="width: 5%"><select id="includeMetadataSelect">
 								<option>
-									<spring:message code="metadatasharing.include" />
+									Include
 								</option>
 								<option>none</option>
 								<option>all</option>
 								<option>non-retired</option>
 						</select></th>
-						<th style="width: 30%"><spring:message
-								code="metadatasharing.name" /></th>
-						<th style="width: 30%"><spring:message
-								code="metadatasharing.description" /></th>
+						<th style="width: 30%">Name</th>
+						<th style="width: 30%">Description</th>
 						<th></th>
 						<th></th>
-						<th style="width: 10%"><spring:message
-								code="metadatasharing.id" /></th>
-						<th style="width: 30%"><spring:message
-								code="metadatasharing.uuid" /></th>
+						<th style="width: 10%">ID</th>
+						<th style="width: 30%">UUID</th>
 					</tr>
 				</thead>
 				<tbody>
 				</tbody>
 			</table>
 		</div>
-	</c:otherwise>
-</c:choose>
