@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-buildtools/maven/bin/mvn $*
+SOURCE="${BASH_SOURCE[0]}"
+DIR="$( dirname "$SOURCE" )"
+${DIR}/buildtools/maven/bin/mvn $*
