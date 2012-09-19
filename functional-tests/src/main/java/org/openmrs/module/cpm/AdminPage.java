@@ -4,39 +4,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AdminPage {
-
 	private static final String createProposalUrl = "/openmrs/module/cpm/concept.form";
 	private static final String monitorProposalsUrl = "/openmrs/module/cpm/monitor.list";
 
-	private String username;
-	private String password;
-	private String adminPageUrl;
-
 	private final RemoteWebDriver driver;
 
-	public AdminPage(final RemoteWebDriver driver) {
+	public AdminPage(final RemoteWebDriver driver, String adminPageUrl) {
 		this.driver = driver;
+		driver.navigate().to(adminPageUrl);
 	}
 
-	public void navigateToAdminPage() {
-		driver.get(adminPageUrl);
-		login();
+	public WebElement getCreateProposalLink() {
+		return driver.findElement(By.cssSelector("a[href=\"" + createProposalUrl  + "\"]"));
 	}
 
-	/**
-	 * Checks if there's one and only one create proposal link
-	 *
-	 * @return True if the link exists, false otherwise
-	 */
-	public boolean hasCreateProposalLink() {
-		return driver.findElements(By.cssSelector("a[href=\"" + createProposalUrl  + "\"]")).size() == 1;
+	public WebElement getMonitorProposalsLink() {
+		return driver.findElement(By.cssSelector("a[href=\"" + monitorProposalsUrl + "\"]"));
+	}
+	
+	private WebElement getLogoutLink() {
+		return driver.findElement(By.linkText("Log out"));
 	}
 
-	public boolean hasMonitorProposalsLink() {
-		return driver.findElements(By.cssSelector("a[href=\"" + monitorProposalsUrl + "\"]")).size() == 1;
-	}
-
-	private void login() {
+	public void login(String username, String password) {
 		final WebElement usernameElement = driver.findElement(By.name("uname"));
 		usernameElement.sendKeys(username);
 		final WebElement passwordElement = driver.findElement(By.name("pw"));
@@ -44,31 +34,17 @@ public class AdminPage {
 		passwordElement.submit();
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(final String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
-	}
-
-	public String getAdminPageUrl() {
-		return adminPageUrl;
-	}
-
-	public void setAdminPageUrl(final String adminPageUrl) {
-		this.adminPageUrl = adminPageUrl;
-	}
-
 	public void logout() {
-		driver.findElement(By.linkText("Log out")).click();
+		getLogoutLink().click();
+	}
+
+	public CreateProposalPage navigateToCreateProposalPage() {
+		getCreateProposalLink().click();
+		return new CreateProposalPage(driver);
+	}
+
+	public MonitorProposalsPage navigateToMonitorProposals() {
+		 getMonitorProposalsLink().click();
+		return new MonitorProposalsPage(driver);
 	}
 }
