@@ -24,7 +24,7 @@ define ['text!view/SearchConceptsDialog.html'], (templateStrParameter) =>
 #
 class SearchConceptsDialog
 
-  SEARCH_DELAY: 500
+  SEARCH_DELAY: 250
 
   IGNORE_KEYCODES: [9,12,13,16,17,18,19,20,32,33,34,35,36,37,38,39,40,45,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145,224]
 
@@ -46,12 +46,16 @@ class SearchConceptsDialog
     # wire up the search box
     $('.searchBox', @template).keyup (e) =>
       if $.inArray(e.which, @IGNORE_KEYCODES) == -1
-        setTimeout( =>
+        if (typeof @currTimeout != "undefined")
+          clearTimeout(@currTimeout)
+        @currTimeout = setTimeout( =>
           @triggerSearch()
         , @SEARCH_DELAY) 
 
       # trigger search immediately
       else if (e.which == @RETURN)
+        if (typeof @currTimeout != "undefined")
+          clearTimeout(@currTimeout)
         @triggerSearch()
 
     # wire up the cancel button
