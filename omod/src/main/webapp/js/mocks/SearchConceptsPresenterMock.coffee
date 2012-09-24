@@ -1,3 +1,5 @@
+define ->
+  return SearchConceptsPresenterMock
 
 #
 # A mocked presenter used to test SearchConceptsDialog
