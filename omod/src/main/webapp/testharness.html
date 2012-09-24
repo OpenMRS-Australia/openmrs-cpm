@@ -7,7 +7,11 @@
 <script type="text/javascript">
 $(window).load(function() {
 	
-	require(["lib/transparency.min", "cs!view/SearchConceptsDialog", "mocks/concept-list.data", "cs!mocks/SearchConceptsPresenterMock"], function(transparency, SearchConceptsDialog, conceptData, SearchConceptsPresenterMock) {
+	require(["lib/transparency.min", "cs!view/SearchConceptsDialog", "cs!view/CreateConceptProposalView", "mocks/concept-list.data", "cs!mocks/SearchConceptsPresenterMock"], function(transparency, SearchConceptsDialog, CreateConceptProposalView, conceptData, SearchConceptsPresenterMock) {
+
+        var form = new CreateConceptProposalView($);
+        $('#container').append(form.render());
+
 		
 		transparency.register($);
 		
@@ -40,6 +44,8 @@ $(window).load(function() {
 <button id="closeDialog">Close dialog</button>
 <button id="ajaxCallback">Simulate ajax response: with data</button>
 <button id="noData">Simulate ajax response: 0 rows found</button>
+
+<div id="container"></div>
 
 </body>
 </html>

@@ -1,0 +1,33 @@
+<div>
+ <style>
+  label {
+    cursor: pointer;
+  }
+  .conceptTable thead {
+    font-weight: bold;
+  }
+ </style>
+ <h1>Create Concept Proposal</h1>
+ <p>
+  <label>Your email (for notifications)* <input class="email"/></label>
+ </p>
+ <p>
+  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" class="description"/></label>
+ </p>
+ <h2>Concepts</h2>
+ <table class="conceptTable">
+  <thead>
+   <tr><td>Name</td><td>Datatype</td><td>Comments</td></tr>
+  </thead>
+  <tbody>
+   <tr><td>Systolic Blood Pressure</td><td>Numeric</td><td><input/></td><td><button>Remove</button></td></tr>
+   <tr><td>Weight in pounds</td><td>Numeric</td><td><input value="already have kg, need lbs"/></td><td><button>Remove</button></td></tr>
+  </tbody>
+ </table>
+ <button class="addConcepts">Add Concepts</button>
+ <div>
+  <button>Save Draft</button>
+  <button>Send Proposal</button>
+  <button>Delete Proposal</button>
+ </div>
+</div>
