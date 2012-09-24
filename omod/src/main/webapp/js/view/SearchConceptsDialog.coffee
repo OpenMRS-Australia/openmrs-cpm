@@ -1,4 +1,10 @@
-#define ['text!js/view/SearchConceptsDialog.html'], (templateStr) ->
+templateStr = ""
+$ = {}
+
+# The coffeescript compiler will create an empty function unless we explicitly return the class here
+define ['text!view/SearchConceptsDialog.html'], (templateStrParameter) =>
+  templateStr = templateStrParameter
+  return SearchConceptsDialog
 
 #
 # This class would represent a view in the Model-View-Presenter pattern
@@ -30,14 +36,15 @@ class SearchConceptsDialog
     width: 800,
   }
 
-  constructor: (templateStr) ->
+  constructor: (jQuery) ->
+    $ = jQuery
     @template = $(templateStr)
     @dialog = $('<div/>').dialog(@dialogOptions).html(@template)
 
     # Add some view logic
 
     # wire up the search box
-    $('.searchBox').keyup (e) =>
+    $('.searchBox', @template).keyup (e) =>
       if $.inArray(e.which, @IGNORE_KEYCODES) == -1
         setTimeout( =>
           @triggerSearch()
@@ -81,8 +88,8 @@ class SearchConceptsDialog
 
   # wire up the rows so that clicking them checks the checkbox
   addRowHandlers: ->
-    $('.conceptList input[type="checkbox"]').unbind("click")
-    $('.conceptList input[type="checkbox"]').click (e) ->
+    $('.conceptList input[type="checkbox"]', @template).unbind("click")
+    $('.conceptList input[type="checkbox"]', @template).click (e) ->
       e.stopPropagation()
     $('.conceptList tr', @template).unbind("click")
     $('.conceptList tr', @template).click ->
@@ -92,7 +99,7 @@ class SearchConceptsDialog
   # get the those concepts which have been selected
   getSelectedConcepts: ->
     list = []
-    $('.conceptList input').each ->
+    $('.conceptList input', @template).each ->
       if $(this).parents('tr').find('input').prop("checked")
         list[list.length] = $(this).parents('tr').find('.name').text()
     return list
@@ -116,4 +123,3 @@ class SearchConceptsDialog
     query = $('.searchBox', @template).val()
 
     @delegate.findConcepts query
-#})
