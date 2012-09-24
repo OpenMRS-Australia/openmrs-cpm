@@ -3,11 +3,11 @@
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js"></script>
+<script data-main="js/app.js" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js"></script>
 <script type="text/javascript">
-$(function() {
+$(window).load(function() {
 	
-	require(["js/lib/text", "js/lib/transparency.min", "text!js/view/SearchConceptsDialog.html", "js/view/SearchConceptsDialog", "js/mocks/concept-list.data", "js/mocks/SearchConceptsPresenterMock"], function(text, transparency, searchConceptsHtml, c, conceptData, d) {
+	require(["lib/transparency.min", "text!view/SearchConceptsDialog.html", "view/SearchConceptsDialog", "mocks/concept-list.data", "mocks/SearchConceptsPresenterMock"], function(transparency, searchConceptsHtml, c, conceptData, d) {
 		
 		transparency.register($);
 		
