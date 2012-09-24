@@ -1,3 +1,4 @@
+<div>
 <style>
 .results th {
  text-align: left;
@@ -26,8 +27,16 @@
 .dialogFooter button {
  width: 100px;
 }
+.loading {
+ margin-left: 1em;
+ color: #888;
+}
+.loading img {
+ vertical-align: middle;
+}
 </style>
 <input type="text" class="searchBox" />
+<span class="loading" style="display: none;"><img src="loading.gif"/> Loading...</span>
 <div class="resultsContainer">
 <table class="results" width="100%" cellpadding="2" cellspacing="0">
  <thead>
@@ -35,9 +44,6 @@
  </thead>
  <tbody class="instructions">
   <tr><td colspan="4" align="center"><em>Enter a search term to find concepts</em></td></tr>
- </tbody>
- <tbody class="loading" style="display: none;">
-  <tr><td colspan="4" align="center"><em>loading...</em></td></tr>
  </tbody>
  <tbody class="noDataMsg" style="display: none;">
   <tr><td colspan="4" align="center"><em>No data found</em></td></tr>
@@ -50,4 +56,5 @@
 <div class="dialogFooter">
  <button class="add">Add</button>
  <button class="cancel">Cancel</button>
+</div>
 </div>

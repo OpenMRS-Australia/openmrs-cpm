@@ -81,6 +81,10 @@ class SearchConceptsDialog
 
   # wire up the rows so that clicking them checks the checkbox
   addRowHandlers: ->
+    $('.conceptList input[type="checkbox"]').unbind("click")
+    $('.conceptList input[type="checkbox"]').click (e) ->
+      e.stopPropagation()
+    $('.conceptList tr', @template).unbind("click")
     $('.conceptList tr', @template).click ->
       cb = $('input', this)
       cb.prop("checked", !cb.prop("checked"))
@@ -109,10 +113,7 @@ class SearchConceptsDialog
     $('.instructions', @template).hide()
     $('.loading', @template).show()
 
-    # why doesn't this work?
-    #query = $('.searchBox', @template).val()
-
-    query = $('.searchBox').val()
+    query = $('.searchBox', @template).val()
 
     @delegate.findConcepts query
 #})
