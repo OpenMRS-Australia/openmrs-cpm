@@ -3,7 +3,7 @@ templateStr = ""
 $ = {}
 SearchConceptsDialog = {}
 
-define ['jquery', 'text!view/CreateConceptProposalView.html', 'view/SearchConceptsDialog'], (jquery, templateStrParameter, dialog) ->
+define ['jquery', 'text!./CreateConceptProposalView.html', 'view/SearchConceptsDialog'], (jquery, templateStrParameter, dialog) ->
   $ = jquery
   templateStr = templateStrParameter
   SearchConceptsDialog = dialog
