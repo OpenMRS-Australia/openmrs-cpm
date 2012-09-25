@@ -15,13 +15,15 @@
   <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" class="description"/></label>
  </p>
  <h2>Concepts</h2>
- <table class="conceptTable">
+ <table class="conceptTable" cellpadding="5" cellspacing="0">
   <thead>
    <tr><td>Name</td><td>Datatype</td><td>Comments</td></tr>
   </thead>
-  <tbody>
-   <tr><td>Systolic Blood Pressure</td><td>Numeric</td><td><input/></td><td><button>Remove</button></td></tr>
-   <tr><td>Weight in pounds</td><td>Numeric</td><td><input value="already have kg, need lbs"/></td><td><button>Remove</button></td></tr>
+  <tbody class="noConceptsMsg">
+   <tr><td colspan="4"><em>No concepts added</em></td></tr>
+  </tbody>
+  <tbody class="conceptList" style="display: none;">
+   <tr><td class="name"></td><td class="datatype"></td><td><input class="conceptComments"/></td><td><button class="remove">Remove</button></td></tr>
   </tbody>
  </table>
  <button class="addConcepts">Add Concepts</button>

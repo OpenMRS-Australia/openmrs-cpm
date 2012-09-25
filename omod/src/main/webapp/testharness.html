@@ -10,16 +10,26 @@ requirejs.config({
     }
 });
 	
-require(["jquery", "lib/transparency.min", "cs!view/SearchConceptsDialog", "cs!view/CreateConceptProposalView", "mocks/concept-list.data", "cs!mocks/SearchConceptsPresenterMock"], function($, transparency, SearchConceptsDialog, CreateConceptProposalView, conceptData, SearchConceptsPresenterMock) {
+require([
+    "jquery",
+    "lib/transparency.min",
+    "cs!view/SearchConceptsDialog",
+    "cs!view/CreateConceptProposalView",
+    "mocks/concept-list.data",
+    "cs!mocks/SearchConceptsPresenterMock",
+    "cs!mocks/CreateConceptProposalPresenterMock"
+  ], function($, transparency, SearchConceptsDialog, CreateConceptProposalView, conceptData, SearchConceptsPresenterMock, CreateConceptProposalPresenterMock) {
 
     var form = new CreateConceptProposalView();
     $('#container').append(form.render());
+
+    var createPresenter = new CreateConceptProposalPresenterMock(form);
 
     transparency.register($);
 		
     // temporarily pass in jQuery - need to read up about require-jquery
     var view = new SearchConceptsDialog($);
-    var presenter = new SearchConceptsPresenterMock(view, conceptData);
+    var presenter = new SearchConceptsPresenterMock(view);
 		
     $("#launch-popup").click(function() {
         view.open();

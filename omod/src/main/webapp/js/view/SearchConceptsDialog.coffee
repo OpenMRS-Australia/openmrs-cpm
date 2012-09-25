@@ -73,6 +73,7 @@ class SearchConceptsDialog
 
   # load the array of concepts into the results table
   setConcepts: (data) ->
+    @currData = data
     $('.loading', @template).hide()
     if typeof(data) != "undefined" && data.length > 0
       $('.instructions, .loading, .noDataMsg', @template).hide()
@@ -101,11 +102,15 @@ class SearchConceptsDialog
       cb.prop("checked", !cb.prop("checked"))
 
   # get the those concepts which have been selected
-  getSelectedConcepts: ->
+  getSelectedConcepts: =>
     list = []
+    currData = @currData
     $('.conceptList input', @template).each ->
       if $(this).parents('tr').find('input').prop("checked")
-        list[list.length] = $(this).parents('tr').find('.name').text()
+        name = $(this).parents('tr').find('.name').text()
+        for concept in currData
+          if concept.name = name
+            list[list.length] = concept
     return list
 
   #

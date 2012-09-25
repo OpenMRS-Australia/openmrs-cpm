@@ -1,4 +1,8 @@
-define ->
+
+data = []
+
+define ['./concept-list.data'], (dataParam) ->
+  data = dataParam
   return SearchConceptsPresenterMock
 
 #
@@ -10,7 +14,7 @@ class SearchConceptsPresenterMock
 
   # It may be better for presenters not to construct the views themselves, rather
   # receive an instance.
-  constructor: (@view, @data) ->
+  constructor: (@view) ->
     # Once the presenter has received its view it should let the view know who
     # to delegate the high level tasks to
     @view.setDelegate this
@@ -22,11 +26,11 @@ class SearchConceptsPresenterMock
     results = []
 
     if query != ""
-      for currRow in @data
+      for currRow in data
         if (currRow.name.toLowerCase().indexOf(query.toLowerCase()) != -1 || currRow.description.toLowerCase().indexOf(query.toLowerCase()) != -1)
           results[results.length] = currRow
     else
-      results = @data
+      results = data
 
     setTimeout(=>
       @view.setConcepts(results)
