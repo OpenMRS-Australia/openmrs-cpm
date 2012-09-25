@@ -2,7 +2,8 @@ templateStr = ""
 $ = {}
 
 # The coffeescript compiler will create an empty function unless we explicitly return the class here
-define ['text!view/SearchConceptsDialog.html'], (templateStrParameter) =>
+define ['jquery', 'text!view/SearchConceptsDialog.html', 'lib/jquery-ui'], (jquery, templateStrParameter) =>
+  $ = jquery
   templateStr = templateStrParameter
   return SearchConceptsDialog
 
@@ -36,8 +37,7 @@ class SearchConceptsDialog
     width: 800,
   }
 
-  constructor: (jQuery) ->
-    $ = jQuery
+  constructor: ->
     @template = $(templateStr)
     @dialog = $('<div/>').dialog(@dialogOptions).html(@template)
 

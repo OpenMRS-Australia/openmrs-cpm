@@ -1,41 +1,42 @@
 <html>
 <head>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/redmond/jquery-ui.css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 <script data-main="js/app.js" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js"></script>
 <script type="text/javascript">
-$(window).load(function() {
+
+requirejs.config({
+    shim: {
+        'jquery-ui': ['jquery']
+    }
+});
 	
-	require(["lib/transparency.min", "cs!view/SearchConceptsDialog", "cs!view/CreateConceptProposalView", "mocks/concept-list.data", "cs!mocks/SearchConceptsPresenterMock"], function(transparency, SearchConceptsDialog, CreateConceptProposalView, conceptData, SearchConceptsPresenterMock) {
+require(["jquery", "lib/transparency.min", "cs!view/SearchConceptsDialog", "cs!view/CreateConceptProposalView", "mocks/concept-list.data", "cs!mocks/SearchConceptsPresenterMock"], function($, transparency, SearchConceptsDialog, CreateConceptProposalView, conceptData, SearchConceptsPresenterMock) {
 
-        var form = new CreateConceptProposalView($);
-        $('#container').append(form.render());
+    var form = new CreateConceptProposalView();
+    $('#container').append(form.render());
 
+    transparency.register($);
 		
-		transparency.register($);
+    // temporarily pass in jQuery - need to read up about require-jquery
+    var view = new SearchConceptsDialog($);
+    var presenter = new SearchConceptsPresenterMock(view, conceptData);
 		
-        // temporarily pass in jQuery - need to read up about require-jquery
-		var view = new SearchConceptsDialog($);
-        var presenter = new SearchConceptsPresenterMock(view, conceptData);
-		
-		$("#launch-popup").click(function() {
-			view.open();
-		});
+    $("#launch-popup").click(function() {
+        view.open();
+    });
 
-		$("#closeDialog").click(function() {
-			view.close();
-		});
-		
-		$('#ajaxCallback').click(function() {
-			view.setConcepts(conceptData);
-		});
-		
-		$('#noData').click(function() {
-			view.setConcepts([]);
-		});
-	});
-})
+    $("#closeDialog").click(function() {
+        view.close();
+    });
+    
+    $('#ajaxCallback').click(function() {
+        view.setConcepts(conceptData);
+    });
+    
+    $('#noData').click(function() {
+        view.setConcepts([]);
+    });
+});
 </script>
 
 </head>

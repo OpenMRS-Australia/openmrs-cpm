@@ -3,7 +3,8 @@ templateStr = ""
 $ = {}
 SearchConceptsDialog = {}
 
-define ['text!view/CreateConceptProposalView.html', 'view/SearchConceptsDialog'], (templateStrParameter, dialog) ->
+define ['jquery', 'text!view/CreateConceptProposalView.html', 'view/SearchConceptsDialog'], (jquery, templateStrParameter, dialog) ->
+  $ = jquery
   templateStr = templateStrParameter
   SearchConceptsDialog = dialog
   return CreateConceptProposalView
@@ -14,9 +15,8 @@ define ['text!view/CreateConceptProposalView.html', 'view/SearchConceptsDialog']
 #
 class CreateConceptProposalView
 
-  constructor: (jQuery) ->
-    $ = jQuery
-    @dialog = new SearchConceptsDialog(jQuery)
+  constructor: ->
+    @dialog = new SearchConceptsDialog()
     @template = $(templateStr)
 
     $('.addConcepts', @template).click =>
