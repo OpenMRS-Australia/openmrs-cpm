@@ -1,0 +1,43 @@
+<style>
+ label {
+   cursor: pointer;
+ }
+ .conceptTable {
+   border: 1px solid #1AAC9B;
+   min-width: 600px;
+ }
+ .conceptTable thead {
+   font-weight: bold;
+   color: white;
+   background-color: #1AAC9B;
+ }
+</style>
+<h2>Create Concept Proposal</h2>
+<p>
+ <label>Your email (for notifications)* <input ng-model="email"/></label>
+</p>
+<p>
+ <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="description"></textarea></label>
+</p>
+
+<p>
+<h3>Concepts</h3>
+<table class="conceptTable" cellpadding="5" cellspacing="0">
+ <thead>
+  <tr><td>Name</td><td>Datatype</td><td>Comments</td></tr>
+ </thead>
+ <tbody class="noConceptsMsg">
+  <tr><td colspan="4" align="center"><em>No concepts added</em></td></tr>
+ </tbody>
+ <tbody class="conceptList" style="display: none;">
+  <tr><td class="name"></td><td class="datatype"></td><td><input class="conceptComments"/></td><td><button class="remove">Remove</button></td></tr>
+ </tbody>
+</table>
+<button class="addConcepts">Add Concepts</button>
+</p>
+
+<div>
+ <button ng-click="save()">Save Draft</button>
+ <button ng-click="send()">Send Proposal</button>
+ <button ng-click="delete()">Delete Proposal</button>
+</div>
