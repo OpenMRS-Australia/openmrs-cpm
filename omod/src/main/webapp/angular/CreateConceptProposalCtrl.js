@@ -16,7 +16,8 @@ function CreateConceptProposalCtrl($scope) {
   };
 
   $scope.addConcepts = function() {
-    alert("Opening dialog with new view to select concepts");
+    //alert("Opening dialog with new view to select concepts");
+    window.location.hash = "/search-concepts";
   };
 
 }

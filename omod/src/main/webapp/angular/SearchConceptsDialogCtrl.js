@@ -77,10 +77,11 @@ function SearchConceptsDialogCtrl($scope) {
       string += concepts[i].name + ", ";
     }
     alert(string);
+    window.location.hash="/";
   };
 
   $scope.cancel = function() {
-    alert("cancel");
+    window.location.hash="/";
   };
 
   $scope.concepts = [];
