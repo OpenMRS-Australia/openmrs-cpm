@@ -7,33 +7,33 @@ function SearchConceptsDialogCtrl($scope) {
   var RETURN = 13;
 
   var CONCEPT_LIST = [
-    {   
+    {
       "id": 1,
       "name": "Common cold",
       "description": "Respiratory tract infection, upper",
       "datatype": "Numeric",
       "selected": false
-    },  
-    {   
+    },
+    {
       "id": 2,
       "name": "Pulmonary Effusion",
       "description": "Accumulation of serous, purulent, or bloody fluid into the pulmonary cavity.",
       "datatype": "Numeric",
       "selected": false
-    },  
-    {   
+    },
+    {
       "id": 3,
       "name": "Vitamin C Deficiency",
       "description": "A disease caused by a lack of vitamin C and characterized by spongy gums, loosening of the teeth, and bleeding into the skin and mucous membranes.",
       "datatype": "Numeric",
       "selected": false
-    }   
+    }
   ];
 
   var currTimeout;
 
   function doSearch() {
-    $scope.concepts = [];
+    $scope.$apply($scope.concepts = []);
     var query = $scope.query;
     for (var i in CONCEPT_LIST) {
       var currRow = CONCEPT_LIST[i];
