@@ -11,10 +11,18 @@
    color: white;
    background-color: #1AAC9B;
  }
+ .required {
+   color: firebrick;
+   font-size: smaller;
+ }
+ .accesskey {
+   font-style: underline;
+ }
 </style>
 <h2>Create Concept Proposal</h2>
+<p style="font-size: smaller;"><span class="required">*</span> denotes required field</p>
 <p>
- <label>Your email (for notifications)* <input ng-model="email"/></label>
+ <label>Your email (for notifications)<span class="required">*</span> <input ng-model="email"/></label>
 </p>
 <p>
  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="description"></textarea></label>
@@ -33,11 +41,11 @@
   <tr><td class="name"></td><td class="datatype"></td><td><input class="conceptComments"/></td><td><button class="remove">Remove</button></td></tr>
  </tbody>
 </table>
-<button class="addConcepts">Add Concepts</button>
+<button ng-click="addConcepts()" accesskey="a"><span class="accesskey">A</span>dd Concepts</button>
 </p>
 
 <div>
- <button ng-click="save()">Save Draft</button>
- <button ng-click="send()">Send Proposal</button>
- <button ng-click="delete()">Delete Proposal</button>
+ <button ng-click="save()" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+ <button ng-click="send()" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
+ <button ng-click="delete()" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
