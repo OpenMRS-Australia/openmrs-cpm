@@ -39,16 +39,23 @@
 <div class="resultsContainer">
 <table class="results" width="100%" cellpadding="2" cellspacing="0">
  <thead>
-  <tr><th>&nbsp;</th><th>ID</th><th width="200">Name</th><th>Description</th></tr>
+  <tr>
+   <th>&nbsp;</th>
+   <th>ID</th>
+   <th width="200">Name</th>
+   <th>Description</th>
+  </tr>
  </thead>
- <tbody class="instructions">
-  <tr><td colspan="4" align="center"><em>Enter a search term to find concepts</em></td></tr>
+ <tbody class="conceptList">
+  <tr ng-repeat="concept in concepts" ng-click="concept.selected = !concept.selected">
+   <td><input type="checkbox" ng-click="$event.stopPropagation()" ng-model="concept.selected"/></td>
+   <td>{{concept.id}}</td>
+   <td>{{concept.name}}</td>
+   <td>{{concept.description}}</td>
+  </tr>
  </tbody>
- <tbody class="noDataMsg" style="display: none;">
+ <tbody ng-show="!concepts.length">
   <tr><td colspan="4" align="center"><em>No data found</em></td></tr>
- </tbody>
- <tbody class="conceptList" style="display: none;">
-  <tr><td><input type="checkbox"/><td class="id"></td><td class="name"></td><td class="description"></td></tr>
  </tbody>
 </table>
 </div>
