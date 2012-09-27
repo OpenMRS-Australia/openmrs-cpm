@@ -1,0 +1,58 @@
+<style>
+.results th {
+ text-align: left;
+}
+.resultsContainer {
+ height: 400px;
+ border: 1px solid #DAE8F8;
+ margin-top: 1em;
+ margin-bottom: 1em;
+}
+.results th {
+ border-bottom: 1px solid lightgrey;
+}
+.conceptList tr {
+ cursor: pointer;
+}
+.conceptList tr:nth-child(odd) {
+ background-color: #F3F7FB;
+}
+.conceptList tr:hover {
+ background-color: #eee;
+}
+.dialogFooter {
+ text-align: right;
+}
+.dialogFooter button {
+ width: 100px;
+}
+.loading {
+ margin-left: 1em;
+ color: #888;
+}
+.loading img {
+ vertical-align: middle;
+}
+</style>
+<input style="width: 400px;" type="text" placeholder="Enter a search term to find concepts" class="searchBox" ng-model="query" cpm-keyup="search" />
+<span class="loading" style="display: none;"><img src="images/loading.gif"/> Loading...</span>
+<div class="resultsContainer">
+<table class="results" width="100%" cellpadding="2" cellspacing="0">
+ <thead>
+  <tr><th>&nbsp;</th><th>ID</th><th width="200">Name</th><th>Description</th></tr>
+ </thead>
+ <tbody class="instructions">
+  <tr><td colspan="4" align="center"><em>Enter a search term to find concepts</em></td></tr>
+ </tbody>
+ <tbody class="noDataMsg" style="display: none;">
+  <tr><td colspan="4" align="center"><em>No data found</em></td></tr>
+ </tbody>
+ <tbody class="conceptList" style="display: none;">
+  <tr><td><input type="checkbox"/><td class="id"></td><td class="name"></td><td class="description"></td></tr>
+ </tbody>
+</table>
+</div>
+<div class="dialogFooter">
+ <button ng-click="add()">Add</button>
+ <button ng-click="cancel()">Cancel</button>
+</div>
