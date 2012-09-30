@@ -32,16 +32,16 @@
 <h3>Concepts</h3>
 <table class="conceptTable" cellpadding="5" cellspacing="0">
  <thead>
-  <tr><td>Name</td><td>Datatype</td><td>Comments</td></tr>
+  <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
  </thead>
  <tbody class="noConceptsMsg">
-  <tr><td colspan="4" align="center"><em>No concepts added</em></td></tr>
+  <tr><td colspan="4" align="center" ng-show="selectedConcepts.length == 0"><em>No concepts added</em></td></tr>
  </tbody>
- <tbody class="conceptList" style="display: none;">
-  <tr><td class="name"></td><td class="datatype"></td><td><input class="conceptComments"/></td><td><button class="remove">Remove</button></td></tr>
+ <tbody class="conceptList">
+  <tr ng-repeat="concept in selectedConcepts"><td>{{concept.name}}</td><td>{{concept.datatype}}</td><td><input ng-model="concept.comments"/></td><td><button ng-click="removeConcept(concept)">Remove</button></td></tr>
  </tbody>
 </table>
-<button ng-click="addConcepts()" accesskey="a"><span class="accesskey">A</span>dd Concepts</button>
+<button ng-click="dialog='open'" accesskey="a"><span class="accesskey">A</span>dd Concepts</button>
 </p>
 
 <div>
@@ -49,3 +49,8 @@
  <button ng-click="send()" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
  <button ng-click="delete()" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
+
+<div jquery-ui-dialog>
+ <div ng-include="'SearchConceptsDialog.html'"></div>
+</div>
+

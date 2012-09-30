@@ -76,12 +76,12 @@ function SearchConceptsDialogCtrl($scope) {
     for (var i in concepts) {
       string += concepts[i].name + ", ";
     }
-    alert(string);
-    window.location.hash="/";
+    $scope.$parent.$parent.selectedConcepts = concepts;
+    $scope.$parent.$parent.dialog = "close";
   };
 
   $scope.cancel = function() {
-    window.location.hash="/";
+    $scope.$parent.$parent.dialog = "close";
   };
 
   $scope.concepts = [];
