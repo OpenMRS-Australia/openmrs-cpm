@@ -72,11 +72,7 @@ function SearchConceptsDialogCtrl($scope) {
 
   $scope.add = function() {
     var concepts = getSelectedConcepts();
-    var string = "Adding: ";
-    for (var i in concepts) {
-      string += concepts[i].name + ", ";
-    }
-    $scope.$parent.$parent.selectedConcepts = concepts;
+    $scope.$parent.$parent.selectedConcepts = $scope.$parent.$parent.selectedConcepts.concat(concepts);
     $scope.$parent.$parent.dialog = "close";
   };
 
