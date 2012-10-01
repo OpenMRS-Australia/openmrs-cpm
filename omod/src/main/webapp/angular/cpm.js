@@ -1,8 +1,8 @@
 var cpm = angular.module('cpm', []);
 
 cpm.config(function($routeProvider){
-  $routeProvider.when('/', {controller: CreateConceptProposalCtrl, templateUrl: 'CreateConceptProposal.html'});
-  $routeProvider.when('/search-concepts', {controller: SearchConceptsDialogCtrl, templateUrl: 'SearchConceptsDialog.html'});
+  $routeProvider.when('/', {controller: ListConceptProposalsCtrl, templateUrl: 'ListConceptProposals.html'});
+  $routeProvider.when('/create', {controller: CreateConceptProposalCtrl, templateUrl: 'CreateConceptProposal.html'});
 });
 
 
