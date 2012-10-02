@@ -24,10 +24,13 @@
  }
 </style>
 <h2>Create Concept Proposal</h2>
-<p style="font-size: smaller;"><span class="required">*</span> denotes required field</p>
+<p>
+ <span style="font-size: smaller;"><span class="required">*</span> denotes required field</span>
+ <span style="color: firebrick; margin-left: 2em; font-weight: bold;">{{errorMessage}}</span>
+</p>
 <form name="form" novalidate >
 <p>
- <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-model="email" name="email" required /></label>
+ <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="email" name="email" required /></label>
 </p>
 <p>
  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="description"></textarea></label>
