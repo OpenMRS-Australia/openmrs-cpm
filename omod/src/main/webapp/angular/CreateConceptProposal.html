@@ -18,11 +18,16 @@
  .accesskey {
    font-style: underline;
  }
+ input.ng-invalid.ng-dirty {
+   border-color: firebrick;
+   border-style: solid;
+ }
 </style>
 <h2>Create Concept Proposal</h2>
 <p style="font-size: smaller;"><span class="required">*</span> denotes required field</p>
+<form name="form" novalidate >
 <p>
- <label>Your email (for notifications)<span class="required">*</span> <input ng-model="email"/></label>
+ <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-model="email" name="email" required /></label>
 </p>
 <p>
  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="description"></textarea></label>
@@ -45,10 +50,11 @@
 </p>
 
 <div>
- <button ng-click="save()" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
- <button ng-click="send()" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
+ <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+ <button ng-click="send()" ng-disabled="form.$invalid" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
  <button ng-click="delete()" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
+</form>
 
 <div jquery-ui-dialog>
  <div ng-include="'SearchConceptsDialog.html'"></div>

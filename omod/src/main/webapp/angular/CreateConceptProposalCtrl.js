@@ -3,6 +3,14 @@ function CreateConceptProposalCtrl($scope) {
 
   $scope.selectedConcepts = [];
 
+  $scope.emailErrorMsg = function() {
+    if ($scope.form.email.$dirty && $scope.form.email.$invalid) {
+      return "Please specify a valid email address";
+    } else {
+      return "";
+    }
+  };
+
   $scope.save = function() {
     alert("Saving: email: " + $scope.email + ", description: " + $scope.description);
   };
