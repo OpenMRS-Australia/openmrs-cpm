@@ -1,4 +1,4 @@
-cpm.controller('SearchConceptsDialogCtrl', ['$scope', function SearchConceptsDialogCtrl($scope) {
+cpm.controller('SearchConceptsDialogCtrl', ['$scope', '$http', function SearchConceptsDialogCtrl($scope, $http) {
 
   var SEARCH_DELAY = 250;
 
@@ -6,43 +6,23 @@ cpm.controller('SearchConceptsDialogCtrl', ['$scope', function SearchConceptsDia
 
   var RETURN = 13;
 
-  var CONCEPT_LIST = [
-    {
-      "id": 1,
-      "name": "Common cold",
-      "description": "Respiratory tract infection, upper",
-      "datatype": "Numeric",
-      "selected": false
-    },
-    {
-      "id": 2,
-      "name": "Pulmonary Effusion",
-      "description": "Accumulation of serous, purulent, or bloody fluid into the pulmonary cavity.",
-      "datatype": "Numeric",
-      "selected": false
-    },
-    {
-      "id": 3,
-      "name": "Vitamin C Deficiency",
-      "description": "A disease caused by a lack of vitamin C and characterized by spongy gums, loosening of the teeth, and bleeding into the skin and mucous membranes.",
-      "datatype": "Numeric",
-      "selected": false
-    }
-  ];
-
   var currTimeout;
 
   function doSearch() {
-    $scope.$apply($scope.concepts = []);
-    var query = $scope.query;
-    for (var i in CONCEPT_LIST) {
-      var currRow = CONCEPT_LIST[i];
-      if (currRow.name.toLowerCase().indexOf(query.toLowerCase()) != -1 || currRow.description.toLowerCase().indexOf(query.toLowerCase()) != -1) {
-        $scope.$apply(function(){
-          $scope.concepts.push(CONCEPT_LIST[i]);
-        });
+
+    $http.get('concepts.json').success(function(data) {
+      var concept_list = data;
+      $scope.$apply($scope.concepts = []);
+      var query = $scope.query;
+      for (var i in concept_list) {
+        var currRow = concept_list[i];
+        if (currRow.name.toLowerCase().indexOf(query.toLowerCase()) != -1 || currRow.description.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+          $scope.$apply(function(){
+            $scope.concepts.push(concept_list[i]);
+          });
+        }
       }
-    }
+    });
   }
 
   $scope.search = function(which) {
