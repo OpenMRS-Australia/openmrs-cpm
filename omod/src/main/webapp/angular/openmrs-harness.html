@@ -7,15 +7,7 @@
 <link href="style.css" type="text/css" rel="stylesheet">
 <link href="jquery-ui.custom.css" type="text/css" rel="stylesheet"/>
 
-<script src="jquery.js"></script>
-<script src="jquery-ui.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-resource.min.js"></script>
-<script src="cpm.js"></script>
-<script src="directives.js"></script>
-<script src="ListConceptProposalsCtrl.js"></script>
-<script src="CreateConceptProposalCtrl.js"></script>
-<script src="SearchConceptsDialogCtrl.js"></script>
+<script data-main="scripts/cpm.js" src="scripts/require.js"></script>
 
 <style>
 /*.ng-scope { border: 1px solid red; }*/
@@ -53,8 +45,24 @@
     </tbody></table>
 </div>
 
+<script>
 
-<div id="content" ng-app="cpm" ng-view>content goes here</div>
+requirejs.config({
+    shim: {
+        'jquery-ui': ['jquery'],
+        'angular': {
+            exports: 'angular'
+        }
+    }
+});
+
+require(['angular', 'cpm', 'directives', 'ListConceptProposalsCtrl', 'CreateConceptProposalCtrl', 'SearchConceptsDialogCtrl'], function(angular, cpm) {
+  // no need to do anything
+});
+
+</script>
+
+<div id="content" ng-app="cpm" ng-view>Loading...</div>
 
 </div>
 
