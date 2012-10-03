@@ -30,7 +30,6 @@
 			<artifactId>${project.parent.artifactId}-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
 				
 		<!-- End OpenMRS modules -->
 		
@@ -72,6 +71,13 @@
 
 		<!-- End OpenMRS core -->
 
+		<dependency>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-antrun-plugin</artifactId>
+		  <version>1.7</version>
+		  <type>maven-plugin</type>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -109,6 +115,12 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
+        
+        		<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
 					<configuration>
 						<includeEmptyDirs>true</includeEmptyDirs>
@@ -157,6 +169,31 @@
 		</pluginManagement>
 
 		<plugins>
+			<plugin>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <phase>package</phase>
+			      <configuration>
+			        <target>
+			          <delete>
+			            <fileset dir="${openMRSWorkingModuleDir}">
+			              <include name="cpm*.omod"/>
+			            </fileset>
+			          </delete>
+			          <copy todir="${openMRSWorkingModuleDir}">
+			            <fileset dir="target">
+			              <include name="*.omod"/>
+			            </fileset>
+			          </copy>
+			        </target>
+			      </configuration>
+			      <goals>
+			        <goal>run</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
 			<plugin>
 				<groupId>org.openmrs.maven.plugins</groupId>
 				<artifactId>maven-openmrs-plugin</artifactId>
