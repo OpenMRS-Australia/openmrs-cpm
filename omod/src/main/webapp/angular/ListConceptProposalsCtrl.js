@@ -1,5 +1,5 @@
-function ListConceptProposalsCtrl($scope) {
+cpm.controller('ListConceptProposalsCtrl', ['$scope', function ListConceptProposalsCtrl($scope) {
 
   $scope.proposals = [];
 
-}
+}]);

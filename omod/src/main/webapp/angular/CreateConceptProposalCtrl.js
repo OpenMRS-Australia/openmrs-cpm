@@ -1,5 +1,5 @@
 
-function CreateConceptProposalCtrl($scope) {
+cpm.controller('CreateConceptProposalCtrl', ['$scope', function CreateConceptProposalCtrl($scope) {
 
   $scope.selectedConcepts = [];
 
@@ -35,5 +35,4 @@ function CreateConceptProposalCtrl($scope) {
       }
     }
   }
-
-}
+}]);
