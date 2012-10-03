@@ -1,4 +1,4 @@
-function SearchConceptsDialogCtrl($scope) {
+cpm.controller('SearchConceptsDialogCtrl', ['$scope', function SearchConceptsDialogCtrl($scope) {
 
   var SEARCH_DELAY = 250;
 
@@ -94,4 +94,4 @@ function SearchConceptsDialogCtrl($scope) {
     return selectedList;
   }
 
-}
+}]);
