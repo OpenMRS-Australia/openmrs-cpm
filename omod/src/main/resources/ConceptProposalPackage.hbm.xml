@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.openmrs">
+
+	<class name="ConceptProposalPackage" table="concept_proposal_package">
+		<id name="conceptProposalPackageId" type="java.lang.Integer" column="concept_proposal_package_id">
+			<generator class="native">
+				<param name="sequence">concept_proposal_package_id_seq</param>
+			</generator>
+		</id>
+		<property name="uuid" type="java.lang.String" column="uuid" length="38" not-null="true" unique="true" />
+		<property name="name" type="java.lang.String" length="255" not-null="true" column="name" />
+		<property name="description" type="java.lang.String" length="1000" column="description" />
+
+		<!-- bi-directional many-to-one association to User -->
+		<many-to-one name="creator" class="User" not-null="true">
+			<column name="creator" />
+		</many-to-one>
+		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
+
+		<!-- bi-directional many-to-one association to User -->
+		<many-to-one name="changedBy" class="User">
+			<column name="changed_by" />
+		</many-to-one>
+		<property name="dateChanged" type="java.util.Date" column="date_changed" length="19" />
+	</class>
+
+</hibernate-mapping>

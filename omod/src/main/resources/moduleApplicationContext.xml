@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<context:component-scan base-package="@MODULE_PACKAGE@" />
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list>
+				<value>org.openmrs.module.metadatasharing.api.MetadataSharingService</value>
+				<bean
+					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+					<property name="transactionManager">
+						<ref bean="transactionManager" />
+					</property>
+					<property name="target">
+						<bean
+							class="org.openmrs.module.metadatasharing.api.impl.MetadataSharingServiceImpl" />
+					</property>
+					<property name="preInterceptors">
+						<ref bean="serviceInterceptors" />
+					</property>
+					<property name="transactionAttributeSource">
+						<ref bean="transactionAttributeSource" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list>
+				<value>org.openmrs.module.metadatasharing.api.MetadataService</value>
+				<bean
+					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+					<property name="transactionManager">
+						<ref bean="transactionManager" />
+					</property>
+					<property name="target">
+						<bean
+							class="org.openmrs.module.metadatasharing.api.impl.MetadataServiceImpl" />
+					</property>
+					<property name="preInterceptors">
+						<ref bean="serviceInterceptors" />
+					</property>
+					<property name="transactionAttributeSource">
+						<ref bean="transactionAttributeSource" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean parent="serializationServiceTarget">
+		<property name="serializers">
+			<list>
+				<ref bean="metadatasharing.MetadataSerializer" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="metadatasharing.ResolverEngine"
+		class="org.openmrs.module.metadatasharing.resolver.ResolverEngine">
+		<property name="resolvers">
+			<list>
+				<ref bean="metadatasharing.ObjectByUuidResolver" />
+				<ref bean="metadatasharing.ConceptByMappingResolver" />
+				<ref bean="metadatasharing.ConceptNameTagByNameResolver" />
+				<ref bean="metadatasharing.ObjectByNameResolver" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="metadatasharing.DownloaderFactory"
+		class="org.openmrs.module.metadatasharing.downloader.impl.DownloaderFactoryImpl">
+		<property name="defaultTimeout" value="30" />
+		<property name="downloaders">
+			<map>
+				<entry>
+					<key>
+						<value>http</value>
+					</key>
+					<value>org.openmrs.module.metadatasharing.downloader.impl.HTTPDownloader</value>
+				</entry>
+				<entry>
+					<key>
+						<value>https</value>
+					</key>
+					<value>org.openmrs.module.metadatasharing.downloader.impl.HTTPDownloader</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Add global property listeners -->
+	<bean id="metadatasharing.EventListeners" parent="openmrsEventListeners">
+		<property name="globalPropertyListeners">
+			<list value-type="org.openmrs.api.GlobalPropertyListener">
+				<bean
+					class="org.openmrs.module.metadatasharing.util.MetadataSharingGlobalPropertyListener" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
