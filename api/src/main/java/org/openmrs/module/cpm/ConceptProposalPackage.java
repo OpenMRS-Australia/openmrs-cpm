@@ -3,6 +3,8 @@ package org.openmrs.module.cpm;
 import java.util.Date;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.User;
 
@@ -14,6 +16,8 @@ import org.openmrs.User;
  */
 public class ConceptProposalPackage extends BaseOpenmrsObject {
 	
+	protected Log log = LogFactory.getLog(getClass());
+
 	private Integer conceptProposalPackageId;
 	private String name;
 	private String description;
@@ -23,6 +27,7 @@ public class ConceptProposalPackage extends BaseOpenmrsObject {
 	private Date dateChanged;
 	private Set<ConceptProposal> proposedConcepts;
 		
+	
 	@Override
 	public Integer getId() {
 		return this.conceptProposalPackageId;
@@ -113,4 +118,22 @@ public class ConceptProposalPackage extends BaseOpenmrsObject {
     	this.proposedConcepts = proposedConcepts;
     }
 	
+    public void addProposedConcept(ConceptProposal proposedConcept) {
+    	if (this.proposedConcepts != null) {
+    		log.debug("Adding proposed concept: " + proposedConcept);
+    		this.proposedConcepts.add(proposedConcept);
+    	} else {
+    		log.warn("Cannot add proposed concept: " + proposedConcept + " to null proposedConcept set");
+    	}
+    }
+
+    public void removeProposedConcept(ConceptProposal proposedConcept) {
+    	if (this.proposedConcepts != null) {
+    		log.debug("Removing proposed concept: " + proposedConcept);
+    		this.proposedConcepts.add(proposedConcept);
+    	} else {
+    		log.warn("Cannot remove proposed concept: " + proposedConcept + " to null proposedConcept set");
+    	}
+    }
+
 }
