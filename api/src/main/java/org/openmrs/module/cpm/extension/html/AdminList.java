@@ -50,8 +50,8 @@ public class AdminList extends AdministrationSectionExt {
 
 		final Map<String, String> map = new HashMap<String, String>();
 
-		map.put("module/cpm/concept.form", "Create Proposal");
-		map.put("module/cpm/monitor.list", "Monitor Proposals");
+		map.put("module/cpm/concepts.list", "Monitor Proposals");
+		map.put("module/cpm/concepts.list#/create", "Create Proposal");
 
 		return map;
 	}
