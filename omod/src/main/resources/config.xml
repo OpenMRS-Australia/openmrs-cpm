@@ -23,9 +23,9 @@
 		<point>org.openmrs.admin.list</point>
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
-	<!-- Maps hibernate file's, if present -->
+
 	<mappingFiles>
-				
+		Proposal.hbm.xml
 	</mappingFiles>
 
 	<!-- Internationalization -->

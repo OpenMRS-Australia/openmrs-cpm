@@ -5,13 +5,13 @@
 
 <table>
 	<tr>
-		<th>Name</th>
-		<th>Id</th>
+		<th>email</th>
+		<th>description</th>
 	</tr>
-	<c:forEach var="concept" items="${conceptList}">
+	<c:forEach var="proposal" items="${proposalList}">
 	<tr>
-		<td>${concept.name}</td>
-		<td>${concept.conceptId}</td>
+		<td>${proposal.email}</td>
+		<td>${proposal.description}</td>
 	</tr>
 	</c:forEach>
 </table>
