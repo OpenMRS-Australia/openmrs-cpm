@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+ 
+    <changeSet id="cpm-2012-10-05-2" author="dsanders">
+    	<createTable tableName="proposal">
+    		<column name="id" type="int">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="email" type="varchar(255)"/>
+			<column name="description" type="text"/>
+			<column name="uuid" type="char(38)"/>
+    	</createTable>
+    </changeSet>
+ 
+</databaseChangeLog>

@@ -2,28 +2,30 @@ package org.openmrs.module.cpm.db;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.SessionFactory;
+import org.openmrs.module.cpm.model.Proposal;
 
 public class ProposalDao {
 
-	@Autowired
-	private EntityManager entityManager;
+	private SessionFactory sessionFactory;
 
-	public List<Proposal> findAll() {
-		return entityManager.createQuery("select p from Proposal", Proposal.class).getResultList();
+	public void setSessionFactory(final SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
-	public Proposal fetch(final Long id) {
-		return entityManager.find(Proposal.class, id);
+	public List<Proposal> findAll() {
+		return sessionFactory.getCurrentSession().createQuery("from Proposal").list();
+	}
+
+	public Proposal fetch(final Integer id) {
+		return (Proposal) sessionFactory.getCurrentSession().get(Proposal.class, id);
 	}
 
 	public void persist(final Proposal p) {
-		// wat do?
+		sessionFactory.getCurrentSession().saveOrUpdate(p);
 	}
 
 	public void remove(final Proposal p) {
-		entityManager.remove(p);
+		sessionFactory.getCurrentSession().delete(p);
 	}
 }
