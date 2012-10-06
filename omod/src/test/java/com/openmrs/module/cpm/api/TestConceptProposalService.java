@@ -13,7 +13,7 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	
-	protected Log log = LogFactory.getLog(getClass());
+	protected Log log = LogFactory.getLog(getClass()); 
 	
 	@Test
 	public void testCreateConceptProposalService() throws Exception {

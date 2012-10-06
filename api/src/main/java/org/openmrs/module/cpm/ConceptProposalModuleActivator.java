@@ -30,7 +30,7 @@ public class ConceptProposalModuleActivator extends BaseModuleActivator {
 	 * @see ModuleActivator#willRefreshContext()
 	 */
 	public void willRefreshContext() {
-		log.info("Refreshing Concept Proposal Module");
+		log.info("Refreshing Concept Proposal Module ");
 	}
 	
 	/**

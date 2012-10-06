@@ -2,17 +2,16 @@
  
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
  
     <!--
         See http://www.liquibase.org/manual/home#available_database_refactorings
         for a list of supported elements and attributes
     -->
  
-    <changeSet author="michael lee" id="cpm1">
+    <changeSet author="flashard" id="cpm1">
         <createTable tableName="cpm_concept_proposal_package">
-            <column autoIncrement="true" name="cpm_concept_proposal_package_id" type="int">
+            <column autoIncrement="true" name="concept_proposal_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -34,7 +33,19 @@
             <column name="date_changed" type="DATETIME">
                 <constraints nullable="true"/>
             </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
-    </changeSet>
+
+        <createTable tableName="cpm_concept_proposal_package_proposals">
+            <column name="concept_proposal_package_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concept_proposal_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+	</changeSet>
  
 </databaseChangeLog>
