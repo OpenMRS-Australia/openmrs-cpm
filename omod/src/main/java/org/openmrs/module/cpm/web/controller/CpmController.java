@@ -20,6 +20,6 @@ public class CpmController {
 
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listConcepts() {
-		return "/module/cpm/proposalList";
+		return "/module/cpm/proposals";
 	}
 }
