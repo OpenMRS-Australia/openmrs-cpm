@@ -7,6 +7,7 @@ import org.openmrs.module.cpm.model.Proposal;
 import org.openmrs.module.cpm.service.ProposalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,8 +25,13 @@ public class CpmController {
 		return "/module/cpm/proposals";
 	}
 
-	@RequestMapping(value = "module/cpm/ajaxproposals.list")
-	public @ResponseBody List<Proposal> listAjaxProposals() {
+	@RequestMapping(value = "module/cpm/rest/proposals.list", method = RequestMethod.GET)
+	public @ResponseBody List<Proposal> getProposals() {
 		return Context.getService(ProposalService.class).findAll();
+	}
+
+	@RequestMapping(value = "module/cpm/rest/proposals/{proposalId}.form", method = RequestMethod.GET)
+	public @ResponseBody Proposal listAjaxProposals(@PathVariable final String proposalId) {
+		return Context.getService(ProposalService.class).getProposalById(Integer.valueOf(proposalId));
 	}
 }
