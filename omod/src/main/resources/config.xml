@@ -26,7 +26,7 @@
 	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-		ConceptProposalPackage.hbm.xml	
+		ConceptProposalPackage.hbm.xml
 	</mappingFiles>
 
 	<!-- Internationalization -->
