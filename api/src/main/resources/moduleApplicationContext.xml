@@ -18,6 +18,7 @@
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<!-- Add here beans related to the API context -->
+	<context:component-scan base-package="com.openmrs.module.cpm" />
 
 	<bean parent="serviceContext">
 		<property name="moduleService">
@@ -29,8 +30,7 @@
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean
-							class="org.openmrs.module.cpm.api.impl.ConceptProposalServiceImpl" />
+						<bean class="org.openmrs.module.cpm.api.impl.ConceptProposalServiceImpl" />
 					</property>
 					<property name="preInterceptors">
 						<ref bean="serviceInterceptors" />

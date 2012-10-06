@@ -1,0 +1,24 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.openmrs.module.cpm">
+	<class name="ConceptProposalPackage" table="cpm_concept_proposal_package">
+		<id name="id" type="int" column="concept_proposal_package_id" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
+		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
+		<property name="description" type="java.lang.String" column="description" length="256" not-null="true" />
+		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
+		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="true" length="19" />
+		<property name="version" type="java.lang.Integer" column="version" not-null="true" />
+		<set name="proposedConcepts" table="cpm_concept_proposal_package_proposals">
+			<key column="concept_proposal_package_id"/>
+			<many-to-many column="concept_proposal_id" class="org.openmrs.ConceptProposal"/>
+		</set>
+		<property name="status">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">org.openmrs.module.cpm.ConceptProposalPackageStatus</param>
+			</type>
+		</property>
+	</class>
+</hibernate-mapping>
