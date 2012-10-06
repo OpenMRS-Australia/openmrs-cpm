@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CpmController {
@@ -21,5 +22,10 @@ public class CpmController {
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listConcepts() {
 		return "/module/cpm/proposals";
+	}
+
+	@RequestMapping(value = "module/cpm/ajaxproposals.list")
+	public @ResponseBody List<Proposal> listAjaxProposals() {
+		return Context.getService(ProposalService.class).findAll();
 	}
 }
