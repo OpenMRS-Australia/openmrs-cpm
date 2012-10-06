@@ -23,3 +23,5 @@ target
 
 # Openmrs-standalone
 openmrs-standalone/*
+/dependencies.txt
+/deploy.bat
