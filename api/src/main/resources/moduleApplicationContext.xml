@@ -30,7 +30,7 @@
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="org.openmrs.module.cpm.api.impl.ConceptProposalServiceImpl" />
+						<bean class="org.openmrs.module.cpm.api.impl.ConceptProposalPackageServiceImpl" />
 					</property>
 					<property name="preInterceptors">
 						<ref bean="serviceInterceptors" />
