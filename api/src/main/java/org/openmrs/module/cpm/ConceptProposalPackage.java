@@ -1,13 +1,10 @@
 package org.openmrs.module.cpm;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,11 +30,11 @@ public class ConceptProposalPackage extends BaseOpenmrsObject {
 	private User changedBy;
 	private Date dateChanged;
 	private Integer version;
-	private Set<ConceptProposal> proposedConcepts;
-	private ConceptProposalPackageStatus status;
+	private Set<ConceptProposal> proposedConcepts = new HashSet<ConceptProposal>();
+	private ConceptProposalPackageStatus status = ConceptProposalPackageStatus.DRAFT; 
 	
 	/* 
-	 * Constructs
+	 * Constructors
 	 */
 	
 	public ConceptProposalPackage() {
@@ -124,12 +121,6 @@ public class ConceptProposalPackage extends BaseOpenmrsObject {
     	this.status = status;
     }
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-    	name="cpm_concept_proposal_package_proposals",
-    	joinColumns = { @JoinColumn(name="concept_proposal_package_id") },
-    	inverseJoinColumns = { @JoinColumn(name="concept_proposal_id") }
-    )
 	public Set<ConceptProposal> getProposedConcepts() {
     	return proposedConcepts;
     }

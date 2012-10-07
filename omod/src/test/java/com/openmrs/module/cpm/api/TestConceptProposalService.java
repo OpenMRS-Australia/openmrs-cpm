@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ConceptProposalPackage;
-import org.openmrs.module.cpm.api.ConceptProposalService;
+import org.openmrs.module.cpm.api.ConceptProposalPackageService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 
@@ -20,7 +20,7 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	    initializeInMemoryDatabase();
 	    authenticate();
 	 
-	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalService.class).getAllConceptProposalPackages();
+	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalPackageService.class).getAllConceptProposalPackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 	}
 	

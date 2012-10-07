@@ -9,7 +9,12 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_initialization" author="flashard">
+    <changeSet id="cpm_initialization_2" author="flashard">
+    	
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset 
+    	-->
+  		<dropTable tableName="cpm_concept_proposal_package"/>
+    	
         <createTable tableName="cpm_concept_proposal_package">
             <column autoIncrement="true" name="concept_proposal_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -36,7 +41,12 @@
             <column name="version" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+
+  		<dropTable tableName="cpm_concept_proposal_package_proposals"/>
 
         <createTable tableName="cpm_concept_proposal_package_proposals">
             <column name="concept_proposal_package_id" type="int">
