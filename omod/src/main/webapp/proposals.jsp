@@ -20,7 +20,7 @@ requirejs.config({
     }
 });
 
-require(['angular', 'cpm', 'directives', 'ListConceptProposalsCtrl', 'CreateConceptProposalCtrl', 'SearchConceptsDialogCtrl'], function(angular) {
+require(['angular', 'cpm', 'directives', 'filters', 'ListConceptProposalsCtrl', 'EditConceptProposalCtrl', 'SearchConceptsDialogCtrl'], function(angular) {
   var appRoot = document.getElementById("cpmapp");
   angular.element(appRoot).ready(function() {
     angular.bootstrap(appRoot, ["cpm"]);

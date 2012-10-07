@@ -23,17 +23,17 @@
    border-style: solid;
  }
 </style>
-<h2>Create Concept Proposal</h2>
+<h2><span ng-show="isEdit">Edit</span><span ng-show="!isEdit">Create</span> Concept Proposal</h2>
 <p>
  <span style="font-size: smaller;"><span class="required">*</span> denotes required field</span>
  <span style="color: firebrick; margin-left: 2em; font-weight: bold;">{{errorMessage}}</span>
 </p>
 <form name="form" novalidate >
 <p>
- <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="email" name="email" required /></label>
+ <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
 </p>
 <p>
- <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="description"></textarea></label>
+ <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description"></textarea></label>
 </p>
 
 <p>
@@ -59,8 +59,8 @@
 
 <div>
  <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
- <button ng-click="send()" ng-disabled="form.$invalid" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
- <button ng-click="delete()" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
+ <button ng-click="send()" ng-disabled="!isEdit || form.$invalid" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
+ <button ng-click="delete()" ng-disabled="!isEdit" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
 </form>
 

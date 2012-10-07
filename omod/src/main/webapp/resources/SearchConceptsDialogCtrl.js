@@ -12,17 +12,6 @@ define(['cpm'], function(cpm) {
     function doSearch() {
       $http.get('/openmrs/ws/rest/v1/concept?v=full&q=' + encodeURIComponent($scope.query)).success(function(data) {
         $scope.concepts = data.results;
-      /*
-        for (var i in data.results) {
-          var result = data.results[i];
-          var concept = {
-            id: result.uuid,
-            name: result.display,
-            description: result.name.display
-          };
-          $scope.concepts.push(concept)
-        }
-        */
       });
     }
 

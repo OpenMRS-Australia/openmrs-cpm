@@ -15,5 +15,11 @@
 			<column name="uuid" type="char(38)"/>
     	</createTable>
     </changeSet>
+    
+    <changeSet id="cpm-2012-10-07-1" author="dsanders">
+    	<addColumn tableName="proposal">
+    		<column name="status" type="varchar(255)"></column>
+    	</addColumn>
+    </changeSet>
  
 </databaseChangeLog>

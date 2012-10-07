@@ -14,12 +14,29 @@ public class ProposalServiceImpl extends BaseOpenmrsService implements ProposalS
 		this.dao = dao;
 	}
 
+	@Override
 	public Proposal getProposalById(final Integer id) {
 		return dao.fetch(id);
 	}
 
+	@Override
 	public List<Proposal> findAll() {
 		return dao.findAll();
+	}
+
+	@Override
+	public Integer createProposal(final Proposal proposal) {
+		return dao.persist(proposal);
+	}
+
+	@Override
+	public void saveProposal(final Proposal proposal) {
+		dao.persist(proposal);
+	}
+
+	@Override
+	public void deleteProposal(final Integer id) {
+		dao.remove(dao.fetch(id));
 	}
 
 }

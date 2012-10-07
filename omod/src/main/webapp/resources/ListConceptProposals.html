@@ -1,5 +1,5 @@
 <h2>Manage Concept Proposals</h2>
-<p><a href="#/create">Add Concept Proposal</a></p>
+<p><a href="#/edit">Add Concept Proposal</a></p>
 <b class="boxHeader">Concept Proposals</b>
 <table class="box">
  <thead>
@@ -9,6 +9,6 @@
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody ng-repeat="proposal in proposals">
-  <tr><td>{{description}}</td><td>{{num_concepts}}</td><td>{{status}}</td><td><a href="#/edit?id={{proposal.id}}">Edit</a></tr>
+  <tr><td>{{proposal.description}}</td><td>todo</td><td>{{proposal.status | proposalStatus}}</td><td><a href="#/edit/{{proposal.id}}">Edit</a></tr>
  </tbody>
 </table>

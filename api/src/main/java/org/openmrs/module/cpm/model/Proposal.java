@@ -3,16 +3,15 @@ package org.openmrs.module.cpm.model;
 import org.openmrs.BaseOpenmrsObject;
 
 
-//@Entity
 public class Proposal extends BaseOpenmrsObject {
 
-//	@Id
 	private Integer id;
 
 	private String email;
 
-//	@Column(columnDefinition = "TEXT")
 	private String description;
+
+	private ProposalStatus status;
 
 	@Override
 	public Integer getId() {
@@ -38,5 +37,13 @@ public class Proposal extends BaseOpenmrsObject {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public ProposalStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(final ProposalStatus status) {
+		this.status = status;
 	}
 }

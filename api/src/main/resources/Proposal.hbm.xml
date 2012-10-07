@@ -14,6 +14,12 @@
 		<property name="email" type="java.lang.String" column="email" not-null="true" />
 		<property name="description" type="java.lang.String" column="description" />
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
+		<property name="status" column="status">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">org.openmrs.module.cpm.model.ProposalStatus</param>
+				<param name="type">12</param>
+			</type>
+		</property>
 
 	</class>
 </hibernate-mapping>

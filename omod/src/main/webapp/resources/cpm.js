@@ -4,7 +4,8 @@ define(['angular'], function(angular) {
   cpm.config(['$routeProvider', function($routeProvider){
     $routeProvider.
       when('/', {controller: 'ListConceptProposalsCtrl', templateUrl: '/openmrs/moduleResources/cpm/ListConceptProposals.html'}).
-      when('/create', {controller: 'CreateConceptProposalCtrl', templateUrl: '/openmrs/moduleResources/cpm/CreateConceptProposal.html'});
+      when('/edit', {controller: 'EditConceptProposalCtrl', templateUrl: '/openmrs/moduleResources/cpm/EditConceptProposal.html'}).
+      when('/edit/:proposalId', {controller: 'EditConceptProposalCtrl', templateUrl: '/openmrs/moduleResources/cpm/EditConceptProposal.html'});
   }]);
 
   return cpm;

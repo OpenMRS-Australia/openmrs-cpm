@@ -10,4 +10,10 @@ public interface ProposalService {
 
 	List<Proposal> findAll();
 
+	Integer createProposal(Proposal newProposal);
+
+	void saveProposal(Proposal proposal);
+
+	void deleteProposal(Integer valueOf);
+
 }

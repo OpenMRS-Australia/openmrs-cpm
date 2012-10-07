@@ -8,6 +8,7 @@ import org.openmrs.module.cpm.service.ProposalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +31,24 @@ public class CpmController {
 		return Context.getService(ProposalService.class).findAll();
 	}
 
+	@RequestMapping(value = "module/cpm/rest/proposals.list", method = RequestMethod.POST)
+	public @ResponseBody Integer createProposal(final Proposal newProposal) {
+		return Context.getService(ProposalService.class).createProposal(newProposal);
+	}
+
 	@RequestMapping(value = "module/cpm/rest/proposals/{proposalId}.form", method = RequestMethod.GET)
-	public @ResponseBody Proposal listAjaxProposals(@PathVariable final String proposalId) {
+	public @ResponseBody Proposal getProposal(@PathVariable final String proposalId) {
 		return Context.getService(ProposalService.class).getProposalById(Integer.valueOf(proposalId));
+	}
+
+	@RequestMapping(value = "module/cpm/rest/proposals/{proposalId}.form", method = RequestMethod.PUT)
+	public @ResponseBody Integer saveProposal(@RequestBody final Proposal proposal, @PathVariable final String proposalId) {
+		Context.getService(ProposalService.class).saveProposal(proposal);
+		return proposal.getId();
+	}
+
+	@RequestMapping(value = "module/cpm/rest/proposals/{proposalId}.form", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteProposal(@PathVariable final String proposalId) {
+		Context.getService(ProposalService.class).deleteProposal(Integer.valueOf(proposalId));
 	}
 }
