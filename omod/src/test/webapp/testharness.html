@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="openmrs.css" type="text/css" rel="stylesheet">
+<link href="openmrs_green.css" type="text/css" rel="stylesheet">
+<link href="style.css" type="text/css" rel="stylesheet">
+<link href="jquery-ui.custom.css" type="text/css" rel="stylesheet"/>
+
+<script data-main="resources/cpm.js" src="resources/require.js"></script>
+</head>
+<body>
+
+<div id="pageBody">
+<div id="userBar">
+    <span id="userLoggedInAs" class="firstChild">Currently logged in as Super User</span>
+    <span id="userLogout"><a href="/openmrs/logout">Log out</a></span>
+    <span><a href="/openmrs/options.form">My Profile</a></span>
+    <span id="userHelp"><a href="/openmrs/help.htm">Help</a></span>
+</div>
+
+<div id="banner">
+    <a href="http://openmrs.org/"><div id="logosmall"><img src="openmrs_logo_text_small.gif" alt="OpenMRS Logo" border="0"></div></a>
+    <table id="bannerbar">
+      <tbody><tr>
+        <td id="logocell"> <img src="openmrs_logo_white.gif" alt="" class="logo-reduced61"></td>
+        <td id="barcell">
+            <div class="barsmall">
+                <img src="openmrs_green_bar.gif" alt="" class="bar-round-reduced50" align="left">
+                <ul class="navList">
+                    <li id="homeNavLink" class="firstChild"> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/">Home</a> </li>
+                    <li id="findPatientNavLink"> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/findPatient.htm">Find/Create Patient</a> </li>
+                    <li id="dictionaryNavLink"> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/dictionary">Dictionary</a> </li>
+                    <li> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs//cohortBuilder.list">Cohort Builder</a> </li>
+                    <li> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/module/reporting/dashboard/index.form">Reporting</a> </li>
+                    <li id="administrationNavLink"> <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/admin">Administration</a> </li>
+                </ul>
+            </div>
+        </td>
+      </tr>
+    </tbody></table>
+</div>
+
+
+<div id="content">
+
+<div id="cpmapp" ng-view>Loading...</div>
+
+<script>
+
+define('config', [], function() {
+  return {
+    // in production would be '/openmrs/moduleResources/cpm'
+    resourceLocation: 'resources'
+  };
+});
+
+requirejs.config({
+    shim: {
+        'jquery-ui': ['jquery'],
+        'angular': {
+            exports: 'angular'
+        }
+    }
+});
+
+require(['angular', 'cpm', 'directives', 'filters', 'ListConceptProposalsCtrl', 'EditConceptProposalCtrl', 'SearchConceptsDialogCtrl'], function(angular) {
+  var appRoot = document.getElementById("cpmapp");
+  angular.element(appRoot).ready(function() {
+    angular.bootstrap(appRoot, ["cpm"]);
+  });
+});
+</script>
+
+
+</div>
+
+</div>
+
+<div id="footer">
+    <div id="footerInner">
+        <span id="localeOptions">English (United Kingdom) | <a href="http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs/dictionary/index.htm?&amp;lang=en_US">English (United States)</a></span>
+        <span id="buildDate">Last Build: Jun 05 2012 12:07 AM</span>
+        <span id="codeVersion">Version: 1.9.0  Build 27760</span>
+        <span id="poweredBy"><a href="http://openmrs.org/">Powered by OpenMRS <img src="openmrs_logo_tiny.png" align="top" border="0"></a></span>
+    </div>
+</div>
+
+</body>
+</html>

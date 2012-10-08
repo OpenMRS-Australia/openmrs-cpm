@@ -1,5 +1,7 @@
-define(['cpm'], function(cpm) {
+define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('SearchConceptsDialogCtrl', ['$scope', '$http', '$timeout', function SearchConceptsDialogCtrl($scope, $http, $timeout) {
+
+    $scope.resourceLocation = config.resourceLocation;
 
     var SEARCH_DELAY = 250;
 

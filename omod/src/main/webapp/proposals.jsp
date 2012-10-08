@@ -11,6 +11,13 @@
 <div id="cpmapp" ng-view>Loading...</div>
 
 <script>
+
+define('config', [], function() {
+  return {
+    resourceLocation: '/openmrs/moduleResources/cpm'
+  };
+});
+
 requirejs.config({
     shim: {
         'jquery-ui': ['jquery'],

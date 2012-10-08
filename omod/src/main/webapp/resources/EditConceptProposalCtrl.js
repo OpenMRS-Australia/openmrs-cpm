@@ -1,8 +1,10 @@
-define(['cpm'], function(cpm) {
+define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('EditConceptProposalCtrl', ['$scope', '$routeParams', '$http', '$location', function EditConceptProposalCtrl($scope, $routeParams, $http, $location) {
 
     var proposalId = $routeParams.proposalId;
     $scope.isEdit = typeof proposalId !== 'undefined';
+
+    $scope.resourceLocation = config.resourceLocation;
 
     $scope.selectedConcepts = [];
 
