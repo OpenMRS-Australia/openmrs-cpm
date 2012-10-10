@@ -159,5 +159,15 @@ public class ConceptProposalPackage extends BaseOpenmrsObject {
     		log.warn("Cannot remove proposed concept: " + proposedConcept + " to null proposedConcept set");
     	}
     }
+    
+    @Override
+    public String toString() {
+    	StringBuffer appender = new StringBuffer();
+    	appender.append("ConceptProposalPackage(");
+    	appender.append(this.getId());
+    	appender.append(")");
+    	appender.append(super.toString());
+    	return appender.toString();
+    }
 
 }
