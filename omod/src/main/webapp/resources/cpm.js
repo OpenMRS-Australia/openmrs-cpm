@@ -1,5 +1,6 @@
-define(['angular', 'config'], function(angular, config) {
-  var cpm = angular.module('cpm', []);
+define(['angular', 'config', 'filters', 'directives'], function(angular, config) {
+
+  var cpm = angular.module('cpm', ['cpm.filters', 'cpm.directives']);
 
   cpm.config(['$routeProvider', function($routeProvider){
     $routeProvider.

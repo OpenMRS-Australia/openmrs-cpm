@@ -1,5 +1,8 @@
-define(['cpm'], function(cpm) {
-  cpm.filter('proposalStatus', function() {
+define(['angular'], function(angular) {
+
+  var filters = angular.module('cpm.filters', []);
+
+  filters.filter('proposalStatus', function() {
     return function(input) {
       if (input === 'DRAFT') {
         return 'Draft';
@@ -10,4 +13,6 @@ define(['cpm'], function(cpm) {
       }
     };
   });
+
+  return filters;
 });

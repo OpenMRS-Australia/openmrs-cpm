@@ -1,5 +1,8 @@
-define(['cpm', 'jquery', 'jquery-ui'], function(cpm, $) {
-  cpm.directive('cpmKeyup', function() {
+define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
+
+  var directives = angular.module('cpm.directives', []);
+
+  directives.directive('cpmKeyup', function() {
     return function(scope, el, attrs) {
       var keyupFn = scope.$eval(attrs.cpmKeyup);
       el.bind("keyup", function(e) {
@@ -10,7 +13,7 @@ define(['cpm', 'jquery', 'jquery-ui'], function(cpm, $) {
     };
   });
 
-  cpm.directive('jqueryUiDialog', function () {
+  directives.directive('jqueryUiDialog', function () {
       return function (scope, element, attrs) {
           var dialog = $(element).dialog(
           {autoOpen:false, width: 800, title: "Add concepts",
@@ -32,4 +35,6 @@ define(['cpm', 'jquery', 'jquery-ui'], function(cpm, $) {
           });
       }
   });
+
+  return directives;
 });
