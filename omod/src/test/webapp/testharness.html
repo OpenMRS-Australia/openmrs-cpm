@@ -56,9 +56,11 @@ define('config', [], function() {
 });
 
 requirejs.config({
+    waitSeconds: 120,
     shim: {
         'jquery-ui': ['jquery'],
         'angular': {
+            deps: ['jquery'],
             exports: 'angular'
         }
     }

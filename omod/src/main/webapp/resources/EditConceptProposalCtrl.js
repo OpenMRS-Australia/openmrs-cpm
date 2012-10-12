@@ -38,9 +38,12 @@ define(['cpm', 'config'], function(cpm, config) {
       alert("Sending proposal");
     };
 
-    $scope.delete = function() {
+    $scope.deleteProposal = function() {
       if (confirm("Are you sure?")) {
-        $http.delete('/openmrs/module/cpm/rest/proposals/' + proposalId + '.form').success(function() {
+        $http({
+          method: "DELETE",
+          url: "/openmrs/module/cpm/rest/proposals/" + proposalId + ".form"
+        }).success(function() {
           $location.path('/');
         });
       }
