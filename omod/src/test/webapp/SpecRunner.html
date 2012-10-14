@@ -1,0 +1,66 @@
+<html>
+<head>
+
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.2.0/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
+  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
+  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
+
+  <script src="resources/require.js"></script>
+
+  <script type="text/javascript">
+
+define('config', [], function() {
+  return {
+    // in production would be '/openmrs/moduleResources/cpm'
+    resourceLocation: 'resources'
+  };
+});
+
+requirejs.config({
+    baseUrl: "resources",
+    paths: {
+        "unit": "../unit",
+        "angular-mocks": "../lib/angular-mocks"
+    },
+    shim: {
+        'jquery-ui': ['jquery'],
+        'angular': {
+            exports: 'angular'
+        },
+        'angular-mocks': ['angular']
+    }
+});
+
+require(['unit/ListConceptProposalsCtrlSpec', 'unit/FiltersSpec'], function(angular) {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+});
+  </script>
+</head>
+<body>
+
+</body>
+</html>
