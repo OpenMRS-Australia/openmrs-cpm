@@ -13,7 +13,9 @@ describe('Concept Proposal Module', function() {
 
     it('should navigate to the edit screen after clicking on "Add proposal"', function() {
 
+      browser().navigateTo('../testharness.html');
       element('a').click();
+
       expect(browser().location().url()).toBe('/edit');
 
     });
