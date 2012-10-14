@@ -1,8 +1,9 @@
 package org.openmrs.module.cpm;
 
 
-public enum ConceptProposalPackageStatus {
+public enum PackageStatus {
 	DRAFT,
 	SUBMITTED,
+	RECEIVED,
 	CLOSED
 }

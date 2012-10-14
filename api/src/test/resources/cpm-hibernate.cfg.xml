@@ -5,6 +5,9 @@
 
 <hibernate-configuration>
 	<session-factory>
+		<mapping resource="ConceptProposal.hbm.xml" />
+		<mapping resource="ConceptProposalResponse.hbm.xml" />
 		<mapping resource="ConceptProposalPackage.hbm.xml" />
+		<mapping resource="ConceptProposalPackageResponse.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

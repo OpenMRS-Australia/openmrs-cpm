@@ -19,4 +19,5 @@ public interface ConceptProposalPackageDAO {
 	ConceptProposalPackage saveConceptProposalPackage(ConceptProposalPackage conceptPackage);
 	
 	void deleteConceptProposalPackage(ConceptProposalPackage conceptPackage);
+		
 }

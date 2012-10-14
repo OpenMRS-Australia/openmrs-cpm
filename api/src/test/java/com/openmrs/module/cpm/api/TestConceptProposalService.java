@@ -11,18 +11,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ConceptProposalPackage;
-import org.openmrs.module.cpm.api.ConceptProposalPackageService;
+import org.openmrs.module.cpm.ConceptProposalPackageResponse;
+import org.openmrs.module.cpm.api.ConceptProposalService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-
 
 public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	
-	protected Log log = LogFactory.getLog(getClass()); 
-	protected ConceptProposalPackageService service = null;
+	private static Log log = LogFactory.getLog(TestConceptProposalService.class);
+	
+	protected ConceptProposalService service = null;
 	
 	@Before
 	public void before() throws Exception {
-		service = Context.getService(ConceptProposalPackageService.class);
+		service = Context.getService(ConceptProposalService.class);
 	}
 	
 	@After
@@ -31,9 +32,9 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	}
 	
 	/**
-	 * Creates and returns new mock subscription
+	 * Creates and returns new mock concept package
 	 * 
-	 * @return new mock subscription instance
+	 * @return new mock concept package
 	 */
 	protected ConceptProposalPackage getMockConceptProposalPackage(Integer id, String name) {
 		ConceptProposalPackage conceptPackage = new ConceptProposalPackage();
@@ -42,8 +43,22 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		return conceptPackage;
 	}
 		
+	/**
+	 * Creates and returns new mock concept package response
+	 * 
+	 * @return new mock concept package response
+	 */
+	protected ConceptProposalPackageResponse getMockConceptProposalPackageResponse(Integer id, String name) {
+		ConceptProposalPackageResponse conceptPackageResponse = new ConceptProposalPackageResponse(getMockConceptProposalPackage(id,name));
+		conceptPackageResponse.setId(id);
+		conceptPackageResponse.setName(name);
+		return conceptPackageResponse;
+	}
+
+	
+	
 	@Test
-	public void saveConceptProposalPackage_basicSave() throws Exception {
+	public void saveConceptProposalService_basicSave() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
 	 
@@ -55,11 +70,11 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	}
 	
 	@Test
-	public void getConceptProposalPackage_basicRetrieval() throws Exception {
+	public void getConceptProposalService_basicRetrieval() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
 	 
-	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalPackageService.class).getAllConceptProposalPackages();
+	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalService.class).getAllConceptProposalPackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 	}
 }

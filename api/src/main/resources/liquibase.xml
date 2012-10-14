@@ -9,14 +9,55 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_initialization_2" author="flashard">
+    <changeSet id="cpm_initialization_3" author="flashard">
     	
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset 
-    	-->
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
+    	
   		<dropTable tableName="cpm_concept_proposal_package"/>
     	
         <createTable tableName="cpm_concept_proposal_package">
-            <column autoIncrement="true" name="concept_proposal_package_id" type="int">
+            <column autoIncrement="true" name="cpm_concept_proposal_package_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="creator" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createdBy" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changedBy" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_changed" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
+
+  		<dropTable tableName="cpm_concept_proposal"/>
+    	
+        <createTable tableName="cpm_concept_proposal">
+            <column autoIncrement="true" name="cpm_concept_proposal_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -46,16 +87,108 @@
             </column>
         </createTable>
 
-  		<dropTable tableName="cpm_concept_proposal_package_proposals"/>
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
 
-        <createTable tableName="cpm_concept_proposal_package_proposals">
-            <column name="concept_proposal_package_id" type="int">
+  		<dropTable tableName="cpm_concept_proposal_package_proposal"/>
+
+        <createTable tableName="cpm_concept_proposal_package_proposal">
+            <column name="cpm_concept_proposal_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="concept_proposal_id" type="int">
+            <column name="cpm_concept_proposal_id" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
+    	
+  		<dropTable tableName="cpm_concept_proposal_package_response"/>
+    	
+        <createTable tableName="cpm_concept_proposal_package_response">
+            <column autoIncrement="true" name="cpm_concept_proposal_package_response_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="creator" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changedBy" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_changed" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
+
+  		<dropTable tableName="cpm_concept_proposal_response"/>
+    	
+        <createTable tableName="cpm_concept_proposal_response">
+            <column autoIncrement="true" name="cpm_concept_proposal_response_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_concept_proposal_uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="creator" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changedBy" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_changed" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
+
+  		<dropTable tableName="cpm_concept_proposal_package_response"/>
+
+        <createTable tableName="cpm_concept_proposal_package_response">
+            <column name="cpm_concept_proposal_package_response_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_concept_proposal_response_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
 	</changeSet>
  
 </databaseChangeLog>

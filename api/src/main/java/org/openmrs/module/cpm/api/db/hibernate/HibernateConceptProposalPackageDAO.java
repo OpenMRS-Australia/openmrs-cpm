@@ -20,7 +20,7 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 	private SessionFactory sessionFactory;
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalPackage.getAllConceptProposalPackages()
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getAllConceptProposalPackages()
 	 */
 	@Override
 	public List<ConceptProposalPackage> getAllConceptProposalPackages() {
@@ -33,31 +33,31 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalPackage.getConceptProposalPackageById(Integer id)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getConceptProposalPackageById(Integer id)
 	 */
 	@Override
 	public ConceptProposalPackage getConceptProposalPackageById(Integer id) {
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackage package where package.id = :id");
 		query.setInteger("id", id);
-        ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
+		ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
 		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageById returned: " + result); }
 		return result;
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalPackage.getConceptProposalPackageByUuid(Integer uuid)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getConceptProposalPackageByUuid(Integer uuid)
 	 */
 	@Override
 	public ConceptProposalPackage getConceptProposalPackageByUuid(String uuid) {
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackage package where package.uuid = :uuid");
 		query.setString("uuid", uuid);
-        ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
+		ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
 		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageByUuid returned: " + result); }
 		return result;
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalPackage.saveConceptProposalPackage(ConceptProposalPackage conceptPackage)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.saveConceptProposalPackage(ConceptProposalPackage conceptPackage)
 	 */
 	@Override
 	public ConceptProposalPackage saveConceptProposalPackage(ConceptProposalPackage conceptPackage) {
@@ -66,11 +66,11 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalPackage.getConceptProposalPackageById(Integer id)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.deleteConceptProposalPackage(ConceptProposalPackage conceptPackage)
 	 */
 	@Override
 	public void deleteConceptProposalPackage(ConceptProposalPackage conceptPackage) {
 		sessionFactory.getCurrentSession().delete(conceptPackage);
 	}
-	
+
 }
