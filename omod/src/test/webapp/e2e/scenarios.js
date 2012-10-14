@@ -4,7 +4,7 @@ describe('Concept Proposal Module', function() {
 
   // This should fail on IE7
   it('should redirect from monitor.list to monitor.list#/', function() {
-    browser().navigateTo('monitor.jsp');
+    browser().navigateTo('../testharness.html');
     expect(browser().location().url()).toBe('/');
   });
 
@@ -13,7 +13,8 @@ describe('Concept Proposal Module', function() {
 
     it('should navigate to the edit screen after clicking on "Add proposal"', function() {
 
-      // todo
+      element('a').click();
+      expect(browser().location().url()).toBe('/edit');
 
     });
 
