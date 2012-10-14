@@ -1,6 +1,6 @@
 package org.openmrs.module.cpm;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,22 +14,22 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class TestAdminPageLinks {
 
 	private AdminPage page;
-	private static FirefoxDriver driver;
-	
+	private static ChromeDriver driver;
+
 	@BeforeClass
 	public static void beforeClass() {
-		driver = new FirefoxDriver();
+		driver = new ChromeDriver();
 	}
 
 	@Before
 	public void load() throws FileNotFoundException, IOException {
-		String username = ""; 
+		String username = "";
 		String password = "";
 		String adminPageUrl = "";
 
@@ -40,13 +40,13 @@ public class TestAdminPageLinks {
 		} else {
 			final Properties p = new Properties();
 			final InputStream is = getClass().getResourceAsStream("/config.properties");
-			
+
 			p.load(new InputStreamReader(is));
 			username = p.getProperty("username");
 			password = p.getProperty("password");
 			adminPageUrl = p.getProperty("adminPageUrl");
 		}
-		
+
 		page = new AdminPage(driver, adminPageUrl);
 		page.login(username, password);
 	}
@@ -54,19 +54,20 @@ public class TestAdminPageLinks {
 	@Test
 	public void shouldNavigateToCreateProposalPage() {
 		assertNotNull(page.getCreateProposalLink());
-		
-		CreateProposalPage createProposalPage = page.navigateToCreateProposalPage();
-		assertEquals("Create a Concept Proposal", createProposalPage.getHeaderText());
+
+		// page doesn't exist yet
+//		final CreateProposalPage createProposalPage = page.navigateToCreateProposalPage();
+//		assertEquals("Create a Concept Proposal", createProposalPage.getHeaderText());
 	}
 
 	@Test
 	public void shouldNavigateToMonitorProposalsPage() {
 		assertNotNull(page.getMonitorProposalsLink());
-		
-		MonitorProposalsPage monitorProposalsPage = page.navigateToMonitorProposals();
-		assertEquals("Monitor Submitted Proposals", monitorProposalsPage.getHeaderText());
+
+		final MonitorProposalsPage monitorProposalsPage = page.navigateToMonitorProposals();
+		assertEquals("Manage Concept Proposals", monitorProposalsPage.getHeaderText());
 	}
-	
+
 	@After
 	public void logout() {
 		page.logout();

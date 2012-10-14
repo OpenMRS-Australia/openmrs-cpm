@@ -4,12 +4,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AdminPage {
-	private static final String createProposalUrl = "/openmrs/module/cpm/concept.form";
-	private static final String monitorProposalsUrl = "/openmrs/module/cpm/monitor.list";
+	private static final String createProposalUrl = "/openmrs/module/cpm/proposals.list#/edit";
+	private static final String monitorProposalsUrl = "/openmrs/module/cpm/proposals.list";
 
 	private final RemoteWebDriver driver;
 
-	public AdminPage(final RemoteWebDriver driver, String adminPageUrl) {
+	public AdminPage(final RemoteWebDriver driver, final String adminPageUrl) {
 		this.driver = driver;
 		driver.navigate().to(adminPageUrl);
 	}
@@ -21,12 +21,12 @@ public class AdminPage {
 	public WebElement getMonitorProposalsLink() {
 		return driver.findElement(By.cssSelector("a[href=\"" + monitorProposalsUrl + "\"]"));
 	}
-	
+
 	private WebElement getLogoutLink() {
 		return driver.findElement(By.linkText("Log out"));
 	}
 
-	public void login(String username, String password) {
+	public void login(final String username, final String password) {
 		final WebElement usernameElement = driver.findElement(By.name("uname"));
 		usernameElement.sendKeys(username);
 		final WebElement passwordElement = driver.findElement(By.name("pw"));
