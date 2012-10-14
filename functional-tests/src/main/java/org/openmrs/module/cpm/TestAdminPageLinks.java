@@ -14,17 +14,17 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 
 public class TestAdminPageLinks {
 
 	private AdminPage page;
-	private static ChromeDriver driver;
+	private static FirefoxDriver driver;
 
 	@BeforeClass
 	public static void beforeClass() {
-		driver = new ChromeDriver();
+		driver = new FirefoxDriver();
 	}
 
 	@Before
