@@ -16,12 +16,12 @@ import org.openmrs.module.cpm.api.ConceptProposalService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
-	
+
 	private static Log log = LogFactory.getLog(TestConceptProposalService.class);
 	private static String CPM_CORE_DATASET = "org/openmrs/module/cpm/coreTestData.xml";
-	
+
 	protected ConceptProposalService service = null;
-	
+
 	@Before
 	public void before() throws Exception {
 		service = Context.getService(ConceptProposalService.class);
@@ -29,15 +29,15 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		executeXmlDataSet(CPM_CORE_DATASET);
 		log.info("Loading of the core Concept Proposal Module test data set complete");
 	}
-	
+
 	@After
 	public void after() throws Exception {
 		deleteAllData();
 	}
-	
+
 	/**
 	 * Creates and returns new mock concept package
-	 * 
+	 *
 	 * @return new mock concept package
 	 */
 	protected ConceptProposalPackage getMockConceptProposalPackage(Integer id, String name) {
@@ -47,10 +47,10 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		conceptPackage.setEmail("test@test.com");
 		return conceptPackage;
 	}
-		
+
 	/**
 	 * Creates and returns new mock concept package response
-	 * 
+	 *
 	 * @return new mock concept package response
 	 */
 	protected ConceptProposalPackageResponse getMockConceptProposalPackageResponse(Integer id, String name, String email) {
@@ -63,20 +63,25 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	public void saveConceptProposalService_basicSave() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
-	 
+
 		ConceptProposalPackage testPackage = getMockConceptProposalPackage(null, "new package");
 		log.info("Before: " + testPackage + ", email=" + testPackage.getEmail());
 	    service.saveConceptProposalPackage(testPackage);
 		log.info("After: " + testPackage);
 		Assert.assertTrue(testPackage.getId() > 0);
 	}
-	
+
 	public void getConceptProposalService_basicRetrieval() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
-	 
+
 	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalService.class).getAllConceptProposalPackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(packages.size(), 2);
 	}
+
+        @Test
+        public void someTest() {
+            log.debug("Not doing anything - should pass");
+        }
 }
