@@ -15,7 +15,7 @@
       <param name="append" value="true"/>
       <param name="bufferedIO" value="false"/>
       <param name="bufferSize" value="8192"/>
-      <param name="file" value="C:\working\openmrs\openmrs.log"/>
+      <param name="file" value="${java.io.tmpdir}/openmrs.log"/>
       <layout class="org.apache.log4j.PatternLayout">
          <param name="conversionPattern" value="%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n"/>
       </layout>
