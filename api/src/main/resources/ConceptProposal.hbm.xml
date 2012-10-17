@@ -1,20 +1,27 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="org.openmrs.module.cpm">
-	<class name="ConceptProposal" table="cpm_concept_proposal">
+<hibernate-mapping package="org.openmrs.module.cpm" auto-import="false">
+	
+	<!-- Note - because this shares the same class name as org.openmrs.ConceptPropsal -->
+	
+	<class name="ConceptProposal" entity-name="CpmConceptProposal" table="cpm_concept_proposal">
 		<id name="id" type="int" column="cpm_concept_proposal_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" not-null="true" />
+		<many-to-one name="createdBy" column="createdBy" class="org.openmrs.User"/>
+		<many-to-one name="changedBy" column="changedBy" class="org.openmrs.User"/>
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
-		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="true" length="19" />
+		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
 		<property name="version" type="java.lang.Integer" column="version" not-null="true" />
 		<property name="status">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">org.openmrs.module.cpm.ConceptProposalStatus</param>
+				<param name="enumClass">org.openmrs.module.cpm.ProposalStatus</param>
+				<param name="type">12</param>
 			</type>
 		</property>
 	</class>
+
 </hibernate-mapping>

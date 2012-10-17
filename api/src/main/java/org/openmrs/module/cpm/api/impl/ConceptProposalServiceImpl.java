@@ -16,10 +16,10 @@ import org.openmrs.module.cpm.api.db.ConceptProposalPackageDAO;
 import org.openmrs.module.cpm.api.db.ConceptProposalPackageResponseDAO;
 import org.springframework.stereotype.Service;
 
-@Service("org.openmrs.module.cpm.api.ConceptProposalPackageService")
-public class ConceptProposalPackageServiceImpl extends BaseOpenmrsService implements ConceptProposalService {
+@Service("org.openmrs.module.cpm.api.ConceptProposalService")
+public class ConceptProposalServiceImpl extends BaseOpenmrsService implements ConceptProposalService {
 	
-	private static final Log log = LogFactory.getLog(ConceptProposalPackageServiceImpl.class);
+	private static final Log log = LogFactory.getLog(ConceptProposalServiceImpl.class);
 	
 	@Resource(name = "hibernateConceptProposalPackageDAO")
 	private ConceptProposalPackageDAO proposalDao;

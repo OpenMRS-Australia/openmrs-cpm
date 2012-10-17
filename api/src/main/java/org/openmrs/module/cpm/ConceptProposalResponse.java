@@ -22,7 +22,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 	
 	private Integer conceptProposalResponseId;
 	private String conceptProposalUuid;
-	private User creator;
+	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
 	private Date dateChanged;
@@ -59,21 +59,13 @@ public class ConceptProposalResponse extends ShareableProposal {
 	public void setConceptProposalUuid(String conceptProposalUuid) {
 		this.conceptProposalUuid = conceptProposalUuid;
 	}
-	
-	public Integer getConceptProposalReviewId() {
-		return conceptProposalResponseId;
+		
+	public User getCreatedBy() {
+		return createdBy;
 	}
 	
-	public void setConceptProposalReviewId(Integer conceptProposalReviewId) {
-		this.conceptProposalResponseId = conceptProposalReviewId;
-	}
-	
-	public User getCreator() {
-		return creator;
-	}
-	
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 	
 	public Date getDateCreated() {

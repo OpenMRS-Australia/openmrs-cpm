@@ -23,14 +23,14 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.cpm.api.ConceptProposalPackageService</value>
+				<value>org.openmrs.module.cpm.api.ConceptProposalService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="org.openmrs.module.cpm.api.impl.ConceptProposalPackageServiceImpl" />
+						<bean class="org.openmrs.module.cpm.api.impl.ConceptProposalServiceImpl" />
 					</property>
 					<property name="preInterceptors">
 						<ref bean="serviceInterceptors" />

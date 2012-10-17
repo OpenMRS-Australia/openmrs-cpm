@@ -20,7 +20,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 
 	private Integer conceptProposalPackageId;
 	private String conceptProposalPackageUuid;
-	private User creator;
+	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
 	private Date dateChanged;
@@ -100,12 +100,12 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	this.version = version;
     }
 
-	public User getCreator() {
-    	return creator;
+	public User getCreatedBy() {
+    	return createdBy;
     }
 	
-    public void setCreator(User creator) {
-    	this.creator = creator;
+    public void setCreatedBy(User createdBy) {
+    	this.createdBy = createdBy;
     }
 	
     public User getChangedBy() {

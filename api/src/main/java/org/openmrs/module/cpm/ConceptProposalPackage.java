@@ -18,7 +18,7 @@ public class ConceptProposalPackage extends ShareablePackage {
 	private static Log log = LogFactory.getLog(ConceptProposalPackage.class);
 
 	private Integer conceptProposalPackageId;
-	private User creator;
+	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
 	private Date dateChanged;
@@ -71,12 +71,12 @@ public class ConceptProposalPackage extends ShareablePackage {
     	this.version = version;
     }
 
-	public User getCreator() {
-    	return creator;
+	public User getCreatedBy() {
+    	return createdBy;
     }
 	
-    public void setCreator(User creator) {
-    	this.creator = creator;
+    public void setCreatedBy(User creator) {
+    	this.createdBy = createdBy;
     }
 	
     public User getChangedBy() {

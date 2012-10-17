@@ -1,25 +1,28 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.openmrs.module.cpm">
-	<class name="ConceptProposalPackage" table="cpm_concept_proposal_package_response">
-		<id name="id" type="int" column="cpm_concept_proposal_package_response_id" unsaved-value="0">
+	<class name="ConceptProposalPackageResponse" table="cpm_concept_package_response">
+		<id name="id" type="int" column="cpm_concept_package_response_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
-		<property name="conceptProposalPackageUuid" type="java.lang.String" column="cpm_concept_proposal_package_uuid" length="38" unique="true" />		
+		<property name="conceptProposalPackageUuid" type="java.lang.String" column="cpm_concept_package_uuid" length="38" unique="true" />		
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="email" type="java.lang.String" column="email" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" not-null="true" />
+		<many-to-one name="createdBy" column="createdBy" class="org.openmrs.User"/>
+		<many-to-one name="changedBy" column="changedBy" class="org.openmrs.User"/>
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
-		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="true" length="19" />
+		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
 		<property name="version" type="java.lang.Integer" column="version" not-null="true" />
-		<set name="proposedConcepts" table="cpm_concept_proposal_package_response">
-			<key column="cpm_concept_proposal_package_response_id"/>
-			<many-to-many column="cpm_concept_proposal_response_id" class="ConceptProposalResponse"/>
+		<set name="proposedConcepts" table="cpm_concept_package_response_proposal">
+			<key column="cpm_concept_package_response_id"/>
+			<many-to-many class="ConceptProposalResponse" column="cpm_concept_proposal_response_id"/>
 		</set>
 		<property name="status">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">org.openmrs.module.cpm.ConceptProposalPackageStatus</param>
+				<param name="enumClass">org.openmrs.module.cpm.PackageStatus</param>
+				<param name="type">12</param>
 			</type>
 		</property>
 	</class>

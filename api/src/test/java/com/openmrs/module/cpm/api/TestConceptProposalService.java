@@ -18,12 +18,14 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	
 	private static Log log = LogFactory.getLog(TestConceptProposalService.class);
+	private static String CPM_CORE_DATASET = "org/openmrs/module/cpm/coreTestData.xml";
 	
 	protected ConceptProposalService service = null;
 	
 	@Before
 	public void before() throws Exception {
 		service = Context.getService(ConceptProposalService.class);
+		executeXmlDataSet(CPM_CORE_DATASET);
 	}
 	
 	@After
@@ -54,8 +56,6 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		conceptPackageResponse.setName(name);
 		return conceptPackageResponse;
 	}
-
-	
 	
 	@Test
 	public void saveConceptProposalService_basicSave() throws Exception {

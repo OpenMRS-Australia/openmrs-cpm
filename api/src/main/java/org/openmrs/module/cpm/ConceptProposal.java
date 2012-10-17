@@ -20,7 +20,7 @@ public class ConceptProposal extends ShareableProposal {
 	private static Log log = LogFactory.getLog(ConceptProposal.class);
 	
 	private Integer conceptProposalId;
-	private User creator;
+	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
 	private Date dateChanged;
@@ -33,21 +33,13 @@ public class ConceptProposal extends ShareableProposal {
 	public void setId(Integer id) {
 		this.conceptProposalId = id;
 	}
-	
-	public Integer getConceptProposalId() {
-		return conceptProposalId;
+		
+	public User getCreatedBy() {
+		return createdBy;
 	}
 	
-	public void setConceptProposalId(Integer conceptProposalId) {
-		this.conceptProposalId = conceptProposalId;
-	}
-	
-	public User getCreator() {
-		return creator;
-	}
-	
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 	
 	public Date getDateCreated() {

@@ -13,10 +13,10 @@
     	
     	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
     	
-  		<dropTable tableName="cpm_concept_proposal_package"/>
+  		<dropTable tableName="cpm_concept_package"/>
     	
-        <createTable tableName="cpm_concept_proposal_package">
-            <column autoIncrement="true" name="cpm_concept_proposal_package_id" type="int">
+        <createTable tableName="cpm_concept_package">
+            <column autoIncrement="true" name="cpm_concept_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -89,10 +89,10 @@
 
     	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
 
-  		<dropTable tableName="cpm_concept_proposal_package_proposal"/>
+  		<dropTable tableName="cpm_concept_package_proposal"/>
 
-        <createTable tableName="cpm_concept_proposal_package_proposal">
-            <column name="cpm_concept_proposal_package_id" type="int">
+        <createTable tableName="cpm_concept_package_proposal">
+            <column name="cpm_concept_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="cpm_concept_proposal_id" type="int">
@@ -102,13 +102,16 @@
         
     	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
     	
-  		<dropTable tableName="cpm_concept_proposal_package_response"/>
+  		<dropTable tableName="cpm_concept_package_response"/>
     	
-        <createTable tableName="cpm_concept_proposal_package_response">
-            <column autoIncrement="true" name="cpm_concept_proposal_package_response_id" type="int">
+        <createTable tableName="cpm_concept_package_response">
+            <column autoIncrement="true" name="cpm_concept_package_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_concept_package_uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -118,7 +121,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(1000)"/>
-            <column name="creator" type="int">
+            <column name="createdBy" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="date_created" type="DATETIME">
@@ -178,10 +181,10 @@
 
     	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
 
-  		<dropTable tableName="cpm_concept_proposal_package_response"/>
+  		<dropTable tableName="cpm_concept_package_response_proposal"/>
 
-        <createTable tableName="cpm_concept_proposal_package_response">
-            <column name="cpm_concept_proposal_package_response_id" type="int">
+        <createTable tableName="cpm_concept_package_response_proposal">
+            <column name="cpm_concept_package_response_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="cpm_concept_proposal_response_id" type="int">
