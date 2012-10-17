@@ -37,6 +37,14 @@
       <level value="WARN"/>
    </logger>
 
+	<logger name="org.hibernate.util">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="org.dbunit.dataset">
+		<level value="ERROR" />
+	</logger>
+
    <logger name="org.openmrs">
       <level value="INFO"/>
    </logger>
@@ -50,6 +58,10 @@
    </logger>
 
    <logger name="liquibase">
+      <level value="DEBUG"/>
+   </logger>
+   
+   <logger name="org.h2">
       <level value="DEBUG"/>
    </logger>
 

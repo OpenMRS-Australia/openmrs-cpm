@@ -2,9 +2,10 @@ package org.openmrs.module.cpm.api.db.hibernate;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.jfree.util.Log;
 import org.openmrs.module.cpm.ConceptProposalPackage;
 import org.openmrs.module.cpm.api.db.ConceptProposalPackageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HibernateConceptProposalPackageDAO implements ConceptProposalPackageDAO {
+
+	private static Log log = LogFactory.getLog(HibernateConceptProposalPackageDAO.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -26,8 +29,8 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 	public List<ConceptProposalPackage> getAllConceptProposalPackages() {
 		@SuppressWarnings("unchecked")
         List<ConceptProposalPackage> result = (List<ConceptProposalPackage>) sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackage").list();
-		if (Log.isInfoEnabled()) {
-			Log.info("getAllConceptProposalPackages returned: " + result.size() + " results");
+		if (log.isDebugEnabled()) {
+			log.debug("getAllConceptProposalPackages returned: " + result.size() + " results");
 		}
 		return result;
 	}
@@ -40,7 +43,7 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackage package where package.id = :id");
 		query.setInteger("id", id);
 		ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
-		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageById returned: " + result); }
+		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageById returned: " + result); }
 		return result;
 	}
 	
@@ -52,7 +55,7 @@ public class HibernateConceptProposalPackageDAO implements ConceptProposalPackag
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackage package where package.uuid = :uuid");
 		query.setString("uuid", uuid);
 		ConceptProposalPackage result = (ConceptProposalPackage) query.uniqueResult();
-		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageByUuid returned: " + result); }
+		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageByUuid returned: " + result); }
 		return result;
 	}
 	

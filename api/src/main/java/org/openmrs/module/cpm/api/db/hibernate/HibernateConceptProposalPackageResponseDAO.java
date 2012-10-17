@@ -2,11 +2,11 @@ package org.openmrs.module.cpm.api.db.hibernate;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.jfree.util.Log;
 import org.openmrs.module.cpm.ConceptProposalPackageResponse;
-import org.openmrs.module.cpm.api.db.ConceptProposalPackageDAO;
 import org.openmrs.module.cpm.api.db.ConceptProposalPackageResponseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HibernateConceptProposalPackageResponseDAO implements ConceptProposalPackageResponseDAO {
 	
+	private static Log log = LogFactory.getLog(HibernateConceptProposalPackageDAO.class);
+
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -27,8 +29,7 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	public List<ConceptProposalPackageResponse> getAllConceptProposalPackageResponses() {
 		@SuppressWarnings("unchecked")
         List<ConceptProposalPackageResponse> result = (List<ConceptProposalPackageResponse>) sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse").list();
-		if (Log.isInfoEnabled()) {
-			Log.info("getAllConceptProposalPackageResponses returned: " + result.size() + " results");
+		if (log.isDebugEnabled()) { log.info("getAllConceptProposalPackageResponses returned: " + result.size() + " results");
 		}
 		return result;
 	}
@@ -41,7 +42,7 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.id = :id");
 		query.setInteger("id", id);
 		ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
-		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageResponseById returned: " + result); }
+		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseById returned: " + result); }
 		return result;
 	}
 	
@@ -53,7 +54,7 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.conceptProposalUuid = :uuid");
 		query.setString("uuid", uuid);
 		ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
-		if (Log.isDebugEnabled()) { Log.debug("getConceptProposalPackageResponseByProposalUuid returned: " + result); }
+		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseByProposalUuid returned: " + result); }
 		return result;
 	}
 	

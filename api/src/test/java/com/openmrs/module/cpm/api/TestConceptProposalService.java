@@ -25,7 +25,9 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	@Before
 	public void before() throws Exception {
 		service = Context.getService(ConceptProposalService.class);
+		log.info("Loading the core Concept Proposal Module test data set");
 		executeXmlDataSet(CPM_CORE_DATASET);
+		log.info("Loading of the core Concept Proposal Module test data set complete");
 	}
 	
 	@After
@@ -69,7 +71,6 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		Assert.assertTrue(testPackage.getId() > 0);
 	}
 	
-	@Test
 	public void getConceptProposalService_basicRetrieval() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
