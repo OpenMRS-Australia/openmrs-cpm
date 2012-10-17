@@ -2,19 +2,18 @@ package org.openmrs.module.cpm;
 
 import java.util.Date;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 
 /**
- * This class represents a set of Concepts that has been proposed as a single group.  It acts as a wrapper for 
+ * This class represents a set of Concepts that has been proposed as a single group.  It acts as a wrapper for
  * individual concept proposals - providing attributes that record the proposers rationale for why the concepts
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
 public class ConceptProposalPackage extends ShareablePackage {
-	
+
 	private static Log log = LogFactory.getLog(ConceptProposalPackage.class);
 
 	private Integer conceptProposalPackageId;
@@ -23,80 +22,80 @@ public class ConceptProposalPackage extends ShareablePackage {
 	private User changedBy;
 	private Date dateChanged;
 	private Integer version;
-	
-	/* 
+
+	/*
 	 * Constructors
 	 */
-	
+
 	public ConceptProposalPackage() {
 		super();
 		log.debug("Creating a ConceptProposalPackage");
 	}
-	
+
 	/*
 	 * Persisted field getters/setters
 	 */
 	@Override
 	public Integer getId() {
-		return this.conceptProposalPackageId;
+		return conceptProposalPackageId;
 	}
-	
+
 	@Override
-	public void setId(Integer id) {
-		this.conceptProposalPackageId = id;
+	public void setId(final Integer id) {
+		conceptProposalPackageId = id;
 	}
 
 	public Date getDateCreated() {
     	return dateCreated;
     }
-	
-    public void setDateCreated(Date dateCreated) {
+
+    public void setDateCreated(final Date dateCreated) {
     	this.dateCreated = dateCreated;
     }
-	
+
     public Date getDateChanged() {
     	return dateChanged;
     }
-	
-    public void setDateChanged(Date dateChanged) {
+
+    public void setDateChanged(final Date dateChanged) {
     	this.dateChanged = dateChanged;
     }
-	
-    
+
+
     public Integer getVersion() {
     	return version;
     }
 
-	
-    public void setVersion(Integer version) {
+
+    public void setVersion(final Integer version) {
     	this.version = version;
     }
 
 	public User getCreatedBy() {
     	return createdBy;
     }
-	
-    public void setCreatedBy(User creator) {
-    	this.createdBy = createdBy;
+
+    public void setCreatedBy(final User creator) {
+    	createdBy = creator;
     }
-	
+
     public User getChangedBy() {
     	return changedBy;
     }
-	
-    public void setChangedBy(User changedBy) {
+
+    public void setChangedBy(final User changedBy) {
     	this.changedBy = changedBy;
-    }	
-	
+    }
+
 	/*
 	 * Utility methods
 	 */
-    
+
     @Override
     public String toString() {
-    	StringBuffer appender = new StringBuffer();
+    	final StringBuffer appender = new StringBuffer();
     	appender.append("ConceptProposalPackage(");
-    	appender.append(this.getId() + "," + this.getEmail());
+    	appender.append(getId() + "," + getEmail());
     	appender.append(")");
     	appender.append(super.toString());
     	return appender.toString();
