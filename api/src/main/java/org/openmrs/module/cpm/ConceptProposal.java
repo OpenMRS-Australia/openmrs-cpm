@@ -26,6 +26,12 @@ public class ConceptProposal extends ShareableProposal {
 	private Date dateChanged;
 	private Integer version;
 	
+	public ConceptProposal() {
+		this.dateCreated = new Date();
+		this.dateChanged = new Date();
+		this.version = 0;
+	}
+	
 	public Integer getId() {
 		return conceptProposalId;
 	}

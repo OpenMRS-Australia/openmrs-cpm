@@ -42,6 +42,7 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		ConceptProposalPackage conceptPackage = new ConceptProposalPackage();
 		conceptPackage.setId(id);
 		conceptPackage.setName(name);
+		conceptPackage.setEmail("test@test.com");
 		return conceptPackage;
 	}
 		
@@ -50,20 +51,19 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	 * 
 	 * @return new mock concept package response
 	 */
-	protected ConceptProposalPackageResponse getMockConceptProposalPackageResponse(Integer id, String name) {
+	protected ConceptProposalPackageResponse getMockConceptProposalPackageResponse(Integer id, String name, String email) {
 		ConceptProposalPackageResponse conceptPackageResponse = new ConceptProposalPackageResponse(getMockConceptProposalPackage(id,name));
 		conceptPackageResponse.setId(id);
 		conceptPackageResponse.setName(name);
 		return conceptPackageResponse;
 	}
-	
-	@Test
+
 	public void saveConceptProposalService_basicSave() throws Exception {
 	    //initializeInMemoryDatabase();
 	    //authenticate();
 	 
 		ConceptProposalPackage testPackage = getMockConceptProposalPackage(null, "new package");
-		log.info("Before: " + testPackage);
+		log.info("Before: " + testPackage + ", email=" + testPackage.getEmail());
 	    service.saveConceptProposalPackage(testPackage);
 		log.info("After: " + testPackage);
 		Assert.assertTrue(testPackage.getId() > 0);
@@ -76,5 +76,6 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	 
 	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalService.class).getAllConceptProposalPackages();
 		log.info("Retrieved: " + packages.size() + " packages");
+		Assert.assertEquals(packages.size(), 2);
 	}
 }

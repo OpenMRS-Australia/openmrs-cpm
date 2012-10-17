@@ -29,6 +29,7 @@ public class ConceptProposalPackage extends ShareablePackage {
 	 */
 	
 	public ConceptProposalPackage() {
+		super();
 		log.debug("Creating a ConceptProposalPackage");
 	}
 	
@@ -95,7 +96,7 @@ public class ConceptProposalPackage extends ShareablePackage {
     public String toString() {
     	StringBuffer appender = new StringBuffer();
     	appender.append("ConceptProposalPackage(");
-    	appender.append(this.getId());
+    	appender.append(this.getId() + "," + this.getEmail());
     	appender.append(")");
     	appender.append(super.toString());
     	return appender.toString();
