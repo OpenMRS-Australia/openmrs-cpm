@@ -9,6 +9,6 @@
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody ng-repeat="proposal in proposals">
-  <tr><td>{{proposal.description}}</td><td>todo</td><td>{{proposal.status | proposalStatus}}</td><td><a href="#/edit/{{proposal.id}}" class="editProposal">Edit</a></tr>
+  <tr><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td>{{proposal.status | proposalStatus}}</td><td><a href="#/edit/{{proposal.id}}" class="editProposal">Edit</a></tr>
  </tbody>
 </table>
