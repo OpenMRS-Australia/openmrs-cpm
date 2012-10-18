@@ -175,6 +175,31 @@
 
 		<plugins>
 			<plugin>
+			  <artifactId>maven-antrun-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <phase>package</phase>
+			      <configuration>
+			        <target>
+			          <delete>
+			            <fileset dir="${openMRSWorkingModuleDir}">
+			              <include name="cpm*.omod"/>
+			            </fileset>
+			          </delete>
+			          <copy todir="${openMRSWorkingModuleDir}">
+			            <fileset dir="target">
+			              <include name="*.omod"/>
+			            </fileset>
+			          </copy>
+			        </target>
+			      </configuration>
+			      <goals>
+			        <goal>run</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			<plugin>
 				<groupId>org.openmrs.maven.plugins</groupId>
 				<artifactId>maven-openmrs-plugin</artifactId>
 				<extensions>true</extensions>
