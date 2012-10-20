@@ -34,7 +34,8 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 	 * @param shareablePackage The Concept Proposal Package submitted by a client side proposer
 	 */
 	
-	public ConceptProposalPackageResponse(ShareablePackage shareablePackage) {
+	public ConceptProposalPackageResponse(final ShareablePackage shareablePackage) {
+		super();
 		log.debug("Creating a ConceptProposalPackageResponse from: " + shareablePackage);
 
 		this.setName(shareablePackage.getName());
@@ -61,7 +62,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 		return this.conceptProposalPackageId;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.conceptProposalPackageId = id;
 	}
 
@@ -70,7 +71,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	return conceptProposalPackageUuid;
     }
 	
-    public void setConceptProposalPackageUuid(String conceptProposalPackageUuid) {
+    public void setConceptProposalPackageUuid(final String conceptProposalPackageUuid) {
     	this.conceptProposalPackageUuid = conceptProposalPackageUuid;
     }
 
@@ -78,7 +79,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	return dateCreated;
     }
 	
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(final Date dateCreated) {
     	this.dateCreated = dateCreated;
     }
 	
@@ -86,7 +87,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	return dateChanged;
     }
 	
-    public void setDateChanged(Date dateChanged) {
+    public void setDateChanged(final Date dateChanged) {
     	this.dateChanged = dateChanged;
     }
 	
@@ -96,7 +97,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     }
 
 	
-    public void setVersion(Integer version) {
+    public void setVersion(final Integer version) {
     	this.version = version;
     }
 
@@ -104,7 +105,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	return createdBy;
     }
 	
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(final User createdBy) {
     	this.createdBy = createdBy;
     }
 	
@@ -112,7 +113,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
     	return changedBy;
     }
 	
-    public void setChangedBy(User changedBy) {
+    public void setChangedBy(final User changedBy) {
     	this.changedBy = changedBy;
     }	
 	

@@ -27,6 +27,9 @@ public class ConceptProposal extends ShareableProposal {
 	private Integer version;
 	
 	public ConceptProposal() {
+		super();
+		log.debug("Creating a ConceptProposal");
+		
 		this.dateCreated = new Date();
 		this.dateChanged = new Date();
 		this.version = 0;
@@ -36,7 +39,7 @@ public class ConceptProposal extends ShareableProposal {
 		return conceptProposalId;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.conceptProposalId = id;
 	}
 		
@@ -44,7 +47,7 @@ public class ConceptProposal extends ShareableProposal {
 		return createdBy;
 	}
 	
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(final User createdBy) {
 		this.createdBy = createdBy;
 	}
 	
@@ -52,7 +55,7 @@ public class ConceptProposal extends ShareableProposal {
 		return dateCreated;
 	}
 	
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(final Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 	
@@ -60,7 +63,7 @@ public class ConceptProposal extends ShareableProposal {
 		return changedBy;
 	}
 	
-	public void setChangedBy(User changedBy) {
+	public void setChangedBy(final User changedBy) {
 		this.changedBy = changedBy;
 	}
 	
@@ -68,7 +71,7 @@ public class ConceptProposal extends ShareableProposal {
 		return dateChanged;
 	}
 	
-	public void setDateChanged(Date dateChanged) {
+	public void setDateChanged(final Date dateChanged) {
 		this.dateChanged = dateChanged;
 	}
 	
@@ -76,7 +79,7 @@ public class ConceptProposal extends ShareableProposal {
 		return version;
 	}
 	
-	public void setVersion(Integer version) {
+	public void setVersion(final Integer version) {
 		this.version = version;
 	}
 	

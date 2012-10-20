@@ -30,6 +30,10 @@ public class ConceptProposalPackage extends ShareablePackage {
 	public ConceptProposalPackage() {
 		super();
 		log.debug("Creating a ConceptProposalPackage");
+		
+		this.dateCreated = new Date();
+		this.dateChanged = new Date();
+		this.version = 0;
 	}
 
 	/*
@@ -75,8 +79,8 @@ public class ConceptProposalPackage extends ShareablePackage {
     	return createdBy;
     }
 
-    public void setCreatedBy(final User creator) {
-    	createdBy = creator;
+    public void setCreatedBy(final User createdBy) {
+    	this.createdBy = createdBy;
     }
 
     public User getChangedBy() {

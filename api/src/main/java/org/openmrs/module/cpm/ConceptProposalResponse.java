@@ -36,6 +36,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 	 * @param shareableProposal The Concept Proposal submitted by a client side proposer
 	 */
 	public ConceptProposalResponse(ShareableProposal shareableProposal) {
+		super();
 		log.debug("Creating a new ConceptProposalResponse from: " + shareableProposal);
 		
 		this.setName(shareableProposal.getName());
@@ -48,7 +49,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return conceptProposalResponseId;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.conceptProposalResponseId = id;
 	}
 	
@@ -56,7 +57,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return conceptProposalUuid;
 	}
 	
-	public void setConceptProposalUuid(String conceptProposalUuid) {
+	public void setConceptProposalUuid(final String conceptProposalUuid) {
 		this.conceptProposalUuid = conceptProposalUuid;
 	}
 		
@@ -64,7 +65,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return createdBy;
 	}
 	
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(final User createdBy) {
 		this.createdBy = createdBy;
 	}
 	
@@ -72,7 +73,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return dateCreated;
 	}
 	
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(final Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 	
@@ -80,7 +81,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return changedBy;
 	}
 	
-	public void setChangedBy(User changedBy) {
+	public void setChangedBy(final User changedBy) {
 		this.changedBy = changedBy;
 	}
 	
@@ -88,7 +89,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return dateChanged;
 	}
 	
-	public void setDateChanged(Date dateChanged) {
+	public void setDateChanged(final Date dateChanged) {
 		this.dateChanged = dateChanged;
 	}
 	
@@ -96,7 +97,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 		return version;
 	}
 	
-	public void setVersion(Integer version) {
+	public void setVersion(final Integer version) {
 		this.version = version;
 	}
 	
