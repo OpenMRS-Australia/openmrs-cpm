@@ -13,10 +13,10 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ConceptProposalPackage;
 import org.openmrs.module.cpm.ConceptProposalPackageResponse;
 import org.openmrs.module.cpm.api.ConceptProposalService;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
+import com.openmrs.module.cpm.test.CpmBaseContextSensitive;
 
-public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
-
+public class TestConceptProposalService extends CpmBaseContextSensitive {
+	
 	private static Log log = LogFactory.getLog(TestConceptProposalService.class);
 	private static String CPM_CORE_DATASET = "org/openmrs/module/cpm/coreTestData.xml";
 
@@ -26,7 +26,7 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 	public void before() throws Exception {
 		service = Context.getService(ConceptProposalService.class);
 		log.info("Loading the core Concept Proposal Module test data set");
-		executeXmlDataSet(CPM_CORE_DATASET);
+		executeDataSet(CPM_CORE_DATASET);
 		log.info("Loading of the core Concept Proposal Module test data set complete");
 	}
 
@@ -44,6 +44,7 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		ConceptProposalPackage conceptPackage = new ConceptProposalPackage();
 		conceptPackage.setId(id);
 		conceptPackage.setName(name);
+		conceptPackage.setDescription("description");
 		conceptPackage.setEmail("test@test.com");
 		return conceptPackage;
 	}
@@ -60,10 +61,8 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		return conceptPackageResponse;
 	}
 
+	@Test
 	public void saveConceptProposalService_basicSave() throws Exception {
-	    //initializeInMemoryDatabase();
-	    //authenticate();
-
 		ConceptProposalPackage testPackage = getMockConceptProposalPackage(null, "new package");
 		log.info("Before: " + testPackage + ", email=" + testPackage.getEmail());
 	    service.saveConceptProposalPackage(testPackage);
@@ -71,17 +70,11 @@ public class TestConceptProposalService extends BaseModuleContextSensitiveTest {
 		Assert.assertTrue(testPackage.getId() > 0);
 	}
 
+	@Test
 	public void getConceptProposalService_basicRetrieval() throws Exception {
-	    //initializeInMemoryDatabase();
-	    //authenticate();
-
 	    List<ConceptProposalPackage> packages = Context.getService(ConceptProposalService.class).getAllConceptProposalPackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(packages.size(), 2);
 	}
 
-        @Test
-        public void someTest() {
-            log.debug("Not doing anything - should pass");
-        }
 }

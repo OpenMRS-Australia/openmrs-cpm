@@ -7,7 +7,7 @@
       <param name="target" value="System.out"/>
       <param name="follow" value="false"/>
       <layout class="org.apache.log4j.PatternLayout">
-         <param name="conversionPattern" value="%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n"/>
+         <param name="conversionPattern" value="%p - %C.%M(%L) |%d{ISO8601}| %m%n"/>
       </layout>
    </appender>
    
@@ -41,6 +41,10 @@
 		<level value="ERROR" />
 	</logger>
 	
+	<logger name="org.hibernate.cache">
+		<level value="FATAL" />
+	</logger>
+
 	<logger name="org.dbunit.dataset">
 		<level value="ERROR" />
 	</logger>
@@ -57,12 +61,25 @@
       <level value="INFO"/>
    </logger>
 
+   <logger name="org.springframework.web">
+      <level value="WARN"/>
+   </logger>
+
    <logger name="liquibase">
       <level value="DEBUG"/>
    </logger>
-   
-   <logger name="org.h2">
-      <level value="DEBUG"/>
+
+	<!-- 
+		These are the loggers for the H2 database.  They work in conert with a value that is set in the database 
+		connection url (see CpmBaseContextSensitive) to allow tracing of the H2 trace statements
+	 -->
+	
+	<logger name="org.h2">
+		<level value="FATAL"/>
+	</logger>
+	
+   <logger name="h2database">
+      <level value="FATAL"/>
    </logger>
 
    <root>
