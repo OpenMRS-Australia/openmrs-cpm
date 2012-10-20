@@ -34,12 +34,12 @@ public class ConceptProposalServiceImpl extends BaseOpenmrsService implements Co
     }
 
 	@Override
-    public ShareablePackage getConceptProposalPackageById(Integer id) throws APIException {
+    public ConceptProposalPackage getConceptProposalPackageById(Integer id) throws APIException {
 		return proposalDao.getConceptProposalPackageById(id);
     }
 
 	@Override
-    public ShareablePackage getConceptProposalPackageByUuid(String uuid) throws APIException {
+    public ConceptProposalPackage getConceptProposalPackageByUuid(String uuid) throws APIException {
 		return proposalDao.getConceptProposalPackageByUuid(uuid);
     }
 

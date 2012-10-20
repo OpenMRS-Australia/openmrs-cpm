@@ -1,8 +1,6 @@
 package org.openmrs.module.cpm;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +25,13 @@ public class ConceptProposalResponse extends ShareableProposal {
 	private User changedBy;
 	private Date dateChanged;
 	private Integer version;
+	
+	/**
+	 * Private constructore for Hibernate
+	 */
+	protected ConceptProposalResponse() {
+		super();
+	}
 	
 	/**
 	 * Create the server side Concept Proposal Response based on the proposer submitted Concept Proposal.

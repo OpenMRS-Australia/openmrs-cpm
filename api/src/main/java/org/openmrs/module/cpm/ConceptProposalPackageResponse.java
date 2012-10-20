@@ -27,6 +27,13 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 	private Integer version;
 	
 	/**
+	 * Private constructor for Hibernate to be able to create empty objects
+	 */
+	protected ConceptProposalPackageResponse() {
+		super();
+	}
+	
+	/**
 	 * Create the server side Concept Proposal Package Response based on the proposer submitted Concept 
 	 * Proposal Package.  This changes the status of the proposal to reflect that this is in the first state 
 	 * of the server side workflow

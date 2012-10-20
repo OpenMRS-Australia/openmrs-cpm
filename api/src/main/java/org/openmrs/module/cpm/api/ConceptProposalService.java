@@ -52,7 +52,7 @@ public interface ConceptProposalService extends OpenmrsService {
 	 */
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage getConceptProposalPackageById(Integer id) throws APIException;
+	ConceptProposalPackage getConceptProposalPackageById(Integer id) throws APIException;
 	
 	/**
 	 * Gets a specific ConceptProposalPackage by its uuid (uuid field in the class, uuid in the
@@ -65,7 +65,7 @@ public interface ConceptProposalService extends OpenmrsService {
 	 */
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage getConceptProposalPackageByUuid(String uuid) throws APIException;
+	ConceptProposalPackage getConceptProposalPackageByUuid(String uuid) throws APIException;
 	
 	/**
 	 * Saves a ConceptProposalPackage including references to all of the individual
@@ -121,7 +121,7 @@ public interface ConceptProposalService extends OpenmrsService {
 	 */
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage getConceptProposalPackageResponseById(Integer id) throws APIException;
+	ConceptProposalPackageResponse getConceptProposalPackageResponseById(Integer id) throws APIException;
 	
 	/**
 	 * Gets a specific ConceptProposalPackage by its uuid (uuid field in the class, uuid in the
@@ -134,7 +134,7 @@ public interface ConceptProposalService extends OpenmrsService {
 	 */
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage getConceptProposalPackageResponseByProposalUuid(String uuid) throws APIException;
+	ConceptProposalPackageResponse getConceptProposalPackageResponseByProposalUuid(String uuid) throws APIException;
 	
 	/**
 	 * Saves a ConceptProposalPackage including references to all of the individual
@@ -149,7 +149,7 @@ public interface ConceptProposalService extends OpenmrsService {
 	 */
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage saveConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackage) throws APIException;
+	ConceptProposalPackageResponse saveConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackage) throws APIException;
 	
 	/**
 	 * Deletes a ConceptProposalPackage including references to all of the individual

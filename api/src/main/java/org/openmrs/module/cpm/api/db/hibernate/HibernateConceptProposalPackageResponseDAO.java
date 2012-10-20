@@ -39,11 +39,16 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 */
 	@Override
 	public ConceptProposalPackageResponse getConceptProposalPackageResponseById(Integer id) {
-		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.id = :id");
-		query.setInteger("id", id);
-		ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
-		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseById returned: " + result); }
-		return result;
+		if (id != null) {
+			Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.id = :id");
+			query.setInteger("id", id);
+			ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
+			if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseById returned: " + result); }
+			return result;
+		} else {
+			log.warn("Attempting to get package with null id");
+			return null;
+		}
 	}
 	
 	/**
@@ -51,11 +56,16 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 */
 	@Override
 	public ConceptProposalPackageResponse getConceptProposalPackageResponseByProposalUuid(String uuid) {
-		Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.conceptProposalUuid = :uuid");
-		query.setString("uuid", uuid);
-		ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
-		if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseByProposalUuid returned: " + result); }
-		return result;
+		if (uuid != null) {
+			Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.conceptProposalPackageUuid = :uuid");
+			query.setString("uuid", uuid);
+			ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
+			if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseByProposalUuid returned: " + result); }
+			return result;
+		} else {
+			log.warn("Attempting to get package with null uuid");
+			return null;
+		}
 	}
 	
 	/**
@@ -63,8 +73,13 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 */
 	@Override
 	public ConceptProposalPackageResponse saveConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackageResponse) {
-		sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageResponse);
-		return conceptPackageResponse; 
+		if (conceptPackageResponse != null) {
+			sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageResponse);
+			return conceptPackageResponse; 
+		} else {
+			log.warn("Attempting to delete null package");
+			return null;
+		}
 	}
 	
 	/**
@@ -72,7 +87,12 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 */
 	@Override
 	public void deleteConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackageResponse) {
-		sessionFactory.getCurrentSession().delete(conceptPackageResponse);
+		if (conceptPackageResponse != null) {
+			sessionFactory.getCurrentSession().delete(conceptPackageResponse);
+		} else {
+			log.warn("Attempting to delete null package");
+		}
+		
 	}
 
 
