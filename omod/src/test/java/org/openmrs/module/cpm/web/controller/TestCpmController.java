@@ -12,8 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ConceptProposalPackage;
-import org.openmrs.module.cpm.api.ConceptProposalService;
+import org.openmrs.module.cpm.ProposedConceptPackage;
+import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
@@ -58,13 +58,13 @@ public class TestCpmController extends BaseModuleContextSensitiveTest {
 
 		exception.expect(HttpMediaTypeNotAcceptableException.class);
 
-		final List<ConceptProposalPackage> packageList = new ArrayList<ConceptProposalPackage>();
+		final List<ProposedConceptPackage> packageList = new ArrayList<ProposedConceptPackage>();
 
-		final ConceptProposalService cpServiceMock = mock(ConceptProposalService.class);
-		when(cpServiceMock.getAllConceptProposalPackages()).thenReturn(packageList);
+		final ProposedConceptService cpServiceMock = mock(ProposedConceptService.class);
+		when(cpServiceMock.getAllProposedConceptPackages()).thenReturn(packageList);
 
 		mockStatic(Context.class);
-		when(Context.getService(ConceptProposalService.class)).thenReturn(cpServiceMock);
+		when(Context.getService(ProposedConceptService.class)).thenReturn(cpServiceMock);
 
 		request = new MockHttpServletRequest("GET", "/module/cpm/rest/proposals.list");
 		request.addHeader("Accept", "application/json");

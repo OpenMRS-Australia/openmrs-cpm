@@ -15,9 +15,9 @@ import org.openmrs.User;
  * 
  * @see ConceptProposalReview
  */
-public class ConceptProposal extends ShareableProposal {
+public class ProposedConcept extends ShareableProposal {
 	
-	private static Log log = LogFactory.getLog(ConceptProposal.class);
+	private static Log log = LogFactory.getLog(ProposedConcept.class);
 	
 	private Integer conceptProposalId;
 	private User createdBy;
@@ -26,9 +26,9 @@ public class ConceptProposal extends ShareableProposal {
 	private Date dateChanged;
 	private Integer version;
 	
-	public ConceptProposal() {
+	public ProposedConcept() {
 		super();
-		log.debug("Creating a ConceptProposal");
+		log.debug("Creating a ProposedConcept");
 		
 		this.dateCreated = new Date();
 		this.dateChanged = new Date();

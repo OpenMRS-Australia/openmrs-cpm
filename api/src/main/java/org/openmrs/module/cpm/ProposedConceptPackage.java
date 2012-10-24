@@ -12,9 +12,9 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ConceptProposalPackage extends ShareablePackage {
+public class ProposedConceptPackage extends ShareablePackage {
 
-	private static Log log = LogFactory.getLog(ConceptProposalPackage.class);
+	private static Log log = LogFactory.getLog(ProposedConceptPackage.class);
 
 	private Integer conceptProposalPackageId;
 	private User createdBy;
@@ -27,9 +27,9 @@ public class ConceptProposalPackage extends ShareablePackage {
 	 * Constructors
 	 */
 
-	public ConceptProposalPackage() {
+	public ProposedConceptPackage() {
 		super();
-		log.debug("Creating a ConceptProposalPackage");
+		log.debug("Creating a ProposedConceptPackage");
 		
 		this.dateCreated = new Date();
 		this.dateChanged = new Date();
@@ -98,7 +98,7 @@ public class ConceptProposalPackage extends ShareablePackage {
     @Override
     public String toString() {
     	final StringBuffer appender = new StringBuffer();
-    	appender.append("ConceptProposalPackage(");
+    	appender.append("ProposedConceptPackage(");
     	appender.append(getId() + "," + getEmail());
     	appender.append(")");
     	appender.append(super.toString());

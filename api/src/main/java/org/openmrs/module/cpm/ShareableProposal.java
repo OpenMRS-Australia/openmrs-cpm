@@ -18,6 +18,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 
 	private String name;
 	private String description;
+	private ShareablePackage proposedConceptPackage;
 	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
 	private ProposalStatus status = ProposalStatus.DRAFT;
 
@@ -40,6 +41,14 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	this.description = description;
     }
     
+	public ShareablePackage getProposedConceptPackage() {
+		return proposedConceptPackage;
+	}
+	
+	public void setProposedConceptPackage(ShareablePackage proposedConceptPackage) {
+		this.proposedConceptPackage = proposedConceptPackage;
+	}
+	
 	public Set<ShareableComment> getComments() {
     	return comments;
     }

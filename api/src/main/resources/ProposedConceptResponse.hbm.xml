@@ -1,12 +1,14 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="org.openmrs.module.cpm">
-	<class name="ConceptProposalResponse" table="cpm_concept_proposal_response">
-		<id name="id" type="int" column="cpm_concept_proposal_response_id" unsaved-value="0">
+<hibernate-mapping package="org.openmrs.module.cpm" auto-import="true">
+
+	<class name="ProposedConceptResponse" table="cpm_proposed_concept_response">
+		<id name="id" type="int" column="cpm_proposed_concept_response_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
+		<many-to-one name="proposedConceptPackage" class="ProposedConceptPackageResponse" column="cpm_proposed_package_response_id" not-null="true" />
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
-		<property name="conceptProposalUuid" type="java.lang.String" column="cpm_concept_proposal_uuid" length="38" unique="true" />		
+		<property name="proposedConceptUuid" type="java.lang.String" column="cpm_proposed_concept_uuid" length="38" unique="true" />		
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" not-null="true" />
 		<many-to-one name="createdBy" column="createdBy" class="org.openmrs.User"/>
@@ -21,4 +23,5 @@
 			</type>
 		</property>
 	</class>
+	
 </hibernate-mapping>

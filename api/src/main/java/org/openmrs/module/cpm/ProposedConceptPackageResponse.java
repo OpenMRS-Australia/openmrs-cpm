@@ -14,12 +14,12 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ConceptProposalPackageResponse extends ShareablePackage {
+public class ProposedConceptPackageResponse extends ShareablePackage {
 	
-	private static Log log = LogFactory.getLog(ConceptProposalPackageResponse.class);
+	private static Log log = LogFactory.getLog(ProposedConceptPackageResponse.class);
 
 	private Integer conceptProposalPackageId;
-	private String conceptProposalPackageUuid;
+	private String proposedConceptPackageUuid;
 	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
@@ -29,7 +29,7 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 	/**
 	 * Private constructor for Hibernate to be able to create empty objects
 	 */
-	protected ConceptProposalPackageResponse() {
+	protected ProposedConceptPackageResponse() {
 		super();
 	}
 	
@@ -41,9 +41,9 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 	 * @param shareablePackage The Concept Proposal Package submitted by a client side proposer
 	 */
 	
-	public ConceptProposalPackageResponse(final ShareablePackage shareablePackage) {
+	public ProposedConceptPackageResponse(final ShareablePackage shareablePackage) {
 		super();
-		log.debug("Creating a ConceptProposalPackageResponse from: " + shareablePackage);
+		log.debug("Creating a ProposedConceptPackageResponse from: " + shareablePackage);
 
 		this.setName(shareablePackage.getName());
 		this.setEmail(shareablePackage.getEmail());
@@ -53,11 +53,11 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 		if (shareablePackage.getProposedConcepts() != null) {
 			Set<ShareableProposal> proposedConceptResponses = this.getProposedConcepts();
 			
-			// For each of the proposals in the submitted ConceptProposalPackage we create and equivalent 
+			// For each of the proposals in the submitted ProposedConceptPackage we create and equivalent 
 			// response item that will allow us to record additional details
 			
 			for (ShareableProposal currentProposal : shareablePackage.getProposedConcepts()) {
-				ConceptProposalResponse proposalResponse  = new ConceptProposalResponse(currentProposal);
+				ProposedConceptResponse proposalResponse  = new ProposedConceptResponse(currentProposal);
 				proposedConceptResponses.add(proposalResponse);
 			}
 		}
@@ -74,12 +74,12 @@ public class ConceptProposalPackageResponse extends ShareablePackage {
 	}
 
 	
-    public String getConceptProposalPackageUuid() {
-    	return conceptProposalPackageUuid;
+    public String getProposedConceptPackageUuid() {
+    	return proposedConceptPackageUuid;
     }
 	
-    public void setConceptProposalPackageUuid(final String conceptProposalPackageUuid) {
-    	this.conceptProposalPackageUuid = conceptProposalPackageUuid;
+    public void setProposedConceptPackageUuid(final String proposedConceptPackageUuid) {
+    	this.proposedConceptPackageUuid = proposedConceptPackageUuid;
     }
 
 	public Date getDateCreated() {

@@ -6,18 +6,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.openmrs.module.cpm.ConceptProposalPackageResponse;
-import org.openmrs.module.cpm.api.db.ConceptProposalPackageResponseDAO;
+import org.openmrs.module.cpm.ProposedConceptPackageResponse;
+import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * Hibernate specific database methods for {@link ConceptProposalPackageResponseDAO}
+ * Hibernate specific database methods for {@link ProposedConceptPackageResponseDAO}
  */
 @Repository
-public class HibernateConceptProposalPackageResponseDAO implements ConceptProposalPackageResponseDAO {
+public class HibernateProposedConceptPackageResponseDAO implements ProposedConceptPackageResponseDAO {
 	
-	private static Log log = LogFactory.getLog(HibernateConceptProposalPackageDAO.class);
+	private static Log log = LogFactory.getLog(HibernateProposedConceptPackageDAO.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -26,9 +26,9 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getAllConceptProposalPackageResponses()
 	 */
 	@Override
-	public List<ConceptProposalPackageResponse> getAllConceptProposalPackageResponses() {
+	public List<ProposedConceptPackageResponse> getAllConceptProposalPackageResponses() {
 		@SuppressWarnings("unchecked")
-        List<ConceptProposalPackageResponse> result = (List<ConceptProposalPackageResponse>) sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse").list();
+        List<ProposedConceptPackageResponse> result = (List<ProposedConceptPackageResponse>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackageResponse").list();
 		if (log.isDebugEnabled()) { log.info("getAllConceptProposalPackageResponses returned: " + result.size() + " results");
 		}
 		return result;
@@ -38,11 +38,11 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getConceptProposalPackageResponseById(Integer id)
 	 */
 	@Override
-	public ConceptProposalPackageResponse getConceptProposalPackageResponseById(Integer id) {
+	public ProposedConceptPackageResponse getConceptProposalPackageResponseById(Integer id) {
 		if (id != null) {
-			Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.id = :id");
+			Query query = sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackageResponse package where package.id = :id");
 			query.setInteger("id", id);
-			ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
+			ProposedConceptPackageResponse result = (ProposedConceptPackageResponse) query.uniqueResult();
 			if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseById returned: " + result); }
 			return result;
 		} else {
@@ -55,11 +55,11 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getConceptProposalPackageResponseByProposalUuid(Integer uuid)
 	 */
 	@Override
-	public ConceptProposalPackageResponse getConceptProposalPackageResponseByProposalUuid(String uuid) {
+	public ProposedConceptPackageResponse getConceptProposalPackageResponseByProposalUuid(String uuid) {
 		if (uuid != null) {
-			Query query = sessionFactory.getCurrentSession().createQuery("from ConceptProposalPackageResponse package where package.conceptProposalPackageUuid = :uuid");
+			Query query = sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackageResponse package where package.proposedConceptPackageUuid = :uuid");
 			query.setString("uuid", uuid);
-			ConceptProposalPackageResponse result = (ConceptProposalPackageResponse) query.uniqueResult();
+			ProposedConceptPackageResponse result = (ProposedConceptPackageResponse) query.uniqueResult();
 			if (log.isDebugEnabled()) { log.debug("getConceptProposalPackageResponseByProposalUuid returned: " + result); }
 			return result;
 		} else {
@@ -69,10 +69,10 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.saveConceptProposalPackageResponse(ConceptProposalPackage conceptPackageResponse)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.saveConceptProposalPackageResponse(ProposedConceptPackage conceptPackageResponse)
 	 */
 	@Override
-	public ConceptProposalPackageResponse saveConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackageResponse) {
+	public ProposedConceptPackageResponse saveConceptProposalPackageResponse(ProposedConceptPackageResponse conceptPackageResponse) {
 		if (conceptPackageResponse != null) {
 			sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageResponse);
 			return conceptPackageResponse; 
@@ -83,10 +83,10 @@ public class HibernateConceptProposalPackageResponseDAO implements ConceptPropos
 	}
 	
 	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.deleteConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackageResponse)
+	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.deleteConceptProposalPackageResponse(ProposedConceptPackageResponse conceptPackageResponse)
 	 */
 	@Override
-	public void deleteConceptProposalPackageResponse(ConceptProposalPackageResponse conceptPackageResponse) {
+	public void deleteConceptProposalPackageResponse(ProposedConceptPackageResponse conceptPackageResponse) {
 		if (conceptPackageResponse != null) {
 			sessionFactory.getCurrentSession().delete(conceptPackageResponse);
 		} else {

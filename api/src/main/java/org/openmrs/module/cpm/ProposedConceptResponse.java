@@ -14,12 +14,12 @@ import org.openmrs.User;
  * 
  * @see ConceptProposalReview
  */
-public class ConceptProposalResponse extends ShareableProposal {
+public class ProposedConceptResponse extends ShareableProposal {
 	
-	private static Log log = LogFactory.getLog(ConceptProposalResponse.class);
+	private static Log log = LogFactory.getLog(ProposedConceptResponse.class);
 	
 	private Integer conceptProposalResponseId;
-	private String conceptProposalUuid;
+	private String proposedConceptUuid;
 	private User createdBy;
 	private Date dateCreated;
 	private User changedBy;
@@ -29,7 +29,7 @@ public class ConceptProposalResponse extends ShareableProposal {
 	/**
 	 * Private constructore for Hibernate
 	 */
-	protected ConceptProposalResponse() {
+	protected ProposedConceptResponse() {
 		super();
 	}
 	
@@ -40,12 +40,12 @@ public class ConceptProposalResponse extends ShareableProposal {
 	 * 
 	 * @param shareableProposal The Concept Proposal submitted by a client side proposer
 	 */
-	public ConceptProposalResponse(ShareableProposal shareableProposal) {
+	public ProposedConceptResponse(ShareableProposal shareableProposal) {
 		super();
-		log.debug("Creating a new ConceptProposalResponse from: " + shareableProposal);
+		log.debug("Creating a new ProposedConceptResponse from: " + shareableProposal);
 		
 		this.setName(shareableProposal.getName());
-		this.setConceptProposalUuid(shareableProposal.getUuid());
+		this.setProposedConceptUuid(shareableProposal.getUuid());
 		this.setComments(shareableProposal.getComments());
 		this.setStatus(ProposalStatus.RECEIVED);		
 	}
@@ -58,12 +58,12 @@ public class ConceptProposalResponse extends ShareableProposal {
 		this.conceptProposalResponseId = id;
 	}
 	
-	public String getConceptProposalUuid() {
-		return conceptProposalUuid;
+	public String getProposedConceptUuid() {
+		return proposedConceptUuid;
 	}
 	
-	public void setConceptProposalUuid(final String conceptProposalUuid) {
-		this.conceptProposalUuid = conceptProposalUuid;
+	public void setProposedConceptUuid(final String proposedConceptUuid) {
+		this.proposedConceptUuid = proposedConceptUuid;
 	}
 		
 	public User getCreatedBy() {
