@@ -9,11 +9,7 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_initialization_3" author="flashard">
-    	
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-    	
-  		<dropTable tableName="cpm_proposed_package"/>
+    <changeSet id="cpm_2012-10-24-1" author="flashard">
     	
         <createTable tableName="cpm_proposed_package">
             <column autoIncrement="true" name="cpm_proposed_package_id" type="int">
@@ -52,10 +48,6 @@
             </column>
         </createTable>
 
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_proposed_concept"/>
-    	
         <createTable tableName="cpm_proposed_concept">
             <column autoIncrement="true" name="cpm_proposed_concept_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -89,13 +81,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-    	
-  		<dropTable tableName="cpm_proposed_package_response"/>
-    	
-        <createTable tableName="cpm_proposed_package_response">
-            <column autoIncrement="true" name="cpm_proposed_package_response_id" type="int">
+
+        <createTable tableName="cpm_concept_package_response">
+            <column autoIncrement="true" name="cpm_concept_package_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -131,10 +119,6 @@
             </column>
         </createTable>
 
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_proposed_concept_response"/>
-    	
         <createTable tableName="cpm_proposed_concept_response">
             <column autoIncrement="true" name="cpm_proposed_concept_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
