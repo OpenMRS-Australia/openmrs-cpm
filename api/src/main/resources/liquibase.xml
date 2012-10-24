@@ -9,11 +9,7 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_initialization_3" author="flashard">
-    	
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-    	
-  		<dropTable tableName="cpm_concept_package"/>
+    <changeSet id="cpm_2012-10-24-1" author="flashard">
     	
         <createTable tableName="cpm_concept_package">
             <column autoIncrement="true" name="cpm_concept_package_id" type="int">
@@ -52,10 +48,6 @@
             </column>
         </createTable>
 
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_concept_proposal"/>
-    	
         <createTable tableName="cpm_concept_proposal">
             <column autoIncrement="true" name="cpm_concept_proposal_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -87,10 +79,6 @@
             </column>
         </createTable>
 
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_concept_package_proposal"/>
-
         <createTable tableName="cpm_concept_package_proposal">
             <column name="cpm_concept_package_id" type="int">
                 <constraints nullable="false"/>
@@ -100,10 +88,6 @@
             </column>
         </createTable>
         
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-    	
-  		<dropTable tableName="cpm_concept_package_response"/>
-    	
         <createTable tableName="cpm_concept_package_response">
             <column autoIncrement="true" name="cpm_concept_package_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -141,10 +125,6 @@
             </column>
         </createTable>
 
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_concept_proposal_response"/>
-    	
         <createTable tableName="cpm_concept_proposal_response">
             <column autoIncrement="true" name="cpm_concept_proposal_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
@@ -178,10 +158,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-    	<!-- Dropping table for the moment - as it will allow a rebuilt of the data model by changing the ID of the changeset -->
-
-  		<dropTable tableName="cpm_concept_package_response_proposal"/>
 
         <createTable tableName="cpm_concept_package_response_proposal">
             <column name="cpm_concept_package_response_id" type="int">
