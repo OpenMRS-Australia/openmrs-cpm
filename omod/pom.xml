@@ -96,24 +96,11 @@
 		
 		<dependency>
 			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
+			<artifactId>powermock-module-junit4-rule-agent</artifactId>
 			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-      		<groupId>org.powermock</groupId>
-      		<artifactId>powermock-api-mockito</artifactId>
-      		<version>${powermock.version}</version>
-      		<scope>test</scope>
-      	</dependency>
-      	
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4-rule</artifactId>
-			<version>${powermock.version}</version>
-		</dependency>      	
-      	 
 	</dependencies>
 
 	<build>
