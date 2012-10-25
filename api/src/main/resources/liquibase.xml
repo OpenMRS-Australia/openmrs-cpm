@@ -12,7 +12,7 @@
     <changeSet id="cpm_2012-10-24-1" author="flashard">
     	
         <createTable tableName="cpm_proposed_package">
-            <column autoIncrement="true" name="cpm_proposed_package_id" type="int">
+            <column autoIncrement="true" name="cpm_proposed_concept_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -52,7 +52,7 @@
             <column autoIncrement="true" name="cpm_proposed_concept_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="cpm_proposed_package_id" type="int">
+            <column name="cpm_proposed_concept_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -82,14 +82,14 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_concept_package_response">
-            <column autoIncrement="true" name="cpm_concept_package_response_id" type="int">
+        <createTable tableName="cpm_concept_response_package">
+            <column autoIncrement="true" name="cpm_concept_response_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
-            <column name="cpm_proposed_package_uuid" type="varchar(38)">
+            <column name="cpm_proposed_concept_package_uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -123,7 +123,7 @@
             <column autoIncrement="true" name="cpm_proposed_concept_response_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="cpm_proposed_package_response_id" type="int">
+            <column name="cpm_proposed_concept_response_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">

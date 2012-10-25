@@ -6,7 +6,7 @@
 		<id name="id" type="int" column="cpm_proposed_concept_response_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<many-to-one name="proposedConceptPackage" class="ProposedConceptPackageResponse" column="cpm_proposed_package_response_id" not-null="true" />
+		<many-to-one name="proposedConceptPackage" class="ProposedConceptResponsePackage" column="cpm_proposed_concept_response_package_id" not-null="true" />
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
 		<property name="proposedConceptUuid" type="java.lang.String" column="cpm_proposed_concept_uuid" length="38" unique="true" />		
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 

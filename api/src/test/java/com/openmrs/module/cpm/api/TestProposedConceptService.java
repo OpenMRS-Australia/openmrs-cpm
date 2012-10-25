@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptPackageResponse;
+import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 
@@ -62,8 +62,8 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	 *
 	 * @return new mock concept package response
 	 */
-	protected ProposedConceptPackageResponse getMockProposedConceptPackageResponse(Integer id, String name) {
-		ProposedConceptPackageResponse conceptPackageResponse = new ProposedConceptPackageResponse(getMockProposedConceptPackage(id,name));
+	protected ProposedConceptResponsePackage getMockProposedConceptPackageResponse(Integer id, String name) {
+		ProposedConceptResponsePackage conceptPackageResponse = new ProposedConceptResponsePackage(getMockProposedConceptPackage(id,name));
 		conceptPackageResponse.setId(id);
 		conceptPackageResponse.setName(name);
 		conceptPackageResponse.setVersion(0);
@@ -217,39 +217,39 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	
 	@Test
 	public void getAllProposedConceptPackageResponses_basicRetrieval() throws Exception {
-	    List<ProposedConceptPackageResponse> packages = service.getAllProposedConceptPackageResponses();
+	    List<ProposedConceptResponsePackage> packages = service.getAllProposedConceptResponsePackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(2, packages.size());
 	}
 
 	@Test
 	public void getAllProposedConceptPackageResponses_emptyRetrieval() throws Exception {
-	    List<ProposedConceptPackageResponse> packages = service.getAllProposedConceptPackageResponses();
-	    for (ProposedConceptPackageResponse currentPackage : packages) {
-	    	service.deleteProposedConceptPackageResponse(currentPackage);
+	    List<ProposedConceptResponsePackage> packages = service.getAllProposedConceptResponsePackages();
+	    for (ProposedConceptResponsePackage currentPackage : packages) {
+	    	service.deleteProposedConceptResponsePackage(currentPackage);
 	    }
 		
-	    packages = service.getAllProposedConceptPackageResponses();
+	    packages = service.getAllProposedConceptResponsePackages();
 		log.info("Retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(0, packages.size());
 	}
 	
 	@Test
 	public void getAllProposedConceptPackageResponses_insertedRetrieval() throws Exception {
-		List<ProposedConceptPackageResponse> packages = service.getAllProposedConceptPackageResponses();
+		List<ProposedConceptResponsePackage> packages = service.getAllProposedConceptResponsePackages();
 		log.info("Before - retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(2, packages.size());
 
-		ProposedConceptPackageResponse testPackage = getMockProposedConceptPackageResponse(null, "new package");
-	    service.saveProposedConceptPackageResponse(testPackage);
-	    packages = service.getAllProposedConceptPackageResponses();
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
+	    service.saveProposedConceptResponsePackage(testPackage);
+	    packages = service.getAllProposedConceptResponsePackages();
 		log.info("After - retrieved: " + packages.size() + " packages");
 		Assert.assertEquals(3, packages.size());
 	}
 
 	@Test
 	public void getProposedConceptPackageResponseById_basicRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(1);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
 		Assert.assertEquals("proposer@cpm.com", testPackage.getEmail());
@@ -265,99 +265,99 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	
 	@Test
 	public void getProposedConceptPackageResponseById_emptyRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(0);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(0);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNull(testPackage);
 	}
 
 	@Test
 	public void getProposedConceptPackageResponseById_nullRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(null);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(null);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNull(testPackage);
 	}
 	
 	@Test
 	public void getProposedConceptPackageResponseByProposalUuid_basicRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseByProposalUuid("d0dd9f30-15e7-11e2-892e-0800200c9a66");
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageByProposalUuid("d0dd9f30-15e7-11e2-892e-0800200c9a66");
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
 	}
 	
 	@Test
 	public void getProposedConceptPackageResponseByProposalUuid_emptyRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseByProposalUuid("doesnotexist");
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageByProposalUuid("doesnotexist");
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNull(testPackage);
 	}
 
 	@Test
 	public void getProposedConceptPackageResponseByProposalUuid_nullRetrieval() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseByProposalUuid(null);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageByProposalUuid(null);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNull(testPackage);
 	}
 	
 	@Test
 	public void saveProposedConceptPackageResponse_basicSave() throws Exception {
-		ProposedConceptPackageResponse testPackage = getMockProposedConceptPackageResponse(null, "new package");
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
 		log.info("Before: " + testPackage);
-	    service.saveProposedConceptPackageResponse(testPackage);
+	    service.saveProposedConceptResponsePackage(testPackage);
 		log.info("After: " + testPackage);
 		Assert.assertTrue(testPackage.getId().intValue() >= 3);
 	}
 	
 	@Test
 	public void saveProposedConceptPackageResponse_basicUpdate() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(1);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
 
 		String newName = "New Name";
 		testPackage.setName(newName);
-		service.saveProposedConceptPackageResponse(testPackage);
+		service.saveProposedConceptResponsePackage(testPackage);
 		
-		testPackage = service.getProposedConceptPackageResponseById(1);
+		testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals(newName, testPackage.getName());
 	}
 
 	@Test(expected = PropertyValueException.class)
 	public void saveProposedConceptPackageResponse_nullFieldsException() throws Exception {
-		ProposedConceptPackageResponse testPackage = getMockProposedConceptPackageResponse(null, "new package");
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
 		testPackage.setDescription(null);
 		log.info("Before: " + testPackage);
-	    service.saveProposedConceptPackageResponse(testPackage);
+	    service.saveProposedConceptResponsePackage(testPackage);
 	}
 
 	@Test
 	public void deleteProposedConceptPackageResponse_basicDelete() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(1);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNotNull(testPackage);
-	    service.deleteProposedConceptPackageResponse(testPackage);
+	    service.deleteProposedConceptResponsePackage(testPackage);
 	    
-		testPackage = service.getProposedConceptPackageResponseById(1);
+		testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertNull(testPackage);
 	}
 
 	@Test
 	public void deleteProposedConceptPackageResponse_multipleDelete() throws Exception {
-		ProposedConceptPackageResponse testPackage = service.getProposedConceptPackageResponseById(1);
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Before: " + testPackage);
 		Assert.assertNotNull(testPackage);
-	    service.deleteProposedConceptPackageResponse(testPackage);
+	    service.deleteProposedConceptResponsePackage(testPackage);
 		log.info("After: " + testPackage);
 	    
-	    service.deleteProposedConceptPackageResponse(testPackage);
+	    service.deleteProposedConceptResponsePackage(testPackage);
 	}
 
 	@Test
 	public void deleteProposedConceptPackageResponse_nullDelete() throws Exception {
-		ProposedConceptPackageResponse testPackage = null;
+		ProposedConceptResponsePackage testPackage = null;
 		log.info("Package: " + testPackage);
-	    service.deleteProposedConceptPackageResponse(testPackage);
+	    service.deleteProposedConceptResponsePackage(testPackage);
 	}
 	
 }

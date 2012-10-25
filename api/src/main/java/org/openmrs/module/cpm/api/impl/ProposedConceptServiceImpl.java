@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptPackageResponse;
+import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.api.db.ProposedConceptPackageDAO;
 import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
@@ -55,28 +55,28 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	//	Moving on to all of the services for the server side of the Concept Proposal Module
 	
 	@Override
-	public List<ProposedConceptPackageResponse> getAllProposedConceptPackageResponses() throws APIException {
-		return proposalResponseDao.getAllConceptProposalPackageResponses();
+	public List<ProposedConceptResponsePackage> getAllProposedConceptResponsePackages() throws APIException {
+		return proposalResponseDao.getAllConceptProposalResponsePackages();
 	}
 	
 	@Override
-	public ProposedConceptPackageResponse getProposedConceptPackageResponseById(Integer id) throws APIException {
-		return proposalResponseDao.getConceptProposalPackageResponseById(id);
+	public ProposedConceptResponsePackage getProposedConceptResponsePackageById(Integer id) throws APIException {
+		return proposalResponseDao.getConceptProposalResponsePackageById(id);
 	}
 	
 	@Override
-	public ProposedConceptPackageResponse getProposedConceptPackageResponseByProposalUuid(String uuid) throws APIException {
-		return proposalResponseDao.getConceptProposalPackageResponseByProposalUuid(uuid);
+	public ProposedConceptResponsePackage getProposedConceptResponsePackageByProposalUuid(String uuid) throws APIException {
+		return proposalResponseDao.getConceptProposalResponsePackageByProposalUuid(uuid);
 	}
 	
 	@Override
-	public ProposedConceptPackageResponse saveProposedConceptPackageResponse(ProposedConceptPackageResponse conceptPackageResponse) throws APIException {
-		return proposalResponseDao.saveConceptProposalPackageResponse(conceptPackageResponse);
+	public ProposedConceptResponsePackage saveProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackageResponse) throws APIException {
+		return proposalResponseDao.saveConceptProposalResponsePackage(conceptPackageResponse);
 	}
 	
 	@Override
-	public void deleteProposedConceptPackageResponse(ProposedConceptPackageResponse conceptPackageResponse) throws APIException {
-		proposalResponseDao.deleteConceptProposalPackageResponse(conceptPackageResponse);
+	public void deleteProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackageResponse) throws APIException {
+		proposalResponseDao.deleteConceptProposalResponsePackage(conceptPackageResponse);
 	}
 	
 }

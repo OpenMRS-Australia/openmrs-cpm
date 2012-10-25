@@ -14,9 +14,9 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ProposedConceptPackageResponse extends ShareablePackage {
+public class ProposedConceptResponsePackage extends ShareablePackage {
 	
-	private static Log log = LogFactory.getLog(ProposedConceptPackageResponse.class);
+	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
 
 	private Integer conceptProposalPackageId;
 	private String proposedConceptPackageUuid;
@@ -29,7 +29,7 @@ public class ProposedConceptPackageResponse extends ShareablePackage {
 	/**
 	 * Private constructor for Hibernate to be able to create empty objects
 	 */
-	protected ProposedConceptPackageResponse() {
+	protected ProposedConceptResponsePackage() {
 		super();
 	}
 	
@@ -41,9 +41,9 @@ public class ProposedConceptPackageResponse extends ShareablePackage {
 	 * @param shareablePackage The Concept Proposal Package submitted by a client side proposer
 	 */
 	
-	public ProposedConceptPackageResponse(final ShareablePackage shareablePackage) {
+	public ProposedConceptResponsePackage(final ShareablePackage shareablePackage) {
 		super();
-		log.debug("Creating a ProposedConceptPackageResponse from: " + shareablePackage);
+		log.debug("Creating a ProposedConceptResponsePackage from: " + shareablePackage);
 
 		this.setName(shareablePackage.getName());
 		this.setEmail(shareablePackage.getEmail());

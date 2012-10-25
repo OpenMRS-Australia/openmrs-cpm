@@ -26,10 +26,10 @@
 	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-		ConceptProposal.hbm.xml
-		ConceptProposalResponse.hbm.xml
-		ConceptProposalPackage.hbm.xml
-		ConceptProposalPackageResponse.hbm.xml
+		ProposedConcept.hbm.xml
+		ProposedConceptPackage.hbm.xml
+		ProposedConceptResponse.hbm.xml
+		ProposedConceptResponsePackage.hbm.xml
 	</mappingFiles>
 
 	<!-- Internationalization -->

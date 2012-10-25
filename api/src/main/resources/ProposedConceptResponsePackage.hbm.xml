@@ -2,12 +2,12 @@
 
 <hibernate-mapping package="org.openmrs.module.cpm" auto-import="true">
 
-	<class name="ProposedConceptPackageResponse" table="cpm_proposed_package_response">
-		<id name="id" type="int" column="cpm_proposed_package_response_id" unsaved-value="0">
+	<class name="ProposedConceptResponsePackage" table="cpm_proposed_concept_response_package">
+		<id name="id" type="int" column="cpm_proposed_concept_response_package_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
 		<property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true" />
-		<property name="proposedConceptPackageUuid" type="java.lang.String" column="cpm_proposed_package_uuid" length="38" unique="true" />		
+		<property name="proposedConceptPackageUuid" type="java.lang.String" column="cpm_proposed_concept_package_uuid" length="38" unique="true" />		
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="email" type="java.lang.String" column="email" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" not-null="true" />
@@ -17,7 +17,7 @@
 		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
 		<property name="version" type="java.lang.Integer" column="version" not-null="true" />
 		<set name="proposedConcepts" cascade="all" inverse="true">
-			<key column="cpm_proposed_package_response_id" not-null="true"/>
+			<key column="cpm_proposed_concept_response_package_id" not-null="true"/>
 			<one-to-many class="ProposedConceptResponse"/>
 		</set>
 		<property name="status">
