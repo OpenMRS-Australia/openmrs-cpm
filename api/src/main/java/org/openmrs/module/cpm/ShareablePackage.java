@@ -70,27 +70,28 @@ public abstract class ShareablePackage extends BaseOpenmrsObject {
 	 * Utility methods
 	 */
 	
-	public void addProposedConcept(ShareableProposal proposedConcept) {
+	public void addProposedConcept(final ShareableProposal proposedConcept) {
 		if (proposedConcept == null) {
 			log.warn("Ignoring request to add null concept");
 			return;
 		}
 		if (this.proposedConcepts != null) {
-			log.debug("Adding concept: " + proposedConcept);
+			log.debug("Adding concept: " + proposedConcept + " and adding: " + this + " as its parent");
 			this.proposedConcepts.add(proposedConcept);
+			proposedConcept.setProposedConceptPackage(this);
 		} else {
 			log.warn("Cannot add concept: " + proposedConcept + " to null concept list");
 		}
 	}
 	
-	public void removeProposedConcept(ShareableProposal proposedConcept) {
+	public void removeProposedConcept(final ShareableProposal proposedConcept) {
 		if (proposedConcept == null) {
 			log.warn("Ignoring request to remove null concept");
 			return;
 		}
 		if (this.proposedConcepts != null) {
 			log.debug("Removing concept: " + proposedConcept);
-			this.proposedConcepts.add(proposedConcept);
+			this.proposedConcepts.remove(proposedConcept);
 		} else {
 			log.warn("Cannot remove concept: " + proposedConcept + " to null concept list");
 		}

@@ -12,9 +12,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.PackageStatus;
+import org.openmrs.module.cpm.ProposedConcept;
+import org.openmrs.module.cpm.ProposedConceptPackage;
+import org.openmrs.module.cpm.ProposedConceptResponse;
+import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 
 import com.openmrs.module.cpm.test.CpmBaseContextSensitive;
@@ -68,6 +70,30 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		conceptPackageResponse.setName(name);
 		conceptPackageResponse.setVersion(0);
 		return conceptPackageResponse;
+	}
+	
+	/**
+	 * Creates and returns a new mock concept 
+	 * 
+	 * @throws Exception
+	 */
+	protected ProposedConcept getMockProposedConcept(Integer id, String name, String description) {
+		ProposedConcept proposedConcept = new ProposedConcept();
+		proposedConcept.setId(id);
+		proposedConcept.setName(name);
+		proposedConcept.setDescription(description);
+		return proposedConcept;
+	}
+	
+	/**
+	 * Creates and returns a new mock concept 
+	 * 
+	 * @throws Exception
+	 */
+	protected ProposedConceptResponse getMockProposedConceptResponse(Integer id, ProposedConcept proposedConcept) {
+		ProposedConceptResponse proposedConceptResponse = new ProposedConceptResponse(proposedConcept);
+		proposedConcept.setId(id);
+		return proposedConceptResponse;
 	}
 
 	@Test
@@ -162,6 +188,20 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	}
 	
 	@Test
+	public void saveProposedConceptPackage_saveWithChildConcept() throws Exception {
+		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
+		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description");
+		testPackage.addProposedConcept(concept1);
+		testPackage.addProposedConcept(concept2);
+		
+		log.info("Before: " + testPackage);
+	    service.saveProposedConceptPackage(testPackage);
+		log.info("After: " + testPackage);
+		Assert.assertTrue(testPackage.getId().intValue() >= 3);
+	}
+
+	@Test
 	public void saveProposedConceptPackage_basicUpdate() throws Exception {
 		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
 		log.info("Retrieved: " + testPackage);
@@ -174,6 +214,44 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		testPackage = service.getProposedConceptPackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals(newName, testPackage.getName());
+	}
+
+	@Test
+	public void saveProposedConceptPackage_updateAddChild() throws Exception {
+		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
+
+		String newName = "New Name";
+		testPackage.setName(newName);
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
+		testPackage.addProposedConcept(concept1);
+		service.saveProposedConceptPackage(testPackage);
+		
+		testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals(newName, testPackage.getName());
+		Assert.assertEquals(4, testPackage.getProposedConcepts().size());
+	}
+	
+	@Test
+	public void saveProposedConceptPackage_updateRemoveChild() throws Exception {
+		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
+		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
+
+		String newName = "New Name";
+		testPackage.setName(newName);
+		ProposedConcept proposedConcept = (ProposedConcept) testPackage.getProposedConcepts().iterator().next();
+		log.debug("Removing proposed concept: " + proposedConcept);
+		testPackage.removeProposedConcept(proposedConcept);
+		service.saveProposedConceptPackage(testPackage);
+		
+		testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals(newName, testPackage.getName());
+		Assert.assertEquals(2, testPackage.getProposedConcepts().size());
 	}
 
 	@Test(expected = PropertyValueException.class)
@@ -308,6 +386,37 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	}
 	
 	@Test
+	public void saveProposedConceptPackageResponse_saveFromProposedConceptWithChildConcept() throws Exception {
+		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
+		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description");
+		testPackage.addProposedConcept(concept1);
+		testPackage.addProposedConcept(concept2);
+		
+		ProposedConceptResponsePackage testResponsePackage = new ProposedConceptResponsePackage(testPackage);
+		
+		log.info("Before: " + testResponsePackage);
+	    service.saveProposedConceptResponsePackage(testResponsePackage);
+		log.info("After: " + testResponsePackage);
+		Assert.assertTrue(testResponsePackage.getId().intValue() >= 3);
+	}
+	
+	@Test
+	public void saveProposedConceptPackageResponse_saveWithChildren() throws Exception {
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
+		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description"));
+		ProposedConceptResponse concept2 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 2", "concept 2 description"));
+		testPackage.addProposedConcept(concept1);
+		testPackage.addProposedConcept(concept2);
+
+		log.info("Before: " + testPackage);
+	    service.saveProposedConceptResponsePackage(testPackage);
+		log.info("After: " + testPackage);
+		Assert.assertTrue(testPackage.getId().intValue() >= 3);
+	}
+	
+
+	@Test
 	public void saveProposedConceptPackageResponse_basicUpdate() throws Exception {
 		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
@@ -320,6 +429,44 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		testPackage = service.getProposedConceptResponsePackageById(1);
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals(newName, testPackage.getName());
+	}
+
+	@Test
+	public void saveProposedConceptPackageResponse_updateAddChild() throws Exception {
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
+		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description"));
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
+
+		String newName = "New Name";
+		testPackage.setName(newName);
+		testPackage.addProposedConcept(concept1);
+		service.saveProposedConceptResponsePackage(testPackage);
+		
+		testPackage = service.getProposedConceptResponsePackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals(newName, testPackage.getName());
+		Assert.assertEquals(4, testPackage.getProposedConcepts().size());
+	}
+
+	@Test
+	public void saveProposedConceptPackageResponse_updateRemoveChild() throws Exception {
+		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
+
+		String newName = "New Name";
+		ProposedConceptResponse testResponse = (ProposedConceptResponse) testPackage.getProposedConcepts().iterator().next();
+		log.debug("Removing proposed concept response: " + testResponse);
+		
+		testPackage.setName(newName);
+		testPackage.removeProposedConcept(testResponse);
+		service.saveProposedConceptResponsePackage(testPackage);
+		
+		testPackage = service.getProposedConceptResponsePackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals(newName, testPackage.getName());
+		Assert.assertEquals(2, testPackage.getProposedConcepts().size());
 	}
 
 	@Test(expected = PropertyValueException.class)

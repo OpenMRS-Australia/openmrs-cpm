@@ -9,9 +9,9 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_2012-10-24-1" author="flashard">
+    <changeSet id="cpm_2012-10-24-5" author="flashard">
     	
-        <createTable tableName="cpm_proposed_package">
+        <createTable tableName="cpm_proposed_concept_package">
             <column autoIncrement="true" name="cpm_proposed_concept_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -25,9 +25,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(1000)"/>
-            <column name="creator" type="int">
-                <constraints nullable="false"/>
-            </column>
             <column name="createdBy" type="int">
                 <constraints nullable="false"/>
             </column>
@@ -62,18 +59,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(1000)"/>
-            <column name="creator" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="date_created" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="changedBy" type="int">
-                <constraints nullable="true"/>
-            </column>
-            <column name="date_changed" type="DATETIME">
-                <constraints nullable="true"/>
-            </column>
             <column name="version" type="int">
                 <constraints nullable="false"/>
             </column>
@@ -82,8 +67,8 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_concept_response_package">
-            <column autoIncrement="true" name="cpm_concept_response_package_id" type="int">
+        <createTable tableName="cpm_proposed_concept_response_package">
+            <column autoIncrement="true" name="cpm_proposed_concept_response_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -136,18 +121,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(1000)"/>
-            <column name="creator" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="date_created" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="changedBy" type="int">
-                <constraints nullable="true"/>
-            </column>
-            <column name="date_changed" type="DATETIME">
-                <constraints nullable="true"/>
-            </column>
             <column name="version" type="int">
                 <constraints nullable="false"/>
             </column>

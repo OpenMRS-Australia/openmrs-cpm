@@ -11,10 +11,6 @@
 		<property name="proposedConceptUuid" type="java.lang.String" column="cpm_proposed_concept_uuid" length="38" unique="true" />		
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" not-null="true" />
-		<many-to-one name="createdBy" column="createdBy" class="org.openmrs.User"/>
-		<many-to-one name="changedBy" column="changedBy" class="org.openmrs.User"/>
-		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
-		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />
 		<property name="version" type="java.lang.Integer" column="version" not-null="true" />
 		<property name="status">
 			<type name="org.hibernate.type.EnumType">

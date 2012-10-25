@@ -1,6 +1,8 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="org.openmrs.*" %>
 <%@ page import="org.openmrs.api.context.*" %>
+<%@ page import="org.openmrs.api.*" %>
 <%@ page import="org.openmrs.module.cpm.*" %>
 <%@ page import="org.openmrs.module.cpm.api.*" %>
 
@@ -23,6 +25,7 @@
 	final String TEST_DATE_DISPLAY_FORMAT = "yyyy-MM-dd HH:mm:ss.S z G";
 	
 	ProposedConceptService service = Context.getService(ProposedConceptService.class);
+	UserService userService = Context.getService(UserService.class);
 	SimpleDateFormat formatter = new SimpleDateFormat(TEST_DATE_FORMAT);
 	SimpleDateFormat comparator = new SimpleDateFormat(TEST_DATE_DISPLAY_FORMAT);
 
@@ -34,39 +37,53 @@
 	ProposedConceptResponsePackage testResponsePackage = null;
 
 	service = Context.getService(ProposedConceptService.class);
+	User owner = userService.getUser(1);
 
 	conceptPackage = new ProposedConceptPackage();
 	conceptPackage.setId(0);
+	conceptPackage.setCreatedBy(owner);
 	conceptPackage.setName("name");
 	conceptPackage.setDescription("description");
 	conceptPackage.setEmail("test@test.com");
 	conceptPackage.setVersion(0);
 
+	ProposedConcept concept1 = new ProposedConcept();
+	concept1.setName("concept1");
+	concept1.setDescription("description");
+	concept1.setProposedConceptPackage(conceptPackage);
+
+	ProposedConcept concept2 = new ProposedConcept();
+	concept2.setName("concept2");
+	concept2.setDescription("description");
+	concept2.setProposedConceptPackage(conceptPackage);
+	
+	conceptPackage.addProposedConcept(concept1);
+	conceptPackage.addProposedConcept(concept2);
+
 	conceptResponsePackage = new ProposedConceptResponsePackage(conceptPackage);
 	conceptResponsePackage.setId(0);
+	conceptResponsePackage.setProposedConceptPackageUuid(conceptPackage.getUuid());
+	conceptResponsePackage.setCreatedBy(owner);
 	conceptResponsePackage.setName("description");
 	conceptResponsePackage.setVersion(0);
+	
 
 	// Start by saving a pckage
 	
 	service.saveProposedConceptPackage(conceptPackage);
 	
 	// Then retrieve all the existing packages
+	
 	packages = service.getAllProposedConceptPackages();
 
 	// Then retrieve it by ID
 	
 	testPackage = service.getProposedConceptPackageById(1);
-
-	// Then retrieve it by UUID
-	
-	testPackage = service.getProposedConceptPackageById(null);
 	
 	// Then delete it
 	
 	service.deleteProposedConceptPackage(testPackage);
 	    
-	
 	
 	// Start by saving a pckage
 	
@@ -79,14 +96,10 @@
 	// Then retrieve it by ID
 	
 	testResponsePackage = service.getProposedConceptResponsePackageById(1);
-
-	// Then retrieve it by UUID
-	
-	testResponsePackage = service.getProposedConceptResponsePackageById(null);
 	
 	// Then delete it
 	
 	service.deleteProposedConceptResponsePackage(testResponsePackage);
 %>
 </body>
-</html>
+<%=conceptPackage.toString()%>

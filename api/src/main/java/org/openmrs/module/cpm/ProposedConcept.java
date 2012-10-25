@@ -1,10 +1,7 @@
 package org.openmrs.module.cpm;
 
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.User;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the proposers side
@@ -20,18 +17,11 @@ public class ProposedConcept extends ShareableProposal {
 	private static Log log = LogFactory.getLog(ProposedConcept.class);
 	
 	private Integer conceptProposalId;
-	private User createdBy;
-	private Date dateCreated;
-	private User changedBy;
-	private Date dateChanged;
 	private Integer version;
 	
 	public ProposedConcept() {
 		super();
 		log.debug("Creating a ProposedConcept");
-		
-		this.dateCreated = new Date();
-		this.dateChanged = new Date();
 		this.version = 0;
 	}
 	
@@ -43,38 +33,6 @@ public class ProposedConcept extends ShareableProposal {
 		this.conceptProposalId = id;
 	}
 		
-	public User getCreatedBy() {
-		return createdBy;
-	}
-	
-	public void setCreatedBy(final User createdBy) {
-		this.createdBy = createdBy;
-	}
-	
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-	
-	public void setDateCreated(final Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-	
-	public User getChangedBy() {
-		return changedBy;
-	}
-	
-	public void setChangedBy(final User changedBy) {
-		this.changedBy = changedBy;
-	}
-	
-	public Date getDateChanged() {
-		return dateChanged;
-	}
-	
-	public void setDateChanged(final Date dateChanged) {
-		this.dateChanged = dateChanged;
-	}
-	
 	public Integer getVersion() {
 		return version;
 	}

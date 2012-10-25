@@ -29,7 +29,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	return name;
     }
 	
-    public void setName(String name) {
+    public void setName(final String name) {
     	this.name = name;
     }
     
@@ -37,7 +37,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	return description;
     }
 	
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
     	this.description = description;
     }
     
@@ -45,7 +45,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 		return proposedConceptPackage;
 	}
 	
-	public void setProposedConceptPackage(ShareablePackage proposedConceptPackage) {
+	public void setProposedConceptPackage(final ShareablePackage proposedConceptPackage) {
 		this.proposedConceptPackage = proposedConceptPackage;
 	}
 	
@@ -53,7 +53,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	return comments;
     }
 
-    public void setComments(Set<ShareableComment> comments) {
+    public void setComments(final Set<ShareableComment> comments) {
     	this.comments = comments;
     }
     
@@ -61,7 +61,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	return status;
     }
 	
-    public void setStatus(ProposalStatus status) {
+    public void setStatus(final ProposalStatus status) {
     	this.status = status;
     }
 
@@ -69,7 +69,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 	 * Utility methods
 	 */
 	
-    public void addComment(ShareableComment comment) {
+    public void addComment(final ShareableComment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to add null comment");
 			return;
@@ -82,7 +82,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 		}
 	}
 	
-	public void removeComment(ShareableComment comment) {
+	public void removeComment(final ShareableComment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to remove null comment");
 			return;

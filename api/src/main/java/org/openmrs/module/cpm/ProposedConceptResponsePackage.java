@@ -48,21 +48,21 @@ public class ProposedConceptResponsePackage extends ShareablePackage {
 		this.setName(shareablePackage.getName());
 		this.setEmail(shareablePackage.getEmail());
 		this.setDescription(shareablePackage.getDescription());
+		this.setProposedConceptPackageUuid(shareablePackage.getUuid());
 		this.setProposedConcepts(new HashSet<ShareableProposal>());
 		
 		if (shareablePackage.getProposedConcepts() != null) {
-			Set<ShareableProposal> proposedConceptResponses = this.getProposedConcepts();
-			
 			// For each of the proposals in the submitted ProposedConceptPackage we create and equivalent 
 			// response item that will allow us to record additional details
 			
 			for (ShareableProposal currentProposal : shareablePackage.getProposedConcepts()) {
 				ProposedConceptResponse proposalResponse  = new ProposedConceptResponse(currentProposal);
-				proposedConceptResponses.add(proposalResponse);
+				this.addProposedConcept(proposalResponse);
 			}
 		}
 		
 		this.setStatus(PackageStatus.RECEIVED);
+		this.setVersion(0);
 	}
 	
 	public Integer getId() {

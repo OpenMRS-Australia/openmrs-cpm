@@ -1,10 +1,7 @@
 package org.openmrs.module.cpm;
 
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.User;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the reviewers side
@@ -20,10 +17,6 @@ public class ProposedConceptResponse extends ShareableProposal {
 	
 	private Integer conceptProposalResponseId;
 	private String proposedConceptUuid;
-	private User createdBy;
-	private Date dateCreated;
-	private User changedBy;
-	private Date dateChanged;
 	private Integer version;
 	
 	/**
@@ -45,9 +38,11 @@ public class ProposedConceptResponse extends ShareableProposal {
 		log.debug("Creating a new ProposedConceptResponse from: " + shareableProposal);
 		
 		this.setName(shareableProposal.getName());
+		this.setDescription(shareableProposal.getDescription());
 		this.setProposedConceptUuid(shareableProposal.getUuid());
 		this.setComments(shareableProposal.getComments());
 		this.setStatus(ProposalStatus.RECEIVED);		
+		this.version = 0;
 	}
 	
  	public Integer getId() {
@@ -66,38 +61,6 @@ public class ProposedConceptResponse extends ShareableProposal {
 		this.proposedConceptUuid = proposedConceptUuid;
 	}
 		
-	public User getCreatedBy() {
-		return createdBy;
-	}
-	
-	public void setCreatedBy(final User createdBy) {
-		this.createdBy = createdBy;
-	}
-	
-	public Date getDateCreated() {
-		return dateCreated;
-	}
-	
-	public void setDateCreated(final Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-	
-	public User getChangedBy() {
-		return changedBy;
-	}
-	
-	public void setChangedBy(final User changedBy) {
-		this.changedBy = changedBy;
-	}
-	
-	public Date getDateChanged() {
-		return dateChanged;
-	}
-	
-	public void setDateChanged(final Date dateChanged) {
-		this.dateChanged = dateChanged;
-	}
-	
 	public Integer getVersion() {
 		return version;
 	}
