@@ -16,7 +16,7 @@ public class ProposedConcept extends ShareableProposal {
 	
 	private static Log log = LogFactory.getLog(ProposedConcept.class);
 	
-	private Integer conceptProposalId;
+	private Integer proposedConceptId;
 	private Integer version;
 	
 	public ProposedConcept() {
@@ -26,11 +26,11 @@ public class ProposedConcept extends ShareableProposal {
 	}
 	
 	public Integer getId() {
-		return conceptProposalId;
+		return proposedConceptId;
 	}
 	
 	public void setId(final Integer id) {
-		this.conceptProposalId = id;
+		this.proposedConceptId = id;
 	}
 		
 	public Integer getVersion() {

@@ -12,12 +12,12 @@ import org.openmrs.BaseOpenmrsObject;
  */
 public class ShareableComment extends BaseOpenmrsObject {
 	
-	private static Log log = LogFactory.getLog(ShareableComment.class);
+	private static final Log log = LogFactory.getLog(ShareableComment.class);
 	
 	private Integer conceptProposalCommentId;
 	private String comment;
 	private ProposalRole commenterRole;
-
+	
 	public Integer getId() {
 		return this.conceptProposalCommentId;
 	}

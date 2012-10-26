@@ -26,6 +26,8 @@
 	
 	ProposedConceptService service = Context.getService(ProposedConceptService.class);
 	UserService userService = Context.getService(UserService.class);
+	ConceptService conceptService = Context.getService(ConceptService.class);
+	
 	SimpleDateFormat formatter = new SimpleDateFormat(TEST_DATE_FORMAT);
 	SimpleDateFormat comparator = new SimpleDateFormat(TEST_DATE_DISPLAY_FORMAT);
 
@@ -38,6 +40,7 @@
 
 	service = Context.getService(ProposedConceptService.class);
 	User owner = userService.getUser(1);
+	Concept concept = conceptService.getConcept(1);
 
 	conceptPackage = new ProposedConceptPackage();
 	conceptPackage.setId(0);
@@ -50,11 +53,13 @@
 	ProposedConcept concept1 = new ProposedConcept();
 	concept1.setName("concept1");
 	concept1.setDescription("description");
+	concept1.setConcept(concept);
 	concept1.setProposedConceptPackage(conceptPackage);
 
 	ProposedConcept concept2 = new ProposedConcept();
 	concept2.setName("concept2");
 	concept2.setDescription("description");
+	concept2.setConcept(concept);
 	concept2.setProposedConceptPackage(conceptPackage);
 	
 	conceptPackage.addProposedConcept(concept1);

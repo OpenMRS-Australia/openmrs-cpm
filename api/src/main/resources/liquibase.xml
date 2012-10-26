@@ -9,7 +9,7 @@
         for a list of supported elements and attributes
     -->
  
-    <changeSet id="cpm_2012-10-24-5" author="flashard">
+    <changeSet id="cpm_2012-10-24-6" author="flashard">
     	
         <createTable tableName="cpm_proposed_concept_package">
             <column autoIncrement="true" name="cpm_proposed_concept_package_id" type="int">
@@ -50,6 +50,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="cpm_proposed_concept_package_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concept_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -109,6 +112,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="cpm_proposed_concept_response_package_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concept_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">

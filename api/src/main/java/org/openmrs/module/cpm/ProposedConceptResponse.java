@@ -15,7 +15,7 @@ public class ProposedConceptResponse extends ShareableProposal {
 	
 	private static Log log = LogFactory.getLog(ProposedConceptResponse.class);
 	
-	private Integer conceptProposalResponseId;
+	private Integer proposedConceptResponseId;
 	private String proposedConceptUuid;
 	private Integer version;
 	
@@ -40,17 +40,18 @@ public class ProposedConceptResponse extends ShareableProposal {
 		this.setName(shareableProposal.getName());
 		this.setDescription(shareableProposal.getDescription());
 		this.setProposedConceptUuid(shareableProposal.getUuid());
+		this.setConcept(shareableProposal.getConcept());
 		this.setComments(shareableProposal.getComments());
 		this.setStatus(ProposalStatus.RECEIVED);		
 		this.version = 0;
 	}
 	
  	public Integer getId() {
-		return conceptProposalResponseId;
+		return proposedConceptResponseId;
 	}
 	
 	public void setId(final Integer id) {
-		this.conceptProposalResponseId = id;
+		this.proposedConceptResponseId = id;
 	}
 	
 	public String getProposedConceptUuid() {

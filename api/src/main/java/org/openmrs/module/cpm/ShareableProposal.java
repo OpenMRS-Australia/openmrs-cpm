@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
+import org.openmrs.Concept;
 
 /**
  * This is the base class underlying the exchange of information of individual Concept Proposals
@@ -19,6 +20,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 	private String name;
 	private String description;
 	private ShareablePackage proposedConceptPackage;
+	private Concept concept;
 	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
 	private ProposalStatus status = ProposalStatus.DRAFT;
 
@@ -43,6 +45,14 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     
 	public ShareablePackage getProposedConceptPackage() {
 		return proposedConceptPackage;
+	}
+	
+	public Concept getConcept() {
+		return concept;
+	}
+
+	public void setConcept(final Concept concept) {
+		this.concept = concept;
 	}
 	
 	public void setProposedConceptPackage(final ShareablePackage proposedConceptPackage) {

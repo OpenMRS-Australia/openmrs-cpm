@@ -11,6 +11,8 @@ import org.hibernate.PropertyValueException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.Concept;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConcept;
@@ -29,12 +31,14 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	private static final String TEST_DATE_DISPLAY_FORMAT = "yyyy-MM-dd HH:mm:ss.S z G";
 			
 	protected ProposedConceptService service = null;
+	protected ConceptService conceptService = null;
 	protected SimpleDateFormat formatter = new SimpleDateFormat(TEST_DATE_FORMAT);
 	protected SimpleDateFormat comparator = new SimpleDateFormat(TEST_DATE_DISPLAY_FORMAT);
 
 	@Before
 	public void before() throws Exception {
 		service = Context.getService(ProposedConceptService.class);
+		conceptService = Context.getConceptService();
 		log.info("Loading the core Concept Proposal Module test data set");
 		executeDataSet(CPM_CORE_DATASET);
 		log.info("Loading of the core Concept Proposal Module test data set complete");
@@ -77,11 +81,12 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	 * 
 	 * @throws Exception
 	 */
-	protected ProposedConcept getMockProposedConcept(Integer id, String name, String description) {
+	protected ProposedConcept getMockProposedConcept(Integer id, String name, String description, Concept concept) {
 		ProposedConcept proposedConcept = new ProposedConcept();
 		proposedConcept.setId(id);
 		proposedConcept.setName(name);
 		proposedConcept.setDescription(description);
+		proposedConcept.setConcept(concept);
 		return proposedConcept;
 	}
 	
@@ -190,8 +195,15 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	@Test
 	public void saveProposedConceptPackage_saveWithChildConcept() throws Exception {
 		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
-		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
-		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description");
+		List<Concept> concepts = conceptService.getAllConcepts();
+		log.debug("************************************************************");
+		for (Concept currentConcept : concepts) {
+			log.debug("Concept: " + currentConcept);
+		}
+		Concept testConcept1 = conceptService.getConcept(3);
+		Concept testConcept2 = conceptService.getConcept(4);
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description", testConcept1);
+		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description", testConcept2);
 		testPackage.addProposedConcept(concept1);
 		testPackage.addProposedConcept(concept2);
 		
@@ -222,9 +234,10 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
 
+		Concept testConcept = conceptService.getConcept(3);
 		String newName = "New Name";
 		testPackage.setName(newName);
-		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description",testConcept);
 		testPackage.addProposedConcept(concept1);
 		service.saveProposedConceptPackage(testPackage);
 		
@@ -388,8 +401,10 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	@Test
 	public void saveProposedConceptPackageResponse_saveFromProposedConceptWithChildConcept() throws Exception {
 		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
-		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description");
-		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description");
+		Concept testConcept1 = conceptService.getConcept(3);
+		Concept testConcept2 = conceptService.getConcept(4);
+		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description",testConcept1);
+		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description",testConcept2);
 		testPackage.addProposedConcept(concept1);
 		testPackage.addProposedConcept(concept2);
 		
@@ -404,8 +419,12 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	@Test
 	public void saveProposedConceptPackageResponse_saveWithChildren() throws Exception {
 		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
-		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description"));
-		ProposedConceptResponse concept2 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 2", "concept 2 description"));
+		Concept testConcept1 = conceptService.getConcept(3);
+		Concept testConcept2 = conceptService.getConcept(4);
+		log.warn("Concept 1: " + testConcept1);
+		log.warn("Concept 2: " + testConcept2);
+		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description", testConcept1));
+		ProposedConceptResponse concept2 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 2", "concept 2 description", testConcept2));
 		testPackage.addProposedConcept(concept1);
 		testPackage.addProposedConcept(concept2);
 
@@ -434,7 +453,8 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	@Test
 	public void saveProposedConceptPackageResponse_updateAddChild() throws Exception {
 		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
-		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description"));
+		Concept testConcept = conceptService.getConcept(3);
+		ProposedConceptResponse concept1 = getMockProposedConceptResponse(null,getMockProposedConcept(null, "concept 1", "concept 1 description", testConcept));
 		log.info("Retrieved: " + testPackage);
 		Assert.assertEquals("Concept Proposal Package Response 1", testPackage.getName());
 

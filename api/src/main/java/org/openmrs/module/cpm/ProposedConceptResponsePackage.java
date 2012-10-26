@@ -2,7 +2,6 @@ package org.openmrs.module.cpm;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,7 +17,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage {
 	
 	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
 
-	private Integer conceptProposalPackageId;
+	private Integer proposedConceptResponsePackageId;
 	private String proposedConceptPackageUuid;
 	private User createdBy;
 	private Date dateCreated;
@@ -66,11 +65,11 @@ public class ProposedConceptResponsePackage extends ShareablePackage {
 	}
 	
 	public Integer getId() {
-		return this.conceptProposalPackageId;
+		return this.proposedConceptResponsePackageId;
 	}
 	
 	public void setId(final Integer id) {
-		this.conceptProposalPackageId = id;
+		this.proposedConceptResponsePackageId = id;
 	}
 
 	
