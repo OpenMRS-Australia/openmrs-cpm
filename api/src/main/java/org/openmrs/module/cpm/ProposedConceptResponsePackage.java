@@ -13,7 +13,7 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ProposedConceptResponsePackage extends ShareablePackage {
+public class ProposedConceptResponsePackage extends ShareablePackage<ProposedConceptResponse> {
 	
 	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
 
@@ -40,7 +40,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage {
 	 * @param shareablePackage The Concept Proposal Package submitted by a client side proposer
 	 */
 	
-	public ProposedConceptResponsePackage(final ShareablePackage shareablePackage) {
+	public ProposedConceptResponsePackage(final ProposedConceptPackage shareablePackage) {
 		super();
 		log.debug("Creating a ProposedConceptResponsePackage from: " + shareablePackage);
 
@@ -48,13 +48,13 @@ public class ProposedConceptResponsePackage extends ShareablePackage {
 		this.setEmail(shareablePackage.getEmail());
 		this.setDescription(shareablePackage.getDescription());
 		this.setProposedConceptPackageUuid(shareablePackage.getUuid());
-		this.setProposedConcepts(new HashSet<ShareableProposal>());
+		this.setProposedConcepts(new HashSet<ProposedConceptResponse>());
 		
 		if (shareablePackage.getProposedConcepts() != null) {
 			// For each of the proposals in the submitted ProposedConceptPackage we create and equivalent 
 			// response item that will allow us to record additional details
 			
-			for (ShareableProposal currentProposal : shareablePackage.getProposedConcepts()) {
+			for (ProposedConcept currentProposal : shareablePackage.getProposedConcepts()) {
 				ProposedConceptResponse proposalResponse  = new ProposedConceptResponse(currentProposal);
 				this.addProposedConcept(proposalResponse);
 			}
