@@ -193,6 +193,25 @@
 
 		<plugins>
 			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>1.2.0.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<specRunnerTemplate>REQUIRE_JS</specRunnerTemplate>
+					<customRunnerTemplate>src/test/resources/SpecRunner.html</customRunnerTemplate>
+					<jsSrcDir>src/main/webapp/resources</jsSrcDir>
+					<jsTestSrcDir>src/test/webapp/unit</jsTestSrcDir>
+				</configuration>
+			</plugin>
+			<plugin>
 			  <artifactId>maven-antrun-plugin</artifactId>
 			  <executions>
 			    <execution>

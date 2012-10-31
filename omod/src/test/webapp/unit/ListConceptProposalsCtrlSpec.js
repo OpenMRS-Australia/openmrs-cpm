@@ -19,6 +19,7 @@ define(['angular-mocks', 'ListConceptProposalsCtrl'], function() {
     it("should fetch a list of concept proposals display them", function() {
       httpBackend.flush();
       expect(scope.proposals.length).toBe(1);
+      expect(scope.proposals[0].description).toBe('Test');
     });
 
   });

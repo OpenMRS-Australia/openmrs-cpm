@@ -1,5 +1,5 @@
 define(['cpm'], function(cpm) {
-  cpm.controller('ListConceptProposalsCtrl', ['$scope', '$http', function ListConceptProposalsCtrl($scope, $http) {
+  cpm.controller('ListConceptProposalsCtrl', ['$scope', '$http', function($scope, $http) {
 
     $scope.proposals = [];
 
