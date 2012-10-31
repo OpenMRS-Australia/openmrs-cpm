@@ -12,7 +12,7 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ProposedConceptPackage extends ShareablePackage {
+public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> {
 
 	private static Log log = LogFactory.getLog(ProposedConceptPackage.class);
 

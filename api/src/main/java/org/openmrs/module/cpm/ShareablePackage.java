@@ -12,14 +12,14 @@ import org.openmrs.BaseOpenmrsObject;
  * between a Concept proposer, and a Concept Proposal reviewer. The attributes modelled in the
  * abstract class are the ones that will be exchanged between the two using transfer REST services
  */
-public abstract class ShareablePackage extends BaseOpenmrsObject {
+public abstract class ShareablePackage<P extends ShareableProposal> extends BaseOpenmrsObject {
 	
 	protected Log log = LogFactory.getLog(getClass());
 	
 	private String name;
 	private String email;
 	private String description;
-	private Set<ShareableProposal> proposedConcepts = new HashSet<ShareableProposal>();
+	private Set<P> proposedConcepts = new HashSet<P>();
 	private PackageStatus status = PackageStatus.DRAFT;
 	
 	public ShareablePackage() {
@@ -50,11 +50,11 @@ public abstract class ShareablePackage extends BaseOpenmrsObject {
 		this.description = description;
 	}
 	
-	public Set<ShareableProposal> getProposedConcepts() {
+	public Set<P> getProposedConcepts() {
 		return proposedConcepts;
 	}
 	
-	public void setProposedConcepts(Set<ShareableProposal> proposedConcepts) {
+	public void setProposedConcepts(Set<P> proposedConcepts) {
 		this.proposedConcepts = proposedConcepts;
 	}
 	
@@ -70,7 +70,7 @@ public abstract class ShareablePackage extends BaseOpenmrsObject {
 	 * Utility methods
 	 */
 	
-	public void addProposedConcept(final ShareableProposal proposedConcept) {
+	public void addProposedConcept(final P proposedConcept) {
 		if (proposedConcept == null) {
 			log.warn("Ignoring request to add null concept");
 			return;
@@ -84,7 +84,7 @@ public abstract class ShareablePackage extends BaseOpenmrsObject {
 		}
 	}
 	
-	public void removeProposedConcept(final ShareableProposal proposedConcept) {
+	public void removeProposedConcept(final P proposedConcept) {
 		if (proposedConcept == null) {
 			log.warn("Ignoring request to remove null concept");
 			return;
