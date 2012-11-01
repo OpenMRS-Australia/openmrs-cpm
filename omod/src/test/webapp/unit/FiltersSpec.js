@@ -1,7 +1,7 @@
-define(['angular-mocks', 'ListConceptProposalsCtrl'], function() {
+define(['angular-mocks', 'filters'], function() {
   'use strict';
 
-  describe("ListConceptProposals Controller Spec", function() {
+  describe("Filter Spec", function() {
 
     var filter;
 

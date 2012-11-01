@@ -1,7 +1,7 @@
-define(['angular-mocks', 'ListConceptProposalsCtrl'], function() {
+define(['angular-mocks', 'ListProposalsCtrl'], function() {
   'use strict';
 
-  describe("ListConceptProposals Controller Spec", function() {
+  describe("ListProposals Controller Spec", function() {
 
     var scope;
     var httpBackend;
@@ -11,8 +11,8 @@ define(['angular-mocks', 'ListConceptProposalsCtrl'], function() {
     beforeEach(inject(function($rootScope, $controller, $httpBackend) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
-      httpBackend.whenGET('/openmrs/module/cpm/rest/proposals.list').respond([{id: 1, description: "Test", status: "DRAFT"}]);
-      var controller = $controller('ListConceptProposalsCtrl', {$scope: scope});
+      httpBackend.whenGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
+      var controller = $controller('ListProposalsCtrl', {$scope: scope});
     }));
 
 

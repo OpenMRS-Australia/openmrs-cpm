@@ -34,7 +34,8 @@ public class TestCpmController extends BaseModuleContextSensitiveTest {
 	// See http://www.jayway.com/2010/12/28/using-powermock-with-spring-integration-testing/
 	// for using powermock when used with Spring
 	// (Can't do a @RunWith(PowerMockRunner.class) )
-	// See http://code.google.com/p/powermock/wiki/PowerMockRule for dependencies
+	//
+	// Also see https://wiki.openmrs.org/display/docs/Mock+Doc
 	@Rule
 	public PowerMockRule rule = new PowerMockRule();
 
@@ -66,7 +67,7 @@ public class TestCpmController extends BaseModuleContextSensitiveTest {
 		mockStatic(Context.class);
 		when(Context.getService(ProposedConceptService.class)).thenReturn(cpServiceMock);
 
-		request = new MockHttpServletRequest("GET", "/module/cpm/rest/proposals.list");
+		request = new MockHttpServletRequest("GET", "/cpm/proposals");
 		request.addHeader("Accept", "application/json");
 		request.addHeader("Content-Type", "application/json");
 		final ModelAndView handle = adapter.handle(request, response, controller);

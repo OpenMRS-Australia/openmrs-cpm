@@ -1,0 +1,70 @@
+<style>
+ label {
+   cursor: pointer;
+ }
+ .conceptTable {
+   border: 1px solid #1AAC9B;
+   min-width: 600px;
+ }
+ .conceptTable thead {
+   font-weight: bold;
+   color: white;
+   background-color: #1AAC9B;
+ }
+ .required {
+   color: firebrick;
+   font-size: smaller;
+ }
+ .accesskey {
+   font-style: underline;
+ }
+ input.ng-invalid.ng-dirty {
+   border-color: firebrick;
+   border-style: solid;
+ }
+</style>
+<h2><span ng-show="isEdit">Edit</span><span ng-show="!isEdit">Create</span> Concept Proposal</h2>
+<p>
+ <span style="font-size: smaller;"><span class="required">*</span> denotes required field</span>
+ <span style="color: firebrick; margin-left: 2em; font-weight: bold;">{{errorMessage}}</span>
+</p>
+<form name="form" novalidate >
+<p>
+ <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
+</p>
+<p>
+ <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description"></textarea></label>
+</p>
+
+<p>
+<h3>Concepts</h3>
+<table class="conceptTable" cellpadding="5" cellspacing="0">
+ <thead>
+  <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
+ </thead>
+ <tbody class="noConceptsMsg">
+  <tr><td colspan="4" align="center" ng-show="selectedConcepts.length == 0"><em>No concepts added</em></td></tr>
+ </tbody>
+ <tbody class="conceptList">
+  <tr ng-repeat="concept in selectedConcepts">
+   <td>{{concept.display}}</td>
+   <td>{{concept.datatype.name}}</td>
+   <td><input ng-model="concept.comments"/></td>
+   <td><button ng-click="removeConcept(concept)">Remove</button></td>
+  </tr>
+ </tbody>
+</table>
+<button ng-click="dialog='open'" accesskey="a"><span class="accesskey">A</span>dd Concepts</button>
+</p>
+
+<div>
+ <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+ <button ng-click="send()" ng-disabled="!isEdit || form.$invalid" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
+ <button ng-click="deleteProposal()" ng-disabled="!isEdit" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
+</div>
+</form>
+
+<div jquery-ui-dialog>
+ <div ng-include="resourceLocation + '/SearchConceptsDialog.html'"></div>
+</div>
+

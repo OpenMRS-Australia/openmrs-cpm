@@ -22,12 +22,13 @@ requirejs.config({
     shim: {
         'jquery-ui': ['jquery'],
         'angular': {
+        	deps: ['jquery'],
             exports: 'angular'
         }
     }
 });
 
-require(['angular', 'cpm', 'directives', 'filters', 'ListConceptProposalsCtrl'], function(angular) {
+require(['angular', 'ListProposalsCtrl', 'EditProposalCtrl', 'SearchConceptsDialogCtrl'], function(angular) {
   var appRoot = document.getElementById("cpmapp");
   angular.element(appRoot).ready(function() {
     angular.bootstrap(appRoot, ["cpm"]);
