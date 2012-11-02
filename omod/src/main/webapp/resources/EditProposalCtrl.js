@@ -20,6 +20,13 @@ define(['cpm', 'config'], function(cpm, config) {
       $scope.proposal = new Proposals();
     }
 
+    $scope.nameErrorMsg = function() {
+      if ($scope.form.name.$dirty && $scope.form.name.$invalid) {
+        return "Name is required";
+      }
+      return "";
+    };
+
     $scope.emailErrorMsg = function() {
       if ($scope.form.email.$dirty && $scope.form.email.$invalid) {
         return "Please specify a valid email address";

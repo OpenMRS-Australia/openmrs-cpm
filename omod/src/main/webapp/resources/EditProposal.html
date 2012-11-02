@@ -22,6 +22,9 @@
    border-color: firebrick;
    border-style: solid;
  }
+ input {
+   width: 600px;
+ }
 </style>
 <h2><span ng-show="isEdit">Edit</span><span ng-show="!isEdit">Create</span> Concept Proposal</h2>
 <p>
@@ -30,7 +33,10 @@
 </p>
 <form name="form" novalidate >
 <p>
- <label>Your email (for notifications)<span class="required">*</span> <input type="email" title="{{emailErrorMsg()}}" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
+ <label>Name<span class="required">*</span><br/><input type="text" name="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" /></label>
+</p>
+<p>
+ <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
 </p>
 <p>
  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description"></textarea></label>
