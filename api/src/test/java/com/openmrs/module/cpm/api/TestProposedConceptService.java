@@ -267,14 +267,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals(2, testPackage.getProposedConcepts().size());
 	}
 
-	@Test(expected = PropertyValueException.class)
-	public void saveProposedConceptPackage_nullFieldsException() throws Exception {
-		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
-		testPackage.setDescription(null);
-		log.info("Before: " + testPackage);
-	    service.saveProposedConceptPackage(testPackage);
-	}
-
 	@Test
 	public void deleteProposedConceptPackage_basicDelete() throws Exception {
 		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
@@ -489,14 +481,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals(2, testPackage.getProposedConcepts().size());
 	}
 
-	@Test(expected = PropertyValueException.class)
-	public void saveProposedConceptPackageResponse_nullFieldsException() throws Exception {
-		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
-		testPackage.setDescription(null);
-		log.info("Before: " + testPackage);
-	    service.saveProposedConceptResponsePackage(testPackage);
-	}
-
 	@Test
 	public void deleteProposedConceptPackageResponse_basicDelete() throws Exception {
 		ProposedConceptResponsePackage testPackage = service.getProposedConceptResponsePackageById(1);
@@ -527,4 +511,45 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	    service.deleteProposedConceptResponsePackage(testPackage);
 	}
 	
+	
+	
+	/*
+	 * 2 Nov 12
+	 * David
+	 * 
+	 * Correcting tests that test nullable settings are set correctly
+	 */
+	
+	@Test
+	public void saveProposedConceptPackage_noNullFieldsException() {
+		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
+		testPackage.setDescription(null);
+		log.info("Before: " + testPackage);
+		service.saveProposedConceptPackage(testPackage);
+	}
+
+	@Test(expected = PropertyValueException.class)
+	public void saveProposedConceptPackage_nullFieldsException() throws Exception {
+		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
+		testPackage.setStatus(null);
+		log.info("Before: " + testPackage);
+	    service.saveProposedConceptPackage(testPackage);
+	}
+	
+	@Test
+	public void saveProposedConceptPackageResponse_noNullFieldsException() {
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
+		testPackage.setDescription(null);
+		log.info("Before: " + testPackage);
+		service.saveProposedConceptResponsePackage(testPackage);
+	}
+
+	@Test(expected = PropertyValueException.class)
+	public void saveProposedConceptPackageResponse_nullFieldsException() throws Exception {
+		ProposedConceptResponsePackage testPackage = getMockProposedConceptPackageResponse(null, "new package");
+		testPackage.setStatus(null);
+		log.info("Before: " + testPackage);
+	    service.saveProposedConceptResponsePackage(testPackage);
+	}
+
 }
