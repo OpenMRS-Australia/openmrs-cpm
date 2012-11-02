@@ -11,12 +11,13 @@ define(['angular-mocks', 'ListProposalsCtrl'], function() {
     beforeEach(inject(function($rootScope, $controller, $httpBackend) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
-      httpBackend.whenGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
+
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
       var controller = $controller('ListProposalsCtrl', {$scope: scope});
     }));
 
 
-    it("should fetch a list of concept proposals display them", function() {
+    it("should fetch a list of proposals (packages) and display them", function() {
       httpBackend.flush();
       expect(scope.proposals.length).toBe(1);
       expect(scope.proposals[0].description).toBe('Test');
