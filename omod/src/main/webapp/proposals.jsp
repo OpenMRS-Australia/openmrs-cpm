@@ -22,9 +22,10 @@ requirejs.config({
     shim: {
         'jquery-ui': ['jquery'],
         'angular': {
-        	deps: ['jquery'],
+        	  deps: ['jquery'],
             exports: 'angular'
-        }
+        },
+        'angular-resource': ['angular']
     }
 });
 

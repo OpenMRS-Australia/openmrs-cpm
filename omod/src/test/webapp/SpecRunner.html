@@ -27,9 +27,11 @@ requirejs.config({
     shim: {
         'jquery-ui': ['jquery'],
         'angular': {
+            deps: ['jquery'],
             exports: 'angular'
         },
-        'angular-mocks': ['angular']
+        'angular-mocks': ['angular'],
+        'angular-resources': ['angular']
     }
 });
 
