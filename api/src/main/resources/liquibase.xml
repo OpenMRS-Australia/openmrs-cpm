@@ -143,5 +143,10 @@
         </column>
       </addColumn>
     </changeSet>
+    
+    <changeSet id="cpm_2012-11-5-1" author="cpm">
+      <renameColumn columnDataType="INTEGER" tableName="cpm_proposed_concept_package" oldColumnName="createdBy" newColumnName="creator"/>
+      <renameColumn columnDataType="INTEGER" tableName="cpm_proposed_concept_response_package" oldColumnName="createdBy" newColumnName="creator"/>
+    </changeSet>
  
 </databaseChangeLog>

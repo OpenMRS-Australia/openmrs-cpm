@@ -11,7 +11,7 @@
 		<property name="name" type="java.lang.String" column="name" length="255" not-null="true" /> 
 		<property name="email" type="java.lang.String" column="email" length="255" not-null="true" /> 
 		<property name="description" type="java.lang.String" column="description" length="1000" />
-		<many-to-one name="createdBy" column="createdBy" class="org.openmrs.User"/>
+		<many-to-one name="creator" column="creator" class="org.openmrs.User"/>
 		<many-to-one name="changedBy" column="changedBy" class="org.openmrs.User"/>
 		<property name="dateCreated" type="java.util.Date" column="date_created" not-null="true" length="19" />
 		<property name="dateChanged" type="java.util.Date" column="date_changed" not-null="false" length="19" />

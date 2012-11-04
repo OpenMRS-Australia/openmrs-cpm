@@ -44,7 +44,7 @@
 
 	conceptPackage = new ProposedConceptPackage();
 	conceptPackage.setId(0);
-	conceptPackage.setCreatedBy(owner);
+	conceptPackage.setCreator(owner);
 	conceptPackage.setName("name");
 	conceptPackage.setDescription("description");
 	conceptPackage.setEmail("test@test.com");
@@ -68,7 +68,7 @@
 	conceptResponsePackage = new ProposedConceptResponsePackage(conceptPackage);
 	conceptResponsePackage.setId(0);
 	conceptResponsePackage.setProposedConceptPackageUuid(conceptPackage.getUuid());
-	conceptResponsePackage.setCreatedBy(owner);
+	conceptResponsePackage.setCreator(owner);
 	conceptResponsePackage.setName("description");
 	conceptResponsePackage.setVersion(0);
 	

@@ -145,7 +145,7 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals(1,testPackage.getVersion().intValue());
 		Assert.assertEquals(PackageStatus.DRAFT,testPackage.getStatus());
 		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
-		Assert.assertNull(testPackage.getCreatedBy().getName());
+		Assert.assertNull(testPackage.getCreator().getName());
 	}
 	
 	@Test
@@ -343,7 +343,7 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals(1,testPackage.getVersion().intValue());
 		Assert.assertEquals(PackageStatus.RECEIVED,testPackage.getStatus());
 		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
-		Assert.assertNull(testPackage.getCreatedBy().getName());
+		Assert.assertNull(testPackage.getCreator().getName());
 	}
 	
 	@Test
