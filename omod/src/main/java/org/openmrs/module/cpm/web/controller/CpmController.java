@@ -92,6 +92,7 @@ public class CpmController {
 		conceptPackage.setEmail(updatedPackage.getEmail());
 		conceptPackage.setDescription(updatedPackage.getDescription());
 
+		// TODO: remap concepts
 //		if (updatedPackage.getConcepts() != null) {
 //			for (final ProposedConceptDto newProposedConcept : updatedPackage.getConcepts()) {
 //
@@ -109,6 +110,12 @@ public class CpmController {
 
 		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 		return updatedPackage;
+	}
+
+	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.DELETE)
+	public void deleteProposal(@PathVariable final String proposalId) {
+		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
 
 	private ProposedConceptPackageDto createProposedConceptPackageDto(final ProposedConceptPackage conceptProposalPackage) {

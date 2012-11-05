@@ -61,6 +61,16 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.save();
     });
 
+    it("should delete a proposal by DELETE-ing to the address of the resource", function() {
+      routeParams = {proposalId: 1};
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
+      controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+      httpBackend.flush();
+      
+      httpBackend.expectDELETE('/openmrs/ws/cpm/proposals/1').respond({});
+      scope.deleteProposal();
+    });
+
     /*
      * Not sure how to bind to view to get access to form validation yet
      *
