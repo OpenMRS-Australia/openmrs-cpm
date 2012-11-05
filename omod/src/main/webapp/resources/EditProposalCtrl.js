@@ -4,6 +4,7 @@ define(['cpm', 'config'], function(cpm, config) {
     var proposalId = $routeParams.proposalId;
     $scope.isEdit = typeof proposalId !== 'undefined';
 
+    // XXX
     if ($scope.isEdit) {
       document.title = 'Edit Concept Proposal';
     } else {
@@ -15,7 +16,7 @@ define(['cpm', 'config'], function(cpm, config) {
     $scope.selectedConcepts = [];
 
     if ($scope.isEdit) {
-      $scope.proposal = Proposals.get({id: proposalId});
+      $scope.proposal = Proposals.get({proposalId: proposalId});
     } else {
       $scope.proposal = new Proposals();
     }
