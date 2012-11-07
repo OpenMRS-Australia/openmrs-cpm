@@ -13,6 +13,7 @@
     'angular': {
       deps: ['jquery'],
       exports: 'angular'
-    }
+    },
+    'angular-resource': ['angular']
   }
 })
