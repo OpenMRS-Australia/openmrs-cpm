@@ -8,18 +8,12 @@
  margin-bottom: 1em;
  overflow: auto;
 }
-.results th {
+.searchConceptResults th {
  text-align: left;
  border-bottom: 1px solid lightgrey;
 }
 .conceptList tr {
  cursor: pointer;
-}
-.conceptList tr:nth-child(odd) {
- background-color: #F3F7FB;
-}
-.conceptList tr:hover {
- background-color: #eee;
 }
 .dialogFooter {
  text-align: right;
@@ -40,7 +34,7 @@
 <span class="loading" style="display: none;"><img src="{{resourceLocation}}/loading.gif"/> Loading...</span>
 
 <div class="resultsContainer">
-<table class="results" width="100%" cellpadding="2" cellspacing="0">
+<table class="searchConceptResults" width="100%" cellpadding="2" cellspacing="0">
  <thead>
   <tr>
    <th>&nbsp;</th>
@@ -49,7 +43,7 @@
    <th>Description</th>
   </tr>
  </thead>
- <tbody class="conceptList">
+ <tbody class="conceptList results">
   <tr ng-repeat="concept in concepts" ng-click="concept.selected = !concept.selected">
    <td><input type="checkbox" ng-click="$event.stopPropagation()" ng-model="concept.selected"/></td>
    <td>{{concept.uuid}}</td>

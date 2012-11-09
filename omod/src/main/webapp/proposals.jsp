@@ -5,6 +5,15 @@
 
 <script data-main="/openmrs/moduleResources/cpm/app.js" src="/openmrs/moduleResources/cpm/require.js"></script>
 
+<style>
+.results tr:nth-child(odd) {
+ background-color: #F3F7FB;
+}
+.results tr:hover {
+ background-color: #F0E68C;
+}
+</style>
+
 <div id="cpmapp" ng-view>Loading...</div>
 
 <script>
