@@ -1,7 +1,7 @@
 define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('SearchConceptsDialogCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
-    $scope.resourceLocation = config.resourceLocation;
+    $scope.contextPath = config.contextPath;
 
     var SEARCH_DELAY = 250;
 
@@ -12,7 +12,9 @@ define(['cpm', 'config'], function(cpm, config) {
     var currTimeout;
 
     function doSearch() {
-      $http.get('/openmrs/ws/rest/v1/concept?v=full&q=' + encodeURIComponent($scope.query)).success(function(data) {
+      $scope.isSearching = true;
+      $http.get(config.contextPath + '/ws/rest/v1/concept?v=full&q=' + encodeURIComponent($scope.query)).success(function(data) {
+        $scope.isSearching = false;
         $scope.concepts = data.results;
       });
     }

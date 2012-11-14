@@ -37,11 +37,12 @@
         $endif$
         });
 
-define('config', [], function() {
-  return {
-    resourceLocation: ''
-  };
-});
+    define('config', [], function() {
+      return {
+        resourceLocation: '',
+        contextPath: '/openmrs'
+      };
+    });
 
     require(specs, function() {
       window.reporter = new jasmine.$reporter$(); jasmine.getEnv().addReporter(reporter);

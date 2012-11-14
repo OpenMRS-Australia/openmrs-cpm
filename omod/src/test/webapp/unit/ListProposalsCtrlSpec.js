@@ -5,20 +5,31 @@ define(['angular-mocks', 'ListProposalsCtrl'], function() {
 
     var scope;
     var httpBackend;
+    var controller;
 
     beforeEach(module('cpm'));
 
     beforeEach(inject(function($rootScope, $controller, $httpBackend) {
       scope = $rootScope.$new();
+      controller = $controller;
       httpBackend = $httpBackend;
-
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
-      var controller = $controller('ListProposalsCtrl', {$scope: scope});
     }));
+
+    it("should have reponseReceived initialised to false", function() {
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([]);
+      controller('ListProposalsCtrl', {$scope: scope});
+      // no flush
+
+      expect(scope.responseReceived).toBe(false);
+    });
 
 
     it("should fetch a list of proposals (packages) and display them", function() {
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
+      controller('ListProposalsCtrl', {$scope: scope});
       httpBackend.flush();
+
+      expect(scope.responseReceived).toBe(true);
       expect(scope.proposals.length).toBe(1);
       expect(scope.proposals[0].description).toBe('Test');
     });

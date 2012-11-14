@@ -1,6 +1,10 @@
-define(['cpm'], function(cpm) {
+define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('ListProposalsCtrl', ['$scope', 'Proposals', function($scope, Proposals) {
     document.title = 'Manage Concept Proposals';
-    $scope.proposals = Proposals.query();
+    $scope.contextPath = config.contextPath;
+    $scope.responseReceived = false;
+    $scope.proposals = Proposals.query(function() {
+      $scope.responseReceived = true;
+    });
   }]);
 });

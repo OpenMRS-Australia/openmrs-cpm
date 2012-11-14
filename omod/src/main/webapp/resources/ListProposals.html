@@ -1,3 +1,8 @@
+<style>
+.loading {
+  color: #888;
+}
+</style>
 <h2 id="headerText">Manage Concept Proposals</h2>
 <p><a href="#/edit" class="addProposal">Add Concept Proposal</a></p>
 <b class="boxHeader">Concept Proposals</b>
@@ -5,7 +10,10 @@
  <thead>
   <tr><th>Description</th><th># Concepts</th><th colspan="2">Status</th>
  </thead>
- <tbody ng-show="proposals.length == 0">
+ <tbody ng-show="!responseReceived">
+  <tr><td colspan="4" align="center" class="loading"><img src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+ </tbody>
+ <tbody ng-show="responseReceived && proposals.length == 0">
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody class="results">

@@ -31,7 +31,7 @@
 </style>
 
 <input style="width: 400px;" type="text" placeholder="Enter a search term to find concepts" class="searchBox" ng-model="query" cpm-keyup="search" />
-<span class="loading" style="display: none;"><img src="{{resourceLocation}}/loading.gif"/> Loading...</span>
+<span class="loading" ng-show="isSearching"><img src="{{contextPath}}/images/loading.gif"/> Loading...</span>
 
 <div class="resultsContainer">
 <table class="searchConceptResults" width="100%" cellpadding="2" cellspacing="0">
