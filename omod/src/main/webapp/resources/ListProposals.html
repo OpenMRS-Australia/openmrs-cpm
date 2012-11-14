@@ -11,7 +11,7 @@
   <tr><th>Description</th><th># Concepts</th><th colspan="2">Status</th>
  </thead>
  <tbody ng-show="!responseReceived">
-  <tr><td colspan="4" align="center" class="loading"><img src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+  <tr><td colspan="4" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
  </tbody>
  <tbody ng-show="responseReceived && proposals.length == 0">
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
