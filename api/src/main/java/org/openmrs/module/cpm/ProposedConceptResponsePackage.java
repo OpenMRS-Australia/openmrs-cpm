@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Auditable;
 import org.openmrs.User;
 
 /**
@@ -13,7 +14,7 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ProposedConceptResponsePackage extends ShareablePackage<ProposedConceptResponse> {
+public class ProposedConceptResponsePackage extends ShareablePackage<ProposedConceptResponse> implements Auditable {
 	
 	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Auditable;
 import org.openmrs.User;
 
 /**
@@ -12,7 +13,7 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
-public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> {
+public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> implements Auditable {
 
 	private static Log log = LogFactory.getLog(ProposedConceptPackage.class);
 
