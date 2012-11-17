@@ -24,13 +24,16 @@
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
 	
-	<!-- Maps hibernate file's, if present -->
+	<!-- Maps hibernate file's, if present
 	<mappingFiles>
 		ProposedConcept.hbm.xml
 		ProposedConceptPackage.hbm.xml
 		ProposedConceptResponse.hbm.xml
 		ProposedConceptResponsePackage.hbm.xml
-	</mappingFiles>
+	</mappingFiles> -->
+	<packagesWithMappedClasses>
+		org.openmrs.module.cpm
+	</packagesWithMappedClasses>
 
 	<!-- Internationalization -->
 	<!-- All message codes should start with ${project.parent.artifactId}. -->

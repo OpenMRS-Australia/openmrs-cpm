@@ -1,5 +1,11 @@
 package org.openmrs.module.cpm;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -11,10 +17,15 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @see ConceptProposalReview
  */
+@Entity
+@Table(name = "cpm_proposed_concept_response")
 public class ProposedConceptResponse extends ShareableProposal {
 	
+	@Transient
 	private static Log log = LogFactory.getLog(ProposedConceptResponse.class);
 	
+	@Id
+	@Column(name = "cpm_proposed_concept_response_id")
 	private Integer proposedConceptResponseId;
 	private String proposedConceptUuid;
 	private Integer version;

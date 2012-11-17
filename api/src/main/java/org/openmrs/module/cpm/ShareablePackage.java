@@ -3,6 +3,13 @@ package org.openmrs.module.cpm;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -12,19 +19,26 @@ import org.openmrs.BaseOpenmrsObject;
  * between a Concept proposer, and a Concept Proposal reviewer. The attributes modelled in the
  * abstract class are the ones that will be exchanged between the two using transfer REST services
  */
+@MappedSuperclass
 public abstract class ShareablePackage<P extends ShareableProposal> extends BaseOpenmrsObject {
-	
+
+	@Transient
 	protected Log log = LogFactory.getLog(getClass());
-	
+
+	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
 	private String email;
+
 	private String description;
+
+	@OneToMany
 	private Set<P> proposedConcepts = new HashSet<P>();
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private PackageStatus status = PackageStatus.DRAFT;
-	
-	public ShareablePackage() {
-		super();
-	}
 	
 	public String getName() {
 		return name;

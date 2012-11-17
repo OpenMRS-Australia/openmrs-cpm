@@ -2,6 +2,15 @@ package org.openmrs.module.cpm;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Auditable;
@@ -13,15 +22,33 @@ import org.openmrs.User;
  * are needed, and allowing the proposal reviewer to manage a master/detail style listing of the overall proposal
  * package and its individual concepts.
  */
+@Entity
+@Table(name = "cpm_proposed_concept_package")
 public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> implements Auditable {
 
 	private static Log log = LogFactory.getLog(ProposedConceptPackage.class);
 
+	@Id
+	@Column(name = "cpm_proposed_concept_package_id", nullable = false)
 	private Integer conceptProposalPackageId;
-	private User creator;
+
+	@ManyToOne
+	@JoinColumn(name = "creator")
+	private OurUser creator;
+
+	@Column(name = "date_created", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date dateCreated;
-	private User changedBy;
+
+	@ManyToOne
+	@JoinColumn(name = "changedBy")
+	private OurUser changedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_changed")
 	private Date dateChanged;
+
+	@Column(nullable = false)
 	private Integer version;
 
 	/*
@@ -31,10 +58,10 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 	public ProposedConceptPackage() {
 		super();
 		log.debug("Creating a ProposedConceptPackage");
-		
-		this.dateCreated = new Date();
-		this.dateChanged = new Date();
-		this.version = 0;
+
+		dateCreated = new Date();
+		dateChanged = new Date();
+		version = 0;
 	}
 
 	/*
@@ -50,19 +77,23 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 		conceptProposalPackageId = id;
 	}
 
+	@Override
 	public Date getDateCreated() {
     	return dateCreated;
     }
 
-    public void setDateCreated(final Date dateCreated) {
+    @Override
+	public void setDateCreated(final Date dateCreated) {
     	this.dateCreated = dateCreated;
     }
 
-    public Date getDateChanged() {
+    @Override
+	public Date getDateChanged() {
     	return dateChanged;
     }
 
-    public void setDateChanged(final Date dateChanged) {
+    @Override
+	public void setDateChanged(final Date dateChanged) {
     	this.dateChanged = dateChanged;
     }
 
@@ -76,20 +107,24 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
     	this.version = version;
     }
 
-	public User getCreator() {
+	@Override
+	public OurUser getCreator() {
     	return creator;
     }
 
-    public void setCreator(final User creator) {
-    	this.creator = creator;
+    @Override
+	public void setCreator(final User creator) {
+    	this.creator = (OurUser) creator;
     }
 
-    public User getChangedBy() {
+    @Override
+	public OurUser getChangedBy() {
     	return changedBy;
     }
 
-    public void setChangedBy(final User changedBy) {
-    	this.changedBy = changedBy;
+    @Override
+	public void setChangedBy(final User changedBy) {
+    	this.changedBy = (OurUser) changedBy;
     }
 
 	/*
