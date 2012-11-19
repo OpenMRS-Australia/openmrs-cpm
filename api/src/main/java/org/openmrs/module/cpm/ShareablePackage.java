@@ -22,24 +22,25 @@ import org.openmrs.BaseOpenmrsObject;
 @MappedSuperclass
 public abstract class ShareablePackage<P extends ShareableProposal> extends BaseOpenmrsObject {
 
-	@Transient
 	protected Log log = LogFactory.getLog(getClass());
 
-	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
 	private String email;
 
 	private String description;
 
-	@OneToMany
-	private Set<P> proposedConcepts = new HashSet<P>();
+	protected Set<P> proposedConcepts = new HashSet<P>();
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
 	private PackageStatus status = PackageStatus.DRAFT;
+
+	@Column(name = "uuid", unique = true, nullable = false, length = 38)
+	@Override
+	public String getUuid() {
+		return super.getUuid();
+	}
 	
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -48,6 +49,7 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 		this.name = name;
 	}
 	
+	@Column(nullable = false)
 	public String getEmail() {
 		return email;
 	}
@@ -64,14 +66,17 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 		this.description = description;
 	}
 	
+    @OneToMany(mappedBy = "proposedConceptPackage")
 	public Set<P> getProposedConcepts() {
 		return proposedConcepts;
 	}
-	
+
 	public void setProposedConcepts(Set<P> proposedConcepts) {
 		this.proposedConcepts = proposedConcepts;
 	}
 	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	public PackageStatus getStatus() {
 		return status;
 	}

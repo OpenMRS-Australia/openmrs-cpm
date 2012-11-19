@@ -2,14 +2,17 @@ package org.openmrs.module.cpm;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,26 +31,18 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 
 	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
 
-	@Id
-	@Column(nullable = false)
 	private Integer proposedConceptResponsePackageId;
 
 	private String proposedConceptPackageUuid;
 
-	@ManyToOne
-	private OurUser creator;
+	private User creator;
 
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
 	private Date dateCreated;
 
-	@ManyToOne
-	private OurUser changedBy;
+	private User changedBy;
 
-	@Temporal(TemporalType.DATE)
 	private Date dateChanged;
 
-	@Column(nullable = false)
 	private Integer version;
 
 	/**
@@ -82,6 +77,8 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 		setVersion(0);
 	}
 
+	@Id
+	@Column(nullable = false)
 	@Override
 	public Integer getId() {
 		return proposedConceptResponsePackageId;
@@ -101,6 +98,8 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     	this.proposedConceptPackageUuid = proposedConceptPackageUuid;
     }
 
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
 	@Override
 	public Date getDateCreated() {
     	return dateCreated;
@@ -111,6 +110,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     	this.dateCreated = dateCreated;
     }
 
+	@Temporal(TemporalType.DATE)
     @Override
 	public Date getDateChanged() {
     	return dateChanged;
@@ -122,6 +122,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     }
 
 
+	@Column(nullable = false)
     public Integer getVersion() {
     	return version;
     }
@@ -131,6 +132,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     	this.version = version;
     }
 
+	@ManyToOne
 	@Override
 	public User getCreator() {
     	return creator;
@@ -138,9 +140,10 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 
     @Override
 	public void setCreator(final User creator) {
-    	this.creator = (OurUser) creator;
+    	this.creator = creator;
     }
 
+	@ManyToOne
     @Override
 	public User getChangedBy() {
     	return changedBy;
@@ -148,7 +151,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 
     @Override
 	public void setChangedBy(final User changedBy) {
-    	this.changedBy = (OurUser) changedBy;
+    	this.changedBy = changedBy;
     }
 
 	/*

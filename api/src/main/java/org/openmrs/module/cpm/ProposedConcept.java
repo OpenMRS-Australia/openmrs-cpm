@@ -3,6 +3,8 @@ package org.openmrs.module.cpm;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -20,13 +22,10 @@ import org.apache.commons.logging.LogFactory;
  */
 @Entity
 @Table(name = "cpm_proposed_concept")
-public class ProposedConcept extends ShareableProposal {
+public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	
-	@Transient
 	private static Log log = LogFactory.getLog(ProposedConcept.class);
 	
-	@Id
-	@Column(name = "cpm_proposed_concept_id")
 	private Integer proposedConceptId;
 	private Integer version;
 	
@@ -36,6 +35,8 @@ public class ProposedConcept extends ShareableProposal {
 		this.version = 0;
 	}
 	
+	@Id
+	@Column(name = "cpm_proposed_concept_id")
 	public Integer getId() {
 		return proposedConceptId;
 	}
@@ -50,6 +51,13 @@ public class ProposedConcept extends ShareableProposal {
 	
 	public void setVersion(final Integer version) {
 		this.version = version;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "cpm_proposed_concept_package_id")
+	@Override
+	public ProposedConceptPackage getProposedConceptPackage() {
+		return proposedConceptPackage;
 	}
 	
 }

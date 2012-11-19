@@ -1,18 +1,24 @@
 package org.openmrs.module.cpm;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Auditable;
 import org.openmrs.User;
 
@@ -28,27 +34,11 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 
 	private static Log log = LogFactory.getLog(ProposedConceptPackage.class);
 
-	@Id
-	@Column(name = "cpm_proposed_concept_package_id", nullable = false)
 	private Integer conceptProposalPackageId;
-
-	@ManyToOne
-	@JoinColumn(name = "creator")
-	private OurUser creator;
-
-	@Column(name = "date_created", nullable = false)
-	@Temporal(TemporalType.DATE)
+	private User creator;
 	private Date dateCreated;
-
-	@ManyToOne
-	@JoinColumn(name = "changedBy")
-	private OurUser changedBy;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_changed")
+	private User changedBy;
 	private Date dateChanged;
-
-	@Column(nullable = false)
 	private Integer version;
 
 	/*
@@ -67,6 +57,11 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 	/*
 	 * Persisted field getters/setters
 	 */
+
+	@Id
+	@GeneratedValue(generator = "nativeIfNotAssigned")
+	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+	@Column(name = "cpm_proposed_concept_package_id", nullable = false)
 	@Override
 	public Integer getId() {
 		return conceptProposalPackageId;
@@ -77,6 +72,8 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 		conceptProposalPackageId = id;
 	}
 
+	@Column(name = "date_created", nullable = false)
+	@Temporal(TemporalType.DATE)
 	@Override
 	public Date getDateCreated() {
     	return dateCreated;
@@ -87,6 +84,8 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
     	this.dateCreated = dateCreated;
     }
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_changed")
     @Override
 	public Date getDateChanged() {
     	return dateChanged;
@@ -97,7 +96,7 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
     	this.dateChanged = dateChanged;
     }
 
-
+	@Column(nullable = false)
     public Integer getVersion() {
     	return version;
     }
@@ -107,24 +106,28 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
     	this.version = version;
     }
 
+	@ManyToOne
+	@JoinColumn(name = "creator")
 	@Override
-	public OurUser getCreator() {
+	public User getCreator() {
     	return creator;
     }
 
     @Override
 	public void setCreator(final User creator) {
-    	this.creator = (OurUser) creator;
+    	this.creator = creator;
     }
 
+	@ManyToOne
+	@JoinColumn(name = "changedBy")
     @Override
-	public OurUser getChangedBy() {
+	public User getChangedBy() {
     	return changedBy;
     }
 
     @Override
 	public void setChangedBy(final User changedBy) {
-    	this.changedBy = (OurUser) changedBy;
+    	this.changedBy = changedBy;
     }
 
 	/*
