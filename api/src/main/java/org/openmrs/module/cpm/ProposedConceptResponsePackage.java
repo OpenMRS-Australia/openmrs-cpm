@@ -44,6 +44,9 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 	private Date dateChanged;
 
 	private Integer version;
+	
+	public ProposedConceptResponsePackage() {
+	}
 
 	/**
 	 * Create the server side Concept Proposal Package Response based on the proposer submitted Concept
