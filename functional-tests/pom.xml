@@ -1,13 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
   <parent>
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>cpm</artifactId>
 	<version>1.0-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>cpm-functional-tests</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -27,7 +26,7 @@
 		  <configuration>
 		    <archive>
 		      <manifest>
-		        <mainClass>org.openmrs.module.cpm.TestRunner</mainClass>
+		        <mainClass>org.openmrs.module.cpm.MyTestRunner</mainClass>
 		      </manifest>
 		    </archive>
 		    <descriptorRefs>
@@ -77,6 +76,11 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant-junit</artifactId>
+      <version>1.8.4</version>
     </dependency>
     <dependency>
     	<groupId>org.seleniumhq.selenium</groupId>
