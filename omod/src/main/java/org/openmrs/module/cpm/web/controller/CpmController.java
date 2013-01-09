@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptName;
+import org.openmrs.ConceptSearchResult;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.ShareableComment;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -27,6 +32,73 @@ public class CpmController {
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
 		return "/module/cpm/proposals";
+	}
+
+	@RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
+	public @ResponseBody List<ConceptDto> findConcepts(@RequestParam final String query) {
+		final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
+		final ConceptService conceptService = Context.getConceptService();
+
+		if (query == "") {
+			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
+//			final List<Concept> allConcepts = conceptService.getAllConcepts();
+			for (final Concept concept : allConcepts) {
+				final ConceptDto dto = new ConceptDto();
+				dto.setName(concept.getName().getName());
+
+				String synonyms = "";
+				boolean first = true;
+				for (final ConceptName conceptName : concept.getNames()) {
+					if (conceptName.getName().equals(dto.getName())) {
+						continue;
+					}
+					if (first) {
+						first = false;
+					} else {
+						synonyms += ", ";
+					}
+					synonyms += conceptName.getName();
+				}
+				dto.setSynonyms(synonyms);
+
+				dto.setDatatype(concept.getDatatype().getName());
+				final ConceptDescription description = concept.getDescription();
+				if (description != null) {
+					dto.setDescription(description.getDescription());
+				}
+				results.add(dto);
+			}
+		} else {
+			final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
+			for (final ConceptSearchResult conceptSearchResult : concepts) {
+				final ConceptDto dto = new ConceptDto();
+				dto.setName(conceptSearchResult.getConcept().getName().getName());
+
+				// no synonyms here?
+				String synonyms = "";
+				boolean first = true;
+				for (final ConceptName conceptName : conceptSearchResult.getConcept().getNames()) {
+					if (conceptName.getName().equals(dto.getName())) {
+						continue;
+					}
+					if (first) {
+						first = false;
+					} else {
+						synonyms += ", ";
+					}
+					synonyms += conceptName.getName();
+				}
+				dto.setSynonyms(synonyms);
+
+				dto.setDatatype(conceptSearchResult.getConcept().getDatatype().getName());
+				final ConceptDescription description = conceptSearchResult.getConcept().getDescription();
+				if (description != null) {
+					dto.setDescription(description.getDescription());
+				}
+				results.add(dto);
+			}
+		}
+		return results;
 	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)

@@ -13,9 +13,9 @@ define(['cpm', 'config'], function(cpm, config) {
 
     function doSearch() {
       $scope.isSearching = true;
-      $http.get(config.contextPath + '/ws/rest/v1/concept?v=full&q=' + encodeURIComponent($scope.query)).success(function(data) {
+      $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)).success(function(data) {
         $scope.isSearching = false;
-        $scope.concepts = data.results;
+        $scope.concepts = data;
       });
     }
 

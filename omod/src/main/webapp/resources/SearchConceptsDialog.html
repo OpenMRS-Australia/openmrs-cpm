@@ -38,17 +38,17 @@
  <thead>
   <tr>
    <th>&nbsp;</th>
-   <th>ID</th>
    <th width="200">Name</th>
+   <th>Synonyms</th>
    <th>Description</th>
   </tr>
  </thead>
  <tbody class="conceptList results">
   <tr ng-repeat="concept in concepts" ng-click="concept.selected = !concept.selected">
    <td><input type="checkbox" ng-click="$event.stopPropagation()" ng-model="concept.selected"/></td>
-   <td>{{concept.uuid}}</td>
-   <td>{{concept.display}}</td>
-   <td>{{concept.descriptions[0].description}}</td>
+   <td>{{concept.name}}</td>
+   <td>{{concept.synonyms}}</td>
+   <td>{{concept.description}}</td>
   </tr>
  </tbody>
  <tbody ng-show="!concepts.length">

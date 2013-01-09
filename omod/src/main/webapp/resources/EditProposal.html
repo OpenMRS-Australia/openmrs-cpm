@@ -22,7 +22,7 @@
    border-color: firebrick;
    border-style: solid;
  }
- input {
+ .name, .email {
    width: 600px;
  }
 </style>
@@ -33,10 +33,10 @@
 </p>
 <form name="form" novalidate >
 <p>
- <label>Name<span class="required">*</span><br/><input type="text" name="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" /></label>
+ <label>Name<span class="required">*</span><br/><input type="text" name="name" class="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" /></label>
 </p>
 <p>
- <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
+ <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" class="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
 </p>
 <p>
  <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description"></textarea></label>
@@ -53,8 +53,8 @@
  </tbody>
  <tbody class="conceptList results">
   <tr ng-repeat="concept in selectedConcepts">
-   <td>{{concept.display}}</td>
-   <td>{{concept.datatype.name}}</td>
+   <td>{{concept.name}}</td>
+   <td>{{concept.datatype}}</td>
    <td><input ng-model="concept.comments"/></td>
    <td><button ng-click="removeConcept(concept)">Remove</button></td>
   </tr>
