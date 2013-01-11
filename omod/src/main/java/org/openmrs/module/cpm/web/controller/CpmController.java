@@ -43,62 +43,42 @@ public class CpmController {
 			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
 //			final List<Concept> allConcepts = conceptService.getAllConcepts();
 			for (final Concept concept : allConcepts) {
-				final ConceptDto dto = new ConceptDto();
-				dto.setName(concept.getName().getName());
-
-				String synonyms = "";
-				boolean first = true;
-				for (final ConceptName conceptName : concept.getNames()) {
-					if (conceptName.getName().equals(dto.getName())) {
-						continue;
-					}
-					if (first) {
-						first = false;
-					} else {
-						synonyms += ", ";
-					}
-					synonyms += conceptName.getName();
-				}
-				dto.setSynonyms(synonyms);
-
-				dto.setDatatype(concept.getDatatype().getName());
-				final ConceptDescription description = concept.getDescription();
-				if (description != null) {
-					dto.setDescription(description.getDescription());
-				}
-				results.add(dto);
+				results.add(createConceptDto(concept));
 			}
 		} else {
 			final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
 			for (final ConceptSearchResult conceptSearchResult : concepts) {
-				final ConceptDto dto = new ConceptDto();
-				dto.setName(conceptSearchResult.getConcept().getName().getName());
-
-				// no synonyms here?
-				String synonyms = "";
-				boolean first = true;
-				for (final ConceptName conceptName : conceptSearchResult.getConcept().getNames()) {
-					if (conceptName.getName().equals(dto.getName())) {
-						continue;
-					}
-					if (first) {
-						first = false;
-					} else {
-						synonyms += ", ";
-					}
-					synonyms += conceptName.getName();
-				}
-				dto.setSynonyms(synonyms);
-
-				dto.setDatatype(conceptSearchResult.getConcept().getDatatype().getName());
-				final ConceptDescription description = conceptSearchResult.getConcept().getDescription();
-				if (description != null) {
-					dto.setDescription(description.getDescription());
-				}
-				results.add(dto);
+				results.add(createConceptDto(conceptSearchResult.getConcept()));
 			}
 		}
 		return results;
+	}
+
+	private ConceptDto createConceptDto(final Concept concept) {
+
+		final ConceptDto dto = new ConceptDto();
+		dto.setName(concept.getName().getName());
+
+		String synonyms = "";
+		boolean first = true;
+		for (final ConceptName conceptName : concept.getNames()) {
+			if (conceptName.getName().equals(concept.getName().getName())) {
+				continue;
+			}
+			if (first) {
+				first = false;
+			} else {
+				synonyms += ", ";
+			}
+			synonyms += conceptName.getName();
+		}
+		dto.setSynonyms(synonyms);
+
+		dto.setDatatype(concept.getDatatype().getName());
+		if (concept.getDescription() != null) {
+			dto.setDescription(concept.getDescription().getDescription());
+		}
+		return dto;
 	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)
