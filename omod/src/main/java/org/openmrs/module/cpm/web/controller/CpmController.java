@@ -39,7 +39,7 @@ public class CpmController {
 		final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
 		final ConceptService conceptService = Context.getConceptService();
 
-		if (query == "") {
+		if (query.equals("")) {
 			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
 //			final List<Concept> allConcepts = conceptService.getAllConcepts();
 			for (final Concept concept : allConcepts) {
