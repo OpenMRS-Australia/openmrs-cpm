@@ -1,0 +1,22 @@
+<style>
+.loading {
+  color: #888;
+}
+</style>
+<h2 id="headerText">Incoming Concept Proposals</h2>
+<b class="boxHeader">Open Concept Proposals</b>
+<table class="box" cellpadding="2" cellspacing="0">
+ <thead>
+  <tr><th>From</th><th>Age</th><th>Description</th><th colspan="2"># remaining</th>
+ </thead>
+ <tbody ng-show="!responseReceived">
+  <tr><td colspan="4" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+ </tbody>
+ <tbody ng-show="responseReceived && proposals.length == 0">
+  <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
+ </tbody>
+ <tbody class="results">
+  <tr ng-repeat="proposal in proposals"><td>{{proposal.from}}</td><td>{{proposal.age}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td><a href="#/edit/{{proposal.id}}" class="editProposal">Edit</a></tr>
+ </tbody>
+</table>
+<p><a href="#/completed" onclick="alert('todo'); return false;">View completed proposals</a></p>
