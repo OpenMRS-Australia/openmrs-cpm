@@ -1,20 +1,18 @@
-package org.openmrs.module.cpm;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+package org.openmrs.module.cpm.functionaltest;
 
-import java.io.FileNotFoundException;
+import org.apache.commons.lang.StringUtils;
+import org.junit.*;
+import org.openmrs.module.cpm.pagemodel.AdminPage;
+import org.openmrs.module.cpm.pagemodel.MonitorProposalsPage;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class TestAdminPageLinks {
@@ -28,10 +26,10 @@ public class TestAdminPageLinks {
 	}
 
 	@Before
-	public void load() throws FileNotFoundException, IOException {
-		String username = "";
-		String password = "";
-		String adminPageUrl = "";
+	public void load() throws IOException {
+		String username;
+		String password;
+		String adminPageUrl;
 
 		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
 			username = System.getenv("openmrs_username");
