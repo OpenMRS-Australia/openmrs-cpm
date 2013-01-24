@@ -28,7 +28,16 @@ Contributions
 
 We are looking for volunteers to help!
 
-For commit access, please contact us at https://groups.google.com/d/forum/openmrs-australia/
+We ask that newcomers please submit contributions
+in the form of pull requests in order for a member of our team to review the code appropriately
+as any commits to master are picked up by our continuous deployment server.
+
+Links
+-----
+
+Mailing list: https://groups.google.com/d/forum/openmrs-australia
+
+OpenMRS core source: https://github.com/openmrs/openmrs-core
 
 Concept Proposal Module Documentation:
 https://wiki.openmrs.org/display/projects/Concept+Proposal+Module+Documentation
