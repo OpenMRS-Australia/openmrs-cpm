@@ -3,6 +3,12 @@ package org.openmrs.module.cpm;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -13,19 +19,27 @@ import org.openmrs.Concept;
  * between a Concept proposer, and a Concept Proposal reviewer. The attributes modelled in the
  * abstract class are the ones that will be exchanged between the two using transfer REST services
  */
-public abstract class ShareableProposal  extends BaseOpenmrsObject {
+@MappedSuperclass
+public abstract class ShareableProposal<P extends ShareablePackage> extends BaseOpenmrsObject {
 
 	private static Log log = LogFactory.getLog(ShareableProposal.class);
 
 	private String name;
 	private String description;
-	private ShareablePackage proposedConceptPackage;
+	protected P proposedConceptPackage;
 	private Concept concept;
 	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
 	private ProposalStatus status = ProposalStatus.DRAFT;
 
+	@Transient
     public abstract Integer getId();
     public abstract void setId(Integer id);
+
+	@Column(name = "uuid", unique = true, nullable = false, length = 38)
+	@Override
+	public String getUuid() {
+		return super.getUuid();
+	}
 
     public String getName() {
     	return name;
@@ -43,10 +57,10 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
     	this.description = description;
     }
     
-	public ShareablePackage getProposedConceptPackage() {
-		return proposedConceptPackage;
-	}
+    @Transient
+	public abstract P getProposedConceptPackage();
 	
+    @Transient
 	public Concept getConcept() {
 		return concept;
 	}
@@ -55,10 +69,11 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 		this.concept = concept;
 	}
 	
-	public void setProposedConceptPackage(final ShareablePackage proposedConceptPackage) {
+	public void setProposedConceptPackage(final P proposedConceptPackage) {
 		this.proposedConceptPackage = proposedConceptPackage;
 	}
 	
+	@Transient
 	public Set<ShareableComment> getComments() {
     	return comments;
     }
