@@ -128,7 +128,7 @@ public class CpmController {
 		return newPackage;
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.PUT)
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
                                                                   @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
