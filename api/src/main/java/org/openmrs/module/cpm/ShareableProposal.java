@@ -78,7 +78,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 	/*
 	 * Utility methods
 	 */
-	
+
     public void addComment(final ShareableComment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to add null comment");
@@ -91,7 +91,7 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 			log.warn("Cannot add comment: " + comment + " to null comment list");
 		}
 	}
-	
+
 	public void removeComment(final ShareableComment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to remove null comment");
@@ -104,5 +104,5 @@ public abstract class ShareableProposal  extends BaseOpenmrsObject {
 			log.warn("Cannot remove comment: " + comment + " to null comment list");
 		}
 	}
-    
+
 }

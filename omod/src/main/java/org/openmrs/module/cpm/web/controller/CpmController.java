@@ -23,15 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
 public class CpmController {
 
-	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
+ 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
 		return "/module/cpm/proposals";
 	}
@@ -65,6 +64,8 @@ public class CpmController {
 
 		final ConceptDto dto = new ConceptDto();
 		dto.setName(concept.getName().getName());
+
+		dto.setId(concept.getConceptId());
 
 		String synonyms = "";
 		boolean first = true;
@@ -118,20 +119,7 @@ public class CpmController {
 		conceptPackage.setEmail(newPackage.getEmail());
 		conceptPackage.setDescription(newPackage.getDescription());
 
-		if (newPackage.getConcepts() != null) {
-			for (final ProposedConceptDto newProposedConcept : newPackage.getConcepts()) {
-
-				final ProposedConcept proposedConcept = new ProposedConcept();
-				final ConceptService conceptService = Context.getConceptService();
-				final Concept concept = conceptService.getConcept(newProposedConcept.getConceptId());
-				proposedConcept.setConcept(concept);
-
-				final Set<ShareableComment> comments = new HashSet<ShareableComment>();
-				final ShareableComment comment = new ShareableComment();
-				comment.setComment(newProposedConcept.getComments());
-				proposedConcept.setComments(comments);
-			}
-		}
+		changeProposedConcepts(conceptPackage, newPackage);
 
 		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
@@ -140,34 +128,22 @@ public class CpmController {
 		return newPackage;
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.PUT)
-	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId, @RequestBody final ProposedConceptPackageDto updatedPackage) {
+	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.POST)
+	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
+                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
 		// TODO: some server side validation here... not null fields, valid email?
-
 		final ProposedConceptPackage conceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
 
 		conceptPackage.setName(updatedPackage.getName());
 		conceptPackage.setEmail(updatedPackage.getEmail());
 		conceptPackage.setDescription(updatedPackage.getDescription());
 
-		// TODO: remap concepts
-//		if (updatedPackage.getConcepts() != null) {
-//			for (final ProposedConceptDto newProposedConcept : updatedPackage.getConcepts()) {
-//
-//				final ProposedConcept proposedConcept = new ProposedConcept();
-//				final ConceptService conceptService = Context.getConceptService();
-//				final Concept concept = conceptService.getConcept(newProposedConcept.getConceptId());
-//				proposedConcept.setConcept(concept);
-//
-//				final Set<ShareableComment> comments = new HashSet<ShareableComment>();
-//				final ShareableComment comment = new ShareableComment();
-//				comment.setComment(newProposedConcept.getComments());
-//				proposedConcept.setComments(comments);
-//			}
-//		}
 
-		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
+        // TODO: remap concepts
+        changeProposedConcepts(conceptPackage, updatedPackage);
+
+        Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 		return updatedPackage;
 	}
 
@@ -192,9 +168,9 @@ public class CpmController {
 		for (final ProposedConcept conceptProposal : proposedConcepts) {
 
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
-//			conceptProposalDto.setConceptId(conceptProposal.get??)
+			conceptProposalDto.setId(conceptProposal.getConcept().getConceptId());
 			conceptProposalDto.setName(conceptProposal.getName());
-//			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
+			conceptProposalDto.setComments(conceptProposal.getDescription());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
 
 			list.add(conceptProposalDto);
@@ -218,6 +194,63 @@ public class CpmController {
 
 		return response;
 	}
+
+    private void changeProposedConcepts(ProposedConceptPackage conceptPackage, ProposedConceptPackageDto packageDto){
+        removeDeletedProposedConcepts(conceptPackage, packageDto);
+        addOrModifyProposedConcepts(conceptPackage,packageDto);
+    }
+
+    private void removeDeletedProposedConcepts(ProposedConceptPackage conceptPackage,ProposedConceptPackageDto packageDto){
+        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
+
+        //remove concept(s)
+        if(conceptPackage.getProposedConcepts().size() > 0){
+            List<Integer> newConceptIds = new ArrayList<Integer>();
+            for (ProposedConceptDto p : packageDto.getConcepts()){
+                newConceptIds.add(p.getId());
+            }
+            List<Integer> existingConceptIds = new ArrayList<Integer>();
+            for (ProposedConcept p : conceptPackage.getProposedConcepts()){
+                existingConceptIds.add(p.getId());
+            }
+
+            for (Integer existingId : existingConceptIds){
+                if(!newConceptIds.contains(existingId)){
+                    //delete the concept
+                    ProposedConcept removedConcept = conceptPackage.getProposedConcept(existingId);
+                    conceptPackage.removeProposedConcept(removedConcept);
+                    Context.getService(ProposedConceptService.class).deleteProposedConcept(removedConcept);
+                }
+            }
+        }
+    }
+
+    private void addOrModifyProposedConcepts( ProposedConceptPackage conceptPackage,
+                                           final ProposedConceptPackageDto packageDto){
+        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
+
+            //Add and modify concepts
+            for (final ProposedConceptDto newProposedConcept : packageDto.getConcepts()) {
+                ProposedConcept proposedConcept = new ProposedConcept();
+                final ConceptService conceptService = Context.getConceptService();
+                proposedConcept.setId(newProposedConcept.getId());
+
+                if(conceptPackage.getProposedConcept(newProposedConcept.getId()) != null){
+                    //(Update) Already persisted concept
+                    proposedConcept = conceptPackage.getProposedConcept(newProposedConcept.getId());
+                    proposedConcept.setDescription(newProposedConcept.getComments());
+
+                } else {
+                    //New concept added to the ProposedConceptPackage
+                    final Concept concept = conceptService.getConcept(newProposedConcept.getId());
+                    checkNotNull(concept,"Concept should not be null") ;
+                    proposedConcept.setConcept(concept);
+                    proposedConcept.setName(newProposedConcept.getName());
+                    proposedConcept.setDescription(newProposedConcept.getComments());
+                    conceptPackage.addProposedConcept(proposedConcept);
+                }
+            }
+    }
 
 	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage conceptProposalResponsePackage) {
 

@@ -56,8 +56,11 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 	
 	public void setProposedConcepts(Set<P> proposedConcepts) {
 		this.proposedConcepts = proposedConcepts;
+        for(P p : proposedConcepts) {
+            p.setProposedConceptPackage(this);
+        }
 	}
-	
+
 	public PackageStatus getStatus() {
 		return status;
 	}
@@ -96,5 +99,14 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 			log.warn("Cannot remove concept: " + proposedConcept + " to null concept list");
 		}
 	}
+
+  public P getProposedConcept(final int proposedConceptId){
+      for(P p : proposedConcepts){
+          if(p.getId() == proposedConceptId){
+              return p;
+          }
+      }
+      return null;
+  }
 	
 }

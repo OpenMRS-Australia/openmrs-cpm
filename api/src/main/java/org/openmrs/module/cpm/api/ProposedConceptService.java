@@ -5,10 +5,7 @@ import java.util.List;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.cpm.ConceptProposalConsts;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.ShareablePackage;
+import org.openmrs.module.cpm.*;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -93,8 +90,20 @@ public interface ProposedConceptService extends OpenmrsService {
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
 	void deleteProposedConceptPackage(ProposedConceptPackage conceptPackage) throws APIException;
-	
-	//	Moving on to all of the services for the server side of the Concept Proposal Module
+
+    /**
+     * Deletes a ProposedConcept
+     *
+     * @param The ProposedConcept to be removed from persistent storage
+     * @throws APIException
+     * @since 1.0
+     */
+    @Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+    @Transactional
+    void deleteProposedConcept(ProposedConcept proposedConcept) throws APIException;
+
+
+    //	Moving on to all of the services for the server side of the Concept Proposal Module
 	
 	/**
 	 * Gets a list of all of the proposals that have been received on this OpenMRS instance. For

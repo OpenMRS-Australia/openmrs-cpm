@@ -51,13 +51,13 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.save();
     });
 
-    it("should save an existing proposal by PUT-ing to the address of the resource", function() {
+    it("should save an existing proposal by POST-ing to the address of the resource", function() {
       routeParams = {proposalId: 1};
       httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
 
-      httpBackend.expectPUT('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "new", email: "blah@blah.com", description: "proposal"});
+      httpBackend.expectPOST('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "new", email: "blah@blah.com", description: "proposal"});
       scope.save();
     });
 
