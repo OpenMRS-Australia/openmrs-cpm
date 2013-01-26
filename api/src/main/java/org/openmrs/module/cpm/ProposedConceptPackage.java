@@ -1,9 +1,12 @@
 package org.openmrs.module.cpm;
 
-import java.util.Date;
-import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.GenericGenerator;
+import org.openmrs.Auditable;
+import org.openmrs.User;
 
-import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.annotations.GenericGenerator;
-import org.openmrs.Auditable;
-import org.openmrs.User;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * This class represents a set of Concepts that has been proposed as a single group.  It acts as a wrapper for
@@ -129,6 +127,12 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 	public void setChangedBy(final User changedBy) {
     	this.changedBy = changedBy;
     }
+
+	@OneToMany(mappedBy = "proposedConceptPackage", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Override
+	public Set<ProposedConcept> getProposedConcepts() {
+		return proposedConcepts;
+	}
 
 	/*
 	 * Utility methods

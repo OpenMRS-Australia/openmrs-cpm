@@ -1,18 +1,16 @@
 package org.openmrs.module.cpm;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.BaseOpenmrsObject;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openmrs.BaseOpenmrsObject;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is the base class underlying the exchange of information of aggregated Concept Proposals
@@ -65,11 +63,9 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-    @OneToMany(mappedBy = "proposedConceptPackage")
-	public Set<P> getProposedConcepts() {
-		return proposedConcepts;
-	}
+
+	@Transient
+	public abstract Set<P> getProposedConcepts();
 
 	public void setProposedConcepts(Set<P> proposedConcepts) {
 		this.proposedConcepts = proposedConcepts;

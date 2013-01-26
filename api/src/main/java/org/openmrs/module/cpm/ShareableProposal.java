@@ -1,18 +1,19 @@
 package org.openmrs.module.cpm;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.Concept;
+
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is the base class underlying the exchange of information of individual Concept Proposals
@@ -56,11 +57,12 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
     public void setDescription(final String description) {
     	this.description = description;
     }
-    
-    @Transient
+
+	@Transient
 	public abstract P getProposedConceptPackage();
-	
-    @Transient
+
+	@ManyToOne
+	@JoinColumn(name = "concept_id", nullable = false)
 	public Concept getConcept() {
 		return concept;
 	}
@@ -81,7 +83,9 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
     public void setComments(final Set<ShareableComment> comments) {
     	this.comments = comments;
     }
-    
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
     public ProposalStatus getStatus() {
     	return status;
     }

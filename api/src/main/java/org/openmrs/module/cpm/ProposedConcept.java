@@ -54,7 +54,7 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "cpm_proposed_concept_package_id")
+	@JoinColumn(name = "cpm_proposed_concept_package_id", nullable = false)
 	@Override
 	public ProposedConceptPackage getProposedConceptPackage() {
 		return proposedConceptPackage;
