@@ -1,6 +1,18 @@
 Welcome to the OpenMRS Concept Proposal Module!
 ===============================================
 
+Intro
+-----
+
+[OpenMRS](http://openmrs.org) is an Java based open source medical records system
+actively developed by volunteers worldwide to support healthcare delivery in
+developing nations.
+
+The Concept Proposal Module is intended to be used by local administrators 
+who have created new concepts they wish to propose for inclusion in the central
+dictionary database.  There are 2 parts to this module: The proposal and the review.
+
+
 Build Requirements
 ------------------
 
@@ -23,10 +35,11 @@ Quickstart
     * Administration -> Manage Modules -> Add or upgrade module -> Add module
 
 
-Contributions
--------------
+How to Contribute
+-----------------
 
-We are looking for volunteers to help!
+We are looking for volunteers to help!  Please contact us via the [mailing list](http://groups.google.com/d/forum/openmrs-australia)
+or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Melbourne, Australia.
 
 We ask that newcomers please submit contributions
 in the form of pull requests in order for a member of our team to review the code appropriately
@@ -35,10 +48,12 @@ as any commits to master are picked up by our continuous deployment server.
 Links
 -----
 
-Mailing list: https://groups.google.com/d/forum/openmrs-australia
+Mailing list: http://groups.google.com/d/forum/openmrs-australia
+
+Meetup: http://www.meetup.com/melbourne-hack-nights
 
 OpenMRS core source: https://github.com/openmrs/openmrs-core
 
 Concept Proposal Module Documentation:
-https://wiki.openmrs.org/display/projects/Concept+Proposal+Module+Documentation
+http://wiki.openmrs.org/display/projects/Concept+Proposal+Module+Documentation
 
