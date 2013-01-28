@@ -1,31 +1,44 @@
 package org.openmrs.module.cpm;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
+
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is the base class underlying the exchange of information of aggregated Concept Proposals
  * between a Concept proposer, and a Concept Proposal reviewer. The attributes modelled in the
  * abstract class are the ones that will be exchanged between the two using transfer REST services
  */
+@MappedSuperclass
 public abstract class ShareablePackage<P extends ShareableProposal> extends BaseOpenmrsObject {
-	
+
 	protected Log log = LogFactory.getLog(getClass());
-	
+
 	private String name;
+
 	private String email;
+
 	private String description;
-	private Set<P> proposedConcepts = new HashSet<P>();
+
+	protected Set<P> proposedConcepts = new HashSet<P>();
+
 	private PackageStatus status = PackageStatus.DRAFT;
-	
-	public ShareablePackage() {
-		super();
+
+	@Column(name = "uuid", unique = true, nullable = false, length = 38)
+	@Override
+	public String getUuid() {
+		return super.getUuid();
 	}
 	
+	@Column(nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -34,6 +47,7 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 		this.name = name;
 	}
 	
+	@Column(nullable = false)
 	public String getEmail() {
 		return email;
 	}
@@ -49,11 +63,10 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public Set<P> getProposedConcepts() {
-		return proposedConcepts;
-	}
-	
+
+	@Transient
+	public abstract Set<P> getProposedConcepts();
+
 	public void setProposedConcepts(Set<P> proposedConcepts) {
 		this.proposedConcepts = proposedConcepts;
         for(P p : proposedConcepts) {
@@ -61,6 +74,8 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
         }
 	}
 
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	public PackageStatus getStatus() {
 		return status;
 	}

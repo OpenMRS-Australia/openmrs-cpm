@@ -222,7 +222,6 @@ public class CpmController {
                     //delete the concept
                     ProposedConcept removedConcept = conceptPackage.getProposedConcept(existingId);
                     conceptPackage.removeProposedConcept(removedConcept);
-                    Context.getService(ProposedConceptService.class).deleteProposedConcept(removedConcept);
                 }
             }
         }
