@@ -1,5 +1,6 @@
 package org.openmrs.module.cpm.web.controller;
 
+import com.google.common.collect.Lists;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSearchResult;
@@ -119,7 +120,7 @@ public class CpmController {
 		conceptPackage.setEmail(newPackage.getEmail());
 		conceptPackage.setDescription(newPackage.getDescription());
 
-		changeProposedConcepts(conceptPackage, newPackage);
+		updateProposedConcepts(conceptPackage, newPackage);
 
 		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
@@ -141,7 +142,7 @@ public class CpmController {
 
 
         // TODO: remap concepts
-        changeProposedConcepts(conceptPackage, updatedPackage);
+        updateProposedConcepts(conceptPackage, updatedPackage);
 
         Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 		return updatedPackage;
@@ -195,25 +196,27 @@ public class CpmController {
 		return response;
 	}
 
-    private void changeProposedConcepts(ProposedConceptPackage conceptPackage, ProposedConceptPackageDto packageDto){
+    private void updateProposedConcepts(ProposedConceptPackage conceptPackage,
+                                        ProposedConceptPackageDto packageDto){
+        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
+        checkNotNull(packageDto,"ProposedConceptPackageDto should not be null");
         removeDeletedProposedConcepts(conceptPackage, packageDto);
         addOrModifyProposedConcepts(conceptPackage,packageDto);
     }
 
-    private void removeDeletedProposedConcepts(ProposedConceptPackage conceptPackage,ProposedConceptPackageDto packageDto){
-        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
-
+    private void removeDeletedProposedConcepts(ProposedConceptPackage conceptPackage,
+                                               ProposedConceptPackageDto packageDto){
         //remove concept(s)
         if(conceptPackage.getProposedConcepts().size() > 0){
-            List<Integer> newConceptIds = new ArrayList<Integer>();
+            List<Integer> newConceptIds = Lists.newArrayList();
             for (ProposedConceptDto p : packageDto.getConcepts()){
                 newConceptIds.add(p.getId());
             }
-            List<Integer> existingConceptIds = new ArrayList<Integer>();
+            List<Integer> existingConceptIds = Lists.newArrayList();
             for (ProposedConcept p : conceptPackage.getProposedConcepts()){
                 existingConceptIds.add(p.getId());
             }
-
+            //Find concepts that have been deleted
             for (Integer existingId : existingConceptIds){
                 if(!newConceptIds.contains(existingId)){
                     //delete the concept
@@ -227,8 +230,6 @@ public class CpmController {
 
     private void addOrModifyProposedConcepts( ProposedConceptPackage conceptPackage,
                                            final ProposedConceptPackageDto packageDto){
-        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
-
             //Add and modify concepts
             for (final ProposedConceptDto newProposedConcept : packageDto.getConcepts()) {
                 ProposedConcept proposedConcept = new ProposedConcept();
@@ -236,10 +237,9 @@ public class CpmController {
                 proposedConcept.setId(newProposedConcept.getId());
 
                 if(conceptPackage.getProposedConcept(newProposedConcept.getId()) != null){
-                    //(Update) Already persisted concept
+                    //Modify already persisted concept
                     proposedConcept = conceptPackage.getProposedConcept(newProposedConcept.getId());
                     proposedConcept.setDescription(newProposedConcept.getComments());
-
                 } else {
                     //New concept added to the ProposedConceptPackage
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
