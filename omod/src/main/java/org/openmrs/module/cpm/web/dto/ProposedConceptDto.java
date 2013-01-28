@@ -2,55 +2,35 @@ package org.openmrs.module.cpm.web.dto;
 
 import org.openmrs.module.cpm.ProposalStatus;
 
-public class ProposedConceptDto {
+public class ProposedConceptDto extends ConceptDto{
 
-	private int conceptId;
+	private boolean selected;
 
-	private String name;
+    private String comments;
 
-	private String datatype;
+    private ProposalStatus status;
 
-	private String comments;
+    public String getComments() {
+        return comments;
+    }
 
-	private ProposalStatus status;
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	public int getConceptId() {
-		return conceptId;
-	}
+    public ProposalStatus getStatus() {
+        return status;
+    }
 
-	public void setConceptId(final int conceptId) {
-		this.conceptId = conceptId;
-	}
+    public void setStatus(ProposalStatus status) {
+        this.status = status;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public boolean isSelected() {
+        return selected;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDatatype() {
-		return datatype;
-	}
-
-	public void setDatatype(final String datatype) {
-		this.datatype = datatype;
-	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(final String comments) {
-		this.comments = comments;
-	}
-
-	public ProposalStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(final ProposalStatus status) {
-		this.status = status;
-	}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

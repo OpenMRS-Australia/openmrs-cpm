@@ -13,12 +13,13 @@ define(['cpm', 'config'], function(cpm, config) {
 
     $scope.resourceLocation = config.resourceLocation;
 
-    $scope.selectedConcepts = [];
 
     if ($scope.isEdit) {
       $scope.proposal = Proposals.get({proposalId: proposalId});
     } else {
       $scope.proposal = new Proposals();
+      $scope.proposal.concepts= [];
+
     }
 
     $scope.nameErrorMsg = function() {
@@ -37,6 +38,8 @@ define(['cpm', 'config'], function(cpm, config) {
     };
 
     $scope.save = function() {
+			//$scope.proposal.concepts=$scope.selectedConcepts;
+
       if ($scope.isEdit) {
         $scope.proposal.$update(function() {
           alert("Saved!");
@@ -63,10 +66,10 @@ define(['cpm', 'config'], function(cpm, config) {
 
     $scope.removeConcept = function(concept) {
       if (confirm("Are you sure?")) {
-        for (var i in $scope.selectedConcepts) {
-          if ($scope.selectedConcepts[i] == concept) {
-            delete $scope.selectedConcepts[i];
-            $scope.selectedConcepts.splice(i, 1);
+        for (var i in $scope.proposal.concepts) {
+          if ($scope.proposal.concepts[i] == concept) {
+            delete $scope.proposal.concepts[i];
+            $scope.proposal.concepts.splice(i, 1);
           }
         }
       }

@@ -48,7 +48,7 @@ define(['cpm', 'config'], function(cpm, config) {
 
     $scope.add = function() {
       var concepts = getSelectedConcepts();
-      $scope.$parent.$parent.selectedConcepts = $scope.$parent.$parent.selectedConcepts.concat(concepts);
+      $scope.$parent.$parent.proposal.concepts = $scope.$parent.$parent.proposal.concepts.concat(concepts);
       $scope.$parent.$parent.dialog = "close";
     };
 
