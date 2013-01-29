@@ -19,8 +19,9 @@ public class TestAdminPageLinks {
 
 	private AdminPage page;
 	private static FirefoxDriver driver;
+    private String openmrsUrl = "openmrs";
 
-	@BeforeClass
+    @BeforeClass
 	public static void beforeClass() {
 		driver = new FirefoxDriver();
 	}
@@ -34,7 +35,12 @@ public class TestAdminPageLinks {
 		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
 			username = System.getenv("openmrs_username");
 			password = System.getenv("openmrs_password");
-			adminPageUrl = String.format("http://%s/openmrs/admin",System.getenv("openmrs_server"));
+
+            if (StringUtils.isNotBlank(System.getenv("openmrs_url"))) {
+                openmrsUrl = System.getenv("openmrs_url");
+            }
+
+            adminPageUrl = String.format("http://%s/%s/admin", System.getenv("openmrs_server"), openmrsUrl);
 		} else {
 			final Properties p = new Properties();
 			final InputStream is = getClass().getResourceAsStream("/config.properties");
@@ -45,7 +51,7 @@ public class TestAdminPageLinks {
 			adminPageUrl = p.getProperty("adminPageUrl");
 		}
 
-		page = new AdminPage(driver, adminPageUrl);
+		page = new AdminPage(driver, adminPageUrl, openmrsUrl);
 		page.login(username, password);
 	}
 
