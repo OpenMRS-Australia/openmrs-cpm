@@ -3,6 +3,7 @@ package org.openmrs.module.cpm.functionaltest;
 import org.apache.commons.lang.StringUtils;
 import org.junit.*;
 import org.openmrs.module.cpm.pagemodel.AdminPage;
+import org.openmrs.module.cpm.pagemodel.CreateProposalPage;
 import org.openmrs.module.cpm.pagemodel.MonitorProposalsPage;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -59,9 +60,8 @@ public class TestAdminPageLinks {
 	public void shouldNavigateToCreateProposalPage() {
 		assertNotNull(page.getCreateProposalLink());
 
-		// page doesn't exist yet
-//		final CreateProposalPage createProposalPage = page.navigateToCreateProposalPage();
-//		assertEquals("Create a Concept Proposal", createProposalPage.getHeaderText());
+		final CreateProposalPage createProposalPage = page.navigateToCreateProposalPage();
+		assertEquals("Create Concept Proposal", createProposalPage.getHeaderText());
 	}
 
 	@Test
