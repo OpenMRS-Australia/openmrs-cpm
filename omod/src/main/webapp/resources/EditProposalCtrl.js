@@ -53,8 +53,9 @@ define(['cpm', 'config'], function(cpm, config) {
       }
     };
 
-    $scope.send = function() {
-      alert("Sending proposal");
+    $scope.submit = function() {
+      $scope.proposal.status = 'TBS';
+      $scope.proposal.$update()
     };
 
     $scope.deleteProposal = function() {

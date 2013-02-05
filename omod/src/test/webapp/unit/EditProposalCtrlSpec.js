@@ -71,18 +71,19 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.deleteProposal();
     });
 
-    it("should submit a proposal by POST-ing a proposal object with status: 'TBS'", function() {
+    it("should submit a proposal by POST-ing a proposal model with status: 'TBS'", function() {
+
 
       // initiate controller
-      routeParams = {id: 1};
+      routeParams = {proposalId: 1};
+      httpBackend.whenGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com"});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+      httpBackend.flush();
 
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com", description: "proposal"});
+      // assert that a PUT is received, with the status of the model changed to "TBS"
+      httpBackend.expectPUT('/openmrs/ws/cpm/proposals/1', {id: 1, name: "existing", email: "blah@blah.com", status: "TBS"}).respond({});
 
-      // assert that a post is received
-      httpBackend.expectPOST('/openmrs/ws/cpm/dm/proposals').respond({id: 1, name: "existing", email: "blah@blah.com", description: "proposal", status: "PENDING"});
-
-      // the actual test
+      // Test the actual Code Under Test
       scope.submit();
 
     });
