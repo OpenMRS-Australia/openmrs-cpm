@@ -71,8 +71,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.deleteProposal();
     });
 
-    it("should submit a proposal by POST-ing a proposal model with status: 'TBS'", function() {
-
+    it("should submit a proposal by PUT-ing a proposal model with status: 'TBS'", function() {
 
       // initiate controller
       routeParams = {proposalId: 1};
@@ -85,9 +84,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
 
       // Test the actual Code Under Test
       scope.submit();
-
     });
-
 
     /*
      * Not sure how to bind to view to get access to form validation yet
