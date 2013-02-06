@@ -41,6 +41,9 @@ How to Contribute
 We are looking for volunteers to help!  Please contact us via the [mailing list](http://groups.google.com/d/forum/openmrs-australia)
 or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Melbourne, Australia.
 
+If you're new to web or Java development, or are just curious to see what we're working with, have a look at
+the [summary of technologies used](https://github.com/johnsyweb/openmrs-cpm/wiki/Resources).
+
 We ask that newcomers please submit contributions
 in the form of pull requests in order for a member of our team to review the code appropriately
 as any commits to master are picked up by our continuous deployment server.
