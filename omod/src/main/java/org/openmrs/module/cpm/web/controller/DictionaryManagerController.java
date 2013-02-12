@@ -1,5 +1,6 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import com.google.common.collect.Lists;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
@@ -28,8 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class DictionaryManagerController {
 
  	@RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
-	public String submitProposal(@RequestBody final ProposedConceptResponsePackageDto incomingProposal) {
-		return "/module/cpm/proposals";
+	public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final ProposedConceptResponsePackageDto incomingProposal) {
+		return new SubmissionResponseDto();
 	}
-
 }
