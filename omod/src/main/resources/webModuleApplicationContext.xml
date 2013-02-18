@@ -22,7 +22,14 @@
 
 	<!-- Add here beans related to the web context -->
 
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-	<context:component-scan base-package="org.openmrs.module.cpm.web.controller" />
-		
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <context:component-scan base-package="org.openmrs.module.cpm.web.controller" />
+    <bean id="submissionRestTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
