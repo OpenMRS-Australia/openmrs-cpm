@@ -18,18 +18,26 @@ import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import org.springframework.context.ApplicationContext;
 
 @Controller
 public class DictionaryManagerController {
+    @Autowired
+    private ApplicationContext appContext;
 
- 	@RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
-	public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final ProposedConceptResponsePackageDto incomingProposal) {
-		return new SubmissionResponseDto();
-	}
+    @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
+    public @ResponseBody
+    SubmissionResponseDto submitProposal(@RequestBody final ProposedConceptResponsePackageDto incomingProposal) {
+        appContext.getBean("submissionRestTemplate", RestTemplate.class);
+        return new SubmissionResponseDto();
+    }
 }
