@@ -30,6 +30,12 @@
                 <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
             </list>
         </property>
+        <property name="requestFactory">
+            <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+                <property name="httpClient" ref="httpClient"/>
+            </bean>
+        </property>
     </bean>
+    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>
 
 </beans>
