@@ -20,22 +20,23 @@
   		    http://www.springframework.org/schema/util
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<!-- Add here beans related to the web context -->
-
+    <!-- MVC configuration -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <context:component-scan base-package="org.openmrs.module.cpm.web.controller" />
+
+    <!-- REST configuration -->
     <bean id="submissionRestTemplate" class="org.springframework.web.client.RestTemplate">
         <property name="messageConverters">
             <list>
-                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
             </list>
         </property>
         <property name="requestFactory">
-            <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+            <bean class="org.openmrs.module.cpm.spring.HttpComponentsClientHttpRequestFactory">
                 <property name="httpClient" ref="httpClient"/>
             </bean>
         </property>
     </bean>
-    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient"/>
+    <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient"/>
 
 </beans>

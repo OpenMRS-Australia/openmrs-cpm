@@ -1,9 +1,10 @@
 package org.openmrs.module.cpm.web.controller;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSearchResult;
@@ -19,6 +20,8 @@ import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
+import org.openmrs.module.cpm.web.dto.SubmissionDto;
+import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +45,7 @@ public class CpmController {
 	private RestTemplate submissionRestTemplate;
 
 	@Autowired
-	private HttpClient httpClient;
+	private DefaultHttpClient httpClient;
 
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
@@ -147,10 +150,15 @@ public class CpmController {
                                                                   @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
 		if (updatedPackage.getStatus() == PackageStatus.TBS) {
-			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin","Admin123");
-			httpClient.getState().setCredentials(new AuthScope("localhost", 8080, AuthScope.ANY_REALM), credentials);
 
-			final String result = submissionRestTemplate.getForObject("http://localhost:8080/openmrs/ws/rest/v1/concept?limit=2", String.class);
+			BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
+			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
+			credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+			httpClient.setCredentialsProvider(credentialsProvider);
+
+			SubmissionDto submission = new SubmissionDto();
+//			final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
+			final SubmissionResponseDto result = submissionRestTemplate.getForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", SubmissionResponseDto.class);
 			System.out.println("*********** Result: " + result);
 		}
 
