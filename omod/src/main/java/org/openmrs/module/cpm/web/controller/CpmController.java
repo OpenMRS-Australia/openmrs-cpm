@@ -157,8 +157,8 @@ public class CpmController {
 			httpClient.setCredentialsProvider(credentialsProvider);
 
 			SubmissionDto submission = new SubmissionDto();
-//			final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
-			final SubmissionResponseDto result = submissionRestTemplate.getForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", SubmissionResponseDto.class);
+			final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
+//			final SubmissionResponseDto result = submissionRestTemplate.getForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", SubmissionResponseDto.class);
 			System.out.println("*********** Result: " + result);
 		}
 
