@@ -11,6 +11,8 @@ public class DictionaryManagerController {
 
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.GET)
     public @ResponseBody SubmissionResponseDto submitProposal() { //@RequestBody final SubmissionDto incomingProposal) {
-        return new SubmissionResponseDto();
+        SubmissionResponseDto responseDto = new SubmissionResponseDto();
+        responseDto.setStatus("OK");
+        return responseDto;
     }
 }

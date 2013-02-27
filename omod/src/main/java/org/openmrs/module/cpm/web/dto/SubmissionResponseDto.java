@@ -6,8 +6,17 @@ package org.openmrs.module.cpm.web.dto;
  * @since 12/02/2013
  */
 public class SubmissionResponseDto {
-    
-    public SubmissionResponseDto() {
+
+
+    // Dummy field
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

@@ -14,7 +14,6 @@ import org.junit.rules.ExpectedException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -24,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 @PrepareForTest(Context.class)
-public class TestCpmController extends BaseModuleContextSensitiveTest {
+public class TestCpmController extends BaseCpmOmodTest {
 
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
