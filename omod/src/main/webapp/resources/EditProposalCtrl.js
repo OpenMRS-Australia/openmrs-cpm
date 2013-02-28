@@ -3,6 +3,7 @@ define(['cpm', 'config'], function(cpm, config) {
 
     var proposalId = $routeParams.proposalId;
     $scope.isEdit = typeof proposalId !== 'undefined';
+    $scope.isSubmitting = false;
 
     // XXX
     if ($scope.isEdit) {
@@ -55,7 +56,12 @@ define(['cpm', 'config'], function(cpm, config) {
 
     $scope.submit = function() {
       $scope.proposal.status = 'TBS';
-      $scope.proposal.$update()
+      $scope.proposal.$update(function() {
+        $scope.isSubmitting = false;
+      }, function() {
+        $scope.isSubmitting = false;
+      });
+      $scope.isSubmitting = true;
     };
 
     $scope.deleteProposal = function() {

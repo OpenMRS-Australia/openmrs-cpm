@@ -149,32 +149,40 @@ public class CpmController {
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
                                                                   @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
-		if (updatedPackage.getStatus() == PackageStatus.TBS) {
+		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
+		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(Integer.valueOf(proposalId));
 
-			BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
-			UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
-			credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-			httpClient.setCredentialsProvider(credentialsProvider);
-
-			SubmissionDto submission = new SubmissionDto();
-			final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
-			System.out.println("*********** Result: " + result);
+		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
+			return submitProposedConcept(conceptPackage);
 		}
 
 
 		// TODO: some server side validation here... not null fields, valid email?
-		final ProposedConceptPackage conceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
 
 		conceptPackage.setName(updatedPackage.getName());
 		conceptPackage.setEmail(updatedPackage.getEmail());
 		conceptPackage.setDescription(updatedPackage.getDescription());
 
-
-        // TODO: remap concepts
         updateProposedConcepts(conceptPackage, updatedPackage);
 
-        Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
+        proposedConceptService.saveProposedConceptPackage(conceptPackage);
 		return updatedPackage;
+	}
+
+	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage) {
+
+		BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
+		credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+		httpClient.setCredentialsProvider(credentialsProvider);
+
+		SubmissionDto submission = new SubmissionDto();
+		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
+
+		conceptPackage.setStatus(PackageStatus.SUBMITTED);
+		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
+
+		return createProposedConceptPackageDto(conceptPackage);
 	}
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.DELETE)

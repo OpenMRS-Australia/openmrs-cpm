@@ -32,6 +32,9 @@
  <span style="font-size: smaller;"><span class="required">*</span> denotes required field</span>
  <span style="color: firebrick; margin-left: 2em; font-weight: bold;">{{errorMessage}}</span>
 </p>
+<p>
+  Status: {{proposal.status | proposalStatus}}
+</p>
 <form name="form" novalidate >
 <p>
  <label>Name<span class="required">*</span><br/><input type="text" name="name" class="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" /></label>
@@ -66,7 +69,10 @@
 
 <div>
  <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
- <button ng-click="submit()" ng-disabled="!isEdit || form.$invalid" accesskey="e">S<span class="accesskey">e</span>nd Proposal</button>
+ <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="!isEdit || form.$invalid || isSubmitting" accesskey="e" ng-switch="isSubmitting">
+  <span ng-switch-when="true">Sending...</span>
+  <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
+ </button>
  <button ng-click="deleteProposal()" ng-disabled="!isEdit" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
 </form>
