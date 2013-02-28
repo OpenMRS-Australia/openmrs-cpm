@@ -177,6 +177,9 @@ public class CpmController {
 		httpClient.setCredentialsProvider(credentialsProvider);
 
 		SubmissionDto submission = new SubmissionDto();
+		submission.setName(conceptPackage.getName());
+		submission.setEmail(conceptPackage.getEmail());
+		submission.setDescription(conceptPackage.getDescription());
 		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 
 		conceptPackage.setStatus(PackageStatus.SUBMITTED);
