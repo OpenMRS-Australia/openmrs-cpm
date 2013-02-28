@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class DictionaryManagerController {
 
-    @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.GET)
+    @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) {
         SubmissionResponseDto responseDto = new SubmissionResponseDto();
         responseDto.setStatus("OK");
