@@ -2,13 +2,16 @@ package org.openmrs.module.cpm;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Auditable;
 import org.openmrs.User;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -45,6 +48,9 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 	private Integer version;
 	
 	public ProposedConceptResponsePackage() {
+		dateCreated = new Date();
+		dateChanged = new Date();
+		version = 0;
 	}
 
 	/**
@@ -80,7 +86,9 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 	}
 
 	@Id
-	@Column(nullable = false)
+	@GeneratedValue(generator = "nativeIfNotAssigned")
+	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+	@Column(name = "cpm_proposed_concept_response_package_id", nullable = false)
 	@Override
 	public Integer getId() {
 		return proposedConceptResponsePackageId;
@@ -91,7 +99,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 		proposedConceptResponsePackageId = id;
 	}
 
-
+	@Column(name = "cpm_proposed_concept_package_uuid")
     public String getProposedConceptPackageUuid() {
     	return proposedConceptPackageUuid;
     }
@@ -100,7 +108,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     	this.proposedConceptPackageUuid = proposedConceptPackageUuid;
     }
 
-	@Column(nullable = false)
+	@Column(name = "date_created", nullable = false)
 	@Temporal(TemporalType.DATE)
 	@Override
 	public Date getDateCreated() {
@@ -112,8 +120,9 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     	this.dateCreated = dateCreated;
     }
 
+	@Column(name = "date_changed")
 	@Temporal(TemporalType.DATE)
-    @Override
+	@Override
 	public Date getDateChanged() {
     	return dateChanged;
     }
@@ -135,6 +144,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     }
 
 	@ManyToOne
+	@JoinColumn(name = "creator")
 	@Override
 	public User getCreator() {
     	return creator;
@@ -146,6 +156,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
     }
 
 	@ManyToOne
+	@JoinColumn(name = "changedBy")
     @Override
 	public User getChangedBy() {
     	return changedBy;
