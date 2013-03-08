@@ -204,15 +204,18 @@ public class CpmController {
 		// see: https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas
 		//
 
+		AdministrationService service = Context.getAdministrationService();
+
 		SubmissionDto submission = new SubmissionDto();
 		submission.setName(conceptPackage.getName());
 		submission.setEmail(conceptPackage.getEmail());
 		submission.setDescription(conceptPackage.getDescription());
 
-		final HttpHeaders headers = createHeaders("admin", "Admin123");
+		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
-		submissionRestTemplate.exchange("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
+		final String url = service.getGlobalProperty("cpm.url") + "/openmrs/ws/cpm/dictionarymanager/proposals";
+		submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 
 //		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 
