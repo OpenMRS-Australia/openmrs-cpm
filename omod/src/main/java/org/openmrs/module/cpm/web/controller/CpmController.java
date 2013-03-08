@@ -1,10 +1,7 @@
 package org.openmrs.module.cpm.web.controller;
 
 import com.google.common.collect.Lists;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.commons.codec.binary.Base64;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSearchResult;
@@ -23,6 +20,9 @@ import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,9 +44,6 @@ public class CpmController {
 
 	@Autowired
 	private RestOperations submissionRestTemplate;
-
-	@Autowired
-	private DefaultHttpClient httpClient;
 
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
@@ -171,21 +169,37 @@ public class CpmController {
 
 	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage) {
 
-		BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
-		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
-		credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-		httpClient.setCredentialsProvider(credentialsProvider);
+		//
+		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
+		// see: https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas
+		//
 
 		SubmissionDto submission = new SubmissionDto();
 		submission.setName(conceptPackage.getName());
 		submission.setEmail(conceptPackage.getEmail());
 		submission.setDescription(conceptPackage.getDescription());
-		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
+
+		final HttpHeaders headers = createHeaders("admin", "Admin123");
+		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
+
+		submissionRestTemplate.exchange("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
+
+//		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 
 		conceptPackage.setStatus(PackageStatus.SUBMITTED);
 		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
 		return createProposedConceptPackageDto(conceptPackage);
+	}
+
+	HttpHeaders createHeaders( final String username, final String password ){
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		String auth = username + ":" + password;
+		byte[] encodedAuth = Base64.encodeBase64(
+		auth.getBytes(Charset.forName("US-ASCII")));
+		String authHeader = "Basic " + new String( encodedAuth );
+		httpHeaders.set("Authorization", authHeader);
+		return httpHeaders;
 	}
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.DELETE)

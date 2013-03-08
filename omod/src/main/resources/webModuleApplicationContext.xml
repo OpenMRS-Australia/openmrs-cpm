@@ -31,12 +31,6 @@
                 <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
             </list>
         </property>
-        <property name="requestFactory">
-            <bean class="org.openmrs.module.cpm.spring.HttpComponentsClientHttpRequestFactory">
-                <property name="httpClient" ref="httpClient"/>
-            </bean>
-        </property>
     </bean>
-    <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient"/>
 
 </beans>
