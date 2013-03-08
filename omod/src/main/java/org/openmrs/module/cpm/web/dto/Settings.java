@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm;
+package org.openmrs.module.cpm.web.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

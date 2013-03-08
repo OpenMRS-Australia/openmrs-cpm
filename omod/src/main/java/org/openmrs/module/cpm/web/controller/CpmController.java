@@ -5,6 +5,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSearchResult;
+import org.openmrs.GlobalProperty;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
@@ -12,7 +14,7 @@ import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.Settings;
+import org.openmrs.module.cpm.web.dto.Settings;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
@@ -66,13 +68,21 @@ public class CpmController {
 
 	@RequestMapping(value = "/cpm/settings", method = RequestMethod.GET)
 	public @ResponseBody Settings getSettings() {
-		return Context.getService(ProposedConceptService.class).getSettings();
+		AdministrationService service = Context.getAdministrationService();
+		Settings settings = new Settings();
+		settings.setUrl(service.getGlobalProperty("cpm.url"));
+		settings.setUsername(service.getGlobalProperty("cpm.username"));
+		settings.setPassword(service.getGlobalProperty("cpm.password"));
+		return settings;
 	}
 
 	@RequestMapping(value = "/cpm/settings", method = RequestMethod.POST)
-	public @ResponseBody Settings postNewSettings(@RequestBody Settings newSettings) {
-		Context.getService(ProposedConceptService.class).updateSettings(newSettings);
-		return newSettings;
+	public @ResponseBody Settings postNewSettings(@RequestBody Settings settings) {
+		AdministrationService service = Context.getAdministrationService();
+		service.saveGlobalProperty(new GlobalProperty("cpm.url", settings.getUrl()));
+		service.saveGlobalProperty(new GlobalProperty("cpm.username", settings.getUsername()));
+		service.saveGlobalProperty(new GlobalProperty("cpm.password", settings.getPassword()));
+		return settings;
 	}
 
 	@RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)

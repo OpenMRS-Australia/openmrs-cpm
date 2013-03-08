@@ -6,11 +6,9 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.Settings;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.api.db.ProposedConceptPackageDAO;
 import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
-import org.openmrs.module.cpm.api.db.SettingsDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,9 +23,6 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	private ProposedConceptPackageDAO proposalDao;
 	@Resource(name = "hibernateProposedConceptPackageResponseDAO")
 	private ProposedConceptPackageResponseDAO proposalResponseDao;
-
-	@Resource(name = "hibernateSettingsDao")
-	private SettingsDao settingsDao;
 
 
 	//	Starting with all of the services for the client side of the ProposedConcept module
@@ -83,16 +78,5 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	public void deleteProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackageResponse) throws APIException {
 		proposalResponseDao.deleteConceptProposalResponsePackage(conceptPackageResponse);
 	}
-
-	@Override
-	public Settings getSettings() {
-		return settingsDao.get();
-	}
-
-	@Override
-	public void updateSettings(final Settings settings) {
-		settingsDao.update(settings);
-	}
-
 
 }

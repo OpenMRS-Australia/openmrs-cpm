@@ -24,16 +24,29 @@
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
 	
-	<!-- Maps hibernate file's, if present
-	<mappingFiles>
-		ProposedConcept.hbm.xml
-		ProposedConceptPackage.hbm.xml
-		ProposedConceptResponse.hbm.xml
-		ProposedConceptResponsePackage.hbm.xml
-	</mappingFiles> -->
+	<!-- Hibernate config -->
 	<packagesWithMappedClasses>
 		org.openmrs.module.cpm
 	</packagesWithMappedClasses>
+
+    <!-- Global Properties -->
+    <globalProperty>
+        <property>cpm.url</property>
+        <description>URL for dictionary manager</description>
+        <defaultValue>http://localhost:8080</defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>cpm.username</property>
+        <description>Username for dictionary manager</description>
+        <defaultValue>admin</defaultValue>
+    </globalProperty>
+
+    <globalProperty>
+        <property>cpm.password</property>
+        <description>Password for dictionary manager</description>
+        <defaultValue>Admin123</defaultValue>
+    </globalProperty>
 
 	<!-- Internationalization -->
 	<!-- All message codes should start with ${project.parent.artifactId}. -->

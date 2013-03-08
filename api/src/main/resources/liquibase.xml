@@ -149,18 +149,4 @@
       <renameColumn columnDataType="INTEGER" tableName="cpm_proposed_concept_response_package" oldColumnName="createdBy" newColumnName="creator"/>
     </changeSet>
 
-    <changeSet id="cpm_2013-03-08-1" author="rapilabs">
-        <createTable tableName="cpm_settings">
-            <column name="url" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="username" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
- 
 </databaseChangeLog>

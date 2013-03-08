@@ -160,18 +160,4 @@ public interface ProposedConceptService extends OpenmrsService {
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
 	void deleteProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackage) throws APIException;
-
-	/**
-	 * Retrieve the settings for the module
-	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
-	@Transactional
-	Settings getSettings();
-
-	/**
-	 * Update the settings for the module
-	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
-	@Transactional
-	void updateSettings(Settings settings);
 }
