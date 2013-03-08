@@ -12,6 +12,7 @@ import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
+import org.openmrs.module.cpm.Settings;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
@@ -45,6 +46,10 @@ public class CpmController {
 	@Autowired
 	private RestOperations submissionRestTemplate;
 
+	//
+	// Pages
+	//
+
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
 		return "/module/cpm/proposals";
@@ -53,6 +58,21 @@ public class CpmController {
 	@RequestMapping(value = "module/cpm/proposalReview.list", method = RequestMethod.GET)
 	public String listProposalReview() {
 		return "/module/cpm/proposalReview";
+	}
+
+	//
+	// Service endpoints
+	//
+
+	@RequestMapping(value = "/cpm/settings", method = RequestMethod.GET)
+	public @ResponseBody Settings getSettings() {
+		return Context.getService(ProposedConceptService.class).getSettings();
+	}
+
+	@RequestMapping(value = "/cpm/settings", method = RequestMethod.POST)
+	public @ResponseBody Settings postNewSettings(@RequestBody Settings newSettings) {
+		Context.getService(ProposedConceptService.class).updateSettings(newSettings);
+		return newSettings;
 	}
 
 	@RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
