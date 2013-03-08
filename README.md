@@ -44,6 +44,8 @@ or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Me
 If you're new to web or Java development, or are just curious to see what we're working with, have a look at
 the [summary of technologies used](https://github.com/johnsyweb/openmrs-cpm/wiki/Resources).
 
+The [notes on setting up a dev environment](https://github.com/johnsyweb/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas) may also be useful.
+
 We ask that newcomers please submit contributions
 in the form of pull requests in order for a member of our team to review the code appropriately
 as any commits to master are picked up by our continuous deployment server.

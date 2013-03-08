@@ -66,7 +66,8 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	public void setId(final Integer id) {
 		this.proposedConceptResponseId = id;
 	}
-	
+
+	@Column(name = "cpm_proposed_concept_uuid")
 	public String getProposedConceptUuid() {
 		return proposedConceptUuid;
 	}

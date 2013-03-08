@@ -10,5 +10,9 @@ define(['angular', 'config', 'angular-resource'], function(angular, config) {
     return $resource(config.contextPath + '/ws/cpm/proposalResponses/:responseId', {responseId: '@id'}, {update: {method: 'PUT'}});
   }]);
 
+  services.factory('Settings', ['$resource', function($resource) {
+    return $resource(config.contextPath + '/ws/cpm/settings');
+  }]);
+
   return services;
 });

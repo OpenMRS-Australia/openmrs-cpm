@@ -53,6 +53,7 @@ public class AdminList extends AdministrationSectionExt {
 		map.put("module/cpm/proposals.list#/edit", "Create Proposal");
 		map.put("module/cpm/proposals.list", "Monitor Proposals");
 		map.put("module/cpm/proposalReview.list", "Incoming Proposals");
+		map.put("module/cpm/proposals.list#/settings", "Settings");
 
 		return map;
 	}
