@@ -16,6 +16,7 @@
 	
 	<cpm_proposed_concept_package cpm_proposed_concept_package_id="1" uuid="d0dd9f30-15e7-11e2-892e-0800200c9a66" name="Concept Proposal Package 1" email="proposer@cpm.com" description="Description for concept proposal package 1" creator="1" date_created="2005-01-01 00:01:00.0" version="1" status="DRAFT" />
 	<cpm_proposed_concept_package cpm_proposed_concept_package_id="2" uuid="d0dd9f41-15e7-11e2-892e-0800200c9a66" name="Concept Proposal Package 2" email="proposer@cpm.com" description="Description for concept proposal package 2" creator="1" date_created="2005-01-01 00:02:00.0" version="1" status="DRAFT" />
+	<cpm_proposed_concept_package cpm_proposed_concept_package_id="3" uuid="d0dd9f52-15e7-11e2-892e-0800200c9a66" name="Concept Proposal Package Received" email="proposer@cpm.com" description="Description for concept proposal package received" creator="1" date_created="2005-01-01 00:02:00.0" version="1" status="RECEIVED" />
 
 	<cpm_proposed_concept cpm_proposed_concept_package_id="1" concept_id="3" cpm_proposed_concept_id="1" uuid="d0dd9f40-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>
 	<cpm_proposed_concept cpm_proposed_concept_package_id="1" concept_id="4" cpm_proposed_concept_id="2" uuid="d0dd9f3f-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>

@@ -1,11 +1,13 @@
 package org.openmrs.module.cpm.api.db.hibernate;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.db.ProposedConceptPackageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +23,8 @@ public class HibernateProposedConceptPackageDAO implements ProposedConceptPackag
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	/**
-	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getAllConceptProposalPackages()
-	 */
-	@Override
-	public List<ProposedConceptPackage> getAllConceptProposalPackages() {
-		@SuppressWarnings("unchecked")
-        List<ProposedConceptPackage> result = (List<ProposedConceptPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackage").list();
-		if (log.isDebugEnabled()) {
-			log.debug("getAllConceptProposalPackages returned: " + result.size() + " results");
-		}
-		return result;
-	}
-	
-	/**
+
+    /**
 	 * @see org.openmrs.module.metadatasharing.api.ConceptProposalService.getConceptProposalPackageById(Integer id)
 	 */
 	@Override
@@ -94,5 +83,15 @@ public class HibernateProposedConceptPackageDAO implements ProposedConceptPackag
 			log.warn("Attempting to delete null package");
 		}
 	}
+
+    @Override
+    public List<ProposedConceptPackage> getProposedConceptPackagesForStatuses(PackageStatus... statuses) {
+        if (statuses == null || statuses.length == 0) {
+            return Collections.emptyList();
+        }
+
+        return sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackage package where package.status in (:statuses)")
+                             .setParameterList("statuses", statuses).list();
+    }
 
 }
