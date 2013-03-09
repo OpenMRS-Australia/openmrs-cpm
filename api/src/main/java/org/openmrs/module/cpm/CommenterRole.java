@@ -1,7 +1,7 @@
 package org.openmrs.module.cpm;
 
 
-public enum ProposalRole {
+public enum CommenterRole {
 	PROPOSER,
 	REVIEWER
 }

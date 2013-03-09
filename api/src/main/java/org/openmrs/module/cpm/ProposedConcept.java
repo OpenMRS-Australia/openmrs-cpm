@@ -71,4 +71,12 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	public Concept getConcept() {
 		return concept;
 	}
+    @Override
+    public String toString() {
+        return "ProposedConcept{" +
+                super.toString() +
+                ", proposedConceptId=" + proposedConceptId +
+                ", version=" + version +
+                '}';
+    }
 }

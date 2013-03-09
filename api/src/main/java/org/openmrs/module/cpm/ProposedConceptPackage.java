@@ -140,12 +140,15 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 
     @Override
     public String toString() {
-    	final StringBuilder appender = new StringBuilder();
-    	appender.append("ProposedConceptPackage(");
-    	appender.append(getId() + "," + getEmail());
-    	appender.append(")");
-    	appender.append(super.toString());
-    	return appender.toString();
+        return "ProposedConceptPackage{" +
+                super.toString() +
+                ", conceptProposalPackageId=" + conceptProposalPackageId +
+                ", creator=" + creator +
+                ", dateCreated=" + dateCreated +
+                ", changedBy=" + changedBy +
+                ", dateChanged=" + dateChanged +
+                ", version=" + version +
+                '}';
     }
 
 }
