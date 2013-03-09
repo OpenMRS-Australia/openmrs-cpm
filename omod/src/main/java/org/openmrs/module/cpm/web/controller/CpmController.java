@@ -9,30 +9,15 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.web.dto.Settings;
+import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.module.cpm.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestOperations;
 
 import java.nio.charset.Charset;
@@ -133,18 +118,31 @@ public class CpmController {
 	public @ResponseBody ArrayList<ProposedConceptPackageDto> getProposals() {
 
 		final List<ProposedConceptPackage> allConceptProposalPackages = Context.getService(ProposedConceptService.class).getAllProposedConceptPackages();
-		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
-
-		for (final ProposedConceptPackage conceptProposalPackage : allConceptProposalPackages) {
-
-			final ProposedConceptPackageDto conceptProposalPackageDto = createProposedConceptPackageDto(conceptProposalPackage);
-			response.add(conceptProposalPackageDto);
-		}
-
-		return response;
+        return getProposedConceptPackageDtos(allConceptProposalPackages);
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/cpm/proposals/status/{status}", method = RequestMethod.GET)
+	public @ResponseBody ArrayList<ProposedConceptPackageDto> getProposalsByStatus(@PathVariable final String statusParam) {
+
+        PackageStatus status = PackageStatus.valueOf(statusParam.toUpperCase());
+
+        final List<ProposedConceptPackage> allConceptProposalPackages = Context.getService(ProposedConceptService.class).getProposedConceptPackagesForStatuses(status);
+        return getProposedConceptPackageDtos(allConceptProposalPackages);
+    }
+
+    private ArrayList<ProposedConceptPackageDto> getProposedConceptPackageDtos(List<ProposedConceptPackage> allConceptProposalPackages) {
+        final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
+
+        for (final ProposedConceptPackage conceptProposalPackage : allConceptProposalPackages) {
+
+            final ProposedConceptPackageDto conceptProposalPackageDto = createProposedConceptPackageDto(conceptProposalPackage);
+            response.add(conceptProposalPackageDto);
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
 		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
