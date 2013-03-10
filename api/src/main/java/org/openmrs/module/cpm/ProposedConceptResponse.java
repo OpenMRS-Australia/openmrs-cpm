@@ -2,6 +2,7 @@ package org.openmrs.module.cpm;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,6 +11,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the reviewers side
@@ -58,6 +60,8 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	}
 	
 	@Id
+	@GeneratedValue(generator = "nativeIfNotAssigned")
+	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
 	@Column(name = "cpm_proposed_concept_response_id")
  	public Integer getId() {
 		return proposedConceptResponseId;

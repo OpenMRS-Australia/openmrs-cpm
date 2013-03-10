@@ -320,7 +320,6 @@ public class CpmController {
             for (final ProposedConceptDto newProposedConcept : packageDto.getConcepts()) {
                 ProposedConcept proposedConcept = new ProposedConcept();
                 final ConceptService conceptService = Context.getConceptService();
-                proposedConcept.setId(newProposedConcept.getId());
 
                 if(conceptPackage.getProposedConcept(newProposedConcept.getId()) != null){
                     //Modify already persisted concept
