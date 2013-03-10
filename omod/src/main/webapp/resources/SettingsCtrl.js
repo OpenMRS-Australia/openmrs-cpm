@@ -1,18 +1,19 @@
 define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('SettingsCtrl', ['$scope', 'Settings', function($scope, Settings) {
 
-    document.title = 'Manage Concept Proposal Settings';
-    $scope.saving = false;
+    $scope.contextPath = config.contextPath;
 
-    $scope.responseReceived = false;
+    document.title = 'Manage Concept Proposal Settings';
+    $scope.isLoading = true;
+
     $scope.settings = Settings.get(function() {
-      $scope.responseReceived = true;
+      $scope.isLoading = false;
     });
 
     $scope.save = function() {
-      $scope.saving = true;
+      $scope.isLoading = true;
       $scope.settings.$save(function() {
-        $scope.saving = false;
+        $scope.isLoading = false;
       });
     }
   }]);

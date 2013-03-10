@@ -26,6 +26,7 @@
    width: 600px;
  }
 </style>
+<div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
 <a href="#/" class="">Back to Concept Proposal List</a>
 <h2 id="headerText"><span ng-show="isEdit">Edit</span><span ng-show="!isEdit">Create</span> Concept Proposal</h2>
 <p>

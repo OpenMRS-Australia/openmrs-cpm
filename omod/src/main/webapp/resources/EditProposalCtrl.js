@@ -1,9 +1,12 @@
 define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
 
+    $scope.contextPath = config.contextPath;
+
     var proposalId = $routeParams.proposalId;
     $scope.isEdit = typeof proposalId !== 'undefined';
     $scope.isSubmitting = false;
+    $scope.isLoading = $scope.isEdit ? true : false;
 
     // XXX
     if ($scope.isEdit) {
@@ -16,7 +19,9 @@ define(['cpm', 'config'], function(cpm, config) {
 
 
     if ($scope.isEdit) {
-      $scope.proposal = Proposals.get({proposalId: proposalId});
+      $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
+          $scope.isLoading = false;
+      });
     } else {
       $scope.proposal = new Proposals();
       $scope.proposal.concepts= [];
@@ -41,8 +46,10 @@ define(['cpm', 'config'], function(cpm, config) {
     $scope.save = function() {
 			//$scope.proposal.concepts=$scope.selectedConcepts;
 
+      $scope.isLoading = true;
       if ($scope.isEdit) {
         $scope.proposal.$update(function() {
+          $scope.isLoading = false;
           alert("Saved!");
         });
       } else {
@@ -50,6 +57,7 @@ define(['cpm', 'config'], function(cpm, config) {
           // navigate to edit url or not?
           // will fetch extra data but url will be up to date
           $location.path('/edit/' + $scope.proposal.id);
+          $scope.isLoading = false;
         });
       }
     };
@@ -58,16 +66,22 @@ define(['cpm', 'config'], function(cpm, config) {
       $scope.proposal.status = 'TBS';
       $scope.proposal.$update(function() {
         $scope.isSubmitting = false;
+        $scope.isLoading = false;
       }, function() {
         $scope.isSubmitting = false;
+        $scope.isLoading = false;
       });
       $scope.isSubmitting = true;
+      $scope.isLoading = true;
     };
 
     $scope.deleteProposal = function() {
       if (confirm("Are you sure?")) {
-        $scope.proposal.$remove();
-        $location.path('/');
+        $scope.isLoading = true;
+        $scope.proposal.$remove(function() {
+          $location.path('/');
+          $scope.isLoading = false;
+        });
       }
     };
 
