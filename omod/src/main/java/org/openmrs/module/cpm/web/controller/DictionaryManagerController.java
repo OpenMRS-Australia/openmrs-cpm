@@ -1,8 +1,10 @@
 package org.openmrs.module.cpm.web.controller;
 
 import org.openmrs.api.context.Context;
+import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,13 @@ public class DictionaryManagerController {
 		proposedConceptResponsePackage.setEmail(incomingProposal.getEmail());
 		proposedConceptResponsePackage.setDescription(incomingProposal.getDescription());
 		proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
+
+		for (ConceptDto dto: incomingProposal.getConcepts()) {
+			ProposedConceptResponse response = new ProposedConceptResponse();
+			response.setName(dto.getName());
+			response.setDescription(dto.getDescription());
+			proposedConceptResponsePackage.addProposedConcept(response);
+		}
 
 		String authHeader = request.getHeader("authorization");
 		String encodedValue = authHeader.split(" ")[1];

@@ -149,4 +149,15 @@
       <renameColumn columnDataType="INTEGER" tableName="cpm_proposed_concept_response_package" oldColumnName="createdBy" newColumnName="creator"/>
     </changeSet>
 
+    <!-- Dropping redundant fields.  Name & description should referenced from the concept -->
+    <changeSet id="cpm_2013-03-10-1" author="cpm">
+        <dropColumn tableName="cpm_proposed_concept" columnName="name"/>
+        <dropColumn tableName="cpm_proposed_concept" columnName="description"/>
+    </changeSet>
+
+    <!-- Dropping the not null constraint on the concept fk as it doesn't exist when first submitting -->
+    <changeSet id="cpm_2013-03-10-3" author="cpm">
+        <dropNotNullConstraint tableName="cpm_proposed_concept_response" columnName="concept_id" columnDataType="int"/>
+    </changeSet>
+
 </databaseChangeLog>

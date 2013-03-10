@@ -8,8 +8,6 @@ import org.openmrs.Concept;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import java.util.HashSet;
@@ -25,10 +23,8 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 
 	private static Log log = LogFactory.getLog(ShareableProposal.class);
 
-	private String name;
-	private String description;
 	protected P proposedConceptPackage;
-	private Concept concept;
+	protected Concept concept;
 	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
 	private ProposalStatus status = ProposalStatus.DRAFT;
 
@@ -42,35 +38,13 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 		return super.getUuid();
 	}
 
-    public String getName() {
-    	return name;
-    }
-	
-    public void setName(final String name) {
-    	this.name = name;
-    }
-    
-    public String getDescription() {
-    	return description;
-    }
-	
-    public void setDescription(final String description) {
-    	this.description = description;
-    }
-
 	@Transient
 	public abstract P getProposedConceptPackage();
-
-	@ManyToOne
-	@JoinColumn(name = "concept_id", nullable = false)
-	public Concept getConcept() {
-		return concept;
-	}
 
 	public void setConcept(final Concept concept) {
 		this.concept = concept;
 	}
-	
+
 	public void setProposedConceptPackage(final P proposedConceptPackage) {
 		this.proposedConceptPackage = proposedConceptPackage;
 	}
@@ -123,5 +97,4 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 			log.warn("Cannot remove comment: " + comment + " to null comment list");
 		}
 	}
-
 }

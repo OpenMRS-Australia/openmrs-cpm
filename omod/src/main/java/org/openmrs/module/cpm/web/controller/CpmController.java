@@ -211,6 +211,23 @@ public class CpmController {
 		submission.setEmail(conceptPackage.getEmail());
 		submission.setDescription(conceptPackage.getDescription());
 
+		final ArrayList<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
+		for (ProposedConcept proposedConcept: conceptPackage.getProposedConcepts()) {
+			final ProposedConceptDto conceptDto = new ProposedConceptDto();
+
+			// TODO: need to figure out how comments are going to be managed
+//			conceptDto.setComments(proposedConcept.getComments());
+
+			// concept details
+			final Concept concept = proposedConcept.getConcept();
+			conceptDto.setName(concept.getName().getName());
+			conceptDto.setDescription(concept.getDescription().getDescription());
+			conceptDto.setDatatype(concept.getDatatype().getName());
+
+			list.add(conceptDto);
+		}
+		submission.setConcepts(list);
+
 		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
@@ -225,7 +242,7 @@ public class CpmController {
 		return createProposedConceptPackageDto(conceptPackage);
 	}
 
-	HttpHeaders createHeaders( final String username, final String password ){
+	private HttpHeaders createHeaders( final String username, final String password ){
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		String auth = username + ":" + password;
 		byte[] encodedAuth = Base64.encodeBase64(
@@ -257,9 +274,11 @@ public class CpmController {
 
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
 			conceptProposalDto.setId(conceptProposal.getConcept().getConceptId());
-			conceptProposalDto.setName(conceptProposal.getName());
-			conceptProposalDto.setComments(conceptProposal.getDescription());
+			conceptProposalDto.setName(conceptProposal.getConcept().getName().getName());
+			conceptProposalDto.setDatatype(conceptProposal.getConcept().getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
+
+			// TODO: comments
 
 			list.add(conceptProposalDto);
 		}
@@ -324,14 +343,12 @@ public class CpmController {
                 if(conceptPackage.getProposedConcept(newProposedConcept.getId()) != null){
                     //Modify already persisted concept
                     proposedConcept = conceptPackage.getProposedConcept(newProposedConcept.getId());
-                    proposedConcept.setDescription(newProposedConcept.getComments());
+					// todo save comments
                 } else {
                     //New concept added to the ProposedConceptPackage
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
                     checkNotNull(concept,"Concept should not be null") ;
                     proposedConcept.setConcept(concept);
-                    proposedConcept.setName(newProposedConcept.getName());
-                    proposedConcept.setDescription(newProposedConcept.getComments());
                     conceptPackage.addProposedConcept(proposedConcept);
                 }
             }

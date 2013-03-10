@@ -1,5 +1,7 @@
 package org.openmrs.module.cpm.web.dto;
 
+import java.util.ArrayList;
+
 public class SubmissionDto {
 
 	private String name;
@@ -7,6 +9,8 @@ public class SubmissionDto {
 	private String email;
 
 	private String description;
+
+	private ArrayList<ProposedConceptDto> concepts;
 
 	public String getName() {
 		return name;
@@ -30,5 +34,13 @@ public class SubmissionDto {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public ArrayList<ProposedConceptDto> getConcepts() {
+		return concepts;
+	}
+
+	public void setConcepts(final ArrayList<ProposedConceptDto> concepts) {
+		this.concepts = concepts;
 	}
 }

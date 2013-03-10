@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
+import org.openmrs.Concept;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the proposers side
@@ -63,4 +64,9 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 		return proposedConceptPackage;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "concept_id", nullable = false)
+	public Concept getConcept() {
+		return concept;
+	}
 }

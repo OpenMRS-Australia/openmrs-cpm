@@ -1,10 +1,7 @@
 package com.openmrs.module.cpm.api;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
+import com.openmrs.module.cpm.test.CpmBaseContextSensitive;
 import junit.framework.Assert;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.PropertyValueException;
@@ -21,7 +18,8 @@ import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 
-import com.openmrs.module.cpm.test.CpmBaseContextSensitive;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class TestProposedConceptService extends CpmBaseContextSensitive {
 	
@@ -69,7 +67,11 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	 * @return new mock concept package response
 	 */
 	protected ProposedConceptResponsePackage getMockProposedConceptPackageResponse(Integer id, String name) {
-		ProposedConceptResponsePackage conceptPackageResponse = new ProposedConceptResponsePackage(getMockProposedConceptPackage(id,name));
+		ProposedConceptResponsePackage conceptPackageResponse = new ProposedConceptResponsePackage();
+		conceptPackageResponse.setId(id);
+		conceptPackageResponse.setName(name);
+		conceptPackageResponse.setDescription("description");
+		conceptPackageResponse.setEmail("test@test.com");
 		conceptPackageResponse.setId(id);
 		conceptPackageResponse.setName(name);
 		conceptPackageResponse.setVersion(0);
@@ -84,8 +86,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	protected ProposedConcept getMockProposedConcept(Integer id, String name, String description, Concept concept) {
 		ProposedConcept proposedConcept = new ProposedConcept();
 		proposedConcept.setId(id);
-		proposedConcept.setName(name);
-		proposedConcept.setDescription(description);
 		proposedConcept.setConcept(concept);
 		return proposedConcept;
 	}
@@ -96,7 +96,7 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	 * @throws Exception
 	 */
 	protected ProposedConceptResponse getMockProposedConceptResponse(Integer id, ProposedConcept proposedConcept) {
-		ProposedConceptResponse proposedConceptResponse = new ProposedConceptResponse(proposedConcept);
+		ProposedConceptResponse proposedConceptResponse = new ProposedConceptResponse();
 		proposedConcept.setId(id);
 		return proposedConceptResponse;
 	}
@@ -141,7 +141,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals("proposer@cpm.com", testPackage.getEmail());
 		Assert.assertEquals("d0dd9f30-15e7-11e2-892e-0800200c9a66", testPackage.getUuid());
 		Assert.assertEquals("Description for concept proposal package 1", testPackage.getDescription());
-		Assert.assertEquals(comparator.format(formatter.parse("2005-01-01 00:01:00.0")),comparator.format(testPackage.getDateCreated()));
 		Assert.assertEquals(1,testPackage.getVersion().intValue());
 		Assert.assertEquals(PackageStatus.DRAFT,testPackage.getStatus());
 		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
@@ -339,7 +338,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		Assert.assertEquals("d0dd9f3c-15e7-11e2-892e-0800200c9a66", testPackage.getUuid());
 		Assert.assertEquals("d0dd9f30-15e7-11e2-892e-0800200c9a66", testPackage.getProposedConceptPackageUuid());
 		Assert.assertEquals("Description for concept proposal package 1", testPackage.getDescription());
-		Assert.assertEquals(comparator.format(formatter.parse("2005-01-01 00:01:00.0")),comparator.format(testPackage.getDateCreated()));
 		Assert.assertEquals(1,testPackage.getVersion().intValue());
 		Assert.assertEquals(PackageStatus.RECEIVED,testPackage.getStatus());
 		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
@@ -388,24 +386,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 	    service.saveProposedConceptResponsePackage(testPackage);
 		log.info("After: " + testPackage);
 		Assert.assertTrue(testPackage.getId().intValue() >= 3);
-	}
-	
-	@Test
-	public void saveProposedConceptPackageResponse_saveFromProposedConceptWithChildConcept() throws Exception {
-		ProposedConceptPackage testPackage = getMockProposedConceptPackage(null, "new package");
-		Concept testConcept1 = conceptService.getConcept(3);
-		Concept testConcept2 = conceptService.getConcept(4);
-		ProposedConcept concept1 = getMockProposedConcept(null, "concept 1", "concept 1 description",testConcept1);
-		ProposedConcept concept2 = getMockProposedConcept(null, "concept 2", "concept 1 description",testConcept2);
-		testPackage.addProposedConcept(concept1);
-		testPackage.addProposedConcept(concept2);
-		
-		ProposedConceptResponsePackage testResponsePackage = new ProposedConceptResponsePackage(testPackage);
-		
-		log.info("Before: " + testResponsePackage);
-	    service.saveProposedConceptResponsePackage(testResponsePackage);
-		log.info("After: " + testResponsePackage);
-		Assert.assertTrue(testResponsePackage.getId().intValue() >= 3);
 	}
 	
 	@Test

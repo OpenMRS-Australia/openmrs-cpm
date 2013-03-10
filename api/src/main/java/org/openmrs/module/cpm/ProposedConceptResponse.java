@@ -12,6 +12,7 @@ import javax.persistence.Transient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
+import org.openmrs.Concept;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the reviewers side
@@ -31,31 +32,11 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private Integer proposedConceptResponseId;
 	private String proposedConceptUuid;
 	private Integer version;
-	
-	/**
-	 * Private constructore for Hibernate
-	 */
-	protected ProposedConceptResponse() {
+	private String name;
+	private String description;
+
+	public ProposedConceptResponse() {
 		super();
-	}
-	
-	/**
-	 * Create the server side Concept Proposal Response based on the proposer submitted Concept Proposal.
-	 * This changes the status of the proposal to reflect that this is in the first state of the server 
-	 * side workflow
-	 * 
-	 * @param shareableProposal The Concept Proposal submitted by a client side proposer
-	 */
-	public ProposedConceptResponse(ShareableProposal shareableProposal) {
-		super();
-		log.debug("Creating a new ProposedConceptResponse from: " + shareableProposal);
-		
-		this.setName(shareableProposal.getName());
-		this.setDescription(shareableProposal.getDescription());
-		this.setProposedConceptUuid(shareableProposal.getUuid());
-		this.setConcept(shareableProposal.getConcept());
-		this.setComments(shareableProposal.getComments());
-		this.setStatus(ProposalStatus.RECEIVED);		
 		this.version = 0;
 	}
 	
@@ -94,5 +75,26 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	public ProposedConceptResponsePackage getProposedConceptPackage() {
 		return proposedConceptPackage;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "concept_id")
+	public Concept getConcept() {
+		return concept;
+	}
 }

@@ -3,9 +3,9 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<mapping resource="ProposedConcept.hbm.xml" />
-		<mapping resource="ProposedConceptPackage.hbm.xml" />
-		<mapping resource="ProposedConceptResponse.hbm.xml" />
-		<mapping resource="ProposedConceptResponsePackage.hbm.xml" />
+		<mapping class="org.openmrs.module.cpm.ProposedConcept" />
+		<mapping class="org.openmrs.module.cpm.ProposedConceptPackage" />
+		<mapping class="org.openmrs.module.cpm.ProposedConceptResponse" />
+		<mapping class="org.openmrs.module.cpm.ProposedConceptResponsePackage" />
 	</session-factory>
 </hibernate-configuration>

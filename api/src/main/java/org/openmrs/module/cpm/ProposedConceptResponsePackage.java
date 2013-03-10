@@ -53,38 +53,6 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 		version = 0;
 	}
 
-	/**
-	 * Create the server side Concept Proposal Package Response based on the proposer submitted Concept
-	 * Proposal Package.  This changes the status of the proposal to reflect that this is in the first state
-	 * of the server side workflow
-	 *
-	 * @param shareablePackage The Concept Proposal Package submitted by a client side proposer
-	 */
-
-	public ProposedConceptResponsePackage(final ProposedConceptPackage shareablePackage) {
-		super();
-		log.debug("Creating a ProposedConceptResponsePackage from: " + shareablePackage);
-
-		setName(shareablePackage.getName());
-		setEmail(shareablePackage.getEmail());
-		setDescription(shareablePackage.getDescription());
-		setProposedConceptPackageUuid(shareablePackage.getUuid());
-		setProposedConcepts(new HashSet<ProposedConceptResponse>());
-
-		if (shareablePackage.getProposedConcepts() != null) {
-			// For each of the proposals in the submitted ProposedConceptPackage we create and equivalent
-			// response item that will allow us to record additional details
-
-			for (final ProposedConcept currentProposal : shareablePackage.getProposedConcepts()) {
-				final ProposedConceptResponse proposalResponse  = new ProposedConceptResponse(currentProposal);
-				addProposedConcept(proposalResponse);
-			}
-		}
-
-		setStatus(PackageStatus.RECEIVED);
-		setVersion(0);
-	}
-
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
