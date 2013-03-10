@@ -17,6 +17,6 @@
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody class="results">
-  <tr ng-repeat="proposal in proposals"><td>{{proposal.name}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td>{{proposal.status | proposalStatus}}</td><td><a href="#/edit/{{proposal.id}}" class="editProposal">Edit</a></tr>
+  <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;"><td>{{proposal.name}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td>{{proposal.status | proposalStatus}}</td></tr>
  </tbody>
 </table>

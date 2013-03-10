@@ -16,7 +16,7 @@
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody class="results">
-  <tr ng-repeat="proposal in proposals"><td>{{proposal.from}}</td><td>{{proposal.age}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td><a href="#/edit/{{proposal.id}}" class="editProposal">Edit</a></tr>
+  <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;"><td>{{proposal.email}}</td><td>{{proposal.age}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td></tr>
  </tbody>
 </table>
 <p><a href="#/completed" onclick="alert('todo'); return false;">View completed proposals</a></p>
