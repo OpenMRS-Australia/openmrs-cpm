@@ -1,10 +1,10 @@
 package org.openmrs.module.cpm.web.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.openmrs.module.cpm.ProposalStatus;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProposedConceptDto extends ConceptDto{
-
-	private boolean selected;
 
     private String comments;
 
@@ -24,13 +24,5 @@ public class ProposedConceptDto extends ConceptDto{
 
     public void setStatus(ProposalStatus status) {
         this.status = status;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 }
