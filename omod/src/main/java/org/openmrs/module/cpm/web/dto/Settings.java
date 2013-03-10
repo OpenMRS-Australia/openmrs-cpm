@@ -1,14 +1,7 @@
 package org.openmrs.module.cpm.web.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "cpm_settings")
 public class Settings {
 
-	@Id
 	private String url;
 
 	private String username;
