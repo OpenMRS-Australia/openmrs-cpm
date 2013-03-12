@@ -56,7 +56,6 @@ public class TestDictionaryManagerEndpoint {
 	}
 
 	@Test
-	@Ignore // not yet implemented
 	public void submitProposalSingleConcept_shouldReceive200() throws IOException {
 
 		HttpPost httpPost = setupHttpPostWithJson("proposal-with-concepts.json");

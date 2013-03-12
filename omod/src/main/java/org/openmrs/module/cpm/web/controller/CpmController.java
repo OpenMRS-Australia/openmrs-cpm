@@ -223,6 +223,7 @@ public class CpmController {
 			conceptDto.setName(concept.getName().getName());
 			conceptDto.setDescription(concept.getDescription().getDescription());
 			conceptDto.setDatatype(concept.getDatatype().getName());
+			conceptDto.setUuid(concept.getUuid());
 
 			list.add(conceptDto);
 		}
