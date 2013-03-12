@@ -64,5 +64,15 @@
 	</messages>
 	<!-- /Internationalization -->
 
+    <filter>
+        <filter-name>cpm-authorisation</filter-name>
+        <filter-class>org.openmrs.module.cpm.web.filter.AuthorizationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cpm-authorisation</filter-name>
+        <url-pattern>/ws/cpm/dictionarymanager</url-pattern>
+    </filter-mapping>
+
 </module>
 

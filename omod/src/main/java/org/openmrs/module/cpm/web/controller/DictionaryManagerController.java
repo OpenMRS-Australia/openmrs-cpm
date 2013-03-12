@@ -14,16 +14,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
 @Controller
 public class DictionaryManagerController {
 
+	//
+	// Pages
+	//
+
     @RequestMapping(value = "module/cpm/proposalReview.list", method = RequestMethod.GET)
     public String listProposalReview() {
         return "/module/cpm/proposalReview";
     }
+
+
+	//
+	// Proposer-Reviewer webservice endpoints
+	//
 
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(HttpServletRequest request, @RequestBody final SubmissionDto incomingProposal) throws IOException {
@@ -45,15 +53,15 @@ public class DictionaryManagerController {
 			}
 		}
 
-		String authHeader = request.getHeader("authorization");
-		String encodedValue = authHeader.split(" ")[1];
-		final byte[] bytes = DatatypeConverter.parseBase64Binary(encodedValue);
-		String decodedValue = new String(bytes);
-		final String[] strings = decodedValue.split(":");
-
-		final String username = strings[0];
-		final String password = strings[1];
-		Context.authenticate(username, password);
+//		String authHeader = request.getHeader("authorization");
+//		String encodedValue = authHeader.split(" ")[1];
+//		final byte[] bytes = DatatypeConverter.parseBase64Binary(encodedValue);
+//		String decodedValue = new String(bytes);
+//		final String[] strings = decodedValue.split(":");
+//
+//		final String username = strings[0];
+//		final String password = strings[1];
+//		Context.authenticate(username, password);
 
 		service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
 
