@@ -36,10 +36,11 @@ public class DictionaryManagerController {
 		proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
 
 		if (incomingProposal.getConcepts() != null) {
-			for (ConceptDto dto: incomingProposal.getConcepts()) {
+			for (ConceptDto concept : incomingProposal.getConcepts()) {
 				ProposedConceptResponse response = new ProposedConceptResponse();
-				response.setName(dto.getName());
-				response.setDescription(dto.getDescription());
+				response.setName(concept.getName());
+				response.setDescription(concept.getDescription());
+				response.setProposedConceptUuid(concept.getUuid());
 				proposedConceptResponsePackage.addProposedConcept(response);
 			}
 		}
