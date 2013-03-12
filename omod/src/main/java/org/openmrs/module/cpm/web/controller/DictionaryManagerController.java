@@ -30,11 +30,13 @@ public class DictionaryManagerController {
 		proposedConceptResponsePackage.setDescription(incomingProposal.getDescription());
 		proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
 
-		for (ConceptDto dto: incomingProposal.getConcepts()) {
-			ProposedConceptResponse response = new ProposedConceptResponse();
-			response.setName(dto.getName());
-			response.setDescription(dto.getDescription());
-			proposedConceptResponsePackage.addProposedConcept(response);
+		if (incomingProposal.getConcepts() != null) {
+			for (ConceptDto dto: incomingProposal.getConcepts()) {
+				ProposedConceptResponse response = new ProposedConceptResponse();
+				response.setName(dto.getName());
+				response.setDescription(dto.getDescription());
+				proposedConceptResponsePackage.addProposedConcept(response);
+			}
 		}
 
 		String authHeader = request.getHeader("authorization");
