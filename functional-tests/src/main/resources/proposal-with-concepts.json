@@ -1,0 +1,15 @@
+{
+    "name": "test",
+    "email": "test@test.com",
+    "description": "rar",
+    "concepts": [
+        {
+            "name": "New concept",
+            "synonyms": "Some synonym",
+            "datatype": "N/A",
+            "description": "This new drug is required in the concept dictionary",
+            "uuid": "blah-blah-blah-blah",
+            "comments": "Some comment related to the submission process"
+        }
+    ]
+}
