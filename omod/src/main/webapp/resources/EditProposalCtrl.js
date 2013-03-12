@@ -24,6 +24,7 @@ define(['cpm', 'config'], function(cpm, config) {
       });
     } else {
       $scope.proposal = new Proposals();
+      $scope.proposal.status = 'DRAFT';
       $scope.proposal.concepts= [];
 
     }

@@ -17,7 +17,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
     }));
 
 
-    it("should not fetch anything and set the mode to create when not given a proposal id", function() {
+    it("should not fetch anything and set the mode to create and initialise the status to 'DRAFT' when not given a proposal id", function() {
       routeParams = {};
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       try {
@@ -26,6 +26,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
 
       expect(scope.proposal.name).toBeUndefined();
       expect(scope.isEdit).toBe(false);
+      expect(scope.proposal.status).toBe("DRAFT");
     });
 
     it("should fetch a proposal and set the mode to edit given a proposal id", function() {
