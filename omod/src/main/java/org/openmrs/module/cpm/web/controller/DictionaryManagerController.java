@@ -20,6 +20,11 @@ import java.io.IOException;
 @Controller
 public class DictionaryManagerController {
 
+    @RequestMapping(value = "module/cpm/proposalReview.list", method = RequestMethod.GET)
+    public String listProposalReview() {
+        return "/module/cpm/proposalReview";
+    }
+
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(HttpServletRequest request, @RequestBody final SubmissionDto incomingProposal) throws IOException {
 

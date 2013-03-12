@@ -57,11 +57,6 @@ public class CpmController {
 		return "/module/cpm/proposals";
 	}
 
-	@RequestMapping(value = "module/cpm/proposalReview.list", method = RequestMethod.GET)
-	public String listProposalReview() {
-		return "/module/cpm/proposalReview";
-	}
-
 	//
 	// Service endpoints
 	//
