@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
@@ -12,6 +13,7 @@ import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @Service("org.openmrs.module.cpm.api.ProposedConceptService")
@@ -29,10 +31,15 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	
 	@Override
     public List<ProposedConceptPackage> getAllProposedConceptPackages() throws APIException {
-	    return proposalDao.getAllConceptProposalPackages();
+	    return proposalDao.getProposedConceptPackagesForStatuses(PackageStatus.values());
     }
 
-	@Override
+    @Override
+    public List<ProposedConceptPackage> getProposedConceptPackagesForStatuses(PackageStatus... statuses) throws APIException {
+        return proposalDao.getProposedConceptPackagesForStatuses(statuses);
+    }
+
+    @Override
     public ProposedConceptPackage getProposedConceptPackageById(Integer id) throws APIException {
 		return proposalDao.getConceptProposalPackageById(id);
     }

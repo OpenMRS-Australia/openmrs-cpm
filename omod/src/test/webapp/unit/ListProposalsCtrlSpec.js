@@ -34,5 +34,16 @@ define(['angular-mocks', 'ListProposalsCtrl'], function() {
       expect(scope.proposals[0].description).toBe('Test');
     });
 
+    it("should fetch a list of filtered proposals (packages) and display them", function() {
+        httpBackend.expectGET('/openmrs/ws/cpm/proposals/status/draft').respond([{id: 1, description: "Test", status: "DRAFT"}]);
+        var filterParams = {status: 'draft'};
+      controller('ListProposalsByStatusCtrl', {$scope: scope, $status: filterParams});
+      httpBackend.flush();
+
+      expect(scope.responseReceived).toBe(true);
+      expect(scope.proposals.length).toBe(1);
+      expect(scope.proposals[0].description).toBe('Test');
+    });
+
   });
 });

@@ -41,10 +41,12 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
 	@Column(name = "cpm_proposed_concept_id")
+    @Override
 	public Integer getId() {
 		return proposedConceptId;
 	}
-	
+
+    @Override
 	public void setId(final Integer id) {
 		this.proposedConceptId = id;
 	}
@@ -69,4 +71,12 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	public Concept getConcept() {
 		return concept;
 	}
+    @Override
+    public String toString() {
+        return "ProposedConcept{" +
+                super.toString() +
+                ", proposedConceptId=" + proposedConceptId +
+                ", version=" + version +
+                '}';
+    }
 }

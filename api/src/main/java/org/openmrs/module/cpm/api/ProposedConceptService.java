@@ -37,6 +37,18 @@ public interface ProposedConceptService extends OpenmrsService {
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
 	List<ProposedConceptPackage> getAllProposedConceptPackages() throws APIException;
+
+    /**
+     * Gets all proposed concept packages with given status.
+     *
+     * @param statuses The desired statuses of the returned packages.
+     * @return A list of {@link ProposedConceptPackage} with the status {@link PackageStatus}
+     * @throws APIException
+     * @since 1.0
+     */
+    @Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    List<ProposedConceptPackage> getProposedConceptPackagesForStatuses(PackageStatus... statuses) throws APIException;
 	
 	/**
 	 * Gets a specific ProposedConceptPackage by its id (id field in the class,

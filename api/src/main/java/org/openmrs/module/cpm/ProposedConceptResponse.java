@@ -32,8 +32,6 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private Integer proposedConceptResponseId;
 	private String proposedConceptUuid;
 	private Integer version;
-	private String name;
-	private String description;
 
 	public ProposedConceptResponse() {
 		super();
@@ -74,22 +72,6 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@Override
 	public ProposedConceptResponsePackage getProposedConceptPackage() {
 		return proposedConceptPackage;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	@ManyToOne

@@ -67,6 +67,23 @@
             </column>
         </createTable>
 
+        <createTable tableName="cpm_comment">
+            <column autoIncrement="true" name="cpm_comment_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_proposed_concept_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="varchar(1000)"/>
+            <column name="commenterRole" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
         <createTable tableName="cpm_proposed_concept_response_package">
             <column autoIncrement="true" name="cpm_proposed_concept_response_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>

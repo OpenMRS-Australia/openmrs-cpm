@@ -24,8 +24,10 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 	private static Log log = LogFactory.getLog(ShareableProposal.class);
 
 	protected P proposedConceptPackage;
+    private String name;
+    private String description;
+	private Set<Comment> comments = new HashSet<Comment>();
 	protected Concept concept;
-	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
 	private ProposalStatus status = ProposalStatus.DRAFT;
 
 	@Transient
@@ -50,11 +52,11 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 	}
 	
 	@Transient
-	public Set<ShareableComment> getComments() {
+	public Set<Comment> getComments() {
     	return comments;
     }
 
-    public void setComments(final Set<ShareableComment> comments) {
+    public void setComments(final Set<Comment> comments) {
     	this.comments = comments;
     }
 
@@ -68,11 +70,27 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
     	this.status = status;
     }
 
-	/*
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /*
 	 * Utility methods
 	 */
 
-    public void addComment(final ShareableComment comment) {
+    public void addComment(final Comment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to add null comment");
 			return;
@@ -85,7 +103,7 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 		}
 	}
 
-	public void removeComment(final ShareableComment comment) {
+	public void removeComment(final Comment comment) {
 		if (comment == null) {
 			log.warn("Ignoring request to remove null comment");
 			return;
@@ -97,4 +115,17 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 			log.warn("Cannot remove comment: " + comment + " to null comment list");
 		}
 	}
+
+    @Override
+    public String toString() {
+        return "ShareableProposal{" +
+                super.toString() +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", proposedConceptPackage.uuid=" + (proposedConceptPackage == null? null:proposedConceptPackage.getUuid()) +
+                ", concept=" + concept +
+                ", comments=" + comments +
+                ", status=" + status +
+                '}';
+    }
 }

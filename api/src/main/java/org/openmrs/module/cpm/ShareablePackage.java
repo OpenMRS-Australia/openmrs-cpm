@@ -19,8 +19,7 @@ import java.util.Set;
  */
 @MappedSuperclass
 public abstract class ShareablePackage<P extends ShareableProposal> extends BaseOpenmrsObject {
-
-	protected Log log = LogFactory.getLog(getClass());
+    protected Log log = LogFactory.getLog(getClass());
 
 	private String name;
 
@@ -123,5 +122,17 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
       }
       return null;
   }
-	
+
+    @Override
+    public String toString() {
+        return "ShareablePackage{" +
+                super.toString() +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", proposedConcepts=" + proposedConcepts +
+                ", status=" + status +
+                '}';
+    }
+
 }
