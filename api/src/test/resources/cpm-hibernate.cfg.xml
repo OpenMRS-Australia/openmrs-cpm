@@ -7,6 +7,5 @@
 		<mapping class="org.openmrs.module.cpm.ProposedConceptPackage" />
 		<mapping class="org.openmrs.module.cpm.ProposedConceptResponse" />
 		<mapping class="org.openmrs.module.cpm.ProposedConceptResponsePackage" />
-		<mapping class="org.openmrs.module.cpm.Comment" />
 	</session-factory>
 </hibernate-configuration>
