@@ -23,16 +23,6 @@ import java.io.IOException;
 public class DictionaryManagerController {
 
 	//
-	// Pages
-	//
-
-    @RequestMapping(value = "module/cpm/proposalReview.list", method = RequestMethod.GET)
-    public String listProposalReview() {
-        return "/module/cpm/proposalReview";
-    }
-
-
-	//
 	// Proposer-Reviewer webservice endpoints
 	//
 

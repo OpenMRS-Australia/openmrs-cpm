@@ -12,14 +12,11 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.web.dto.Settings;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
+import org.openmrs.module.cpm.web.dto.Settings;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -283,21 +280,6 @@ public class CpmController {
 		return conceptProposalPackageDto;
 	}
 
-	@RequestMapping(value = "/cpm/proposalResponses", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<ProposedConceptResponsePackageDto> getProposalResponses() {
-
-		final List<ProposedConceptResponsePackage> allConceptProposalResponsePackages = Context.getService(ProposedConceptService.class).getAllProposedConceptResponsePackages();
-		final ArrayList<ProposedConceptResponsePackageDto> response = new ArrayList<ProposedConceptResponsePackageDto>();
-
-		for (final ProposedConceptResponsePackage conceptProposalResponsePackage : allConceptProposalResponsePackages) {
-
-			final ProposedConceptResponsePackageDto conceptProposalResponsePackageDto = createProposedConceptResponsePackageDto(conceptProposalResponsePackage);
-			response.add(conceptProposalResponsePackageDto);
-		}
-
-		return response;
-	}
-
     private void updateProposedConcepts(ProposedConceptPackage conceptPackage,
                                         ProposedConceptPackageDto packageDto){
         checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
@@ -349,31 +331,5 @@ public class CpmController {
                 }
             }
     }
-
-	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage conceptProposalResponsePackage) {
-
-		final ProposedConceptResponsePackageDto conceptProposalPackageDto = new ProposedConceptResponsePackageDto();
-		conceptProposalPackageDto.setId(conceptProposalResponsePackage.getId());
-		conceptProposalPackageDto.setName(conceptProposalResponsePackage.getName());
-		conceptProposalPackageDto.setEmail(conceptProposalResponsePackage.getEmail());
-		conceptProposalPackageDto.setDescription(conceptProposalResponsePackage.getDescription());
-
-		final Set<ProposedConceptResponse> proposedConcepts = conceptProposalResponsePackage.getProposedConcepts();
-		final List<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
-
-		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
-
-			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
-//			conceptProposalDto.setConceptId(conceptProposal.get??)
-			conceptProposalDto.setName(conceptProposal.getName());
-//			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
-			conceptProposalDto.setStatus(conceptProposal.getStatus());
-
-			list.add(conceptProposalDto);
-		}
-
-		conceptProposalPackageDto.setConcepts(list);
-		return conceptProposalPackageDto;
-	}
 
 }
