@@ -1,5 +1,7 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -47,15 +50,21 @@ public class ReviewController {
 		return response;
 	}
 
-	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage conceptProposalResponsePackage) {
+	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage responsePackage) {
 
-		final ProposedConceptResponsePackageDto conceptProposalPackageDto = new ProposedConceptResponsePackageDto();
-		conceptProposalPackageDto.setId(conceptProposalResponsePackage.getId());
-		conceptProposalPackageDto.setName(conceptProposalResponsePackage.getName());
-		conceptProposalPackageDto.setEmail(conceptProposalResponsePackage.getEmail());
-		conceptProposalPackageDto.setDescription(conceptProposalResponsePackage.getDescription());
+		final ProposedConceptResponsePackageDto dto = new ProposedConceptResponsePackageDto();
+		dto.setId(responsePackage.getId());
+		dto.setName(responsePackage.getName());
+		dto.setEmail(responsePackage.getEmail());
+		dto.setDescription(responsePackage.getDescription());
 
-		final Set<ProposedConceptResponse> proposedConcepts = conceptProposalResponsePackage.getProposedConcepts();
+		if (responsePackage.getDateCreated() == null) {
+			throw new NullPointerException("Date created is null");
+		}
+		Days d = Days.daysBetween(new DateTime(responsePackage.getDateCreated()), new DateTime(new Date()));
+		dto.setAge(String.valueOf(d.getDays()));
+
+		final Set<ProposedConceptResponse> proposedConcepts = responsePackage.getProposedConcepts();
 		final List<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
 
 		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
@@ -69,7 +78,7 @@ public class ReviewController {
 			list.add(conceptProposalDto);
 		}
 
-		conceptProposalPackageDto.setConcepts(list);
-		return conceptProposalPackageDto;
+		dto.setConcepts(list);
+		return dto;
 	}
 }
