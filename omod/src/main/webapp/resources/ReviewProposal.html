@@ -15,7 +15,7 @@
             <td>{{concept.name}}</td>
             <td>{{concept.class}}, {{concept.datatype}}</td>
             <td>{{concept.comments}}</td>
-            <td>Existing: <a href="#">1234</a></td>
+            <td>{{concept.status | proposalReviewStatus}}</td>
         </tr>
     </tbody>
 </table>
