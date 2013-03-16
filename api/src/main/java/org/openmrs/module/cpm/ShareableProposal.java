@@ -26,7 +26,7 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 	protected P proposedConceptPackage;
 	protected Concept concept;
 	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
-	private ProposalStatus status = ProposalStatus.DRAFT;
+	private ProposalStatus status;
 
 	@Transient
     public abstract Integer getId();

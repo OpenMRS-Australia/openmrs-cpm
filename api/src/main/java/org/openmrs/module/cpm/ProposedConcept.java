@@ -35,6 +35,7 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 		super();
 		log.debug("Creating a ProposedConcept");
 		this.version = 0;
+		setStatus(ProposalStatus.DRAFT);
 	}
 	
 	@Id

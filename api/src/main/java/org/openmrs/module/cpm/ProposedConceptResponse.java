@@ -38,6 +38,7 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	public ProposedConceptResponse() {
 		super();
 		this.version = 0;
+		setStatus(ProposalStatus.RECEIVED);
 	}
 	
 	@Id
