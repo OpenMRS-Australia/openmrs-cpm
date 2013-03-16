@@ -1,11 +1,11 @@
 define(['cpm-review', 'config'], function(cpm, config) {
-  cpm.controller('ListIncomingProposalsCtrl', ['$scope', 'ProposalResponses', '$location', function($scope, ProposalResponses, $location) {
+  cpm.controller('ListIncomingProposalsCtrl', ['$scope', 'ProposalReviews', '$location', function($scope, ProposalReviews, $location) {
 
     document.title = 'Incoming Concept Proposals';
     $scope.contextPath = config.contextPath;
     $scope.responseReceived = false;
 
-    $scope.proposals = ProposalResponses.query(function() {
+    $scope.proposals = ProposalReviews.query(function() {
       $scope.responseReceived = true;
     });
 

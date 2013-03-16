@@ -34,7 +34,7 @@ public class ReviewController {
 	// REST endpoints
 	//
 
-	@RequestMapping(value = "/cpm/proposalResponses", method = RequestMethod.GET)
+	@RequestMapping(value = "/cpm/proposalReviews", method = RequestMethod.GET)
 	public @ResponseBody
 	ArrayList<ProposedConceptResponsePackageDto> getProposalResponses() {
 
