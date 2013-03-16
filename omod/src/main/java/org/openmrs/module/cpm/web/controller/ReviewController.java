@@ -9,6 +9,7 @@ import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,14 @@ public class ReviewController {
 		}
 
 		return response;
+	}
+
+	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}", method = RequestMethod.GET)
+	public @ResponseBody
+	ProposedConceptResponsePackageDto getProposalResponse(@PathVariable int proposalId) {
+		return createProposedConceptResponsePackageDto(Context.
+				getService(ProposedConceptService.class).
+				getProposedConceptResponsePackageById(proposalId));
 	}
 
 	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage responsePackage) {
