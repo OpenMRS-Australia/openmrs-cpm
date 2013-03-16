@@ -30,12 +30,12 @@ import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @PrepareForTest(Context.class)
-public class TestCpmController extends BaseCpmOmodTest {
+public class TestProposalController extends BaseCpmOmodTest {
 
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
-	private final CpmController controller = new CpmController();
+	private final ProposalController controller = new ProposalController();
 
 	// See http://www.jayway.com/2010/12/28/using-powermock-with-spring-integration-testing/
 	// for using powermock when used with Spring

@@ -40,7 +40,7 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
-public class CpmController {
+public class ProposalController {
 
 	@Autowired
 	private RestOperations submissionRestTemplate;
