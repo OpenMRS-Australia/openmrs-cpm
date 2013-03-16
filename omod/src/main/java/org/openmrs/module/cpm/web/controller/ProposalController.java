@@ -2,10 +2,7 @@ package org.openmrs.module.cpm.web.controller;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.codec.binary.Base64;
-import org.openmrs.Concept;
-import org.openmrs.ConceptName;
-import org.openmrs.ConceptSearchResult;
-import org.openmrs.GlobalProperty;
+import org.openmrs.*;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -212,10 +209,19 @@ public class ProposalController {
 
 			// concept details
 			final Concept concept = proposedConcept.getConcept();
-			conceptDto.setName(concept.getName().getName());
-			conceptDto.setDescription(concept.getDescription().getDescription());
-			conceptDto.setDatatype(concept.getDatatype().getName());
-			conceptDto.setUuid(concept.getUuid());
+            ConceptName conceptName = concept.getName();
+            if(conceptName != null){
+                conceptDto.setName(conceptName.getName());
+            }
+            ConceptDescription conceptDescription = concept.getDescription();
+            if(conceptDescription != null){
+                conceptDto.setDescription(conceptDescription.getDescription());
+            }
+            ConceptDatatype conceptDatatype = concept.getDatatype();
+            if(conceptDatatype !=null){
+                conceptDto.setDatatype(conceptDatatype.getName());
+            }
+            conceptDto.setUuid(concept.getUuid());
 
 			list.add(conceptDto);
 		}
