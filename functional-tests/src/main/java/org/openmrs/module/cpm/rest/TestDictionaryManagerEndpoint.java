@@ -15,6 +15,7 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -38,6 +39,19 @@ public class TestDictionaryManagerEndpoint {
 		final HttpPost httpPost = setupHttpPostWithJson("proposal-no-concepts.json");
 
 		HttpResponse response = httpclient.execute(targetHost, httpPost);
+
+		assertThat(response.getStatusLine().getStatusCode(), equalTo(401));
+	}
+
+	// TODO: setup account that doesn't have permission to access the cpm service
+	@Test
+	@Ignore
+	public void submitProposalWithAccountThatDoesntHaveCorrectPermission_shouldReceive403() throws IOException {
+
+		final HttpPost httpPost = setupHttpPostWithJson("proposal-no-concepts.json");
+
+		// setup request with alternative credentials
+		final HttpResponse response = null;
 
 		assertThat(response.getStatusLine().getStatusCode(), equalTo(401));
 	}
