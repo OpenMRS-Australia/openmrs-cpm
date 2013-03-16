@@ -71,7 +71,7 @@
 
     <filter-mapping>
         <filter-name>cpm-authorisation</filter-name>
-        <url-pattern>/ws/cpm/dictionarymanager</url-pattern>
+        <url-pattern>/ws/cpm/dictionarymanager/*</url-pattern>
     </filter-mapping>
 
 </module>

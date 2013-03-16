@@ -33,4 +33,9 @@
         </property>
     </bean>
 
+    <!-- Needed to ensure @ExceptionHandlers are setup -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="order" value="1"/>
+    </bean>
+
 </beans>

@@ -15,7 +15,6 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,7 +33,6 @@ public class TestDictionaryManagerEndpoint {
 
 
 	@Test
-	@Ignore // not yet implemented
 	public void submitProposalWithNoAuth_shouldReceived401() throws IOException {
 
 		final HttpPost httpPost = setupHttpPostWithJson("proposal-no-concepts.json");
