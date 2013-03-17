@@ -5,7 +5,11 @@
 <b class="boxHeader">Names</b>
 <table class="box" cellpadding="2" cellspacing="0">
     <thead>
-        <tr><th>Locale</th><th>Type</th><th>Name</th></tr>
+        <tr>
+            <th>Locale</th>
+            <th>Type</th>
+            <th>Name</th>
+        </tr>
     </thead>
     <tbody class="results">
         <tr ng-repeat="name in concept.names">
@@ -16,11 +20,13 @@
     </tbody>
 </table>
 
-<b class="boxHeader">Descriptions</b>
+<b class="boxHeader" style="margin-top: 1em;">Descriptions</b>
 <table class="box" cellpadding="2" cellspacing="0">
     <thead>
-        <tr><th>Locale</th></tr>
-        <tr><th>Description</th></tr>
+        <tr>
+            <th>Locale</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody class="results">
         <tr ng-repeat="description in concept.descriptions">
