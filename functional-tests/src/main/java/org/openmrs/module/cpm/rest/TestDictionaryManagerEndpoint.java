@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.entity.StringEntity;
@@ -14,6 +15,8 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,7 +30,8 @@ public class TestDictionaryManagerEndpoint {
 
 	public static final String USERNAME = "admin";
 	public static final String PASSWORD = "Admin123";
-	public static final String URI = "http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals";
+	public static final String RESOURCE_URI = "http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals";
+	public static final String STATUS_URI = "http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposalstatus";
 
 	private HttpHost targetHost;
 	private DefaultHttpClient httpclient;
@@ -56,6 +60,7 @@ public class TestDictionaryManagerEndpoint {
 		assertThat(response.getStatusLine().getStatusCode(), equalTo(401));
 	}
 
+	// TODO: verify that a proposal with no concepts is allowed
 	@Test
 	public void submitProposalNoConcepts_shouldReceive200() throws IOException {
 
@@ -76,6 +81,25 @@ public class TestDictionaryManagerEndpoint {
 		HttpResponse response = httpclient.execute(targetHost, httpPost, localcontext);
 
 		assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+	}
+
+	@Test
+	public void submitProposalThenRetrieveStatus_statusShouldBeReceived() throws IOException {
+
+		HttpPost httpPost = setupHttpPostWithJson("proposal-with-concepts.json");
+		BasicHttpContext localcontext = setupBasicAuthentication();
+		HttpResponse response = httpclient.execute(targetHost, httpPost, localcontext);
+		ObjectMapper mapper = new ObjectMapper();
+		final JsonNode rootNode = mapper.readTree(response.getEntity().getContent());
+		final JsonNode idNode = rootNode.path("id");
+		final int resourceId = idNode.getIntValue();
+
+		HttpGet get = new HttpGet(STATUS_URI + "/" + resourceId);
+		final HttpResponse response2 = httpclient.execute(targetHost, get, localcontext);
+		final JsonNode rootNode2 = mapper.readTree(response2.getEntity().getContent());
+		final JsonNode statusNode = rootNode2.path("status");
+
+		assertThat(statusNode.getTextValue(), equalTo("RECEIVED"));
 	}
 
 
@@ -112,7 +136,7 @@ public class TestDictionaryManagerEndpoint {
 
 		final String json = Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
 
-		HttpPost httpPost = new HttpPost(URI);
+		HttpPost httpPost = new HttpPost(RESOURCE_URI);
 		httpPost.setHeader("Content-Type", "application/json");
 		httpPost.setEntity(new StringEntity(json, "UTF-8"));
 
