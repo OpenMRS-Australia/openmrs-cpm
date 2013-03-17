@@ -1,6 +1,14 @@
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
+<ul id="menu">
+    <li class="first"><a href="${pageContext.request.contextPath}/admin">Admin</a></li>
+    <li><a href="${pageContext.request.contextPath}/module/cpm/proposals.list#edit">Create Proposal</a></li>
+    <li><a href="${pageContext.request.contextPath}/module/cpm/proposals.list">Monitor Proposals</a></li>
+    <li><a href="${pageContext.request.contextPath}/module/cpm/proposalReview.list">Incoming Proposals</a></li>
+    <li><a href="${pageContext.request.contextPath}/module/cpm/proposals.list#settings">Settings</a></li>
+</ul>
+
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
 <script data-main="${pageContext.request.contextPath}/moduleResources/cpm/app-review.js" src="${pageContext.request.contextPath}/moduleResources/cpm/require.js"></script>
