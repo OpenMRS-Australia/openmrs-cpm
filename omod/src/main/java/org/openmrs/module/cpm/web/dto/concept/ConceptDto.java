@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.dto;
+package org.openmrs.module.cpm.web.dto.concept;
 
 public class ConceptDto {
 
