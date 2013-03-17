@@ -1,4 +1,4 @@
-define(['angular', 'ListIncomingProposalsCtrl', 'ReviewProposalCtrl'], function(angular) {
+define(['angular', 'ListIncomingProposalsCtrl', 'ReviewProposalCtrl', 'ReviewConceptCtrl'], function(angular) {
   var appRoot = document.getElementById("cpmapp");
   appRoot.setAttribute("ng-app", "cpm-review");
   angular.element(appRoot).ready(function() {

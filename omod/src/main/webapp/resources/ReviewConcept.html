@@ -1,0 +1,41 @@
+<div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
+<h2>Proposed Concept: {{concept.name}}</h2>
+<p>Comment from proposer: {{concept.comment}}</p>
+
+<b class="boxHeader">Names</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+        <tr><th>Locale</th><th>Type</th><th>Name</th></tr>
+    </thead>
+    <tbody class="results">
+        <tr ng-repeat="name in concept.names">
+            <td>{{name.locale}}</td>
+            <td>{{name.type}}</td>
+            <td>{{name.name}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<b class="boxHeader">Descriptions</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+        <tr><th>Locale</th></tr>
+        <tr><th>Description</th></tr>
+    </thead>
+    <tbody class="results">
+        <tr ng-repeat="description in concept.descriptions">
+            <td>{{description.locale}}</td>
+            <td>{{description.description}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Datatype: {{concept.datatype}}</p>
+<p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
+<p>My comments<br/><textarea/></p>
+<p><button>Save comments</button></p>
+<p>Record actions:<br/>
+<button>I created this concept</button>
+<button>This concept already exists</button>
+<button>Reject this concept</button>
+</p>

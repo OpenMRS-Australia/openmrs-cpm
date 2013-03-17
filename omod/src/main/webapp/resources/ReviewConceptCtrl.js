@@ -1,5 +1,5 @@
 define(['cpm-review', 'config'], function(module, config) {
-    module.controller('ReviewProposalCtrl', ['$scope', '$routeParams', '$location', 'ProposalReviews', function($scope, $routeParams, $location, ProposalReviews) {
+    module.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviews', function($scope, $routeParams, ProposalReviews) {
 
         var proposalId = $routeParams.proposalId;
         $scope.isLoading = true;
