@@ -2,15 +2,14 @@ package org.openmrs.module.cpm.web.dto;
 
 public class SubmissionResponseDto {
 
-    // Dummy field
-    private String status;
+    private int id;
 
-    public String getStatus() {
-        return status;
+    public int getId() {
+        return id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

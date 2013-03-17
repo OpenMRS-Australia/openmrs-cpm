@@ -8,8 +8,10 @@ import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.module.cpm.web.dto.SubmissionStatusDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,9 +51,18 @@ public class DictionaryManagerController {
 		service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
 
 		SubmissionResponseDto responseDto = new SubmissionResponseDto();
-        responseDto.setStatus("OK");
+        responseDto.setId(proposedConceptResponsePackage.getId());
         return responseDto;
     }
+
+	@RequestMapping(value = "/cpm/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
+	public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
+
+		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+		final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
+
+		return new SubmissionStatusDto(aPackage.getStatus());
+	}
 
 	@ExceptionHandler(APIAuthenticationException.class)
 	public void apiAuthenticationExceptionHandler(Exception e, HttpServletResponse response) {
