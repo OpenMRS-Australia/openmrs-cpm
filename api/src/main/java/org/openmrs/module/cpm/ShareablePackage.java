@@ -30,7 +30,7 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 
 	protected Set<P> proposedConcepts = new HashSet<P>();
 
-	private PackageStatus status = PackageStatus.DRAFT;
+	private PackageStatus status;
 
 	@Column(name = "uuid", unique = true, nullable = false, length = 38)
 	@Override

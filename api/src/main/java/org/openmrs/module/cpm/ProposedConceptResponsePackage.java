@@ -48,6 +48,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 	private Integer version;
 	
 	public ProposedConceptResponsePackage() {
+		setStatus(PackageStatus.RECEIVED);
 		dateCreated = new Date();
 		dateChanged = new Date();
 		version = 0;

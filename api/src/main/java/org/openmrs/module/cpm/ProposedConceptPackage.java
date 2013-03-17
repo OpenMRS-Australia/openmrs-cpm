@@ -47,6 +47,7 @@ public class ProposedConceptPackage extends ShareablePackage<ProposedConcept> im
 		super();
 		log.debug("Creating a ProposedConceptPackage");
 
+		setStatus(PackageStatus.DRAFT);
 		dateCreated = new Date();
 		dateChanged = new Date();
 		version = 0;
