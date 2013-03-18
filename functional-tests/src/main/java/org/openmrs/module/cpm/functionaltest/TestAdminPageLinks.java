@@ -1,10 +1,16 @@
 package org.openmrs.module.cpm.functionaltest;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openmrs.module.cpm.pagemodel.AdminPage;
 import org.openmrs.module.cpm.pagemodel.CreateProposalPage;
+import org.openmrs.module.cpm.pagemodel.IncomingProposalsPage;
 import org.openmrs.module.cpm.pagemodel.MonitorProposalsPage;
+import org.openmrs.module.cpm.pagemodel.SettingsPage;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.IOException;
@@ -70,6 +76,22 @@ public class TestAdminPageLinks {
 
 		final MonitorProposalsPage monitorProposalsPage = page.navigateToMonitorProposals();
 		assertEquals("Manage Concept Proposals", monitorProposalsPage.getHeaderText());
+	}
+
+	@Test
+	public void shouldNavigateToIncomingProposalsPage() {
+		assertNotNull(page.getIncomingProposalsLink());
+
+		final IncomingProposalsPage incomingProposalsPage = page.navigateToIncomingProposals();
+		assertEquals("Incoming Concept Proposals", incomingProposalsPage.getHeaderText());
+	}
+
+	@Test
+	public void shouldNavigateToSettingsPage() {
+		assertNotNull(page.getSettingsLink());
+
+		final SettingsPage settingsPage = page.navigateToSettings();
+		assertEquals("Concept Proposal Settings", settingsPage.getHeaderText());
 	}
 
 	@After
