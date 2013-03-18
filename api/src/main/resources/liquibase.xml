@@ -160,4 +160,36 @@
         <dropNotNullConstraint tableName="cpm_proposed_concept_response" columnName="concept_id" columnDataType="int"/>
     </changeSet>
 
+    <!-- Replacing single fields name & description with multiple rows -->
+    <changeSet id="cpm_2013-03-18-1" author="cpm">
+
+        <dropColumn tableName="cpm_proposed_concept_response" columnName="name"/>
+        <dropColumn tableName="cpm_proposed_concept_response" columnName="description"/>
+
+        <createTable tableName="cpm_proposed_concept_response_name">
+            <column name="proposed_concept_response" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type" type="varchar(255)"/>
+            <column name="locale" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_response_description">
+            <column name="proposed_concept_response" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="locale" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

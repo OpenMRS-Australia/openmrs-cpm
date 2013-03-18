@@ -16,6 +16,19 @@ define(['cpm', 'config'], function(cpm, config) {
       $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)).success(function(data) {
         $scope.isSearching = false;
         $scope.concepts = data;
+        for (var i in $scope.concepts) {
+          var concept = $scope.concepts[i];
+          concept.synonyms = "";
+          for (var j in concept.names) {
+            var name = concept.names[j].name;
+            if (name !== concept.preferredName) {
+              if (concept.synonyms !== "") {
+                concept.synonyms += ", ";
+              }
+              concept.synonyms += name;
+            }
+          }
+        }
       });
     }
 

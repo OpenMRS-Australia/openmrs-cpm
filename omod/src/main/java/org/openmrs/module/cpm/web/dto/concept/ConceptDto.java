@@ -1,16 +1,22 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
+import java.util.List;
+
 public class ConceptDto {
 
 	private int id;
 
-	private String name;
+	private List<NameDto> names;
 
-	private String synonyms;
+	// for UI, not necessary for submission
+	private String preferredName;
 
 	private String datatype;
 
-	private String description;
+	private List<DescriptionDto> descriptions;
+
+	// for UI, not necessary for submission
+	private String currLocaleDescription;
 
 	private String uuid;
 
@@ -22,20 +28,20 @@ public class ConceptDto {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public List<NameDto> getNames() {
+		return names;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setNames(List<NameDto> names) {
+		this.names = names;
 	}
 
-	public String getSynonyms() {
-		return synonyms;
+	public String getPreferredName() {
+		return preferredName;
 	}
 
-	public void setSynonyms(final String synonyms) {
-		this.synonyms = synonyms;
+	public void setPreferredName(String preferredName) {
+		this.preferredName = preferredName;
 	}
 
 	public String getDatatype() {
@@ -46,12 +52,20 @@ public class ConceptDto {
 		this.datatype = datatype;
 	}
 
-	public String getDescription() {
-		return description;
+	public List<DescriptionDto> getDescriptions() {
+		return descriptions;
 	}
 
-	public void setDescription(final String description) {
-		this.description = description;
+	public void setDescriptions(List<DescriptionDto> descriptions) {
+		this.descriptions = descriptions;
+	}
+
+	public String getCurrLocaleDescription() {
+		return currLocaleDescription;
+	}
+
+	public void setCurrLocaleDescription(String currLocaleDescription) {
+		this.currLocaleDescription = currLocaleDescription;
 	}
 
 	public String getUuid() {

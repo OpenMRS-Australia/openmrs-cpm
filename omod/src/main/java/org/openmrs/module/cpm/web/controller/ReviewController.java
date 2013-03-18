@@ -2,12 +2,19 @@ package org.openmrs.module.cpm.web.controller;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.openmrs.Concept;
+import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
+import org.openmrs.module.cpm.ProposedConceptResponseDescription;
+import org.openmrs.module.cpm.ProposedConceptResponseName;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
+import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
+import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,8 +86,7 @@ public class ReviewController {
 		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
 
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
-//			conceptProposalDto.setConceptId(conceptProposal.get??)
-			conceptProposalDto.setName(conceptProposal.getName());
+			conceptProposalDto.setNames(getNameDtos(conceptProposal));
 //			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
 
@@ -89,5 +95,28 @@ public class ReviewController {
 
 		dto.setConcepts(list);
 		return dto;
+	}
+
+	private ArrayList<NameDto> getNameDtos(ProposedConceptResponse concept) {
+		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
+		for (ProposedConceptResponseName name: concept.getNames()) {
+			NameDto nameDto = new NameDto();
+			nameDto.setName(name.getName());
+			nameDto.setType(name.getType());
+			nameDto.setLocale(name.getLocale().toString());
+			nameDtos.add(nameDto);
+		}
+		return nameDtos;
+	}
+
+	private ArrayList<DescriptionDto> getDescriptionDtos(ProposedConceptResponse concept) {
+		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
+		for (ProposedConceptResponseDescription description: concept.getDescriptions()) {
+			DescriptionDto descriptionDto = new DescriptionDto();
+			descriptionDto.setDescription(description.getDescription());
+			descriptionDto.setLocale(description.getLocale().toString());
+			descriptionDtos.add(descriptionDto);
+		}
+		return descriptionDtos;
 	}
 }

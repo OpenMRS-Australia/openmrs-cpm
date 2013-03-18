@@ -1,10 +1,12 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-public class Name {
+import org.openmrs.api.ConceptNameType;
+
+public class NameDto {
 
 	private String name;
 
-	private String type;
+	private ConceptNameType type;
 
 	private String locale;
 
@@ -16,11 +18,11 @@ public class Name {
 		this.name = name;
 	}
 
-	public String getType() {
+	public ConceptNameType getType() {
 		return type;
 	}
 
-	public void setType(final String type) {
+	public void setType(final ConceptNameType type) {
 		this.type = type;
 	}
 

@@ -1,6 +1,6 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-public class Description {
+public class DescriptionDto {
 
 	private String description;
 

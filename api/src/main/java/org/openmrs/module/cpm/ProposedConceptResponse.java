@@ -1,18 +1,14 @@
 package org.openmrs.module.cpm;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Concept;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the reviewers side
@@ -32,8 +28,8 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private Integer proposedConceptResponseId;
 	private String proposedConceptUuid;
 	private Integer version;
-	private String name;
-	private String description;
+	private List<ProposedConceptResponseName> names;
+	private List<ProposedConceptResponseDescription> descriptions;
 
 	public ProposedConceptResponse() {
 		super();
@@ -77,20 +73,22 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 		return proposedConceptPackage;
 	}
 
-	public String getName() {
-		return name;
+	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptResponseName> getNames() {
+		return names;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setNames(final List<ProposedConceptResponseName> names) {
+		this.names = names;
 	}
 
-	public String getDescription() {
-		return description;
+	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptResponseDescription> getDescriptions() {
+		return descriptions;
 	}
 
-	public void setDescription(final String description) {
-		this.description = description;
+	public void setDescriptions(final List<ProposedConceptResponseDescription> descriptions) {
+		this.descriptions = descriptions;
 	}
 
 	@ManyToOne

@@ -57,7 +57,7 @@
  </tbody>
  <tbody class="conceptList results">
   <tr ng-repeat="concept in proposal.concepts">
-   <td>{{concept.name}}</td>
+   <td>{{concept.preferredName}}</td>
    <td>{{concept.datatype}}</td>
    <td><input ng-model="concept.comments"/></td>
    <td><button ng-click="removeConcept(concept)">Remove</button></td>

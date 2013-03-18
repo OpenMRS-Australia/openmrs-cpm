@@ -16,6 +16,8 @@ import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.Settings;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
+import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +33,7 @@ import org.springframework.web.client.RestOperations;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -97,30 +100,37 @@ public class ProposalController {
 	private ConceptDto createConceptDto(final Concept concept) {
 
 		final ConceptDto dto = new ConceptDto();
-		dto.setName(concept.getName().getName());
-
 		dto.setId(concept.getConceptId());
-
-		String synonyms = "";
-		boolean first = true;
-		for (final ConceptName conceptName : concept.getNames()) {
-			if (conceptName.getName().equals(concept.getName().getName())) {
-				continue;
-			}
-			if (first) {
-				first = false;
-			} else {
-				synonyms += ", ";
-			}
-			synonyms += conceptName.getName();
-		}
-		dto.setSynonyms(synonyms);
-
+		dto.setNames(getNameDtos(concept));
+		dto.setPreferredName(concept.getName().getName());
 		dto.setDatatype(concept.getDatatype().getName());
-		if (concept.getDescription() != null) {
-			dto.setDescription(concept.getDescription().getDescription());
-		}
+		dto.setDescriptions(getDescriptionDtos(concept));
+		dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+
 		return dto;
+	}
+
+	private ArrayList<NameDto> getNameDtos(Concept concept) {
+		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
+		for (ConceptName name: concept.getNames()) {
+			NameDto nameDto = new NameDto();
+			nameDto.setName(name.getName());
+			nameDto.setType(name.getConceptNameType());
+			nameDto.setLocale(name.getLocale().toString());
+			nameDtos.add(nameDto);
+		}
+		return nameDtos;
+	}
+
+	private ArrayList<DescriptionDto> getDescriptionDtos(Concept concept) {
+		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
+		for (ConceptDescription description: concept.getDescriptions()) {
+			DescriptionDto descriptionDto = new DescriptionDto();
+			descriptionDto.setDescription(description.getDescription());
+			descriptionDto.setLocale(description.getLocale().toString());
+			descriptionDtos.add(descriptionDto);
+		}
+		return descriptionDtos;
 	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)
@@ -209,14 +219,9 @@ public class ProposalController {
 
 			// concept details
 			final Concept concept = proposedConcept.getConcept();
-            ConceptName conceptName = concept.getName();
-            if(conceptName != null){
-                conceptDto.setName(conceptName.getName());
-            }
-            ConceptDescription conceptDescription = concept.getDescription();
-            if(conceptDescription != null){
-                conceptDto.setDescription(conceptDescription.getDescription());
-            }
+			conceptDto.setNames(getNameDtos(concept));
+			conceptDto.setDescriptions(getDescriptionDtos(concept));
+
             ConceptDatatype conceptDatatype = concept.getDatatype();
             if(conceptDatatype !=null){
                 conceptDto.setDatatype(conceptDatatype.getName());
@@ -271,10 +276,14 @@ public class ProposalController {
 
 		for (final ProposedConcept conceptProposal : proposedConcepts) {
 
+			final Concept concept = conceptProposal.getConcept();
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
-			conceptProposalDto.setId(conceptProposal.getConcept().getConceptId());
-			conceptProposalDto.setName(conceptProposal.getConcept().getName().getName());
-			conceptProposalDto.setDatatype(conceptProposal.getConcept().getDatatype().getName());
+			conceptProposalDto.setId(concept.getConceptId());
+			conceptProposalDto.setNames(getNameDtos(concept));
+			conceptProposalDto.setPreferredName(concept.getName().getName());
+			conceptProposalDto.setDescriptions(getDescriptionDtos(concept));
+			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
 
 			// TODO: comments

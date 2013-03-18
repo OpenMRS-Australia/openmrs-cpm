@@ -46,9 +46,9 @@
  <tbody class="conceptList results">
   <tr ng-repeat="concept in concepts" ng-click="concept.selected = !concept.selected">
    <td><input type="checkbox" ng-click="$event.stopPropagation()" ng-model="concept.selected"/></td>
-   <td>{{concept.name}}</td>
+   <td>{{concept.preferredName}}</td>
    <td>{{concept.synonyms}}</td>
-   <td>{{concept.description}}</td>
+   <td>{{concept.currLocaleDescription}}</td>
   </tr>
  </tbody>
  <tbody ng-show="!concepts.length">
