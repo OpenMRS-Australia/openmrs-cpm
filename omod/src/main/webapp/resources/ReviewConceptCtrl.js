@@ -4,7 +4,7 @@ define(['cpm-review', 'config'], function(module, config) {
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
         $scope.isLoading = true;
-        $scope.resourceLocation = config.resourceLocation;
+        $scope.contextPath = config.contextPath;
 
         $scope.proposal = ProposalReviews.get({proposalId: proposalId}, function() {
             $scope.isLoading = false;
