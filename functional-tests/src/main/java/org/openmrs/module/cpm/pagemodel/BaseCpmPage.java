@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BaseCpmPage {
     public static final int DEFAULT_TIMEOUT_IN_SECONDS = 30;
     protected final WebDriver driver;
-    private WebDriverWait defaultWait;
+    protected WebDriverWait defaultWait;
 
     public BaseCpmPage(WebDriver driver) {
         this.driver = driver;
