@@ -2,9 +2,7 @@ package org.openmrs.module.cpm.web.controller;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.openmrs.Concept;
-import org.openmrs.ConceptDescription;
-import org.openmrs.ConceptName;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponseDescription;
@@ -86,6 +84,14 @@ public class ReviewController {
 		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
 
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
+
+			for (ProposedConceptResponseName name: conceptProposal.getNames()) {
+				if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
+					conceptProposalDto.setPreferredName(name.getName());
+					break;
+				}
+			}
+
 			conceptProposalDto.setNames(getNameDtos(conceptProposal));
 //			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
