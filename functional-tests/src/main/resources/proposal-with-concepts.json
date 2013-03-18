@@ -4,10 +4,21 @@
     "description": "rar",
     "concepts": [
         {
-            "name": "New concept",
+            "names": [
+                {
+                    "name": "New concept",
+                    "type": "FULLY_SPECIFIED",
+                    "locale": "en"
+                }
+            ],
             "synonyms": "Some synonym",
             "datatype": "N/A",
-            "description": "This new drug is required in the concept dictionary",
+            "descriptions": [
+                {
+                    "description": "This new drug is required in the concept dictionary",
+                    "locale": "en"
+                }
+            ],
             "uuid": "blah-blah-blah-blah",
             "comments": "Some comment related to the submission process"
         }

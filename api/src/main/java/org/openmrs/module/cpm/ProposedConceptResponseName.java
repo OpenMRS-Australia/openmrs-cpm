@@ -7,10 +7,12 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Entity
+@Table(name = "cpm_proposed_concept_response_name")
 public class ProposedConceptResponseName implements Serializable {
 
 	@Id
 	@ManyToOne
+	@JoinColumn(name = "proposed_concept_response")
 	private ProposedConceptResponse proposedConceptResponse;
 
 	@Id

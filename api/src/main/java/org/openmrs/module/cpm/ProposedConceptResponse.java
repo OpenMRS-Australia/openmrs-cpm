@@ -80,6 +80,9 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	public void setNames(final List<ProposedConceptResponseName> names) {
 		this.names = names;
+		for (ProposedConceptResponseName name: this.names) {
+			name.setProposedConceptResponse(this);
+		}
 	}
 
 	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -89,6 +92,9 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	public void setDescriptions(final List<ProposedConceptResponseDescription> descriptions) {
 		this.descriptions = descriptions;
+		for (ProposedConceptResponseDescription name: this.descriptions) {
+			name.setProposedConceptResponse(this);
+		}
 	}
 
 	@ManyToOne
