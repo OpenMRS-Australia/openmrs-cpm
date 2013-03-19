@@ -51,6 +51,7 @@ define(['cpm', 'config'], function(cpm, config) {
       if ($scope.isEdit) {
         $scope.proposal.$update(function() {
           $scope.isLoading = false;
+          alert("Saved!");
         });
       } else {
         $scope.proposal.$save(function() {
@@ -58,8 +59,8 @@ define(['cpm', 'config'], function(cpm, config) {
           // will fetch extra data but url will be up to date
           $location.path('/edit/' + $scope.proposal.id);
           $scope.isLoading = false;
+          alert("Saved!");
         });
-                  alert("Saved!");
       }
     };
 
