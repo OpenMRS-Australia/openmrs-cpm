@@ -10,8 +10,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This is the base class underlying the exchange of information of individual Concept Proposals
@@ -25,7 +23,7 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 
 	protected P proposedConceptPackage;
 	protected Concept concept;
-	private Set<ShareableComment> comments = new HashSet<ShareableComment>();
+    private  String comment;
 	private ProposalStatus status;
 
 	@Transient
@@ -38,7 +36,16 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 		return super.getUuid();
 	}
 
-	@Transient
+    @Column(name = "comment", nullable = true)
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @Transient
 	public abstract P getProposedConceptPackage();
 
 	public void setConcept(final Concept concept) {
@@ -48,15 +55,6 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
 	public void setProposedConceptPackage(final P proposedConceptPackage) {
 		this.proposedConceptPackage = proposedConceptPackage;
 	}
-	
-	@Transient
-	public Set<ShareableComment> getComments() {
-    	return comments;
-    }
-
-    public void setComments(final Set<ShareableComment> comments) {
-    	this.comments = comments;
-    }
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -68,33 +66,5 @@ public abstract class ShareableProposal<P extends ShareablePackage> extends Base
     	this.status = status;
     }
 
-	/*
-	 * Utility methods
-	 */
 
-    public void addComment(final ShareableComment comment) {
-		if (comment == null) {
-			log.warn("Ignoring request to add null comment");
-			return;
-		}
-		if (this.comments != null) {
-			log.debug("Adding comment: " + comment);
-			this.comments.add(comment);
-		} else {
-			log.warn("Cannot add comment: " + comment + " to null comment list");
-		}
-	}
-
-	public void removeComment(final ShareableComment comment) {
-		if (comment == null) {
-			log.warn("Ignoring request to remove null comment");
-			return;
-		}
-		if (this.comments != null) {
-			log.debug("Removing comment: " + comment);
-			this.comments.add(comment);
-		} else {
-			log.warn("Cannot remove comment: " + comment + " to null comment list");
-		}
-	}
 }

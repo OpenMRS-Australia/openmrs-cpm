@@ -285,9 +285,7 @@ public class ProposalController {
 			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
-
-			// TODO: comments
-
+            conceptProposalDto.setComments(conceptProposal.getComment());
 			list.add(conceptProposalDto);
 		}
 
@@ -342,6 +340,7 @@ public class ProposalController {
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
                     checkNotNull(concept,"Concept should not be null") ;
                     proposedConcept.setConcept(concept);
+                    proposedConcept.setComment(newProposedConcept.getComments());
                     conceptPackage.addProposedConcept(proposedConcept);
                 }
             }

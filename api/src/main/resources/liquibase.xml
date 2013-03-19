@@ -192,4 +192,11 @@
         </createTable>
     </changeSet>
 
+    <!-- Adding comment field to concept -->
+    <changeSet id="cpm_2013-03-19-1" author="cpm">
+        <addColumn tableName="cpm_proposed_concept">
+            <column name="comment" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
