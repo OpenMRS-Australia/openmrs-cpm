@@ -41,8 +41,7 @@ public class ReviewController {
 	//
 
 	@RequestMapping(value = "/cpm/proposalReviews", method = RequestMethod.GET)
-	public @ResponseBody
-	ArrayList<ProposedConceptResponsePackageDto> getProposalResponses() {
+	public @ResponseBody ArrayList<ProposedConceptResponsePackageDto> getProposalResponses() {
 
 		final List<ProposedConceptResponsePackage> allConceptProposalResponsePackages = Context.getService(ProposedConceptService.class).getAllProposedConceptResponsePackages();
 		final ArrayList<ProposedConceptResponsePackageDto> response = new ArrayList<ProposedConceptResponsePackageDto>();
@@ -57,8 +56,7 @@ public class ReviewController {
 	}
 
 	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}", method = RequestMethod.GET)
-	public @ResponseBody
-	ProposedConceptResponsePackageDto getProposalResponse(@PathVariable int proposalId) {
+	public @ResponseBody ProposedConceptResponsePackageDto getProposalResponse(@PathVariable int proposalId) {
 		return createProposedConceptResponsePackageDto(Context.
 				getService(ProposedConceptService.class).
 				getProposedConceptResponsePackageById(proposalId));
@@ -93,8 +91,10 @@ public class ReviewController {
 			}
 
 			conceptProposalDto.setNames(getNameDtos(conceptProposal));
-//			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
+			conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
+
+//			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
 
 			list.add(conceptProposalDto);
 		}
