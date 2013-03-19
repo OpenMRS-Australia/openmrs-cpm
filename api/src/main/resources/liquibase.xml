@@ -199,4 +199,11 @@
         </addColumn>
     </changeSet>
 
+    <!-- Adding the proposer's comment to the reviewer table as well -->
+    <changeSet id="cpm_2013-03-19-2" author="cpm">
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="comment" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
