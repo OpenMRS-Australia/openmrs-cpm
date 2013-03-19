@@ -1,5 +1,5 @@
 <div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
-<h2>Proposed Concept: {{concept.name}}</h2>
+<h2>Proposed Concept: {{concept.preferredName}}</h2>
 <p>Comment from proposer: {{concept.comment}}</p>
 
 <b class="boxHeader">Names</b>
@@ -11,6 +11,11 @@
             <th>Name</th>
         </tr>
     </thead>
+    <tbody ng-show="concept.names.length == 0">
+        <tr>
+            <td colspan="3" align="center"><em>No names given</em></td>
+        </tr>
+    </tbody>
     <tbody class="results">
         <tr ng-repeat="name in concept.names">
             <td>{{name.locale}}</td>
@@ -28,6 +33,11 @@
             <th>Description</th>
         </tr>
     </thead>
+    <tbody ng-show="concept.descriptions.length == 0">
+        <tr>
+            <td colspan="2" align="center"><em>No descriptions given</em></td>
+        </tr>
+    </tbody>
     <tbody class="results">
         <tr ng-repeat="description in concept.descriptions">
             <td>{{description.locale}}</td>

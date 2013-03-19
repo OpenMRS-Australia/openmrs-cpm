@@ -52,8 +52,8 @@
  <thead>
   <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
  </thead>
- <tbody class="noConceptsMsg">
-  <tr><td colspan="4" align="center" ng-show="proposal.concepts.length == 0"><em>No concepts added</em></td></tr>
+ <tbody class="noConceptsMsg" ng-show="proposal.concepts.length == 0">
+  <tr><td colspan="4" align="center"><em>No concepts added</em></td></tr>
  </tbody>
  <tbody class="conceptList results">
   <tr ng-repeat="concept in proposal.concepts">
