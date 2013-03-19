@@ -14,7 +14,7 @@ public class ProposedConceptResponsePackageDto {
 
 	private String description;
 
-	private List<ProposedConceptDto> concepts;
+	private List<ProposedConceptResponseDto> concepts;
 
 	public int getId() {
 		return id;
@@ -56,11 +56,11 @@ public class ProposedConceptResponsePackageDto {
 		this.description = description;
 	}
 
-	public List<ProposedConceptDto> getConcepts() {
+	public List<ProposedConceptResponseDto> getConcepts() {
 		return concepts;
 	}
 
-	public void setConcepts(final List<ProposedConceptDto> concepts) {
+	public void setConcepts(final List<ProposedConceptResponseDto> concepts) {
 		this.concepts = concepts;
 	}
 }

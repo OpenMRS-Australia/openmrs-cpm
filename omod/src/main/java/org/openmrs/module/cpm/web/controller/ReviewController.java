@@ -9,12 +9,13 @@ import org.openmrs.module.cpm.ProposedConceptResponseDescription;
 import org.openmrs.module.cpm.ProposedConceptResponseName;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
+import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,6 +63,27 @@ public class ReviewController {
 				getProposedConceptResponsePackageById(proposalId));
 	}
 
+	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
+	public @ResponseBody ProposedConceptResponseDto getConceptResponse(@PathVariable int proposalId, @PathVariable int conceptId) {
+		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+		final ProposedConceptResponse proposedConcept = service.getProposedConceptResponsePackageById(proposalId).getProposedConcept(conceptId);
+		return createProposedConceptResponseDto(proposedConcept);
+	}
+
+	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
+	public @ResponseBody
+	ProposedConceptResponseDto updateConceptResponse(@PathVariable int proposalId, @PathVariable int conceptId, @RequestBody ProposedConceptResponseDto updatedProposalResponse) {
+		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+		final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
+		final ProposedConceptResponse proposedConcept = aPackage.getProposedConcept(conceptId);
+		if (proposedConcept != null) {
+			// todo: comment
+			proposedConcept.setStatus(updatedProposalResponse.getStatus());
+			service.saveProposedConceptResponsePackage(aPackage);
+		}
+		return createProposedConceptResponseDto(proposedConcept);
+	}
+
 	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage responsePackage) {
 
 		final ProposedConceptResponsePackageDto dto = new ProposedConceptResponsePackageDto();
@@ -77,22 +99,11 @@ public class ReviewController {
 		dto.setAge(String.valueOf(d.getDays()));
 
 		final Set<ProposedConceptResponse> proposedConcepts = responsePackage.getProposedConcepts();
-		final List<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
+		final List<ProposedConceptResponseDto> list = new ArrayList<ProposedConceptResponseDto>();
 
 		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
 
-			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
-
-			for (ProposedConceptResponseName name: conceptProposal.getNames()) {
-				if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
-					conceptProposalDto.setPreferredName(name.getName());
-					break;
-				}
-			}
-
-			conceptProposalDto.setNames(getNameDtos(conceptProposal));
-			conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
-			conceptProposalDto.setStatus(conceptProposal.getStatus());
+			final ProposedConceptResponseDto conceptProposalDto = createProposedConceptResponseDto(conceptProposal);
 
 //			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
 
@@ -101,6 +112,23 @@ public class ReviewController {
 
 		dto.setConcepts(list);
 		return dto;
+	}
+
+	private ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
+		final ProposedConceptResponseDto conceptProposalDto = new ProposedConceptResponseDto();
+
+		for (ProposedConceptResponseName name: conceptProposal.getNames()) {
+			if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
+				conceptProposalDto.setPreferredName(name.getName());
+				break;
+			}
+		}
+
+		conceptProposalDto.setId(conceptProposal.getId());
+		conceptProposalDto.setNames(getNameDtos(conceptProposal));
+		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
+		conceptProposalDto.setStatus(conceptProposal.getStatus());
+		return conceptProposalDto;
 	}
 
 	private ArrayList<NameDto> getNameDtos(ProposedConceptResponse concept) {
