@@ -13,5 +13,15 @@ define(['cpm-review', 'config'], function(module, config) {
             $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
         };
 
+        $scope.delete = function() {
+            if (confirm('Are you sure?')) {
+                $scope.isLoading = true;
+                $scope.proposal.$remove(function() {
+                    $scope.isLoading = false;
+                    $location.path('/');
+                });
+            }
+        }
+
     }])
 });

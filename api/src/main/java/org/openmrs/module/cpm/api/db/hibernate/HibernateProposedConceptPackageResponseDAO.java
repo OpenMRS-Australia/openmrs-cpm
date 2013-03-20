@@ -95,5 +95,14 @@ public class HibernateProposedConceptPackageResponseDAO implements ProposedConce
 		
 	}
 
+	@Override
+	public void deleteConceptProposalResponsePackageById(final int proposalId) {
+		sessionFactory.
+			getCurrentSession().
+			createQuery("delete from ProposedConceptResponsePackage where id = ?").
+			setParameter(0, proposalId).
+			executeUpdate();
+	}
+
 
 }

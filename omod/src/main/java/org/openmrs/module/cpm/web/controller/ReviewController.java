@@ -63,6 +63,11 @@ public class ReviewController {
 				getProposedConceptResponsePackageById(proposalId));
 	}
 
+	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}", method = RequestMethod.DELETE)
+	public @ResponseBody void deleteProposalResponse(@PathVariable int proposalId) {
+		Context.getService(ProposedConceptService.class).deleteProposedConceptResponsePackageById(proposalId);
+	}
+
 	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptResponseDto getConceptResponse(@PathVariable int proposalId, @PathVariable int conceptId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);

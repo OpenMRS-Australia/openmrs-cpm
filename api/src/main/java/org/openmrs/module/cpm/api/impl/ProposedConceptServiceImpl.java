@@ -79,4 +79,9 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 		proposalResponseDao.deleteConceptProposalResponsePackage(conceptPackageResponse);
 	}
 
+	@Override
+	public void deleteProposedConceptResponsePackageById(final int proposalId) throws APIException {
+		proposalResponseDao.deleteConceptProposalResponsePackageById(proposalId);
+	}
+
 }
