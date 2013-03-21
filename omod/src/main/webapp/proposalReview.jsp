@@ -11,7 +11,7 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/app-review.js" src="${pageContext.request.contextPath}/moduleResources/cpm/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/app-review" src="${pageContext.request.contextPath}/moduleResources/cpm/require.js"></script>
 
 <style>
 .results tr:nth-child(odd) {
@@ -25,7 +25,6 @@
 <div id="cpmapp" ng-view>Loading...</div>
 
 <script>
-
 define('config', [], function() {
   return {
     resourceLocation: '${pageContext.request.contextPath}/moduleResources/cpm',
@@ -43,8 +42,6 @@ requirejs.config({
         'angular-resource': ['angular']
     }
 });
-
-require(['app-review'], function() {});
 </script>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>
