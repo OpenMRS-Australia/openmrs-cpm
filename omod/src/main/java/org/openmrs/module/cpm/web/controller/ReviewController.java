@@ -107,12 +107,7 @@ public class ReviewController {
 		final List<ProposedConceptResponseDto> list = new ArrayList<ProposedConceptResponseDto>();
 
 		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
-
-			final ProposedConceptResponseDto conceptProposalDto = createProposedConceptResponseDto(conceptProposal);
-
-//			conceptProposalDto.setComments(conceptProposal.getComments()); type mismatch
-
-			list.add(conceptProposalDto);
+			list.add(createProposedConceptResponseDto(conceptProposal));
 		}
 
 		dto.setConcepts(list);
@@ -133,6 +128,7 @@ public class ReviewController {
 		conceptProposalDto.setNames(getNameDtos(conceptProposal));
 		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
+		conceptProposalDto.setComment(conceptProposal.getComment());
 		return conceptProposalDto;
 	}
 

@@ -7,16 +7,16 @@ import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProposedConceptDto extends ConceptDto {
 
-    private String comments;
+    private String comment;
 
     private ProposalStatus status;
 
-    public String getComments() {
-        return comments;
+    public String getComment() {
+        return comment;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public ProposalStatus getStatus() {

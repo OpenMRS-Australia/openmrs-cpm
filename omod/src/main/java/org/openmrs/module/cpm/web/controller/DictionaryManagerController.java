@@ -7,6 +7,7 @@ import org.openmrs.module.cpm.ProposedConceptResponseDescription;
 import org.openmrs.module.cpm.ProposedConceptResponseName;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
@@ -46,7 +47,7 @@ public class DictionaryManagerController {
 		proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
 
 		if (incomingProposal.getConcepts() != null) {
-			for (ConceptDto concept : incomingProposal.getConcepts()) {
+			for (ProposedConceptDto concept : incomingProposal.getConcepts()) {
 				ProposedConceptResponse response = new ProposedConceptResponse();
 
 				List<ProposedConceptResponseName> names = new ArrayList<ProposedConceptResponseName>();
@@ -69,6 +70,8 @@ public class DictionaryManagerController {
 				response.setDescriptions(descriptions);
 
 				response.setProposedConceptUuid(concept.getUuid());
+				response.setComment(concept.getComment());
+
 				proposedConceptResponsePackage.addProposedConcept(response);
 			}
 		}
