@@ -105,7 +105,9 @@ public class ProposalController {
 		dto.setPreferredName(concept.getName().getName());
 		dto.setDatatype(concept.getDatatype().getName());
 		dto.setDescriptions(getDescriptionDtos(concept));
-		dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+        if(concept.getDescription()!=null)  {
+		    dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+        }
 
 		return dto;
 	}
@@ -214,6 +216,9 @@ public class ProposalController {
 		for (ProposedConcept proposedConcept: conceptPackage.getProposedConcepts()) {
 			final ProposedConceptDto conceptDto = new ProposedConceptDto();
 
+			// TODO: need to figure out how comments are going to be managed
+//			conceptDto.setComments(proposedConcept.getComments());
+
 			// concept details
 			final Concept concept = proposedConcept.getConcept();
 			conceptDto.setNames(getNameDtos(concept));
@@ -224,9 +229,6 @@ public class ProposalController {
                 conceptDto.setDatatype(conceptDatatype.getName());
             }
             conceptDto.setUuid(concept.getUuid());
-
-			// proposer's comment
-			conceptDto.setComment(proposedConcept.getComment());
 
 			list.add(conceptDto);
 		}
@@ -285,7 +287,7 @@ public class ProposalController {
 			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
-			conceptProposalDto.setComment(conceptProposal.getComment());
+            conceptProposalDto.setComments(conceptProposal.getComment());
 			list.add(conceptProposalDto);
 		}
 
@@ -340,7 +342,7 @@ public class ProposalController {
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
                     checkNotNull(concept,"Concept should not be null") ;
                     proposedConcept.setConcept(concept);
-                    proposedConcept.setComment(newProposedConcept.getComment());
+                    proposedConcept.setComment(newProposedConcept.getComments());
                     conceptPackage.addProposedConcept(proposedConcept);
                 }
             }
