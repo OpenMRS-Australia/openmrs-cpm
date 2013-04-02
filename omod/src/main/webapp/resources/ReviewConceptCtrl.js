@@ -29,5 +29,10 @@ define(['cpm-review', 'config'], function(module, config) {
             $scope.concept.$update({proposalId: proposalId});
         }
 
+        $scope.saveComment = function(comment) {
+            $scope.concept.comment = comment;
+            $scope.concept.$update({proposalId: proposalId});
+        }
+
     }])
 });
