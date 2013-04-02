@@ -6,6 +6,8 @@ define(['cpm-review', 'config'], function(module, config) {
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
 
+        $scope.resourceLocation = config.resourceLocation;
+
         $scope.concept = ProposalReviewConcepts.get({proposalId: proposalId, conceptId: conceptId}, function() {
             $scope.isLoading = false;
         });
@@ -16,6 +18,9 @@ define(['cpm-review', 'config'], function(module, config) {
 
         $scope.conceptCreated = function() {
             $scope.concept.status = 'CLOSED_NEW';
+
+            $scope.dialog='open';
+
             $scope.concept.$update({proposalId: proposalId});
         }
 

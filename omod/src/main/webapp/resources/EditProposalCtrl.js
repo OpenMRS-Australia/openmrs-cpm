@@ -8,6 +8,16 @@ define(['cpm', 'config'], function(cpm, config) {
     $scope.isSubmitting = false;
     $scope.isLoading = $scope.isEdit ? true : false;
 
+    $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+      $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
+      $scope.dialog = 'close';
+    });
+
+    $scope.$on('CloseSearchConceptsDialog', function() {
+      $scope.dialog = 'close';
+    });
+
+
     // XXX
     if ($scope.isEdit) {
       document.title = 'Edit Concept Proposal';
