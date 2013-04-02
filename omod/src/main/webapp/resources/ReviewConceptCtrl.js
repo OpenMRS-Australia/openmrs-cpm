@@ -5,8 +5,15 @@ define(['cpm-review', 'config'], function(module, config) {
         var conceptId = $routeParams.conceptId;
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
-
         $scope.resourceLocation = config.resourceLocation;
+
+        $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+            $scope.dialog = 'close';
+        });
+
+        $scope.$on('CloseSearchConceptsDialog', function() {
+            $scope.dialog = 'close';
+        });
 
         $scope.concept = ProposalReviewConcepts.get({proposalId: proposalId, conceptId: conceptId}, function() {
             $scope.isLoading = false;
