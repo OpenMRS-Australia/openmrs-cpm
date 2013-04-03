@@ -8,6 +8,10 @@ define(['cpm-review', 'config'], function(module, config) {
         $scope.resourceLocation = config.resourceLocation;
 
         $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+            if (concepts.length > 0) {
+                $scope.concept.conceptId = concepts[0].id;
+            }
+            $scope.concept.$update({proposalId: proposalId});
             $scope.dialog = 'close';
         });
 
@@ -25,16 +29,14 @@ define(['cpm-review', 'config'], function(module, config) {
 
         $scope.conceptCreated = function() {
             $scope.concept.status = 'CLOSED_NEW';
-
             $scope.dialog='open';
             $scope.$broadcast('InitSearchConceptsDialog', false);
-
-            $scope.concept.$update({proposalId: proposalId});
         }
 
         $scope.conceptExists = function() {
             $scope.concept.status = 'CLOSED_EXISTING';
-            $scope.concept.$update({proposalId: proposalId});
+            $scope.dialog='open';
+            $scope.$broadcast('InitSearchConceptsDialog', false);
         }
 
         $scope.conceptRejected = function() {

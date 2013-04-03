@@ -84,6 +84,11 @@ public class ReviewController {
 		if (proposedConcept != null) {
 			// todo: comment
 			proposedConcept.setStatus(updatedProposalResponse.getStatus());
+
+			if (updatedProposalResponse.getConceptId() != 0) {
+				proposedConcept.setConcept(Context.getConceptService().getConcept(updatedProposalResponse.getConceptId()));
+			}
+
 			service.saveProposedConceptResponsePackage(aPackage);
 		}
 		return createProposedConceptResponseDto(proposedConcept);
@@ -129,6 +134,7 @@ public class ReviewController {
 		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
+		conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());
 		return conceptProposalDto;
 	}
 

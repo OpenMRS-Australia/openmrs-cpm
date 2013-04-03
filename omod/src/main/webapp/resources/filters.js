@@ -1,4 +1,8 @@
-define(['angular'], function(angular) {
+define(['angular', 'config'], function(angular, config) {
+
+  function getConceptLink(conceptId) {
+      return '<a onclick="var event = arguments[0] || window.event; event.stopPropagation();" href="' + config.contextPath + '/dictionary/concept.htm?conceptId=' + conceptId + '">' + conceptId + '</a>';
+  }
 
   var filters = angular.module('cpm.filters', []);
 
@@ -19,17 +23,17 @@ define(['angular'], function(angular) {
   });
 
   filters.filter('proposalReviewStatus', function() {
-    return function(input) {
-      switch (input) {
+    return function(proposal) {
+      switch (proposal.status) {
 
         case 'RECEIVED':
           return 'Open';
 
         case 'CLOSED_NEW':
-          return 'New';
+          return 'New: ' + getConceptLink(proposal.conceptId);
 
         case 'CLOSED_EXISTING':
-          return 'Existing';
+          return 'Existing: ' + getConceptLink(proposal.conceptId);
 
         case 'CLOSED_REJECTED':
           return 'Rejected';

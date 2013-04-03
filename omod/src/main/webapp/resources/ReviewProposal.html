@@ -15,7 +15,7 @@
             <td>{{concept.preferredName}}</td>
             <td>{{concept.class}}, {{concept.datatype}}</td>
             <td>{{concept.comment}}</td>
-            <td>{{concept.status | proposalReviewStatus}}</td>
+            <td ng-bind-html-unsafe="concept | proposalReviewStatus"></td>
         </tr>
     </tbody>
 </table>
