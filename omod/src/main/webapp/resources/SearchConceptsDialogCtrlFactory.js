@@ -12,6 +12,19 @@ define(['config'], function(config) {
 
         var currTimeout;
 
+        $scope.isMultiple = true;
+        $scope.$on('InitSearchConceptsDialog', function(e, isMultiple) {
+            $scope.isMultiple = isMultiple;
+        });
+
+        $scope.conceptClicked = function(concept) {
+            if ($scope.isMultiple) {
+                concept.selected = !concept.selected;
+            } else {
+                $scope.selectedConcept = concept;
+            }
+        }
+
         function doSearch() {
             $scope.isSearching = true;
             $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)).success(function(data) {
@@ -80,10 +93,14 @@ define(['config'], function(config) {
         function getSelectedConcepts() {
             var selectedList = [];
 
-            for (var i in $scope.concepts) {
-                if ($scope.concepts[i].selected) {
-                    selectedList[selectedList.length] = $scope.concepts[i];
+            if ($scope.isMultiple) {
+                for (var i in $scope.concepts) {
+                    if ($scope.concepts[i].selected) {
+                        selectedList[selectedList.length] = $scope.concepts[i];
+                    }
                 }
+            } else {
+                selectedList.push($scope.selectedConcept)
             }
 
             return selectedList;

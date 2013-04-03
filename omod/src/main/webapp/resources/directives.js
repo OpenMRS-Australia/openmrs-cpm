@@ -16,7 +16,7 @@ define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
   directives.directive('jqueryUiDialog', function () {
       return function (scope, element, attrs) {
           var dialog = $(element).dialog(
-          {autoOpen:false, width: 800, title: "Add concepts",
+          {autoOpen:false, width: 800, title: attrs.title,
           close:function()
               {
                   try

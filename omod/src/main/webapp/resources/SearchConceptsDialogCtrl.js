@@ -1,3 +1,3 @@
-define(['cpm', 'SearchConceptsDialogCtrlFactory', 'config'], function(cpm, SearchConceptsDialogCtrlFactory, config) {
+define(['cpm', 'SearchConceptsDialogCtrlFactory'], function(cpm, SearchConceptsDialogCtrlFactory) {
     cpm.controller('SearchConceptsDialogCtrl', SearchConceptsDialogCtrlFactory);
 });

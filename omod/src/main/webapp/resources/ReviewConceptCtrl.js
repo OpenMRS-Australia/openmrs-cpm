@@ -27,6 +27,7 @@ define(['cpm-review', 'config'], function(module, config) {
             $scope.concept.status = 'CLOSED_NEW';
 
             $scope.dialog='open';
+            $scope.$broadcast('InitSearchConceptsDialog', false);
 
             $scope.concept.$update({proposalId: proposalId});
         }
