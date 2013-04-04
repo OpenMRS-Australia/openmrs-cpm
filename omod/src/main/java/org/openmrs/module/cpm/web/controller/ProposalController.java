@@ -226,7 +226,10 @@ public class ProposalController {
                 conceptDto.setDatatype(conceptDatatype.getName());
             }
             conceptDto.setUuid(concept.getUuid());
-
+			
+            // proposer's comment
+			conceptDto.setComment(proposedConcept.getComment());
+			
 			list.add(conceptDto);
 		}
 		submission.setConcepts(list);
@@ -339,7 +342,7 @@ public class ProposalController {
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
                     checkNotNull(concept,"Concept should not be null") ;
                     proposedConcept.setConcept(concept);
-                    proposedConcept.setComment(newProposedConcept.getComments());
+					proposedConcept.setComment(newProposedConcept.getComment());
                     conceptPackage.addProposedConcept(proposedConcept);
                 }
             }
