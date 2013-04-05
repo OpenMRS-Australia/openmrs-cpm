@@ -117,8 +117,10 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 
   public P getProposedConcept(final int proposedConceptId){
       for(P p : proposedConcepts){
-          if(p.getId() == proposedConceptId){
-              return p;
+          if(p.getId()!=null)  {
+              if(p.getId() == proposedConceptId){
+                  return p;
+              }
           }
       }
       return null;

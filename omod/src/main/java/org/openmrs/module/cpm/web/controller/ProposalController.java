@@ -105,7 +105,9 @@ public class ProposalController {
 		dto.setPreferredName(concept.getName().getName());
 		dto.setDatatype(concept.getDatatype().getName());
 		dto.setDescriptions(getDescriptionDtos(concept));
-		dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+        if(concept.getDescription()!=null)  {
+		    dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+        }
 
 		return dto;
 	}
@@ -224,10 +226,10 @@ public class ProposalController {
                 conceptDto.setDatatype(conceptDatatype.getName());
             }
             conceptDto.setUuid(concept.getUuid());
-
-			// proposer's comment
+			
+            // proposer's comment
 			conceptDto.setComment(proposedConcept.getComment());
-
+			
 			list.add(conceptDto);
 		}
 		submission.setConcepts(list);
@@ -285,7 +287,7 @@ public class ProposalController {
 			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
-			conceptProposalDto.setComment(conceptProposal.getComment());
+            conceptProposalDto.setComment(conceptProposal.getComment());
 			list.add(conceptProposalDto);
 		}
 
@@ -340,7 +342,7 @@ public class ProposalController {
                     final Concept concept = conceptService.getConcept(newProposedConcept.getId());
                     checkNotNull(concept,"Concept should not be null") ;
                     proposedConcept.setConcept(concept);
-                    proposedConcept.setComment(newProposedConcept.getComment());
+					proposedConcept.setComment(newProposedConcept.getComment());
                     conceptPackage.addProposedConcept(proposedConcept);
                 }
             }
