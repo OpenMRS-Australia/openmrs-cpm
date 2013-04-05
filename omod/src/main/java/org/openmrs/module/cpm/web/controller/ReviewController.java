@@ -110,9 +110,10 @@ public class ReviewController {
 
 		final Set<ProposedConceptResponse> proposedConcepts = responsePackage.getProposedConcepts();
 		final List<ProposedConceptResponseDto> list = new ArrayList<ProposedConceptResponseDto>();
-
-		for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
-			list.add(createProposedConceptResponseDto(conceptProposal));
+		if (proposedConcepts != null) {
+			for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
+				list.add(createProposedConceptResponseDto(conceptProposal));
+			}
 		}
 
 		dto.setConcepts(list);
@@ -122,10 +123,13 @@ public class ReviewController {
 	private ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
 		final ProposedConceptResponseDto conceptProposalDto = new ProposedConceptResponseDto();
 
-		for (ProposedConceptResponseName name: conceptProposal.getNames()) {
-			if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
-				conceptProposalDto.setPreferredName(name.getName());
-				break;
+		final List<ProposedConceptResponseName> names = conceptProposal.getNames();
+		if (names != null) {
+			for (ProposedConceptResponseName name: names) {
+				if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
+					conceptProposalDto.setPreferredName(name.getName());
+					break;
+				}
 			}
 		}
 
@@ -140,23 +144,29 @@ public class ReviewController {
 
 	private ArrayList<NameDto> getNameDtos(ProposedConceptResponse concept) {
 		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
-		for (ProposedConceptResponseName name: concept.getNames()) {
-			NameDto nameDto = new NameDto();
-			nameDto.setName(name.getName());
-			nameDto.setType(name.getType());
-			nameDto.setLocale(name.getLocale().toString());
-			nameDtos.add(nameDto);
+		final List<ProposedConceptResponseName> names = concept.getNames();
+		if (names != null) {
+			for (ProposedConceptResponseName name: names) {
+				NameDto nameDto = new NameDto();
+				nameDto.setName(name.getName());
+				nameDto.setType(name.getType());
+				nameDto.setLocale(name.getLocale().toString());
+				nameDtos.add(nameDto);
+			}
 		}
 		return nameDtos;
 	}
 
 	private ArrayList<DescriptionDto> getDescriptionDtos(ProposedConceptResponse concept) {
 		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
-		for (ProposedConceptResponseDescription description: concept.getDescriptions()) {
-			DescriptionDto descriptionDto = new DescriptionDto();
-			descriptionDto.setDescription(description.getDescription());
-			descriptionDto.setLocale(description.getLocale().toString());
-			descriptionDtos.add(descriptionDto);
+		final List<ProposedConceptResponseDescription> descriptions = concept.getDescriptions();
+		if (descriptions != null) {
+			for (ProposedConceptResponseDescription description: descriptions) {
+				DescriptionDto descriptionDto = new DescriptionDto();
+				descriptionDto.setDescription(description.getDescription());
+				descriptionDto.setLocale(description.getLocale().toString());
+				descriptionDtos.add(descriptionDto);
+			}
 		}
 		return descriptionDtos;
 	}

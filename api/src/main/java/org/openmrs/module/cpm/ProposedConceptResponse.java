@@ -80,8 +80,10 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	public void setNames(final List<ProposedConceptResponseName> names) {
 		this.names = names;
-		for (ProposedConceptResponseName name: this.names) {
-			name.setProposedConceptResponse(this);
+		if (this.names != null) {
+			for (ProposedConceptResponseName name: this.names) {
+				name.setProposedConceptResponse(this);
+			}
 		}
 	}
 
@@ -92,8 +94,10 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	public void setDescriptions(final List<ProposedConceptResponseDescription> descriptions) {
 		this.descriptions = descriptions;
-		for (ProposedConceptResponseDescription name: this.descriptions) {
-			name.setProposedConceptResponse(this);
+		if (this.descriptions != null) {
+			for (ProposedConceptResponseDescription name: this.descriptions) {
+				name.setProposedConceptResponse(this);
+			}
 		}
 	}
 
