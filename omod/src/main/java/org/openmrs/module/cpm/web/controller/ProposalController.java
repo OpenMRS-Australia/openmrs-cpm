@@ -237,7 +237,7 @@ public class ProposalController {
 		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
-		final String url = service.getGlobalProperty("cpm.url") + "/openmrs/ws/cpm/dictionarymanager/proposals";
+		final String url = service.getGlobalProperty("cpm.url") + "/ws/cpm/dictionarymanager/proposals";
 		submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 
 //		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
