@@ -138,7 +138,11 @@ public class ReviewController {
 		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
-		conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());
+
+		if (conceptProposal.getConcept() != null) {
+			conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());
+		}
+
 		return conceptProposalDto;
 	}
 
