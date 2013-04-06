@@ -30,13 +30,14 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private Integer version;
 	private List<ProposedConceptResponseName> names;
 	private List<ProposedConceptResponseDescription> descriptions;
+    private String reviewerComment;
 
 	public ProposedConceptResponse() {
 		super();
 		this.version = 0;
 		setStatus(ProposalStatus.RECEIVED);
 	}
-	
+
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
@@ -106,4 +107,13 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	public Concept getConcept() {
 		return concept;
 	}
+
+    @Column(name = "reviewer_comment")
+    public String getReviewerComment() {
+        return reviewerComment;
+    }
+
+    public void setReviewerComment(String reviewerComment) {
+        this.reviewerComment = reviewerComment;
+    }
 }

@@ -206,4 +206,10 @@
         </addColumn>
     </changeSet>
 
+    <!-- Adding the reviewers comment to the reviewer table -->
+    <changeSet id="cpm_2013-04-02-1" author="cpm">
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="reviewer_comment" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

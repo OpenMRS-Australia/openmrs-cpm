@@ -83,6 +83,7 @@ public class ReviewController {
 		final ProposedConceptResponse proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
 			// todo: comment
+            proposedConcept.setReviewerComment(updatedProposalResponse.getComment());
 			proposedConcept.setStatus(updatedProposalResponse.getStatus());
 
 			if (updatedProposalResponse.getConceptId() != 0) {

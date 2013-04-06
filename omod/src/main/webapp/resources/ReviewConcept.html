@@ -48,8 +48,8 @@
 
 <p>Datatype: {{concept.datatype}}</p>
 <p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
-<p>My comments<br/><textarea/></p>
-<p><button>Save comments</button></p>
+<p>My comments<br/><textarea ng-model="comment"/></p>
+<p><button ng-click="saveComment(comment)">Save comments</button></p>
 <p>Record actions:<br/>
 <button ng-click="conceptCreated()">I created this concept</button>
 <button ng-click="conceptExists()">This concept already exists</button>
