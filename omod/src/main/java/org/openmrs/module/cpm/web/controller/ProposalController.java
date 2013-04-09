@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -176,13 +177,14 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.PUT)
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
-                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage) {
+                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage,
+                                                                  final HttpServletRequest request) {
 
 		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(Integer.valueOf(proposalId));
 
 		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
-			return submitProposedConcept(conceptPackage);
+			return submitProposedConcept(conceptPackage, request);
 		}
 
 
@@ -198,7 +200,8 @@ public class ProposalController {
 		return updatedPackage;
 	}
 
-	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage) {
+	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage,
+                                                            final HttpServletRequest httpServletRequest) {
 
 		//
 		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
@@ -237,8 +240,10 @@ public class ProposalController {
 		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
-		final String url = service.getGlobalProperty("cpm.url") + "/ws/cpm/dictionarymanager/proposals";
-		submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
+        final String contextPath = httpServletRequest.getContextPath();
+		final String url = service.getGlobalProperty("cpm.url") +  contextPath + "/ws/cpm/dictionarymanager/proposals";
+
+        submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 
 //		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 
@@ -284,7 +289,9 @@ public class ProposalController {
 			conceptProposalDto.setNames(getNameDtos(concept));
 			conceptProposalDto.setPreferredName(concept.getName().getName());
 			conceptProposalDto.setDescriptions(getDescriptionDtos(concept));
-			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+            if(concept.getDescription() != null) {
+                conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+            }
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
             conceptProposalDto.setComment(conceptProposal.getComment());
