@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -238,7 +239,8 @@ public class ProposalController {
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
 		final String url = service.getGlobalProperty("cpm.url") + "/ws/cpm/dictionarymanager/proposals";
-		submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
+
+        submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 
 //		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 
@@ -284,7 +286,9 @@ public class ProposalController {
 			conceptProposalDto.setNames(getNameDtos(concept));
 			conceptProposalDto.setPreferredName(concept.getName().getName());
 			conceptProposalDto.setDescriptions(getDescriptionDtos(concept));
-			conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+            if(concept.getDescription() != null) {
+                conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+            }
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
             conceptProposalDto.setComment(conceptProposal.getComment());
