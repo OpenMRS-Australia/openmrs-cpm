@@ -75,7 +75,7 @@ define(['cpm', 'config'], function(cpm, config) {
     };
 
     $scope.submit = function() {
-    	if($scope.proposal.concepts.length === 0) {
+    	if($scope.proposal.concepts.length < 1) {
     	    alert("Error : please submit at least one concept.")
 
     	} else {

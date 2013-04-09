@@ -177,14 +177,13 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.PUT)
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
-                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage,
-                                                                  final HttpServletRequest request) {
+                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
 		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(Integer.valueOf(proposalId));
 
 		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
-			return submitProposedConcept(conceptPackage, request);
+			return submitProposedConcept(conceptPackage);
 		}
 
 
@@ -200,8 +199,7 @@ public class ProposalController {
 		return updatedPackage;
 	}
 
-	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage,
-                                                            final HttpServletRequest httpServletRequest) {
+	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage) {
 
 		//
 		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
@@ -240,8 +238,7 @@ public class ProposalController {
 		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
-        final String contextPath = httpServletRequest.getContextPath();
-		final String url = service.getGlobalProperty("cpm.url") +  contextPath + "/ws/cpm/dictionarymanager/proposals";
+		final String url = service.getGlobalProperty("cpm.url") + "/ws/cpm/dictionarymanager/proposals";
 
         submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 

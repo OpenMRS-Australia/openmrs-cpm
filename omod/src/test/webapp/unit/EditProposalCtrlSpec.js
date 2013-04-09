@@ -76,12 +76,12 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
 
       // initiate controller
       routeParams = {proposalId: 1};
-      httpBackend.whenGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com"});
+      httpBackend.whenGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com", concepts:[{"name":"flu"}]});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
 
       // assert that a PUT is received, with the status of the model changed to "TBS"
-      httpBackend.expectPUT('/openmrs/ws/cpm/proposals/1', {id: 1, name: "existing", email: "blah@blah.com", status: "TBS"}).respond({});
+      httpBackend.expectPUT('/openmrs/ws/cpm/proposals/1', {id: 1, name: "existing", email: "blah@blah.com",concepts:[{"name":"flu"}], status: "TBS"}).respond({});
 
       // Test the actual Code Under Test
       scope.submit();
