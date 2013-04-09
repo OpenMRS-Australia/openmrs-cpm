@@ -75,16 +75,22 @@ define(['cpm', 'config'], function(cpm, config) {
     };
 
     $scope.submit = function() {
-      $scope.proposal.status = 'TBS';
-      $scope.proposal.$update(function() {
-        $scope.isSubmitting = false;
-        $scope.isLoading = false;
-      }, function() {
-        $scope.isSubmitting = false;
-        $scope.isLoading = false;
-      });
-      $scope.isSubmitting = true;
-      $scope.isLoading = true;
+    	if($scope.proposal.concepts.length < 1) {
+    	    alert("Error : please submit at least one concept.")
+
+    	} else {
+    	         $scope.proposal.status = 'TBS';
+                 $scope.proposal.$update(function() {
+                   $scope.isSubmitting = false;
+                   $scope.isLoading = false;
+                 }, function() {
+                   $scope.isSubmitting = false;
+                   $scope.isLoading = false;
+                 });
+                 $scope.isSubmitting = true;
+                 $scope.isLoading = true;
+    	}
+
     };
 
     $scope.deleteProposal = function() {
