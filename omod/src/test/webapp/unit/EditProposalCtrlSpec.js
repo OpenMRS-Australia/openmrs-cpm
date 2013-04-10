@@ -87,6 +87,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.submit();
     });
 
+
     /*
      * Not sure how to bind to view to get access to form validation yet
      *
