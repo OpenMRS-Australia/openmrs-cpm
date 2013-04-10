@@ -87,6 +87,21 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.submit();
     });
 
+	it("should NOT submit a proposal with no concepts attached", function() {
+
+          // initiate controller
+          routeParams = {proposalId: 2};
+          httpBackend.whenGET('/openmrs/ws/cpm/proposals/2').respond({id: 2, name: "existing", email: "blah@blah.com", status:"DRAFT"});
+          controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+          httpBackend.flush();
+
+          // Test the actual Code Under Test
+          scope.submit();
+
+          expect(scope.proposal.status).toBe("DRAFT");
+	});
+
+
     /*
      * Not sure how to bind to view to get access to form validation yet
      *

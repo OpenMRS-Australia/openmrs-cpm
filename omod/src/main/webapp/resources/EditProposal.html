@@ -69,7 +69,7 @@
 
 <div>
  <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
- <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="!isEdit || form.$invalid || isSubmitting" accesskey="e" ng-switch="isSubmitting">
+ <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="!isEdit || form.$invalid || isSubmitting || proposal.concepts.length < 1" accesskey="e" ng-switch="isSubmitting">
   <span ng-switch-when="true">Sending...</span>
   <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
  </button>
