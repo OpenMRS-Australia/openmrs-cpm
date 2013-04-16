@@ -203,7 +203,7 @@ public class ProposalController {
 
 		//
 		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
-		// see: https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas
+		// see: https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas
 		//
 
 		AdministrationService service = Context.getAdministrationService();

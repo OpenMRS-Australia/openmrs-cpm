@@ -8,7 +8,7 @@ Intro
 actively developed by volunteers worldwide to support healthcare delivery in
 developing nations.
 
-The Concept Proposal Module is intended to be used by local administrators 
+The Concept Proposal Module is intended to be used by local administrators
 who have created new concepts they wish to propose for inclusion in the central
 dictionary database.  There are 2 parts to this module: The proposal and the review.
 
@@ -26,7 +26,7 @@ Quickstart
 
 1. [Download](http://openmrs.org/download/) the OpenMRS standalone distribution and login as the administrator
 2. Clone the concept proposal module source code onto your local drive:
-    * `git clone https://github.com/johnsyweb/openmrs-cpm.git`
+    * `git clone https://github.com/OpenMRS-Australia/openmrs-cpm.git`
 3. Build the module:
     * `mvn -DskipTests=true package`
 4. Locate the module file:
@@ -42,9 +42,9 @@ We are looking for volunteers to help!  Please contact us via the [mailing list]
 or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Melbourne, Australia.
 
 If you're new to web or Java development, or are just curious to see what we're working with, have a look at
-the [summary of technologies used](https://github.com/johnsyweb/openmrs-cpm/wiki/Resources).
+the [summary of technologies used](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Resources).
 
-The [notes on setting up a dev environment](https://github.com/johnsyweb/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas) may also be useful.
+The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
 We ask that newcomers please submit contributions
 in the form of pull requests in order for a member of our team to review the code appropriately
