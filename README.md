@@ -46,9 +46,32 @@ the [summary of technologies used](https://github.com/OpenMRS-Australia/openmrs-
 
 The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
-We ask that newcomers please submit contributions
-in the form of pull requests in order for a member of our team to review the code appropriately
-as any commits to master are picked up by our continuous deployment server.
+We ask that contributors please submit contributions in the form of [pull
+requests](https://help.github.com/articles/using-pull-requests) in order for a
+member of our team to review the code appropriately as any commits to master
+are picked up by our continuous deployment server.
+
+###Sample workflow###
+
+    git co -b 69-updating-readme
+
+    while not done:
+        hack
+        run(tests)
+        refactor
+        run(tests)
+        git add .
+        git commit -m 'Somthing meaningful'
+
+    git push origin 69-updating-readme
+    open https://github.com/OpenMRS-Australia/openmrs-cpm
+    Click the Pull Request button
+    Verify your changes
+    Send pull request
+
+Ideally somebody else should merge your code into `master` (which will trigger
+a build) and delete the short-lived branch. Occasionally, you may need to do
+this yourself.
 
 Links
 -----
