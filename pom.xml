@@ -22,9 +22,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:git:https://github.com/johnsyweb/openmrs-cpm.git</connection>
-		<developerConnection>scm:git:https://github.com/johnsyweb/openmrs-cpm.git</developerConnection>
-		<url>https://github.com/johnsyweb/openmrs-cpm</url>
+		<connection>scm:git:https://github.com/OpenMRS-Australia/openmrs-cpm.git</connection>
+		<developerConnection>scm:git:https://github.com/OpenMRS-Australia/openmrs-cpm.git</developerConnection>
+		<url>https://github.com/OpenMRS-Australia/openmrs-cpm</url>
 	</scm>
 
 	<modules>
