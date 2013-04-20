@@ -51,9 +51,10 @@ requests](https://help.github.com/articles/using-pull-requests) in order for a
 member of our team to review the code appropriately as any commits to master
 are picked up by our continuous deployment server.
 
-###Sample workflow###
+Sample workflow
+---------------
 
-    git co -b 69-updating-readme
+    git checkout -b 92-github-move
 
     while not done:
         hack
@@ -63,7 +64,7 @@ are picked up by our continuous deployment server.
         git add .
         git commit -m 'Somthing meaningful'
 
-    git push origin 69-updating-readme
+    git push origin 92-github-move
     open https://github.com/OpenMRS-Australia/openmrs-cpm
     Click the Pull Request button
     Verify your changes
@@ -72,6 +73,8 @@ are picked up by our continuous deployment server.
 Ideally somebody else should merge your code into `master` (which will trigger
 a build) and delete the short-lived branch. Occasionally, you may need to do
 this yourself.
+
+And then you're done.
 
 Links
 -----
