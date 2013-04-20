@@ -12,6 +12,8 @@ The Concept Proposal Module is intended to be used by local administrators
 who have created new concepts they wish to propose for inclusion in the central
 dictionary database.  There are 2 parts to this module: The proposal and the review.
 
+To find out more information, visit our [wiki](https://wiki.openmrs.org/display/projects/Melbourne+Hack+Night+-+Concept+Proposal+Module)
+
 
 Build Requirements
 ------------------
