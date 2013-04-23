@@ -1,7 +1,5 @@
 package org.openmrs.module.cpm.web.controller;
 
-import com.google.common.collect.Lists;
-import org.apache.commons.codec.binary.Base64;
 import org.openmrs.*;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
@@ -14,14 +12,9 @@ import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.Settings;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestOperations;
 
-import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +35,9 @@ public class ProposalController {
 
 	@Autowired
 	private RestOperations submissionRestTemplate;
+
+	private final SubmitProposal submitProposal = new SubmitProposal();
+	private final UpdateProposedConceptPackage updateProposedConceptPackage = new UpdateProposedConceptPackage();
 
 	//
 	// Pages
@@ -113,7 +106,7 @@ public class ProposalController {
 		return dto;
 	}
 
-	private ArrayList<NameDto> getNameDtos(Concept concept) {
+	public static ArrayList<NameDto> getNameDtos(Concept concept) {
 		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
 		for (ConceptName name: concept.getNames()) {
 			NameDto nameDto = new NameDto();
@@ -125,7 +118,7 @@ public class ProposalController {
 		return nameDtos;
 	}
 
-	private ArrayList<DescriptionDto> getDescriptionDtos(Concept concept) {
+	public static ArrayList<DescriptionDto> getDescriptionDtos(Concept concept) {
 		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
 		for (ConceptDescription description: concept.getDescriptions()) {
 			DescriptionDto descriptionDto = new DescriptionDto();
@@ -166,7 +159,7 @@ public class ProposalController {
 		conceptPackage.setEmail(newPackage.getEmail());
 		conceptPackage.setDescription(newPackage.getDescription());
 
-		updateProposedConcepts(conceptPackage, newPackage);
+		updateProposedConceptPackage.updateProposedConcepts(conceptPackage, newPackage);
 
 		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
@@ -182,82 +175,19 @@ public class ProposalController {
 		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(Integer.valueOf(proposalId));
 
-		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
-			return submitProposedConcept(conceptPackage);
-		}
-
-
 		// TODO: some server side validation here... not null fields, valid email?
 
 		conceptPackage.setName(updatedPackage.getName());
 		conceptPackage.setEmail(updatedPackage.getEmail());
 		conceptPackage.setDescription(updatedPackage.getDescription());
-
-        updateProposedConcepts(conceptPackage, updatedPackage);
-
+		updateProposedConceptPackage.updateProposedConcepts(conceptPackage, updatedPackage);
         proposedConceptService.saveProposedConceptPackage(conceptPackage);
-		return updatedPackage;
-	}
 
-	private ProposedConceptPackageDto submitProposedConcept(final ProposedConceptPackage conceptPackage) {
-
-		//
-		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
-		// see: https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas
-		//
-
-		AdministrationService service = Context.getAdministrationService();
-
-		SubmissionDto submission = new SubmissionDto();
-		submission.setName(conceptPackage.getName());
-		submission.setEmail(conceptPackage.getEmail());
-		submission.setDescription(conceptPackage.getDescription());
-
-		final ArrayList<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
-		for (ProposedConcept proposedConcept: conceptPackage.getProposedConcepts()) {
-			final ProposedConceptDto conceptDto = new ProposedConceptDto();
-
-			// concept details
-			final Concept concept = proposedConcept.getConcept();
-			conceptDto.setNames(getNameDtos(concept));
-			conceptDto.setDescriptions(getDescriptionDtos(concept));
-
-            ConceptDatatype conceptDatatype = concept.getDatatype();
-            if(conceptDatatype !=null){
-                conceptDto.setDatatype(conceptDatatype.getName());
-            }
-            conceptDto.setUuid(concept.getUuid());
-			
-            // proposer's comment
-			conceptDto.setComment(proposedConcept.getComment());
-			
-			list.add(conceptDto);
+		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
+			submitProposal.submitProposedConcept(conceptPackage, submissionRestTemplate);
 		}
-		submission.setConcepts(list);
 
-		final HttpHeaders headers = createHeaders(service.getGlobalProperty("cpm.username"), service.getGlobalProperty("cpm.password"));
-		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
-
-		final String url = service.getGlobalProperty("cpm.url") + "/ws/cpm/dictionarymanager/proposals";
-
-        submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
-
-//		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
-
-		conceptPackage.setStatus(PackageStatus.SUBMITTED);
-		Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
-
-		return createProposedConceptPackageDto(conceptPackage);
-	}
-
-	private HttpHeaders createHeaders( final String username, final String password ){
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		String auth = username + ":" + password;
-		byte[] encodedAuth = Base64.encodeBase64(
-		auth.getBytes(Charset.forName("US-ASCII")));
-		String authHeader = "Basic " + new String( encodedAuth );
-		httpHeaders.set("Authorization", authHeader);
-		return httpHeaders;
+		return updatedPackage;
 	}
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.DELETE)
@@ -299,57 +229,12 @@ public class ProposalController {
 		return conceptProposalPackageDto;
 	}
 
-    private void updateProposedConcepts(ProposedConceptPackage conceptPackage,
-                                        ProposedConceptPackageDto packageDto){
-        checkNotNull(conceptPackage,"ProposedConceptPackage should not be null");
-        checkNotNull(packageDto,"ProposedConceptPackageDto should not be null");
-        removeDeletedProposedConcepts(conceptPackage, packageDto);
-        addOrModifyProposedConcepts(conceptPackage,packageDto);
-    }
+	public SubmitProposal getSubmitProposal() {
+		return submitProposal;
+	}
 
-    private void removeDeletedProposedConcepts(ProposedConceptPackage conceptPackage,
-                                               ProposedConceptPackageDto packageDto){
-        //remove concept(s)
-        if(conceptPackage.getProposedConcepts().size() > 0){
-            List<Integer> newConceptIds = Lists.newArrayList();
-            for (ProposedConceptDto p : packageDto.getConcepts()){
-                newConceptIds.add(p.getId());
-            }
-            List<Integer> existingConceptIds = Lists.newArrayList();
-            for (ProposedConcept p : conceptPackage.getProposedConcepts()){
-                existingConceptIds.add(p.getId());
-            }
-            //Find concepts that have been deleted
-            for (Integer existingId : existingConceptIds){
-                if(!newConceptIds.contains(existingId)){
-                    //delete the concept
-                    ProposedConcept removedConcept = conceptPackage.getProposedConcept(existingId);
-                    conceptPackage.removeProposedConcept(removedConcept);
-                }
-            }
-        }
-    }
-
-    private void addOrModifyProposedConcepts( ProposedConceptPackage conceptPackage,
-                                           final ProposedConceptPackageDto packageDto){
-            //Add and modify concepts
-            for (final ProposedConceptDto newProposedConcept : packageDto.getConcepts()) {
-                ProposedConcept proposedConcept = new ProposedConcept();
-                final ConceptService conceptService = Context.getConceptService();
-
-                if(conceptPackage.getProposedConcept(newProposedConcept.getId()) != null){
-                    //Modify already persisted concept
-                    proposedConcept = conceptPackage.getProposedConcept(newProposedConcept.getId());
-					// todo save comments
-                } else {
-                    //New concept added to the ProposedConceptPackage
-                    final Concept concept = conceptService.getConcept(newProposedConcept.getId());
-                    checkNotNull(concept,"Concept should not be null") ;
-                    proposedConcept.setConcept(concept);
-					proposedConcept.setComment(newProposedConcept.getComment());
-                    conceptPackage.addProposedConcept(proposedConcept);
-                }
-            }
-    }
+	public UpdateProposedConceptPackage getUpdateProposedConceptPackage() {
+		return updateProposedConceptPackage;
+	}
 
 }

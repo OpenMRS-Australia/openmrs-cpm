@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @PrepareForTest(Context.class)
-public class TestProposalController extends BaseCpmOmodTest {
+public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
@@ -96,7 +96,7 @@ public class TestProposalController extends BaseCpmOmodTest {
 		when(Context.getService(ProposedConceptService.class)).thenReturn(cpServiceMock);
 
 		final RestOperations restOperationsMock = mock(RestOperations.class);
-		ReflectionTestUtils.setField(controller, "submissionRestTemplate", restOperationsMock);
+		ReflectionTestUtils.setField(controller.getSubmitProposal(), "submissionRestTemplate", restOperationsMock);
 
 		request = new MockHttpServletRequest("PUT", "/cpm/proposals/1");
 		request.addHeader("Accept", "application/json");
