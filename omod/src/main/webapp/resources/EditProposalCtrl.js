@@ -2,6 +2,7 @@ define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
 
     $scope.contextPath = config.contextPath;
+    $scope.resourceLocation = config.resourceLocation;
 
     var proposalId = $routeParams.proposalId;
     $scope.isEdit = typeof proposalId !== 'undefined';
@@ -25,7 +26,6 @@ define(['cpm', 'config'], function(cpm, config) {
       document.title = 'Create Concept Proposal';
     }
 
-    $scope.resourceLocation = config.resourceLocation;
 
 
     if ($scope.isEdit) {

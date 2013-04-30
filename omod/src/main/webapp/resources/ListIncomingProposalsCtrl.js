@@ -3,6 +3,7 @@ define(['cpm-review', 'config'], function(cpm, config) {
 
     document.title = 'Incoming Concept Proposals';
     $scope.contextPath = config.contextPath;
+    $scope.resourceLocation = config.resourceLocation;
     $scope.responseReceived = false;
 
     $scope.proposals = ProposalReviews.query(function() {

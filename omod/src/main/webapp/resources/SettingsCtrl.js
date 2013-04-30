@@ -2,6 +2,7 @@ define(['cpm', 'config'], function(cpm, config) {
   cpm.controller('SettingsCtrl', ['$scope', 'Settings', function($scope, Settings) {
 
     $scope.contextPath = config.contextPath;
+    $scope.resourceLocation = config.resourceLocation;
 
     document.title = 'Manage Concept Proposal Settings';
     $scope.isLoading = true;

@@ -8,6 +8,12 @@ define(['angular', 'config', 'filters', 'directives', 'services'], function(angu
       when('/edit', {controller: 'EditProposalCtrl', templateUrl: config.resourceLocation + '/EditProposal.html'}).
       when('/edit/:proposalId', {controller: 'EditProposalCtrl', templateUrl: config.resourceLocation + '/EditProposal.html'}).
       when('/settings', {controller: 'SettingsCtrl', templateUrl: config.resourceLocation + '/Settings.html'});
+
+  }]).run(['$rootScope', '$location', function($rootScope, $location) {
+
+      $rootScope.isActiveTab = function(page, route) {
+          return $location.absUrl().indexOf(page + '.list') > 0 && $location.path() == route;
+      };
   }]);
 
   return cpm;
