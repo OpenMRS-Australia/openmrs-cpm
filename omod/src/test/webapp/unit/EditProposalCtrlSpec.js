@@ -87,6 +87,37 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
       scope.submit();
     });
 
+    it("should be read-only if the status is anything other than 'DRAFT'", function() {
+
+        // initiate controller
+        routeParams = {proposalId: 1};
+        httpBackend.whenGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com", status: "SUBMITTED", concepts:[{"name":"flu"}]});
+        controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+        httpBackend.flush();
+
+        expect(scope.isReadOnly).toBe(true);
+    });
+
+    it("should be editable if the status is 'DRAFT'", function() {
+
+        // initiate controller
+        routeParams = {proposalId: 1};
+        httpBackend.whenGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "existing", email: "blah@blah.com", status: "DRAFT", concepts:[{"name":"flu"}]});
+        controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+        httpBackend.flush();
+
+        expect(scope.isReadOnly).toBe(false);
+    });
+
+    it("should be editable if we are creating a new proposal", function() {
+
+        // initiate controller
+        routeParams = {};
+        controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+
+        expect(scope.isReadOnly).toBe(false);
+    });
+
 
     /*
      * Not sure how to bind to view to get access to form validation yet

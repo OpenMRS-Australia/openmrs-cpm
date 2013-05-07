@@ -8,6 +8,7 @@ define(['cpm', 'config'], function(cpm, config) {
     $scope.isEdit = typeof proposalId !== 'undefined';
     $scope.isSubmitting = false;
     $scope.isLoading = $scope.isEdit ? true : false;
+    $scope.isReadOnly = true;
 
     $scope.$on('AddConceptButtonClicked', function(e, concepts) {
       $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
@@ -31,12 +32,14 @@ define(['cpm', 'config'], function(cpm, config) {
     if ($scope.isEdit) {
       $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
           $scope.isLoading = false;
+          $scope.isReadOnly = $scope.proposal.status != 'DRAFT';
       });
     } else {
       $scope.proposal = new Proposals();
       $scope.proposal.status = 'DRAFT';
       $scope.proposal.concepts= [];
 
+      $scope.isReadOnly = false;
     }
 
     $scope.nameErrorMsg = function() {

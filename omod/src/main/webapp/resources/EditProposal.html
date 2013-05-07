@@ -38,13 +38,13 @@
 </p>
 <form name="form" novalidate >
 <p>
- <label>Name<span class="required">*</span><br/><input type="text" name="name" class="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" /></label>
+ <label>Name<span class="required">*</span><br/><input type="text" name="name" class="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" ng-disabled="isReadOnly" /></label>
 </p>
 <p>
- <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" class="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required /></label>
+ <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" class="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required ng-disabled="isReadOnly" /></label>
 </p>
 <p>
- <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description"></textarea></label>
+ <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description" ng-disabled="isReadOnly"></textarea></label>
 </p>
 
 <p>
@@ -60,21 +60,21 @@
   <tr ng-repeat="concept in proposal.concepts">
    <td>{{concept.preferredName}}</td>
    <td>{{concept.datatype}}</td>
-   <td><input ng-model="concept.comment"/></td>
-   <td><button ng-click="removeConcept(concept)">Remove</button></td>
+   <td><input ng-model="concept.comment" ng-disabled="isReadOnly"/></td>
+   <td><button ng-click="removeConcept(concept)" ng-disabled="isReadOnly">Remove</button></td>
   </tr>
  </tbody>
 </table>
-<button ng-click="dialog='open'" accesskey="a"><span class="accesskey">A</span>dd Concepts</button>
+<button ng-click="dialog='open'" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
 </p>
 
 <div>
- <button ng-click="save()" ng-disabled="form.$invalid" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
- <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="!isEdit || form.$invalid || isSubmitting || proposal.concepts.length < 1" accesskey="e" ng-switch="isSubmitting">
+ <button ng-click="save()" ng-disabled="form.$invalid || isReadOnly" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+ <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="!isEdit || form.$invalid || isSubmitting || proposal.concepts.length < 1 || isReadOnly" accesskey="e" ng-switch="isSubmitting">
   <span ng-switch-when="true">Sending...</span>
   <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
  </button>
- <button ng-click="deleteProposal()" ng-disabled="!isEdit" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
+ <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
 </form>
 
