@@ -33,7 +33,7 @@
     <globalProperty>
         <property>cpm.url</property>
         <description>URL for dictionary manager</description>
-        <defaultValue>http://localhost:8080</defaultValue>
+        <defaultValue>http://localhost:8080/openmrs</defaultValue>
     </globalProperty>
 
     <globalProperty>
