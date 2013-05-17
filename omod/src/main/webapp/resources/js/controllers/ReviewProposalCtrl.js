@@ -1,4 +1,4 @@
-define(['cpm-review', 'config'], function(module, config) {
+define(['js/cpm-review', 'config'], function(module, config) {
     module.controller('ReviewProposalCtrl', ['$scope', '$routeParams', '$location', 'ProposalReviews', function($scope, $routeParams, $location, ProposalReviews) {
 
         var proposalId = $routeParams.proposalId;

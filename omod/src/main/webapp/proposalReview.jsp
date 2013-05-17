@@ -25,10 +25,14 @@ define('config', [], function() {
 });
 
 requirejs.config({
+    paths: {
+        'angular': 'lib/angular',
+        'angular-resource': 'lib/angular-resource'
+    },
     shim: {
         'jquery-ui': ['jquery'],
         'angular': {
-        	  deps: ['jquery'],
+        	deps: ['jquery'],
             exports: 'angular'
         },
         'angular-resource': ['angular']
