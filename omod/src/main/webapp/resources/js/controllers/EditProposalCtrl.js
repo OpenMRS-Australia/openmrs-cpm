@@ -1,4 +1,4 @@
-define(['cpm', 'config'], function(cpm, config) {
+define(['js/cpm', 'config'], function(cpm, config) {
   cpm.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
 
     $scope.contextPath = config.contextPath;

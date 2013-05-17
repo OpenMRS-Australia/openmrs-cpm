@@ -1,4 +1,4 @@
-define(['cpm', 'config'], function(cpm, config) {
+define(['js/cpm', 'config'], function(cpm, config) {
   cpm.controller('ListProposalsCtrl', ['$scope', 'Proposals', '$location', function($scope, Proposals, $location) {
 
     document.title = 'Manage Concept Proposals';
