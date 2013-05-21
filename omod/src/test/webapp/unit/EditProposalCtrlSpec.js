@@ -1,4 +1,4 @@
-define(['angular-mocks', 'EditProposalCtrl'], function() {
+define(['angular-mocks', 'js/controllers/EditProposalCtrl'], function() {
   'use strict';
 
   describe("Edit Proposal Controller Spec", function() {
