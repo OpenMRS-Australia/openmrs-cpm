@@ -7,7 +7,7 @@
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
 
-  <script src="resources/require.js"></script>
+  <script src="../../main/webapp/resources/require.js"></script>
 
   <script type="text/javascript">
 
@@ -20,10 +20,10 @@ define('config', [], function() {
 });
 
 requirejs.config({
-    baseUrl: "resources",
+    baseUrl: "../../main/webapp/resources",
     paths: {
-        "unit": "../unit",
-        "angular-mocks": "../lib/angular-mocks"
+        "unit": "../../../test/webapp/unit",
+        "angular-mocks": "../../../test/webapp/lib/angular-mocks"
     },
     shim: {
         'jquery-ui': ['jquery'],
@@ -35,7 +35,6 @@ requirejs.config({
         'angular-resources': ['angular']
     }
 });
-
 require(['unit/ListProposalsCtrlSpec', 'unit/FiltersSpec', 'unit/EditProposalCtrlSpec'], function(angular) {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
