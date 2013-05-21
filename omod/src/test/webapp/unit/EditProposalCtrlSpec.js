@@ -63,6 +63,7 @@ define(['angular-mocks', 'EditProposalCtrl'], function() {
     });
 
     it("should delete a proposal by DELETE-ing to the address of the resource", function() {
+      spyOn(window, 'confirm').andReturn(true);
       routeParams = {proposalId: 1};
       httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
