@@ -1,7 +1,7 @@
 <html>
 <head>
   <script src="lib/angular-scenario.js" ng-autotest></script>
-  <script src="resources/require.js"></script>
+  <script src="resources/lib/require.js"></script>
 
   <script type="text/javascript">
 
@@ -20,9 +20,9 @@ requirejs.config({
 //        "angular-scenario": "../lib/angular-scenario"
     },
     shim: {
-        'jquery-ui': ['jquery'],
+        'jquery-ui': ['lib/jquery'],
         'angular': {
-            deps: ['jquery'],
+            deps: ['lib/jquery'],
             exports: 'angular'
         },
 //        'angular-scenario': ['angular'],
