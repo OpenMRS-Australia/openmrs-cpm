@@ -1,4 +1,4 @@
-define(['angular-mocks', 'ListProposalsCtrl'], function() {
+define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
   'use strict';
 
   describe("ListProposals Controller Spec", function() {
