@@ -3,16 +3,9 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/app" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
+<link href="${pageContext.request.contextPath}/moduleResources/cpm/css/cpm.css" type="text/css" rel="stylesheet">
 
-<style>
-.results tr:nth-child(odd) {
-    background-color: #F3F7FB;
-}
-.results tr:hover {
-    background-color: #F0E68C;
-}
-</style>
+<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/app" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
 
 <div id="cpmapp" ng-view>Loading...</div>
 

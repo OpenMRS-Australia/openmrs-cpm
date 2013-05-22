@@ -1,21 +1,23 @@
-<div ng-include src="resourceLocation + '/partials/Menu.html'"/>
-<div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
-<h2 id="headerText">Concept Proposal Settings</h2>
-<h3>Central dictionary</h3>
-<form>
-    <table>
-        <tr>
-            <td align="right"><label for="url">URL</label></td>
-            <td><input id="url" ng-model="settings.url"/> <span style="font-size: smaller;"><em>(Please include the context name)</em></span></td>
-        </tr>
-        <tr>
-            <td align="right"><label for="username">Username</label></td>
-            <td><input id="username" ng-model="settings.username" /></td>
-        </tr>
-        <tr>
-            <td align="right"><label for="password">Password</label></td>
-            <td><input id="password" ng-model="settings.password" /></td>
-        </tr>
-    </table>
-    <button ng-click="save()" ng-disabled="isLoading">Save</button>
-</form>
+<div id="cpm-settings">
+    <div ng-include src="resourceLocation + '/partials/Menu.html'"/>
+    <div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
+    <h2 id="headerText">Concept Proposal Settings</h2>
+    <h3>Central dictionary</h3>
+    <form>
+        <table>
+            <tr>
+                <td align="right"><label for="url">URL</label></td>
+                <td><input id="url" ng-model="settings.url"/> <span style="font-size: smaller;"><em>(Please include the context name)</em></span></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username">Username</label></td>
+                <td><input id="username" ng-model="settings.username" /></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="password">Password</label></td>
+                <td><input id="password" ng-model="settings.password" /></td>
+            </tr>
+        </table>
+        <button ng-click="save()" ng-disabled="isLoading">Save</button>
+    </form>
+</div>

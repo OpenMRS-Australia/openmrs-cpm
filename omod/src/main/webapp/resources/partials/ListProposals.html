@@ -1,9 +1,4 @@
 <div ng-include src="resourceLocation + '/partials/Menu.html'"/>
-<style>
-.loading {
-  color: #888;
-}
-</style>
 <h2 id="headerText">Manage Concept Proposals</h2>
 <b class="boxHeader">Concept Proposals</b>
 <table class="box" cellpadding="2" cellspacing="0">
@@ -11,12 +6,17 @@
   <tr><th>Name</th><th>Description</th><th># Concepts</th><th colspan="2">Status</th>
  </thead>
  <tbody ng-show="!responseReceived">
-  <tr><td colspan="4" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+  <tr><td colspan="4" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif"/> Loading...</td></tr>
  </tbody>
  <tbody ng-show="responseReceived && proposals.length == 0">
   <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
  </tbody>
  <tbody class="results">
-  <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;"><td>{{proposal.name}}</td><td>{{proposal.description}}</td><td>{{proposal.concepts.length}}</td><td>{{proposal.status | proposalStatus}}</td></tr>
+  <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;">
+  	<td>{{proposal.name}}</td>
+  	<td>{{proposal.description}}</td>
+  	<td>{{proposal.concepts.length}}</td>
+  	<td>{{proposal.status | proposalStatus}}</td>
+  </tr>
  </tbody>
 </table>
