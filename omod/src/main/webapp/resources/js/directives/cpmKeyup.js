@@ -1,4 +1,4 @@
-define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
+define(['angular'], function(angular) {
 
   var directives;
   try {
