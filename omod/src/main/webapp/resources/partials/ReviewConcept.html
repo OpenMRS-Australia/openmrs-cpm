@@ -52,11 +52,11 @@
 <p>My comments<br/><textarea/></p>
 <p><button>Save comments</button></p>
 <p>Record actions:<br/>
-<button ng-click="conceptCreated()">I created this concept</button>
-<button ng-click="conceptExists()">This concept already exists</button>
-<button ng-click="conceptRejected()">Reject this concept</button>
+    <button ng-click="conceptCreated()">I created this concept</button>
+    <button ng-click="conceptExists()">This concept already exists</button>
+    <button ng-click="conceptRejected()">Reject this concept</button>
 </p>
 
 <div jquery-ui-dialog title="Select a concept">
- <div ng-include="resourceLocation + '/SearchConceptsDialog.html'"></div>
+    <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
 </div>

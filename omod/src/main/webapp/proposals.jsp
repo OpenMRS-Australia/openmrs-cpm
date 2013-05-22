@@ -3,7 +3,7 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/app" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/app" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
 
 <style>
 .results tr:nth-child(odd) {
@@ -25,14 +25,17 @@
     });
 
     requirejs.config({
+        baseUrl: '${pageContext.request.contextPath}/moduleResources/cpm',
         paths: {
             'angular': 'lib/angular',
-            'angular-resource': 'lib/angular-resource'
+            'angular-resource': 'lib/angular-resource',
+            'jquery': 'lib/jquery',
+            'jquery-ui': 'lib/jquery-ui'
         },
         shim: {
-            'jquery-ui': ['lib/jquery'],
+            'jquery-ui': ['jquery'],
             'angular': {
-                deps: ['lib/jquery'],
+                deps: ['jquery'],
                 exports: 'angular'
             },
             'angular-resource': ['angular']

@@ -3,7 +3,7 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/app-review" src="${pageContext.request.contextPath}/moduleResources/cpm/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/app-review" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
 
 <style>
 .results tr:nth-child(odd) {
@@ -17,27 +17,30 @@
 <div id="cpmapp" ng-view>Loading...</div>
 
 <script>
-define('config', [], function() {
-  return {
-    resourceLocation: '${pageContext.request.contextPath}/moduleResources/cpm',
-    contextPath: '${pageContext.request.contextPath}'
-  };
-});
+    define('config', [], function() {
+      return {
+        resourceLocation: '${pageContext.request.contextPath}/moduleResources/cpm',
+        contextPath: '${pageContext.request.contextPath}'
+      };
+    });
 
-requirejs.config({
-    paths: {
-        'angular': 'lib/angular',
-        'angular-resource': 'lib/angular-resource'
-    },
-    shim: {
-        'jquery-ui': ['jquery'],
-        'angular': {
-        	deps: ['jquery'],
-            exports: 'angular'
+    requirejs.config({
+        baseUrl: '${pageContext.request.contextPath}/moduleResources/cpm',
+        paths: {
+            'angular': 'lib/angular',
+            'angular-resource': 'lib/angular-resource',
+            'jquery': 'lib/jquery',
+            'jquery-ui': 'lib/jquery-ui'
         },
-        'angular-resource': ['angular']
-    }
-});
+        shim: {
+            'jquery-ui': ['jquery'],
+            'angular': {
+            	deps: ['jquery'],
+                exports: 'angular'
+            },
+            'angular-resource': ['angular']
+        }
+    });
 </script>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>

@@ -1,4 +1,4 @@
-define(['angular', 'lib/jquery', 'lib/jquery-ui'], function(angular, $) {
+define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
 
   var directives = angular.module('cpm.directives', []);
 
