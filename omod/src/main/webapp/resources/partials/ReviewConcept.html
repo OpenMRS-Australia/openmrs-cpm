@@ -1,5 +1,5 @@
 <div ng-include src="resourceLocation + '/partials/Menu.html'"/>
-<div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
+<div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" />Loading...</div>
 <h2>Proposed Concept: {{concept.preferredName}}</h2>
 <p>Comment from proposer: {{concept.comment}}</p>
 
@@ -52,11 +52,11 @@
 <p>My comments<br/><textarea/></p>
 <p><button>Save comments</button></p>
 <p>Record actions:<br/>
-<button ng-click="conceptCreated()">I created this concept</button>
-<button ng-click="conceptExists()">This concept already exists</button>
-<button ng-click="conceptRejected()">Reject this concept</button>
+    <button ng-click="conceptCreated()">I created this concept</button>
+    <button ng-click="conceptExists()">This concept already exists</button>
+    <button ng-click="conceptRejected()">Reject this concept</button>
 </p>
 
 <div jquery-ui-dialog title="Select a concept">
- <div ng-include="resourceLocation + '/SearchConceptsDialog.html'"></div>
+    <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
 </div>

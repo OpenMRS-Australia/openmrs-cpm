@@ -1,33 +1,5 @@
 <div ng-include src="resourceLocation + '/partials/Menu.html'"/>
-<style>
- label {
-   cursor: pointer;
- }
- .conceptTable {
-   border: 1px solid #1AAC9B;
-   min-width: 600px;
- }
- .conceptTable thead {
-   font-weight: bold;
-   color: white;
-   background-color: #1AAC9B;
- }
- .required {
-   color: firebrick;
-   font-size: smaller;
- }
- .accesskey {
-   text-decoration: underline;
- }
- input.ng-invalid.ng-dirty {
-   border-color: firebrick;
-   border-style: solid;
- }
- .name, .email {
-   width: 600px;
- }
-</style>
-<div ng-show="isLoading" class="loading" style="position: absolute; left: 50%; width: 100px; margin-left: -50px;"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</div>
+<div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
 <h2 id="headerText"><span ng-show="isEdit">Edit</span><span ng-show="!isEdit">Create</span> Concept Proposal</h2>
 <p>
  <span style="font-size: smaller;"><span class="required">*</span> denotes required field</span>
@@ -79,6 +51,6 @@
 </form>
 
 <div jquery-ui-dialog title="Add concepts">
- <div ng-include="resourceLocation + '/SearchConceptsDialog.html'"></div>
+  <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
 </div>
 
