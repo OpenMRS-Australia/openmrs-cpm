@@ -16,13 +16,16 @@ define('config', [], function() {
 requirejs.config({
     baseUrl: "resources",
     paths: {
-        "e2e": "../e2e"
+        "e2e": "../e2e",
+        'angular': 'lib/angular',
+        'jquery': 'lib/jquery',
+        'jquery-ui': 'lib/jquery-ui'
 //        "angular-scenario": "../lib/angular-scenario"
     },
     shim: {
-        'jquery-ui': ['lib/jquery'],
+        'jquery-ui': ['jquery'],
         'angular': {
-            deps: ['lib/jquery'],
+            deps: ['jquery'],
             exports: 'angular'
         },
 //        'angular-scenario': ['angular'],

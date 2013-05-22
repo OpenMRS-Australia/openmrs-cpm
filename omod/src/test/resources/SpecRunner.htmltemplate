@@ -23,12 +23,14 @@
       paths: {
           "angular": "lib/angular",
           'angular-resource': 'lib/angular-resource',
-          "angular-mocks": "../../../src/test/webapp/lib/angular-mocks"
+          "angular-mocks": "../../../src/test/webapp/lib/angular-mocks",
+          "jquery": "lib/jquery",
+          "jquery-ui": "lib/jquery-ui"
       },
       shim: {
-          'jquery-ui': ['lib/jquery'],
+          'jquery-ui': ['jquery'],
           'angular': {
-              deps: ['lib/jquery'],
+              deps: ['jquery'],
               exports: 'angular'
           },
           'angular-mocks': ['angular'],

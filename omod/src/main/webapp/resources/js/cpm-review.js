@@ -1,4 +1,4 @@
-define(['angular', 'config', 'js/filters', 'js/directives', 'js/services'], function(angular, config) {
+define(['angular', 'config', 'js/filters', 'js/directives/jqueryUiDialog', 'js/directives/cpmKeyup', 'js/services'], function(angular, config) {
 
   var cpm = angular.module('cpm-review', ['cpm.filters', 'cpm.directives', 'cpm.services']);
 
