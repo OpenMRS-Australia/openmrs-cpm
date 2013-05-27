@@ -1,4 +1,4 @@
-define(['./index', 'config'], function(controllers, config) {
+define(['./index', 'config', 'js/services/services'], function(controllers, config) {
 
   controllers.controller('ListProposalsCtrl', ['$scope', 'Proposals', '$location', function($scope, Proposals, $location) {
 
