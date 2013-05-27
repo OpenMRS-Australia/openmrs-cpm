@@ -1,12 +1,4 @@
-define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
-
-	var directives;
-	try {
-	    directives = angular.module('cpm.directives');
-	}
-	catch(err) {
-		directives = angular.module("cpm.directives", []);
-	}
+define(['./index', 'jquery', 'jquery-ui'], function(directives, $) {
 
 	directives.directive('jqueryUiDialog', function () {
   		return function (scope, element, attrs) {

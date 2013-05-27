@@ -1,5 +1,5 @@
-define(['js/cpm', 'config'], function(cpm, config) {
-  cpm.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
+define(['./index', 'config'], function(controllers, config) {
+  controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
 
     $scope.contextPath = config.contextPath;
     $scope.resourceLocation = config.resourceLocation;
@@ -26,7 +26,6 @@ define(['js/cpm', 'config'], function(cpm, config) {
     } else {
       document.title = 'Create Concept Proposal';
     }
-
 
 
     if ($scope.isEdit) {

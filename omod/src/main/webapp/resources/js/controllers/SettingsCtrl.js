@@ -1,5 +1,6 @@
-define(['js/cpm', 'config'], function(cpm, config) {
-  cpm.controller('SettingsCtrl', ['$scope', 'Settings', function($scope, Settings) {
+define(['./index', 'config'], function(controllers, config) {
+  
+  controllers.controller('SettingsCtrl', ['$scope', 'Settings', function($scope, Settings) {
 
     $scope.contextPath = config.contextPath;
     $scope.resourceLocation = config.resourceLocation;

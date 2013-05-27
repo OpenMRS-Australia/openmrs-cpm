@@ -1,5 +1,6 @@
-define(['js/cpm', 'config'], function(cpm, config) {
-  cpm.controller('ListProposalsCtrl', ['$scope', 'Proposals', '$location', function($scope, Proposals, $location) {
+define(['./index', 'config'], function(controllers, config) {
+
+  controllers.controller('ListProposalsCtrl', ['$scope', 'Proposals', '$location', function($scope, Proposals, $location) {
 
     document.title = 'Manage Concept Proposals';
     $scope.contextPath = config.contextPath;
