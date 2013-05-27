@@ -8,7 +8,7 @@ define(['angular-mocks', 'js/controllers/EditProposalCtrl'], function() {
     var routeParams;
     var controller;
 
-    beforeEach(module('cpm'));
+    beforeEach(module('cpm.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, $httpBackend) {
       scope = $rootScope.$new();
@@ -130,8 +130,7 @@ define(['angular-mocks', 'js/controllers/EditProposalCtrl'], function() {
       expect(scope.nameErrorMsg()).toBe("");
       expect(scope.emailErrorMsg()).toBe("");
     });
-     */
-
+    */
 
     afterEach(function(){
       httpBackend.verifyNoOutstandingExpectation();

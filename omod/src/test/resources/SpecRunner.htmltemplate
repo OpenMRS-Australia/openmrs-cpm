@@ -22,8 +22,9 @@
       baseUrl: '$sourceDir$',
       paths: {
           "angular": "lib/angular",
-          'angular-resource': 'lib/angular-resource',
           "angular-mocks": "../../../src/test/webapp/lib/angular-mocks",
+          "angular-resource": "lib/angular-resource",
+          "domReady": "lib/domReady",
           "jquery": "lib/jquery",
           "jquery-ui": "lib/jquery-ui"
       },
@@ -49,7 +50,9 @@
     });
 
     require(specs, function() {
-      window.reporter = new jasmine.$reporter$(); jasmine.getEnv().addReporter(reporter);
+      window.reporter = new jasmine.$reporter$(); 
+      jasmine.getEnv().addReporter(reporter);
+
       if ('$reporter$' == 'HtmlReporter') {
         jasmine.getEnv().specFilter = function(spec) {
           return window.reporter.specFilter(spec);
