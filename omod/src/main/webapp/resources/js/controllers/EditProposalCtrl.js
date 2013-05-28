@@ -1,4 +1,4 @@
-define(['./index', 'config', 'js/services/services'], function(controllers, config) {
+define(['./index', 'config', 'js/services/services', 'js/services/menu'], function(controllers, config) {
   controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', 'Menu', '$location', function($scope, $routeParams, Proposals, MenuService, $location) {
 
     $scope.contextPath = config.contextPath;
