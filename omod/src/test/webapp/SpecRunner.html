@@ -25,6 +25,7 @@
             "angular-mocks": "../../../test/webapp/lib/angular-mocks",
             'angular': 'lib/angular',
             'angular-resource': 'lib/angular-resource',
+            'domReady': 'lib/domReady',
             'jquery': 'lib/jquery',
             'jquery-ui': 'lib/jquery-ui'
         },
@@ -35,11 +36,17 @@
                 exports: 'angular'
             },
             'angular-mocks': ['angular'],
-            'angular-resources': ['angular']
+            'angular-resource': ['angular']
         }
     });
 
-    require(['unit/ListProposalsCtrlSpec', 'unit/FiltersSpec', 'unit/EditProposalCtrlSpec'], function(angular) {
+    require([ 
+      'domReady!',
+      'unit/filters/proposalStatusSpec', 
+      'unit/controllers/ListProposalsCtrlSpec',
+      'unit/controllers/EditProposalCtrlSpec'
+    ], function(document) {
+
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
 
@@ -51,18 +58,7 @@
         return htmlReporter.specFilter(spec);
       };
 
-      var currentWindowOnload = window.onload;
-
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
-
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
+      jasmineEnv.execute();
   });
   </script>
 </head>

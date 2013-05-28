@@ -1,10 +1,13 @@
-define(['js/cpm-review', 'config'], function(module, config) {
-    module.controller('ReviewProposalCtrl', ['$scope', '$routeParams', '$location', 'ProposalReviews', function($scope, $routeParams, $location, ProposalReviews) {
+define(['./index', 'config'], function(controllers, config) {
+
+    controllers.controller('ReviewProposalCtrl', ['$scope', '$routeParams', '$location', 'ProposalReviews', 'Menu', function($scope, $routeParams, $location, ProposalReviews, MenuService) {
 
         var proposalId = $routeParams.proposalId;
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
+
+        $scope.menu = MenuService.getMenu();
 
         $scope.proposal = ProposalReviews.get({proposalId: proposalId}, function() {
             $scope.isLoading = false;

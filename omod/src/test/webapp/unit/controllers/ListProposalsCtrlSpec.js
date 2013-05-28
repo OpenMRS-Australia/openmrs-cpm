@@ -7,7 +7,7 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
     var httpBackend;
     var controller;
 
-    beforeEach(module('cpm'));
+    beforeEach(module('cpm.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, $httpBackend) {
       scope = $rootScope.$new();

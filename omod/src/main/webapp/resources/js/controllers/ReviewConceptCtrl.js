@@ -1,11 +1,14 @@
-define(['js/cpm-review', 'config'], function(module, config) {
-    module.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviewConcepts', function($scope, $routeParams, ProposalReviewConcepts) {
+define(['./index', 'config'], function(controllers, config) {
+
+    controllers.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviewConcepts', function($scope, $routeParams, ProposalReviewConcepts) {
 
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
+
+        $scope.menu = Menu.getMenu();
 
         $scope.$on('AddConceptButtonClicked', function(e, concepts) {
             if (concepts.length > 0) {
