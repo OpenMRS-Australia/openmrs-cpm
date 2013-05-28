@@ -1,5 +1,5 @@
 define(['./index', 'config', 'js/services/services'], function(controllers, config) {
-  controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
+  controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', 'Menu', '$location', function($scope, $routeParams, Proposals, MenuService, $location) {
 
     $scope.contextPath = config.contextPath;
     $scope.resourceLocation = config.resourceLocation;
@@ -9,6 +9,8 @@ define(['./index', 'config', 'js/services/services'], function(controllers, conf
     $scope.isSubmitting = false;
     $scope.isLoading = $scope.isEdit ? true : false;
     $scope.isReadOnly = true;
+
+    $scope.menu = MenuService.getMenu(1);
 
     $scope.$on('AddConceptButtonClicked', function(e, concepts) {
       $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);

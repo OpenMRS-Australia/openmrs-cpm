@@ -8,7 +8,9 @@ define([
 	'js/controllers/ReviewConceptCtrl', 
 	'js/controllers/SearchConceptsDialogCtrlReview',
 	'js/directives/cpmKeyup',
+	'js/directives/cpmMenu',
 	'js/directives/jqueryUiDialog',
 	'js/filters/proposalReviewStatus',
+	'js/services/Menu',
 	'js/services/services'
 ], function () {});

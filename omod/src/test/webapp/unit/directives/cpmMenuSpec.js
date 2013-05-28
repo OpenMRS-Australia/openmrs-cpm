@@ -1,4 +1,4 @@
-define(['angular-mocks', 'js/directives/cpmMenu'], function() {
+define(['angular-mocks', 'js/directives/cpmMenu', 'js/services/menu'], function() {
 	
   'use strict';
 

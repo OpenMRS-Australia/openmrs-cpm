@@ -1,10 +1,3 @@
-//	.run(['$rootScope', '$location', function($rootScope, $location) {
-
-//       $rootScope.isActiveTab = function(page, route) {
-//           return $location.absUrl().indexOf(page + '.list') > 0 && $location.path() == route;
-//       };
-//   }]);
-
 require(['config'], function(config) {
   requirejs.config({
     baseUrl: config.resourceLocation,
@@ -27,6 +20,6 @@ require(['config'], function(config) {
 	});
 
 	require(['js/cpmr-bootstrap'], function () {
-	    // nothing to do here...see bootstrap.js
+	    // nothing to do here - see cpmr-bootstrap.js
 	});
 });

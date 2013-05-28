@@ -8,6 +8,8 @@ define(['./index', 'config'], function(controllers, config) {
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
 
+        $scope.menu = Menu.getMenu();
+
         $scope.$on('AddConceptButtonClicked', function(e, concepts) {
             if (concepts.length > 0) {
                 $scope.concept.conceptId = concepts[0].id;
