@@ -6,10 +6,10 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
 
-  { pattern: 'main/webapp/resources/lib/**/*.js', included: false },
-  { pattern: 'main/webapp/resources/js/**/*.js', included: false },
-  { pattern: 'test/webapp/lib/**/*.js', included: false },
-  { pattern: 'test/webapp/unit/**/*Spec.js', included: false },
+  { pattern: 'main/webapp/resources/lib/**/*.js', included: false, watched: true },
+  { pattern: 'main/webapp/resources/js/**/*.js', included: false, watched: true },
+  { pattern: 'test/webapp/lib/**/*.js', included: false, watched: true },
+  { pattern: 'test/webapp/unit/**/*Spec.js', included: false, watched: true },
 
   'test/webapp/test-main.js'
 ];
