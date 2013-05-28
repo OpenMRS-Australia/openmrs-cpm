@@ -1,6 +1,6 @@
 define(['./index', 'config'], function(controllers, config) {
 
-    controllers.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviewConcepts', function($scope, $routeParams, ProposalReviewConcepts) {
+    controllers.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviewConcepts', 'Menu', function($scope, $routeParams, ProposalReviewConcepts, MenuService) {
 
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
@@ -8,7 +8,7 @@ define(['./index', 'config'], function(controllers, config) {
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
 
-        $scope.menu = Menu.getMenu();
+        $scope.menu = MenuService.getMenu();
 
         $scope.$on('AddConceptButtonClicked', function(e, concepts) {
             if (concepts.length > 0) {
