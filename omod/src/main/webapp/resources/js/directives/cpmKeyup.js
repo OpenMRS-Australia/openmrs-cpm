@@ -1,12 +1,4 @@
-define(['angular', 'jquery', 'jquery-ui'], function(angular, $) {
-
-  var directives;
-  try {
-      directives = angular.module('cpm.directives');
-  }
-  catch(err) {
-    directives = angular.module("cpm.directives", []);
-  }
+define(['./index'], function(directives) {
 
 	directives.directive('cpmKeyup', function() {
     	return function(scope, el, attrs) {

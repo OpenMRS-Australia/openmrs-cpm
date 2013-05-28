@@ -1,5 +1,5 @@
-define(['js/cpm', 'config'], function(cpm, config) {
-  cpm.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', '$location', function($scope, $routeParams, Proposals, $location) {
+define(['./index', 'config', 'js/services/services'], function(controllers, config) {
+  controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', 'Menu', '$location', function($scope, $routeParams, Proposals, MenuService, $location) {
 
     $scope.contextPath = config.contextPath;
     $scope.resourceLocation = config.resourceLocation;
@@ -9,6 +9,8 @@ define(['js/cpm', 'config'], function(cpm, config) {
     $scope.isSubmitting = false;
     $scope.isLoading = $scope.isEdit ? true : false;
     $scope.isReadOnly = true;
+
+    $scope.menu = MenuService.getMenu(1);
 
     $scope.$on('AddConceptButtonClicked', function(e, concepts) {
       $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
@@ -26,7 +28,6 @@ define(['js/cpm', 'config'], function(cpm, config) {
     } else {
       document.title = 'Create Concept Proposal';
     }
-
 
 
     if ($scope.isEdit) {

@@ -1,3 +1,4 @@
-define(['js/cpm', 'js/controllers/SearchConceptsDialogCtrlFactory'], function(cpm, SearchConceptsDialogCtrlFactory) {
-    cpm.controller('SearchConceptsDialogCtrl', SearchConceptsDialogCtrlFactory);
+define(['./index', 'js/controllers/SearchConceptsDialogCtrlFactory'], function(controllers, SearchConceptsDialogCtrlFactory) {
+
+    controllers.controller('SearchConceptsDialogCtrl', SearchConceptsDialogCtrlFactory);
 });

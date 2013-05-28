@@ -1,7 +1,7 @@
-define(['angular-mocks', 'js/filters'], function() {
+define(['angular-mocks', 'js/filters/proposalStatus'], function() {
   'use strict';
 
-  describe("Filter Spec", function() {
+  describe("proposalStatusFilter Spec", function() {
 
     var filter;
 
