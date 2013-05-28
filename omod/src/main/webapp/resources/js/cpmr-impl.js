@@ -11,6 +11,6 @@ define([
 	'js/directives/cpmMenu',
 	'js/directives/jqueryUiDialog',
 	'js/filters/proposalReviewStatus',
-	'js/services/Menu',
+	'js/services/menu',
 	'js/services/services'
 ], function () {});
