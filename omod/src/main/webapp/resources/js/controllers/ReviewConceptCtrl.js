@@ -30,22 +30,26 @@ define(['./index', 'config'], function(controllers, config) {
             $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
         };
 
+        $scope.saveReviewComment = function() {
+            $scope.concept.$update({proposalId: proposalId});
+        };
+
         $scope.conceptCreated = function() {
             $scope.concept.status = 'CLOSED_NEW';
             $scope.dialog='open';
             $scope.$broadcast('InitSearchConceptsDialog', false);
-        }
+        };
 
         $scope.conceptExists = function() {
             $scope.concept.status = 'CLOSED_EXISTING';
             $scope.dialog='open';
             $scope.$broadcast('InitSearchConceptsDialog', false);
-        }
+        };
 
         $scope.conceptRejected = function() {
             $scope.concept.status = 'CLOSED_REJECTED';
             $scope.concept.$update({proposalId: proposalId});
-        }
+        };
 
     }])
 });

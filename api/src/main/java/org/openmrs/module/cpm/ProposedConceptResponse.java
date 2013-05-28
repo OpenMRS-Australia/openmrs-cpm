@@ -31,6 +31,8 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private List<ProposedConceptResponseName> names;
 	private List<ProposedConceptResponseDescription> descriptions;
 
+	private String reviewComment;
+
 	public ProposedConceptResponse() {
 		super();
 		this.version = 0;
@@ -105,5 +107,13 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@JoinColumn(name = "concept_id")
 	public Concept getConcept() {
 		return concept;
+	}
+
+	public String getReviewComment() {
+		return reviewComment;
+	}
+
+	public void setReviewComment(String reviewComment) {
+		this.reviewComment = reviewComment;
 	}
 }

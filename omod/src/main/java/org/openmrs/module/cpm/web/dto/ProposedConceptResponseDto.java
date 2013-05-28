@@ -2,16 +2,16 @@ package org.openmrs.module.cpm.web.dto;
 
 public class ProposedConceptResponseDto extends ProposedConceptDto {
 
-	private String reviewComments;
+	private String reviewComment;
 
 	private int conceptId;
 
-	public String getReviewComments() {
-		return reviewComments;
+	public String getReviewComment() {
+		return reviewComment;
 	}
 
-	public void setReviewComments(final String reviewComments) {
-		this.reviewComments = reviewComments;
+	public void setReviewComment(final String reviewComment) {
+		this.reviewComment = reviewComment;
 	}
 
 	public int getConceptId() {
