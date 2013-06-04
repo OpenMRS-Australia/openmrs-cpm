@@ -1,5 +1,6 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
@@ -71,6 +72,7 @@ public class DictionaryManagerController {
 
 				response.setProposedConceptUuid(concept.getUuid());
 				response.setComment(concept.getComment());
+				response.setDatatype(Context.getConceptService().getConceptDatatypeByUuid(concept.getDatatype()));
 
 				proposedConceptResponsePackage.addProposedConcept(response);
 			}

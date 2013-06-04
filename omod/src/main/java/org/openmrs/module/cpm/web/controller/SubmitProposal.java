@@ -63,7 +63,7 @@ public class SubmitProposal {
 
 			ConceptDatatype conceptDatatype = concept.getDatatype();
 			if (conceptDatatype != null) {
-				conceptDto.setDatatype(conceptDatatype.getName());
+				conceptDto.setDatatype(conceptDatatype.getUuid());
 			}
 			conceptDto.setUuid(concept.getUuid());
 

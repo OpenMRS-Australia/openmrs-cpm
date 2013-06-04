@@ -213,4 +213,13 @@
         </addColumn>
     </changeSet>
 
+    <!-- Adding the datatype -->
+    <changeSet id="cpm_2013-06-04-1" author="cpm">
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="datatype_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
