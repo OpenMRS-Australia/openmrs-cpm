@@ -7,7 +7,7 @@
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}-SHA1-${buildNumber}</version>
 	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
-	<author>kramuenk</author>
+	<author>OpenMRS Australia</author>
 	<description>
 		${project.parent.description}
 	</description>
@@ -33,7 +33,7 @@
     <globalProperty>
         <property>cpm.url</property>
         <description>URL for dictionary manager</description>
-        <defaultValue>http://localhost:8080</defaultValue>
+        <defaultValue>http://localhost:8080/openmrs</defaultValue>
     </globalProperty>
 
     <globalProperty>

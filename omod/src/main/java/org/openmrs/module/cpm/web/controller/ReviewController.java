@@ -82,7 +82,7 @@ public class ReviewController {
 		final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
 		final ProposedConceptResponse proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
-			// todo: comment
+			proposedConcept.setReviewComment(updatedProposalResponse.getReviewComment());
 			proposedConcept.setStatus(updatedProposalResponse.getStatus());
 
 			if (updatedProposalResponse.getConceptId() != 0) {
@@ -138,6 +138,7 @@ public class ReviewController {
 		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
+		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
 
 		if (conceptProposal.getConcept() != null) {
 			conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());

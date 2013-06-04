@@ -1,42 +1,53 @@
 <html>
 <head>
 
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
+  <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
+  <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
 
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.2.0/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
-  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
-  <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
+  <script src="../../main/webapp/resources/lib/require.js"></script>
 
-  <script src="resources/require.js"></script>
+  <script>
 
-  <script type="text/javascript">
+    define('config', [], function() {
+      return {
+        // in production would be '/openmrs/moduleResources/cpm'
+        resourceLocation: 'resources',
+        contextPath: '/openmrs'
+      };
+    });
 
-define('config', [], function() {
-  return {
-    // in production would be '/openmrs/moduleResources/cpm'
-    resourceLocation: 'resources',
-    contextPath: '/openmrs'
-  };
-});
-
-requirejs.config({
-    baseUrl: "resources",
-    paths: {
-        "unit": "../unit",
-        "angular-mocks": "../lib/angular-mocks"
-    },
-    shim: {
-        'jquery-ui': ['jquery'],
-        'angular': {
-            deps: ['jquery'],
-            exports: 'angular'
+    requirejs.config({
+        baseUrl: "../../main/webapp/resources",
+        paths: {
+            "unit": "../../../test/webapp/unit",
+            "angular-mocks": "../../../test/webapp/lib/angular-mocks",
+            'angular': 'lib/angular',
+            'angular-resource': 'lib/angular-resource',
+            'domReady': 'lib/domReady',
+            'jquery': 'lib/jquery',
+            'jquery-ui': 'lib/jquery-ui'
         },
-        'angular-mocks': ['angular'],
-        'angular-resources': ['angular']
-    }
-});
+        shim: {
+            'jquery-ui': ['jquery'],
+            'angular': {
+                deps: ['jquery'],
+                exports: 'angular'
+            },
+            'angular-mocks': ['angular'],
+            'angular-resource': ['angular']
+        }
+    });
 
-require(['unit/ListProposalsCtrlSpec', 'unit/FiltersSpec', 'unit/EditProposalCtrlSpec'], function(angular) {
+    require([ 
+      'domReady!',
+      'unit/filters/proposalStatusSpec', 
+      'unit/controllers/ListProposalsCtrlSpec',
+      'unit/controllers/EditProposalCtrlSpec',
+      'unit/controllers/ReviewConceptCtrlSpec'
+    ], function(document) {
+
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
 
@@ -48,19 +59,8 @@ require(['unit/ListProposalsCtrlSpec', 'unit/FiltersSpec', 'unit/EditProposalCtr
         return htmlReporter.specFilter(spec);
       };
 
-      var currentWindowOnload = window.onload;
-
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
-
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
-});
+      jasmineEnv.execute();
+  });
   </script>
 </head>
 <body>

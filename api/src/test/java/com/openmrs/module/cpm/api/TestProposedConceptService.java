@@ -19,7 +19,12 @@ import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class TestProposedConceptService extends CpmBaseContextSensitive {
 	
@@ -530,6 +535,27 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		testPackage.setStatus(null);
 		log.info("Before: " + testPackage);
 	    service.saveProposedConceptResponsePackage(testPackage);
+	}
+
+	@Test
+	public void saveAndFetchProposedConceptResponsePackage_shouldMatchPersistedFields() {
+
+		ProposedConceptResponsePackage testPackage = new ProposedConceptResponsePackage();
+		testPackage.setName("name");
+		testPackage.setEmail("asdf@asdf.com");
+		ProposedConceptResponse conceptResponse = new ProposedConceptResponse();
+		conceptResponse.setComment("This is a proposer's comment");
+		conceptResponse.setReviewComment("This is a reviewer's comment");
+		testPackage.addProposedConcept(conceptResponse);
+		service.saveProposedConceptResponsePackage(testPackage);
+
+		final ProposedConceptResponsePackage retrievedPackage = service.getProposedConceptResponsePackageById(testPackage.getId());
+		ArrayList<ProposedConceptResponse> responses = new ArrayList<ProposedConceptResponse>(retrievedPackage.getProposedConcepts());
+
+		assertThat(retrievedPackage.getName(), is(equalTo("name")));
+		assertThat(retrievedPackage.getEmail(), is(equalTo("asdf@asdf.com")));
+		assertThat(responses.get(0).getComment(), is(equalTo("This is a proposer's comment")));
+		assertThat(responses.get(0).getReviewComment(), is(equalTo("This is a reviewer's comment")));
 	}
 
 }

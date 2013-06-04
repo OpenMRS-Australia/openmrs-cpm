@@ -1,0 +1,23 @@
+<cpm-menu menu="menu"></cpm-menu>
+<div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
+<h2>Concept Proposal from {{proposal.email}}</h2>
+<p>From: {{proposal.email}}</p>
+<p>Description: <strong>{{proposal.description}}</strong></p>
+<b class="boxHeader">Concepts</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+        <tr><th>Name</th><th>Class + Datatype</th><th>Comments</th><th>Status</th></tr>
+    </thead>
+    <tbody ng-show="proposal.concepts.length == 0">
+        <tr><td colspan="4"><em>No concepts added</em></td></tr>
+    </tbody>
+    <tbody class="results">
+        <tr ng-repeat="concept in proposal.concepts" ng-click="showConcept(concept.id)" style="cursor: pointer;">
+            <td>{{concept.preferredName}}</td>
+            <td>{{concept.class}}, {{concept.datatype}}</td>
+            <td>{{concept.comment}}</td>
+            <td ng-bind-html-unsafe="concept | proposalReviewStatus"></td>
+        </tr>
+    </tbody>
+</table>
+<p><button ng-click="delete()">Delete Proposal</button></p>

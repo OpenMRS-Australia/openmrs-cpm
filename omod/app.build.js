@@ -9,9 +9,9 @@
     }
   ],
   shim: {
-    'jquery-ui': ['jquery'],
+    'jquery-ui': ['lib/jquery'],
     'angular': {
-      deps: ['jquery'],
+      deps: ['lib/jquery'],
       exports: 'angular'
     },
     'angular-resource': ['angular']
