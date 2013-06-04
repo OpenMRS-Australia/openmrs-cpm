@@ -136,10 +136,13 @@ public class ReviewController {
 		conceptProposalDto.setId(conceptProposal.getId());
 		conceptProposalDto.setNames(getNameDtos(conceptProposal));
 		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
-		conceptProposalDto.setDatatype(conceptProposal.getDatatype().getName());
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
+
+		if (conceptProposalDto.getDatatype() != null) {
+			conceptProposalDto.setDatatype(conceptProposal.getDatatype().getName());
+		}
 
 		if (conceptProposal.getConcept() != null) {
 			conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());
