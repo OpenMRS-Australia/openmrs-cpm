@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.openmrs.ConceptClass;
+import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
@@ -33,6 +34,9 @@ public class DictionaryManagerControllerTest {
 
 	@Mock
 	private ProposedConceptResponse responseMock;
+
+	@Mock
+	private ConceptDatatype dataTypeMock;
 
 	@Mock
 	private ConceptClass conceptClassMock;
@@ -67,6 +71,7 @@ public class DictionaryManagerControllerTest {
 
 		mockStatic(Context.class);
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
+		when(conceptServiceMock.getConceptDatatypeByUuid("blah")).thenReturn(dataTypeMock);
 		when(conceptServiceMock.getConceptClassByUuid("blah")).thenReturn(conceptClassMock);
 
 		when(Context.getService(ProposedConceptService.class)).thenReturn(proposedConceptServiceMock);
@@ -79,6 +84,8 @@ public class DictionaryManagerControllerTest {
 
 		ProposedConceptDto concept = new ProposedConceptDto();
 		concept.setConceptClass("blah");
+		concept.setDatatype("blah");
+
 		List<NameDto> names = new ArrayList<NameDto>();
 		NameDto name = new NameDto();
 		name.setName("name");
