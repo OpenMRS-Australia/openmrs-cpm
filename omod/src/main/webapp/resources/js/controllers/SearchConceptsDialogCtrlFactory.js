@@ -4,6 +4,8 @@ define(['config'], function(config) {
 
         $scope.contextPath = config.contextPath;
 
+        $scope.currentRequestNum = 0;
+
         var SEARCH_DELAY = 250;
 
         var IGNORE_KEYCODES = [9,12,13,16,17,18,19,20,32,33,34,35,36,37,38,39,40,45,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145,224];
@@ -25,22 +27,33 @@ define(['config'], function(config) {
             }
         }
 
+        var isLatestRequest = function(newReqNum, currentReqNum) {
+            if (newReqNum > currentReqNum) {
+                $scope.currentRequestNum = newReqNum;
+                return true;
+            } else return false;
+        }
+
         function doSearch() {
             if($scope.query) {
                 $scope.isSearching = true;
-                $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)).success(function(data) {
+                $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)
+                    + "&requestNum=" + $scope.requestNum).success(function(data) {
                     $scope.isSearching = false;
-                    $scope.concepts = data;
-                    for (var i in $scope.concepts) {
-                        var concept = $scope.concepts[i];
-                        concept.synonyms = "";
-                        for (var j in concept.names) {
-                            var name = concept.names[j].name;
-                            if (name !== concept.preferredName) {
-                                if (concept.synonyms !== "") {
-                                    concept.synonyms += ", ";
+                    if (isLatestRequest(data.requestNum, $scope.currentRequestNum)) {
+                        $scope.concepts = data.concepts;
+
+                        for (var i in $scope.concepts) {
+                            var concept = $scope.concepts[i];
+                            concept.synonyms = "";
+                            for (var j in concept.names) {
+                                var name = concept.names[j].name;
+                                if (name !== concept.preferredName) {
+                                    if (concept.synonyms !== "") {
+                                        concept.synonyms += ", ";
+                                    }
+                                    concept.synonyms += name;
                                 }
-                                concept.synonyms += name;
                             }
                         }
                     }
