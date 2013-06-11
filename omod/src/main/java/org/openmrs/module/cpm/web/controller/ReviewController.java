@@ -140,7 +140,7 @@ public class ReviewController {
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
 
-		if (conceptProposalDto.getDatatype() != null) {
+		if (conceptProposal.getDatatype() != null) {
 			conceptProposalDto.setDatatype(conceptProposal.getDatatype().getName());
 		}
 
