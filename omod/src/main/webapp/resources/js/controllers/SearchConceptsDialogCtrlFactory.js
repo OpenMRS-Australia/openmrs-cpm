@@ -28,7 +28,7 @@ define(['config'], function(config) {
         }
 
         var isLatestRequest = function(newReqNum, currentReqNum) {
-            if (newReqNum > currentReqNum) {
+            if (newReqNum >= currentReqNum) {
                 $scope.currentRequestNum = newReqNum;
                 return true;
             } else return false;
@@ -36,9 +36,10 @@ define(['config'], function(config) {
 
         function doSearch() {
             if($scope.query) {
+                $scope.currentRequestNum++;
                 $scope.isSearching = true;
                 $http.get(config.contextPath + '/ws/cpm/concepts?query=' + encodeURIComponent($scope.query)
-                    + "&requestNum=" + $scope.requestNum).success(function(data) {
+                    + "&requestNum=" + $scope.currentRequestNum).success(function(data) {
                     $scope.isSearching = false;
                     if (isLatestRequest(data.requestNum, $scope.currentRequestNum)) {
                         $scope.concepts = data.concepts;
