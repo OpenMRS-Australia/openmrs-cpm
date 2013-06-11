@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -550,6 +551,9 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		final ConceptDatatype datatype = Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.BOOLEAN_UUID);
 		conceptResponse.setDatatype(datatype);
 
+		ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Test");
+		conceptResponse.setConceptClass(conceptClass);
+
 		conceptResponse.setReviewComment("This is a reviewer's comment");
 		testPackage.addProposedConcept(conceptResponse);
 		service.saveProposedConceptResponsePackage(testPackage);
@@ -561,6 +565,7 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		assertThat(retrievedPackage.getEmail(), is(equalTo("asdf@asdf.com")));
 		assertThat(responses.get(0).getComment(), is(equalTo("This is a proposer's comment")));
 		assertThat(responses.get(0).getDatatype(), is(equalTo(datatype)));
+		assertThat(responses.get(0).getConceptClass(), is(equalTo(conceptClass)));
 		assertThat(responses.get(0).getReviewComment(), is(equalTo("This is a reviewer's comment")));
 	}
 

@@ -13,6 +13,8 @@ public class ConceptDto {
 
 	private String datatype;
 
+	private String conceptClass;
+
 	private List<DescriptionDto> descriptions;
 
 	// for UI, not necessary for submission
@@ -50,6 +52,14 @@ public class ConceptDto {
 
 	public void setDatatype(final String datatype) {
 		this.datatype = datatype;
+	}
+
+	public String getConceptClass() {
+		return conceptClass;
+	}
+
+	public void setConceptClass(String conceptClass) {
+		this.conceptClass = conceptClass;
 	}
 
 	public List<DescriptionDto> getDescriptions() {

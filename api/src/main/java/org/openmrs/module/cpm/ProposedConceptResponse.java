@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private List<ProposedConceptResponseDescription> descriptions;
 
 	private ConceptDatatype datatype;
+	private ConceptClass conceptClass;
 	private String reviewComment;
 
 	public ProposedConceptResponse() {
@@ -119,6 +121,16 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@JoinColumn(name = "datatype_id")
 	public ConceptDatatype getDatatype() {
 		return datatype;
+	}
+
+	public void setConceptClass(ConceptClass conceptClass) {
+		this.conceptClass = conceptClass;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "concept_class_id")
+	public ConceptClass getConceptClass() {
+		return conceptClass;
 	}
 
 	public String getReviewComment() {

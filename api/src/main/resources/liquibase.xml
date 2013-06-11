@@ -222,4 +222,13 @@
         </addColumn>
     </changeSet>
 
+    <!-- Adding the concept class -->
+    <changeSet id="cpm_2013-06-11-1" author="cpm">
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="concept_class_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -2,7 +2,6 @@ package org.openmrs.module.cpm.web.controller;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponseDescription;
@@ -72,7 +71,7 @@ public class ReviewController {
 	public @ResponseBody ProposedConceptResponseDto getConceptResponse(@PathVariable int proposalId, @PathVariable int conceptId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		final ProposedConceptResponse proposedConcept = service.getProposedConceptResponsePackageById(proposalId).getProposedConcept(conceptId);
-		return createProposedConceptResponseDto(proposedConcept);
+		return DtoFactory.createProposedConceptResponseDto(proposedConcept);
 	}
 
 	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
@@ -91,7 +90,7 @@ public class ReviewController {
 
 			service.saveProposedConceptResponsePackage(aPackage);
 		}
-		return createProposedConceptResponseDto(proposedConcept);
+		return DtoFactory.createProposedConceptResponseDto(proposedConcept);
 	}
 
 	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage responsePackage) {
@@ -112,71 +111,11 @@ public class ReviewController {
 		final List<ProposedConceptResponseDto> list = new ArrayList<ProposedConceptResponseDto>();
 		if (proposedConcepts != null) {
 			for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
-				list.add(createProposedConceptResponseDto(conceptProposal));
+				list.add(DtoFactory.createProposedConceptResponseDto(conceptProposal));
 			}
 		}
 
 		dto.setConcepts(list);
 		return dto;
-	}
-
-	private ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
-		final ProposedConceptResponseDto conceptProposalDto = new ProposedConceptResponseDto();
-
-		final List<ProposedConceptResponseName> names = conceptProposal.getNames();
-		if (names != null) {
-			for (ProposedConceptResponseName name: names) {
-				if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
-					conceptProposalDto.setPreferredName(name.getName());
-					break;
-				}
-			}
-		}
-
-		conceptProposalDto.setId(conceptProposal.getId());
-		conceptProposalDto.setNames(getNameDtos(conceptProposal));
-		conceptProposalDto.setDescriptions(getDescriptionDtos(conceptProposal));
-		conceptProposalDto.setStatus(conceptProposal.getStatus());
-		conceptProposalDto.setComment(conceptProposal.getComment());
-		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
-
-		if (conceptProposal.getDatatype() != null) {
-			conceptProposalDto.setDatatype(conceptProposal.getDatatype().getName());
-		}
-
-		if (conceptProposal.getConcept() != null) {
-			conceptProposalDto.setConceptId(conceptProposal.getConcept().getId());
-		}
-
-		return conceptProposalDto;
-	}
-
-	private ArrayList<NameDto> getNameDtos(ProposedConceptResponse concept) {
-		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
-		final List<ProposedConceptResponseName> names = concept.getNames();
-		if (names != null) {
-			for (ProposedConceptResponseName name: names) {
-				NameDto nameDto = new NameDto();
-				nameDto.setName(name.getName());
-				nameDto.setType(name.getType());
-				nameDto.setLocale(name.getLocale().toString());
-				nameDtos.add(nameDto);
-			}
-		}
-		return nameDtos;
-	}
-
-	private ArrayList<DescriptionDto> getDescriptionDtos(ProposedConceptResponse concept) {
-		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
-		final List<ProposedConceptResponseDescription> descriptions = concept.getDescriptions();
-		if (descriptions != null) {
-			for (ProposedConceptResponseDescription description: descriptions) {
-				DescriptionDto descriptionDto = new DescriptionDto();
-				descriptionDto.setDescription(description.getDescription());
-				descriptionDto.setLocale(description.getLocale().toString());
-				descriptionDtos.add(descriptionDto);
-			}
-		}
-		return descriptionDtos;
 	}
 }

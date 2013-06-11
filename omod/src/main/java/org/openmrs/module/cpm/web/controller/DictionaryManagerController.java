@@ -1,5 +1,6 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
@@ -9,7 +10,6 @@ import org.openmrs.module.cpm.ProposedConceptResponseName;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.SubmissionStatusDto;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class DictionaryManagerController {
 	//
 
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
-    public @ResponseBody SubmissionResponseDto submitProposal(HttpServletRequest request, @RequestBody final SubmissionDto incomingProposal) throws IOException {
+    public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
@@ -72,7 +71,18 @@ public class DictionaryManagerController {
 
 				response.setProposedConceptUuid(concept.getUuid());
 				response.setComment(concept.getComment());
-				response.setDatatype(Context.getConceptService().getConceptDatatypeByUuid(concept.getDatatype()));
+
+				final ConceptDatatype conceptDatatype = Context.getConceptService().getConceptDatatypeByUuid(concept.getDatatype());
+				if (conceptDatatype == null) {
+					throw new NullPointerException("Datatype expected");
+				}
+				response.setDatatype(conceptDatatype);
+
+				final ConceptClass conceptClass = Context.getConceptService().getConceptClassByUuid(concept.getConceptClass());
+				if (conceptClass == null) {
+					throw new NullPointerException("Concept class expected");
+				}
+				response.setConceptClass(conceptClass);
 
 				proposedConceptResponsePackage.addProposedConcept(response);
 			}
