@@ -11,13 +11,10 @@ import org.junit.Test;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
+import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 
 import java.text.SimpleDateFormat;
@@ -567,6 +564,45 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 		assertThat(responses.get(0).getDatatype(), is(equalTo(datatype)));
 		assertThat(responses.get(0).getConceptClass(), is(equalTo(conceptClass)));
 		assertThat(responses.get(0).getReviewComment(), is(equalTo("This is a reviewer's comment")));
+	}
+
+	@Test
+	public void saveAndFetchProposedConceptWithNumericDatatype_shouldMatchNumericData() {
+
+		ProposedConceptResponsePackage testPackage = new ProposedConceptResponsePackage();
+		testPackage.setName("name");
+		testPackage.setEmail("asdf@asdf.com");
+		ProposedConceptResponse conceptResponse = new ProposedConceptResponse();
+		conceptResponse.setComment("This is a proposer's comment");
+
+		final ConceptDatatype datatype = Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+		conceptResponse.setDatatype(datatype);
+
+		ProposedConceptResponseNumeric conceptNumeric = new ProposedConceptResponseNumeric();
+		conceptNumeric.setHiAbsolute(20.0);
+		conceptNumeric.setHiCritical(21.0);
+		conceptNumeric.setHiNormal(19.0);
+		conceptNumeric.setLowAbsolute(18.0);
+		conceptNumeric.setLowNormal(17.0);
+		conceptNumeric.setLowCritical(16.0);
+		conceptNumeric.setPrecise(true);
+		conceptNumeric.setUnits("ppm");
+		conceptResponse.setNumericDetails(conceptNumeric);
+
+		testPackage.addProposedConcept(conceptResponse);
+		service.saveProposedConceptResponsePackage(testPackage);
+
+		final ProposedConceptResponsePackage retrievedPackage = service.getProposedConceptResponsePackageById(testPackage.getId());
+		ArrayList<ProposedConceptResponse> responses = new ArrayList<ProposedConceptResponse>(retrievedPackage.getProposedConcepts());
+		assertThat(responses.get(0).getNumericDetails().getHiAbsolute(), is(equalTo(20.0)));
+		assertThat(responses.get(0).getNumericDetails().getHiCritical(), is(equalTo(21.0)));
+		assertThat(responses.get(0).getNumericDetails().getHiNormal(), is(equalTo(19.0)));
+		assertThat(responses.get(0).getNumericDetails().getLowAbsolute(), is(equalTo(18.0)));
+		assertThat(responses.get(0).getNumericDetails().getLowNormal(), is(equalTo(17.0)));
+		assertThat(responses.get(0).getNumericDetails().getLowCritical(), is(equalTo(16.0)));
+		assertThat(responses.get(0).getNumericDetails().getPrecise(), is(true));
+		assertThat(responses.get(0).getNumericDetails().getUnits(), is(equalTo("ppm")));
+
 	}
 
 }

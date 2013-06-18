@@ -35,6 +35,8 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	private ConceptDatatype datatype;
 	private ConceptClass conceptClass;
+	private ProposedConceptResponseNumeric numericDetails;
+
 	private String reviewComment;
 
 	public ProposedConceptResponse() {
@@ -131,6 +133,16 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@JoinColumn(name = "concept_class_id")
 	public ConceptClass getConceptClass() {
 		return conceptClass;
+	}
+
+	public void setNumericDetails(ProposedConceptResponseNumeric numericDetails) {
+		this.numericDetails = numericDetails;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cpm_proposed_concept_response_numeric_id")
+	public ProposedConceptResponseNumeric getNumericDetails() {
+		return numericDetails;
 	}
 
 	public String getReviewComment() {

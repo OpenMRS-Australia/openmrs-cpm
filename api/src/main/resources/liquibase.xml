@@ -231,4 +231,26 @@
         </addColumn>
     </changeSet>
 
+    <!-- Replicating the concept_numeric table for our sandbox -->
+    <changeSet id="cpm_2013-06-18-1" author="cpm">
+        <createTable tableName="cpm_proposed_concept_response_numeric">
+            <column autoIncrement="true" name="cpm_proposed_concept_response_numeric_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="hi_absolute" type="double precision"/>
+            <column name="hi_critical" type="double precision"/>
+            <column name="hi_normal" type="double precision"/>
+            <column name="low_absolute" type="double precision"/>
+            <column name="low_critical" type="double precision"/>
+            <column name="low_normal" type="double precision"/>
+            <column name="units" type="varchar(50)"/>
+            <column defaultValueBoolean="false" name="precise" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="cpm_proposed_concept_response_numeric_id" type="int"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
