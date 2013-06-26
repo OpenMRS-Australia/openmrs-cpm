@@ -9,5 +9,6 @@
 		<mapping class="org.openmrs.module.cpm.ProposedConceptResponseName" />
 		<mapping class="org.openmrs.module.cpm.ProposedConceptResponseDescription" />
 		<mapping class="org.openmrs.module.cpm.ProposedConceptResponsePackage" />
+		<mapping class="org.openmrs.module.cpm.ProposedConceptResponseNumeric" />
 	</session-factory>
 </hibernate-configuration>

@@ -14,6 +14,7 @@ import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.Settings;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,25 +72,29 @@ public class ProposalController {
 		return settings;
 	}
 
-	@RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
-	public @ResponseBody List<ConceptDto> findConcepts(@RequestParam final String query) {
-		final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
-		final ConceptService conceptService = Context.getConceptService();
+    @RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
+    public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
+                                                             @RequestParam final String requestNum) {
+        final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
+        final ConceptService conceptService = Context.getConceptService();
 
-		if (query.equals("")) {
-			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
+        if (query.equals("")) {
+            final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
 //			final List<Concept> allConcepts = conceptService.getAllConcepts();
-			for (final Concept concept : allConcepts) {
-				results.add(createConceptDto(concept));
-			}
-		} else {
-			final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
-			for (final ConceptSearchResult conceptSearchResult : concepts) {
-				results.add(createConceptDto(conceptSearchResult.getConcept()));
-			}
-		}
-		return results;
-	}
+            for (final Concept concept : allConcepts) {
+                results.add(createConceptDto(concept));
+            }
+        } else {
+            final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
+            for (final ConceptSearchResult conceptSearchResult : concepts) {
+                results.add(createConceptDto(conceptSearchResult.getConcept()));
+            }
+        }
+        SearchConceptResultDto resultDto = new SearchConceptResultDto();
+        resultDto.setConcepts(results);
+        resultDto.setRequestNum(requestNum);
+        return resultDto;
+    }
 
 	private ConceptDto createConceptDto(final Concept concept) {
 

@@ -2,6 +2,7 @@ package org.openmrs.module.cpm.web.controller;
 
 import org.apache.commons.codec.binary.Base64;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
@@ -60,15 +61,18 @@ public class SubmitProposal {
 			final Concept concept = proposedConcept.getConcept();
 			conceptDto.setNames(ProposalController.getNameDtos(concept));
 			conceptDto.setDescriptions(ProposalController.getDescriptionDtos(concept));
+			conceptDto.setUuid(concept.getUuid());
+			conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
 
 			ConceptDatatype conceptDatatype = concept.getDatatype();
 			if (conceptDatatype != null) {
-				conceptDto.setDatatype(conceptDatatype.getName());
+				conceptDto.setDatatype(conceptDatatype.getUuid());
 			}
-			conceptDto.setUuid(concept.getUuid());
 
-			// proposer's comment
-			conceptDto.setComment(proposedConcept.getComment());
+			final ConceptClass conceptClass = concept.getConceptClass();
+			if (conceptClass != null) {
+				conceptDto.setConceptClass(conceptClass.getUuid());
+			}
 
 			list.add(conceptDto);
 		}

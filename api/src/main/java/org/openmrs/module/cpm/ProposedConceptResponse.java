@@ -6,6 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
+import org.openmrs.ConceptDatatype;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +32,10 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private Integer version;
 	private List<ProposedConceptResponseName> names;
 	private List<ProposedConceptResponseDescription> descriptions;
+
+	private ConceptDatatype datatype;
+	private ConceptClass conceptClass;
+	private ProposedConceptResponseNumeric numericDetails;
 
 	private String reviewComment;
 
@@ -107,6 +113,36 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@JoinColumn(name = "concept_id")
 	public Concept getConcept() {
 		return concept;
+	}
+
+	public void setDatatype(ConceptDatatype datatype) {
+		this.datatype = datatype;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "datatype_id")
+	public ConceptDatatype getDatatype() {
+		return datatype;
+	}
+
+	public void setConceptClass(ConceptClass conceptClass) {
+		this.conceptClass = conceptClass;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "concept_class_id")
+	public ConceptClass getConceptClass() {
+		return conceptClass;
+	}
+
+	public void setNumericDetails(ProposedConceptResponseNumeric numericDetails) {
+		this.numericDetails = numericDetails;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cpm_proposed_concept_response_numeric_id")
+	public ProposedConceptResponseNumeric getNumericDetails() {
+		return numericDetails;
 	}
 
 	public String getReviewComment() {

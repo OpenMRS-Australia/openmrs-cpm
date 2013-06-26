@@ -4,7 +4,7 @@ Welcome to the OpenMRS Concept Proposal Module!
 Intro
 -----
 
-[OpenMRS](http://openmrs.org) is an Java based open source medical records system
+[OpenMRS](http://openmrs.org) is an open source medical records system
 actively developed by volunteers worldwide to support healthcare delivery in
 developing nations.
 
@@ -14,14 +14,19 @@ dictionary database.  There are 2 parts to this module: The proposal and the rev
 
 To find out more information, visit our [wiki](https://wiki.openmrs.org/display/projects/Melbourne+Hack+Night+-+Concept+Proposal+Module)
 
+How to Contribute
+-----------------
 
-Build Requirements
-------------------
+We are looking for volunteers to help!  Please contact us via the [mailing list](http://groups.google.com/d/forum/openmrs-australia)
+or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Melbourne, Australia.
 
-* A Java Development Kit (either Oracle or OpenJDK)
-* Maven
-* Git
+If you're new to web or Java development, or are just curious to see what we're working with, have a look at
+the [summary of technologies used](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Resources).
 
+We ask that contributors please submit contributions in the form of [pull
+requests](https://help.github.com/articles/using-pull-requests) in order for a
+member of our team to review the code appropriately as any commits to master
+are picked up by our continuous deployment server.
 
 Quickstart
 ----------
@@ -36,22 +41,7 @@ Quickstart
 5. Install the module into OpenMRS by uploading the OMOD file within administration section:
     * Administration -> Manage Modules -> Add or upgrade module -> Add module
 
-
-How to Contribute
------------------
-
-We are looking for volunteers to help!  Please contact us via the [mailing list](http://groups.google.com/d/forum/openmrs-australia)
-or through the [meetup](http://www.meetup.com/melbourne-hack-nights) based in Melbourne, Australia.
-
-If you're new to web or Java development, or are just curious to see what we're working with, have a look at
-the [summary of technologies used](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Resources).
-
 The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
-
-We ask that contributors please submit contributions in the form of [pull
-requests](https://help.github.com/articles/using-pull-requests) in order for a
-member of our team to review the code appropriately as any commits to master
-are picked up by our continuous deployment server.
 
 Sample workflow
 ---------------
@@ -90,4 +80,8 @@ OpenMRS core source: https://github.com/openmrs/openmrs-core
 Concept Proposal Module Documentation:
 http://wiki.openmrs.org/display/projects/Concept+Proposal+Module+Documentation
 
+CI server: http://ec2-50-112-42-202.us-west-2.compute.amazonaws.com:8153/go/
 
+Mingle: https://minglehosting.thoughtworks.com/unicef/profile/login?project_id=openmrs_oz
+
+QA environment: http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs

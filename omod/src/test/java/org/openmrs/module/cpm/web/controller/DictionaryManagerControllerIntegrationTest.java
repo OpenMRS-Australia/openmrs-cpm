@@ -24,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @PrepareForTest(Context.class)
 @Ignore
-public class TestDictionaryManagerController extends BaseCpmOmodTest {
+public class DictionaryManagerControllerIntegrationTest extends BaseCpmOmodTest {
 
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
