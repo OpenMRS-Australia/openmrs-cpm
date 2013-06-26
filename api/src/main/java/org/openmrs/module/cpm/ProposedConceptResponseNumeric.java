@@ -3,11 +3,10 @@ package org.openmrs.module.cpm;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.BaseOpenmrsObject;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "cpm_proposed_concept_response_numeric")
 public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 
 	private Integer id;
@@ -31,6 +30,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+	@Column(name = "cpm_proposed_concept_response_numeric_id")
 	@Override
 	public Integer getId() {
 		return id;
@@ -41,6 +41,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.id = id;
 	}
 
+	@Column(name = "hi_absolute")
 	public Double getHiAbsolute() {
 		return hiAbsolute;
 	}
@@ -49,6 +50,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.hiAbsolute = hiAbsolute;
 	}
 
+	@Column(name = "hi_critical")
 	public Double getHiCritical() {
 		return hiCritical;
 	}
@@ -57,6 +59,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.hiCritical = hiCritical;
 	}
 
+	@Column(name = "hi_normal")
 	public Double getHiNormal() {
 		return hiNormal;
 	}
@@ -65,6 +68,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.hiNormal = hiNormal;
 	}
 
+	@Column(name = "low_absolute")
 	public Double getLowAbsolute() {
 		return lowAbsolute;
 	}
@@ -73,6 +77,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.lowAbsolute = lowAbsolute;
 	}
 
+	@Column(name = "low_critical")
 	public Double getLowCritical() {
 		return lowCritical;
 	}
@@ -81,6 +86,7 @@ public class ProposedConceptResponseNumeric extends BaseOpenmrsObject {
 		this.lowCritical = lowCritical;
 	}
 
+	@Column(name = "low_normal")
 	public Double getLowNormal() {
 		return lowNormal;
 	}
