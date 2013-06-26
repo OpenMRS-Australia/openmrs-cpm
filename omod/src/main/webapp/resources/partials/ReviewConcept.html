@@ -49,6 +49,19 @@
 
 <p>Datatype: {{concept.datatype}}</p>
 <p>Class: {{concept.conceptClass}}</p>
+<p ng-show="concept.numericDetails != null">Numeric details:
+<table>
+    <tr><td>Absolute High<td><td>{{concept.numericDetails.absoluteHigh}}</td></tr>
+    <tr><td>Critical High<td><td>{{concept.numericDetails.criticalHigh}}</td></tr>
+    <tr><td>Normal High<td><td>{{concept.numericDetails.normalHigh}}</td></tr>
+    <tr><td>Normal Low<td><td>{{concept.numericDetails.normalLow}}</td></tr>
+    <tr><td>Critical Low<td><td>{{concept.numericDetails.criticalLow}}</td></tr>
+    <tr><td>Absolute Low<td><td>{{concept.numericDetails.absoluteLow}}</td></tr>
+    <tr><td><td><td>(range values are inclusive)</td></tr>
+    <tr><td>Units<td><td>{{concept.numericDetails.units}}</td></tr>
+    <tr><td>Precise?<td><td>{{concept.numericDetails.precise}}</td></tr>
+</table>
+</p>
 <p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
 <p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
 <p><button ng-click="saveReviewComment()">Save comments</button></p>
