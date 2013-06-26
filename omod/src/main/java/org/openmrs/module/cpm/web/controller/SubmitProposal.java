@@ -4,7 +4,9 @@ import org.apache.commons.codec.binary.Base64;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConcept;
@@ -14,6 +16,7 @@ import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.module.cpm.web.dto.concept.NumericDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -66,7 +69,27 @@ public class SubmitProposal {
 
 			ConceptDatatype conceptDatatype = concept.getDatatype();
 			if (conceptDatatype != null) {
-				conceptDto.setDatatype(conceptDatatype.getUuid());
+				final String uuid = conceptDatatype.getUuid();
+				conceptDto.setDatatype(uuid);
+
+				// when datatype is numeric, add numeric metadata to payload
+
+				if (uuid == ConceptDatatype.NUMERIC_UUID) {
+					ConceptService conceptService = Context.getConceptService();
+					final ConceptNumeric conceptNumeric = conceptService.getConceptNumericByUuid(uuid);
+
+					NumericDto numericDto = new NumericDto();
+					numericDto.setUnits(conceptNumeric.getUnits());
+					numericDto.setPrecise(conceptNumeric.getPrecise());
+					numericDto.setHiNormal(conceptNumeric.getHiNormal());
+					numericDto.setHiCritical(conceptNumeric.getHiCritical());
+					numericDto.setHiAbsolute(conceptNumeric.getHiAbsolute());
+					numericDto.setLowNormal(conceptNumeric.getLowNormal());
+					numericDto.setLowCritical(conceptNumeric.getLowCritical());
+					numericDto.setLowAbsolute(conceptNumeric.getLowAbsolute());
+
+					conceptDto.setNumericDetails(numericDto);
+				}
 			}
 
 			final ConceptClass conceptClass = concept.getConceptClass();

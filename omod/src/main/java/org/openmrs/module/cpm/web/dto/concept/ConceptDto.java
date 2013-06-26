@@ -15,6 +15,8 @@ public class ConceptDto {
 
 	private String conceptClass;
 
+	private NumericDto numericDetails;
+
 	private List<DescriptionDto> descriptions;
 
 	// for UI, not necessary for submission
@@ -60,6 +62,14 @@ public class ConceptDto {
 
 	public void setConceptClass(String conceptClass) {
 		this.conceptClass = conceptClass;
+	}
+
+	public NumericDto getNumericDetails() {
+		return numericDetails;
+	}
+
+	public void setNumericDetails(NumericDto numericDetails) {
+		this.numericDetails = numericDetails;
 	}
 
 	public List<DescriptionDto> getDescriptions() {
