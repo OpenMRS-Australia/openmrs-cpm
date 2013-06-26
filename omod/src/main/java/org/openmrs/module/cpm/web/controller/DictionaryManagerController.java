@@ -76,10 +76,11 @@ public class DictionaryManagerController {
 				}
 				response.setDatatype(conceptDatatype);
 
-				if (conceptDatatype.getUuid() == ConceptDatatype.NUMERIC_UUID) {
-					final NumericDto numericDetails = concept.getNumericDetails();
+				if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
 
+					final NumericDto numericDetails = concept.getNumericDetails();
 					ProposedConceptResponseNumeric proposedConceptResponseNumeric = new ProposedConceptResponseNumeric();
+
 					proposedConceptResponseNumeric.setUnits(numericDetails.getUnits());
 					proposedConceptResponseNumeric.setPrecise(numericDetails.getPrecise());
 					proposedConceptResponseNumeric.setHiNormal(numericDetails.getHiNormal());
@@ -88,6 +89,7 @@ public class DictionaryManagerController {
 					proposedConceptResponseNumeric.setLowNormal(numericDetails.getLowNormal());
 					proposedConceptResponseNumeric.setLowCritical(numericDetails.getLowCritical());
 					proposedConceptResponseNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
+
 					response.setNumericDetails(proposedConceptResponseNumeric);
 				}
 

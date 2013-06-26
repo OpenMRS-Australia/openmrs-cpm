@@ -13,15 +13,12 @@ import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.concept.NumericDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import java.nio.charset.Charset;
@@ -74,9 +71,9 @@ public class SubmitProposal {
 
 				// when datatype is numeric, add numeric metadata to payload
 
-				if (uuid == ConceptDatatype.NUMERIC_UUID) {
+				if (uuid.equals(ConceptDatatype.NUMERIC_UUID)) {
 					ConceptService conceptService = Context.getConceptService();
-					final ConceptNumeric conceptNumeric = conceptService.getConceptNumericByUuid(uuid);
+					final ConceptNumeric conceptNumeric = conceptService.getConceptNumeric(concept.getId());
 
 					NumericDto numericDto = new NumericDto();
 					numericDto.setUnits(conceptNumeric.getUnits());
