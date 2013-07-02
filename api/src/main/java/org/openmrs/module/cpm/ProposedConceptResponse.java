@@ -38,6 +38,7 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	private ProposedConceptResponseNumeric numericDetails;
 
 	private String reviewComment;
+	private List<ProposedConceptResponseAnswer> codedDetails;
 
 	public ProposedConceptResponse() {
 		super();
@@ -151,5 +152,14 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 
 	public void setReviewComment(String reviewComment) {
 		this.reviewComment = reviewComment;
+	}
+
+	public void setCodedDetails(List<ProposedConceptResponseAnswer> codedDetails) {
+		this.codedDetails = codedDetails;
+	}
+
+	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptResponseAnswer> getCodedDetails() {
+		return codedDetails;
 	}
 }
