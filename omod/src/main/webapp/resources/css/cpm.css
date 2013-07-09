@@ -75,3 +75,11 @@ div.loading {
 #cpm-settings #url { width: 350px; }
 
 #menu li { padding-right: 5px; }
+
+.cpm-button-guidance {
+	width: 600px;
+}
+
+.cpm-button-group {
+	margin-top: 1em;
+}

@@ -40,21 +40,21 @@
 <button ng-click="dialog='open'" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
 </p>
 
-<div>
+<div class="cpm-button-guidance">
   <div ng-show="!isEdit">
     <span>You must save the proposal before it can be sent.</span>
   </div>
-  <div ng-show="!proposal.description && isEdit">
+  <div class="error" ng-show="!proposal.description && isEdit">
     <span>You must provide an overall description before the proposal can be sent.</span>
   </div>
 </div>
 
-<div>
+<div class="cpm-button-group">
   <button ng-click="save()" ng-disabled="form.$invalid || isReadOnly" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
   <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || !isValidForSending()" accesskey="e" ng-switch="isSubmitting">
     <span ng-switch-when="true">Sending...</span>
     <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
-   </button>
+  </button>
   <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
 </div>
 </form>
