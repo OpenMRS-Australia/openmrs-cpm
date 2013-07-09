@@ -253,4 +253,22 @@
         </addColumn>
     </changeSet>
 
+    <!-- Replicating the concept_answer table for our sandbox -->
+    <changeSet id="cpm_2013-07-02-1" author="cpm">
+        <createTable tableName="cpm_proposed_concept_response_answer">
+            <column autoIncrement="true" name="cpm_proposed_concept_response_answer_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="proposed_concept_response" type="int"/>
+
+            <column name="answer_concept_uuid" type="varchar(38)"/>
+            <column name="answer_drug_uuid" type="varchar(38)"/>
+
+            <column name="sort_weight" type="double precision"></column>
+        </createTable>
+        <addColumn tableName="cpm_proposed_concept_response">
+            <column name="cpm_proposed_concept_response_answer_id" type="int"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

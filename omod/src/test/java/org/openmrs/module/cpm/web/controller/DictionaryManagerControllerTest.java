@@ -1,7 +1,7 @@
 package org.openmrs.module.cpm.web.controller;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.openmrs.ConceptClass;
@@ -18,11 +18,9 @@ import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -73,6 +71,7 @@ public class DictionaryManagerControllerTest {
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
 		when(conceptServiceMock.getConceptDatatypeByUuid("blah")).thenReturn(dataTypeMock);
 		when(conceptServiceMock.getConceptClassByUuid("blah")).thenReturn(conceptClassMock);
+		when(dataTypeMock.getUuid()).thenReturn("uuid!");
 
 		when(Context.getService(ProposedConceptService.class)).thenReturn(proposedConceptServiceMock);
 

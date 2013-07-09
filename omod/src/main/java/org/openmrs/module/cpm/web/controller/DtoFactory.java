@@ -1,12 +1,16 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponseDescription;
 import org.openmrs.module.cpm.ProposedConceptResponseName;
+import org.openmrs.module.cpm.ProposedConceptResponseNumeric;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.cpm.web.dto.concept.NumericDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +37,23 @@ public class DtoFactory {
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
 
-		if (conceptProposal.getDatatype() != null) {
-			conceptProposalDto.setDatatype(conceptProposal.getDatatype().getName());
+		final ConceptDatatype conceptDatatype = conceptProposal.getDatatype();
+		if (conceptDatatype != null) {
+			conceptProposalDto.setDatatype(conceptDatatype.getName());
+
+			if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
+				ProposedConceptResponseNumeric conceptNumeric = conceptProposal.getNumericDetails();
+				NumericDto numericDto = new NumericDto();
+				numericDto.setUnits(conceptNumeric.getUnits());
+				numericDto.setPrecise(conceptNumeric.getPrecise());
+				numericDto.setHiNormal(conceptNumeric.getHiNormal());
+				numericDto.setHiCritical(conceptNumeric.getHiCritical());
+				numericDto.setHiAbsolute(conceptNumeric.getHiAbsolute());
+				numericDto.setLowNormal(conceptNumeric.getLowNormal());
+				numericDto.setLowCritical(conceptNumeric.getLowCritical());
+				numericDto.setLowAbsolute(conceptNumeric.getLowAbsolute());
+				conceptProposalDto.setNumericDetails(numericDto);
+			}
 		}
 
 		if (conceptProposal.getConceptClass() != null) {

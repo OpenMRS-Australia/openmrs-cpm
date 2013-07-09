@@ -43,6 +43,13 @@ define(['./index', 'config', 'js/services/services', 'js/services/menu'], functi
       $scope.isReadOnly = false;
     }
 
+    $scope.isValidForSending = function() {
+      return $scope.isSubmitting === false &&
+        $scope.proposal.concepts.length > 0 &&
+        $scope.isReadOnly === false &&
+        !!$scope.proposal.description;
+    };
+
     $scope.nameErrorMsg = function() {
       if ($scope.form.name.$dirty && $scope.form.name.$invalid) {
         return "Name is required";
@@ -59,7 +66,7 @@ define(['./index', 'config', 'js/services/services', 'js/services/menu'], functi
     };
 
     $scope.save = function() {
-			//$scope.proposal.concepts=$scope.selectedConcepts;
+      //$scope.proposal.concepts=$scope.selectedConcepts;
 
       $scope.isLoading = true;
       if ($scope.isEdit) {
@@ -79,16 +86,16 @@ define(['./index', 'config', 'js/services/services', 'js/services/menu'], functi
     };
 
     $scope.submit = function() {
-		$scope.proposal.status = 'TBS';
-		$scope.proposal.$update(function() {
-			$scope.isSubmitting = false;
-			$scope.isLoading = false;
-		 }, function() {
-			$scope.isSubmitting = false;
-			$scope.isLoading = false;
-		});
-		$scope.isSubmitting = true;
-		$scope.isLoading = true;
+      $scope.proposal.status = 'TBS';
+      $scope.proposal.$update(function() {
+        $scope.isSubmitting = false;
+        $scope.isLoading = false;
+      }, function() {
+        $scope.isSubmitting = false;
+        $scope.isLoading = false;
+      });
+      $scope.isSubmitting = true;
+      $scope.isLoading = true;
     };
 
     $scope.deleteProposal = function() {
@@ -110,6 +117,6 @@ define(['./index', 'config', 'js/services/services', 'js/services/menu'], functi
           }
         }
       }
-    }
+    };
   }]);
 });

@@ -605,4 +605,35 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 
 	}
 
+	@Test
+	public void saveAndFetchProposedConceptWithCodedDatatype_shouldMatchCodedData() {
+
+		ProposedConceptResponsePackage testPackage = new ProposedConceptResponsePackage();
+		testPackage.setName("name");
+		testPackage.setEmail("asdf@asdf.com");
+		ProposedConceptResponse conceptResponse = new ProposedConceptResponse();
+		conceptResponse.setComment("This is a proposer's comment");
+
+		final ConceptDatatype datatype = Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+		conceptResponse.setDatatype(datatype);
+
+		List<ProposedConceptResponseAnswer> answerList = new ArrayList<ProposedConceptResponseAnswer>();
+		ProposedConceptResponseAnswer conceptAnswer = new ProposedConceptResponseAnswer();
+		conceptAnswer.setAnswerConceptUuid("concept");
+		conceptAnswer.setAnswerDrugUuid("drug");
+		conceptAnswer.setSortWeight(1.0);
+		answerList.add(conceptAnswer);
+		conceptResponse.setCodedDetails(answerList);
+
+		testPackage.addProposedConcept(conceptResponse);
+		service.saveProposedConceptResponsePackage(testPackage);
+
+		final ProposedConceptResponsePackage retrievedPackage = service.getProposedConceptResponsePackageById(testPackage.getId());
+		ArrayList<ProposedConceptResponse> responses = new ArrayList<ProposedConceptResponse>(retrievedPackage.getProposedConcepts());
+		assertThat(responses.get(0).getCodedDetails().get(0).getAnswerConceptUuid(), is("concept"));
+		assertThat(responses.get(0).getCodedDetails().get(0).getAnswerDrugUuid(), is("drug"));
+		assertThat(responses.get(0).getCodedDetails().get(0).getSortWeight(), is(1.0));
+
+	}
+
 }

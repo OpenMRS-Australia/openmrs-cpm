@@ -47,8 +47,36 @@
     </tbody>
 </table>
 
-<p>Datatype: {{concept.datatype}}</p>
-<p>Class: {{concept.conceptClass}}</p>
+<b class="boxHeader" style="margin-top: 1em;">Meta-data</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <tr>
+        <td width="200"><strong>Datatype</strong></td>
+        <td>{{concept.datatype}}</td>
+    </tr>
+    <tr>
+        <td><strong>Class</strong></td>
+        <td>{{concept.conceptClass}}</td>
+    </tr>
+    <tbody ng-show="concept.numericDetails != null">
+        <tr>
+            <td valign="top"><strong>Numeric details</strong></td>
+            <td>
+                <table>
+                    <tr><td>Absolute High<td><td>{{concept.numericDetails.absoluteHigh | dashOnNull}}</td></tr>
+                    <tr><td>Critical High<td><td>{{concept.numericDetails.criticalHigh | dashOnNull}}</td></tr>
+                    <tr><td>Normal High<td><td>{{concept.numericDetails.normalHigh | dashOnNull}}</td></tr>
+                    <tr><td>Normal Low<td><td>{{concept.numericDetails.normalLow | dashOnNull}}</td></tr>
+                    <tr><td>Critical Low<td><td>{{concept.numericDetails.criticalLow | dashOnNull}}</td></tr>
+                    <tr><td>Absolute Low<td><td>{{concept.numericDetails.absoluteLow | dashOnNull}}</td></tr>
+                    <tr><td><td><td><em style="font-size: smaller;">(range values are inclusive)</em></td></tr>
+                    <tr><td>Units<td><td>{{concept.numericDetails.units | dashOnNull}}</td></tr>
+                    <tr><td>Precise?<td><td>{{concept.numericDetails.precise | boolToYesOrNo}}</td></tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 <p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
 <p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
 <p><button ng-click="saveReviewComment()">Save comments</button></p>

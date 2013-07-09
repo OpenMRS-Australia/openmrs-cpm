@@ -4,10 +4,7 @@ import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponseDescription;
-import org.openmrs.module.cpm.ProposedConceptResponseName;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
+import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
@@ -15,6 +12,7 @@ import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.SubmissionStatusDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.cpm.web.dto.concept.NumericDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,6 +75,23 @@ public class DictionaryManagerController {
 					throw new NullPointerException("Datatype expected");
 				}
 				response.setDatatype(conceptDatatype);
+
+				if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
+
+					final NumericDto numericDetails = concept.getNumericDetails();
+					ProposedConceptResponseNumeric proposedConceptResponseNumeric = new ProposedConceptResponseNumeric();
+
+					proposedConceptResponseNumeric.setUnits(numericDetails.getUnits());
+					proposedConceptResponseNumeric.setPrecise(numericDetails.getPrecise());
+					proposedConceptResponseNumeric.setHiNormal(numericDetails.getHiNormal());
+					proposedConceptResponseNumeric.setHiCritical(numericDetails.getHiCritical());
+					proposedConceptResponseNumeric.setHiAbsolute(numericDetails.getHiAbsolute());
+					proposedConceptResponseNumeric.setLowNormal(numericDetails.getLowNormal());
+					proposedConceptResponseNumeric.setLowCritical(numericDetails.getLowCritical());
+					proposedConceptResponseNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
+
+					response.setNumericDetails(proposedConceptResponseNumeric);
+				}
 
 				final ConceptClass conceptClass = Context.getConceptService().getConceptClassByUuid(concept.getConceptClass());
 				if (conceptClass == null) {
