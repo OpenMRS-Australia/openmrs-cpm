@@ -1,3 +1,6 @@
+// to run karma:
+// $ karma start
+
 var tests = Object.keys(window.__karma__.files).filter(function (file) {
     return /Spec\.js$/.test(file);
 });
