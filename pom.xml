@@ -36,6 +36,7 @@
 	<properties>
 		<openMRSVersion>1.9.2</openMRSVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<openMRSWorkingModuleDir></openMRSWorkingModuleDir>
 	</properties>
 
 	<dependencyManagement>
