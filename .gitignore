@@ -26,3 +26,9 @@ openmrs-standalone/*
 openmrs-standalone-*
 /dependencies.txt
 /deploy.bat
+
+# Netbeans
+nbproject
+
+# Gitignore
+.gitignore
