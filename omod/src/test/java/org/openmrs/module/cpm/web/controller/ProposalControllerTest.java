@@ -17,6 +17,8 @@ import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
+import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -51,7 +53,8 @@ public class ProposalControllerTest {
 	UpdateProposedConceptPackage updateProposedConceptPackage;
 
     @InjectMocks
-    ProposalController controller = new ProposalController();
+    ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
+            new DescriptionDtoFactory(), new NameDtoFactory());
 
 	@Before
 	public void before() throws Exception {
@@ -73,7 +76,7 @@ public class ProposalControllerTest {
 
 		InOrder inOrder = inOrder(updateProposedConceptPackage, submitProposal);
 		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage, null);
+		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
 	}
 
 	@Test
@@ -83,7 +86,7 @@ public class ProposalControllerTest {
 		controller.updateProposal("1", dto);
 
 		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		verify(submitProposal, times(0)).submitProposedConcept(conceptPackage, null);
+		verify(submitProposal, times(0)).submitProposedConcept(conceptPackage);
     }
 
     @Test

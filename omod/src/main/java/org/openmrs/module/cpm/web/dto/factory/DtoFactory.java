@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.cpm.web.dto.factory;
 
 import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptNumeric;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DtoFactory {
 
-	static ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
+	public static ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
 		final ProposedConceptResponseDto conceptProposalDto = new ProposedConceptResponseDto();
 
 		final List<ProposedConceptResponseName> names = conceptProposal.getNames();
