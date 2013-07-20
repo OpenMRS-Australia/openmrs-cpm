@@ -2,7 +2,7 @@ package org.openmrs.module.cpm.web.dto;
 
 import org.openmrs.module.cpm.SubmissionResponseStatus;
 
-public class SubmissionResponseDto implements Dto {
+public class SubmissionResponseDto {
 
     private int id;
 

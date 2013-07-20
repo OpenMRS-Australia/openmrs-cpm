@@ -1,10 +1,8 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-import org.openmrs.module.cpm.web.dto.Dto;
-
 import java.util.Collection;
 
-public class ConceptDto implements Dto {
+public class ConceptDto {
 
 	private int id;
 

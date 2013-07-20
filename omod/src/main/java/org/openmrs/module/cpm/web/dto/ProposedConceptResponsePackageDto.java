@@ -2,7 +2,7 @@ package org.openmrs.module.cpm.web.dto;
 
 import java.util.List;
 
-public class ProposedConceptResponsePackageDto implements Dto {
+public class ProposedConceptResponsePackageDto {
 
 	private int id;
 

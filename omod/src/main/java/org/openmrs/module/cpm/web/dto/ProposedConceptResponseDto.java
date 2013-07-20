@@ -1,6 +1,6 @@
 package org.openmrs.module.cpm.web.dto;
 
-public class ProposedConceptResponseDto extends ProposedConceptDto implements Dto {
+public class ProposedConceptResponseDto extends ProposedConceptDto {
 
 	private String reviewComment;
 

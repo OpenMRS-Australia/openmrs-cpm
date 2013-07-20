@@ -1,10 +1,10 @@
 package org.openmrs.module.cpm.web.dto;
 
-import java.util.List;
-
 import org.openmrs.module.cpm.PackageStatus;
 
-public class ProposedConceptPackageDto implements Dto {
+import java.util.List;
+
+public class ProposedConceptPackageDto {
 
 	private int id;
 
