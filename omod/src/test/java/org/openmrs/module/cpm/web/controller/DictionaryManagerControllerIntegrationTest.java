@@ -5,10 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDescription;
@@ -87,8 +84,7 @@ public class DictionaryManagerControllerIntegrationTest extends BaseCpmOmodTest 
 
         assertNotNull(response);
         assertTrue(SubmissionResponseStatus.FAILURE.equals(response.getStatus()));
-        assertTrue(response.getMessage() != null);
-        Assert.assertTrue(!response.getMessage().equalsIgnoreCase("All Good!"));
+
 
     }
 

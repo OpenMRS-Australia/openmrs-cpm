@@ -2,23 +2,16 @@ package org.openmrs.module.cpm.web.dto.validator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.*;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.directwebremoting.util.Logger;
-import org.openmrs.Concept;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptNameType;
-import org.openmrs.api.DuplicateConceptNameException;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
-import org.openmrs.validator.ConceptReferenceTermValidator;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.ValidationUtils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class ConceptDtoValidator{
@@ -61,7 +54,7 @@ public class ConceptDtoValidator{
 	 * @should pass for a new concept with a map created with deprecated concept map methods
 	 * @should pass for an edited concept with a map created with deprecated concept map methods
 	 */
-    public Boolean isValid(final ConceptDto conceptDto) {
+    public Boolean validate(final ConceptDto conceptDto) {
         Boolean isValid = Boolean.TRUE;
 
         if (conceptDto == null ) {
@@ -113,9 +106,11 @@ public class ConceptDtoValidator{
                 new Function<NameDto, String>() {
                     @Override
                     public String apply(NameDto item) {
-                        return item.getLocale();
+                        return item.getLocale() != null ? item.getLocale() : "";
                     }
                 });
+
+
 
         //FInd the duplicates
         Function<NameDto, String> convertToNameStringFunction = new Function<NameDto,String>() {
@@ -125,9 +120,48 @@ public class ConceptDtoValidator{
                 };
 
         for(String locale: groupedByLocaleNameDtos.keys()) {
-            Iterable<String> names = Iterables.transform(groupedByLocaleNameDtos.get(locale), convertToNameStringFunction);
-            List<String> nonDuplicateNames = ImmutableSet.copyOf(names).asList();
-            if(nonDuplicateNames.size() < ((Collection<?>)names).size())  {
+            //Cannot have 2 same Name TYPE within 1 locale
+            String fullName = null;
+            String shortName = null;
+            String otherName = null;
+            for(NameDto nameDto : groupedByLocaleNameDtos.get(locale)) {
+               if(ConceptNameType.FULLY_SPECIFIED.equals(nameDto.getType())) {
+                    if(fullName == null) {
+                        fullName = nameDto.getName();
+                    } else {
+                        return true;
+                    }
+                }
+                if(ConceptNameType.SHORT.equals(nameDto.getType())) {
+                    if(shortName == null) {
+                        shortName = nameDto.getName();
+                    } else {
+                        return true;
+                    }
+                }
+
+                if(nameDto.getType() == null) {
+                    if(otherName == null) {
+                        otherName = nameDto.getName();
+                    } else {
+                        return true;
+                    }
+                }
+            }
+
+
+            //Cannot have 2 identical name String within 1 locale ( regardless of name TYPE)
+            Iterator<String> names = Iterables.transform(groupedByLocaleNameDtos.get(locale), convertToNameStringFunction).iterator();
+            int existingSize = 0;
+            List<String> localeSpecificNames = Lists.newArrayList();
+
+            while(names.hasNext()) {
+                localeSpecificNames.add(names.next()) ;
+                existingSize++;
+
+            }
+            List<String> nonDuplicateNames = ImmutableSet.copyOf(localeSpecificNames).asList();
+            if(nonDuplicateNames.size() < existingSize)  {
                 //found duplicate
                 return true;
             }

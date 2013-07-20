@@ -41,6 +41,7 @@ public class DictionaryManagerController {
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
+        //TODO: method size getting large...
         final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
         SubmissionResponseDto responseDto = new SubmissionResponseDto();
 
@@ -124,6 +125,7 @@ public class DictionaryManagerController {
             service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
             responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
             responseDto.setMessage("All Good!");
+            responseDto.setId(proposedConceptResponsePackage.getId());
 
         } catch (Exception ex) {
             //TODO: update error handling, more specific catch block rather than the generic Exception, add proper logging etc.
@@ -132,7 +134,6 @@ public class DictionaryManagerController {
             responseDto.setMessage(ex.getMessage());
         }
 
-        responseDto.setId(proposedConceptResponsePackage.getId());
         return responseDto;
     }
 

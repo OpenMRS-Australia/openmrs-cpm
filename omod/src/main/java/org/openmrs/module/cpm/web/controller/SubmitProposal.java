@@ -74,7 +74,7 @@ public class SubmitProposal {
 //        TODO: Find out how to determine success/failure for the submission returned by dictionarymanagercontroller
        if (responseEntity == null || !responseEntity.getStatusCode().equals(HttpStatus.SC_OK) ) {
 //            throw new ConceptProposalSubmissionException("Error in submitting proposed concept");
-            log.error("REsponseEntity is " + responseEntity.toString() );
+            log.error("REsponseEntity status code is " + responseEntity.getStatusCode() );
         }
         conceptPackage.setStatus(PackageStatus.SUBMITTED);
         Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);

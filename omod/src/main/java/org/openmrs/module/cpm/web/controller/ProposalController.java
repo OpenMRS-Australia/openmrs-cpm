@@ -15,8 +15,12 @@ import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
+import org.openmrs.validator.ConceptValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.DirectFieldBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,15 +45,19 @@ public class ProposalController {
 
     private final NameDtoFactory nameDtoFactory;
 
+    private final ConceptDtoValidator conceptDtoValidator;
+
     @Autowired
     public ProposalController (final SubmitProposal submitProposal,
                                final UpdateProposedConceptPackage updateProposedConceptPackage,
                                final DescriptionDtoFactory descriptionDtoFactory,
-                               final NameDtoFactory nameDtoFactory) {
+                               final NameDtoFactory nameDtoFactory,
+                               final ConceptDtoValidator conceptDtoValidator) {
         this.submitProposal = submitProposal;
         this.updateProposedConceptPackage = updateProposedConceptPackage;
         this.descriptionDtoFactory = descriptionDtoFactory;
         this.nameDtoFactory = nameDtoFactory;
+        this.conceptDtoValidator = conceptDtoValidator;
     }
 
 	//
@@ -75,12 +83,19 @@ public class ProposalController {
         if (query.equals("")) {
             final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
             for (final Concept concept : allConcepts) {
-                results.add(createConceptDto(concept));
+                ConceptDto conceptDto = createConceptDto(concept);
+                if(conceptDtoValidator.validate(conceptDto)) {
+                    results.add(conceptDto);
+                }
             }
         } else {
             final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
             for (final ConceptSearchResult conceptSearchResult : concepts) {
-                results.add(createConceptDto(conceptSearchResult.getConcept()));
+                ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
+                if(conceptDtoValidator.validate(conceptDto)) {
+                    results.add(conceptDto);
+
+                }
             }
         }
         SearchConceptResultDto resultDto = new SearchConceptResultDto();
