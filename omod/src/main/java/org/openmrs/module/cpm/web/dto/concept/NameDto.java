@@ -1,8 +1,9 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.module.cpm.web.dto.Dto;
 
-public class NameDto {
+public class NameDto implements Dto {
 
 	private String name;
 

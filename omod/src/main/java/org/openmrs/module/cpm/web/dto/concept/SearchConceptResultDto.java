@@ -1,8 +1,10 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
+import org.openmrs.module.cpm.web.dto.Dto;
+
 import java.util.List;
 
-public class SearchConceptResultDto {
+public class SearchConceptResultDto implements Dto {
 
     private String requestNum;
 

@@ -1,6 +1,6 @@
 package org.openmrs.module.cpm.web.dto;
 
-public class Settings {
+public class Settings implements Dto {
 
 	private String url;
 

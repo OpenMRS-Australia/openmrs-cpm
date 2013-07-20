@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Component
 public class NameDtoFactory {
 
-    public static ArrayList<NameDto> create(Concept concept) {
+    public ArrayList<NameDto> create(Concept concept) {
         ArrayList<NameDto> nameDtos = Lists.newArrayList();
         for (ConceptName name: concept.getNames()) {
             NameDto nameDto = new NameDto();

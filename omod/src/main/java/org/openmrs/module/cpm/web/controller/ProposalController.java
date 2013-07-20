@@ -44,7 +44,8 @@ public class ProposalController {
     @Autowired
     public ProposalController (final SubmitProposal submitProposal,
                                final UpdateProposedConceptPackage updateProposedConceptPackage,
-                               final DescriptionDtoFactory descriptionDtoFactory, final NameDtoFactory nameDtoFactory) {
+                               final DescriptionDtoFactory descriptionDtoFactory,
+                               final NameDtoFactory nameDtoFactory) {
         this.submitProposal = submitProposal;
         this.updateProposedConceptPackage = updateProposedConceptPackage;
         this.descriptionDtoFactory = descriptionDtoFactory;
@@ -193,17 +194,6 @@ public class ProposalController {
 		return submitProposal;
 	}
 
-    public static ArrayList<NameDto> getNameDtos(Concept concept) {
-        ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
-        for (ConceptName name: concept.getNames()) {
-            NameDto nameDto = new NameDto();
-            nameDto.setName(name.getName());
-            nameDto.setType(name.getConceptNameType());
-            nameDto.setLocale(name.getLocale().toString());
-            nameDtos.add(nameDto);
-        }
-        return nameDtos;
-    }
 
 
     private ConceptDto createConceptDto(final Concept concept) {

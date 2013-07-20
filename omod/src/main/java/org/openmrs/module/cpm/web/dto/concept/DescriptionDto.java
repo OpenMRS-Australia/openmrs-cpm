@@ -1,6 +1,8 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-public class DescriptionDto {
+import org.openmrs.module.cpm.web.dto.Dto;
+
+public class DescriptionDto implements Dto {
 
 	private String description;
 

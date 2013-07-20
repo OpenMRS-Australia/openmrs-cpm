@@ -1,12 +1,14 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-import java.util.List;
+import org.openmrs.module.cpm.web.dto.Dto;
 
-public class ConceptDto {
+import java.util.Collection;
+
+public class ConceptDto implements Dto {
 
 	private int id;
 
-	private List<NameDto> names;
+	private Collection<NameDto> names;
 
 	// for UI, not necessary for submission
 	private String preferredName;
@@ -17,7 +19,7 @@ public class ConceptDto {
 
 	private NumericDto numericDetails;
 
-	private List<DescriptionDto> descriptions;
+	private Collection<DescriptionDto> descriptions;
 
 	// for UI, not necessary for submission
 	private String currLocaleDescription;
@@ -32,11 +34,11 @@ public class ConceptDto {
 		this.id = id;
 	}
 
-	public List<NameDto> getNames() {
+	public Collection<NameDto> getNames() {
 		return names;
 	}
 
-	public void setNames(List<NameDto> names) {
+	public void setNames(Collection<NameDto> names) {
 		this.names = names;
 	}
 
@@ -72,11 +74,11 @@ public class ConceptDto {
 		this.numericDetails = numericDetails;
 	}
 
-	public List<DescriptionDto> getDescriptions() {
+	public Collection<DescriptionDto> getDescriptions() {
 		return descriptions;
 	}
 
-	public void setDescriptions(List<DescriptionDto> descriptions) {
+	public void setDescriptions(Collection<DescriptionDto> descriptions) {
 		this.descriptions = descriptions;
 	}
 

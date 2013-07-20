@@ -2,7 +2,7 @@ package org.openmrs.module.cpm.web.dto;
 
 import org.openmrs.module.cpm.PackageStatus;
 
-public class SubmissionStatusDto {
+public class SubmissionStatusDto implements Dto {
 
 	private PackageStatus status;
 

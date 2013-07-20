@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.openmrs.module.cpm.PackageStatus;
 
-public class ProposedConceptPackageDto {
+public class ProposedConceptPackageDto implements Dto {
 
 	private int id;
 

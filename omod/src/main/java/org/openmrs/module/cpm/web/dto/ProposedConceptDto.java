@@ -5,7 +5,7 @@ import org.openmrs.module.cpm.ProposalStatus;
 import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProposedConceptDto extends ConceptDto {
+public class ProposedConceptDto extends ConceptDto implements Dto {
 
     private String comment;
 

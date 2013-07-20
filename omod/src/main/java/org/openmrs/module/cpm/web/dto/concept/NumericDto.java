@@ -1,6 +1,8 @@
 package org.openmrs.module.cpm.web.dto.concept;
 
-public class NumericDto {
+import org.openmrs.module.cpm.web.dto.Dto;
+
+public class NumericDto implements Dto {
 
 	private Double hiAbsolute;
 

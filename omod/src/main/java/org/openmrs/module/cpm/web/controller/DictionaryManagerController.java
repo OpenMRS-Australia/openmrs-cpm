@@ -1,11 +1,13 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.directwebremoting.util.Logger;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.api.exception.ConceptProposalSubmissionException;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
@@ -30,103 +32,127 @@ import java.util.Locale;
 @Controller
 public class DictionaryManagerController {
 
-	//
-	// Proposer-Reviewer webservice endpoints
-	//
+    protected final Logger log = Logger.getLogger(getClass());
+
+    //
+    // Proposer-Reviewer webservice endpoints
+    //
 
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
-		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
-		final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
-		proposedConceptResponsePackage.setName(incomingProposal.getName());
-		proposedConceptResponsePackage.setEmail(incomingProposal.getEmail());
-		proposedConceptResponsePackage.setDescription(incomingProposal.getDescription());
-		proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
+        final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
+        SubmissionResponseDto responseDto = new SubmissionResponseDto();
 
-		if (incomingProposal.getConcepts() != null) {
-			for (ProposedConceptDto concept : incomingProposal.getConcepts()) {
-				ProposedConceptResponse response = new ProposedConceptResponse();
+        try{
+            final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+            proposedConceptResponsePackage.setName(incomingProposal.getName());
+            proposedConceptResponsePackage.setEmail(incomingProposal.getEmail());
+            proposedConceptResponsePackage.setDescription(incomingProposal.getDescription());
+            proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
 
-				List<ProposedConceptResponseName> names = new ArrayList<ProposedConceptResponseName>();
-				for (NameDto nameDto: concept.getNames()) {
-					ProposedConceptResponseName name = new ProposedConceptResponseName();
-					name.setName(nameDto.getName());
-					name.setType(nameDto.getType());
-					name.setLocale(new Locale(nameDto.getLocale()));
-					names.add(name);
-				}
-				response.setNames(names);
+            if (incomingProposal.getConcepts() == null) {
+                throw new ConceptProposalSubmissionException("Concepts are missing in the submission");
 
-				List<ProposedConceptResponseDescription> descriptions = new ArrayList<ProposedConceptResponseDescription>();
-				for (DescriptionDto descriptionDto: concept.getDescriptions()) {
-					ProposedConceptResponseDescription description = new ProposedConceptResponseDescription();
-					description.setDescription(descriptionDto.getDescription());
-					description.setLocale(new Locale(descriptionDto.getLocale()));
-					descriptions.add(description);
-				}
-				response.setDescriptions(descriptions);
+            }
+            for (ProposedConceptDto concept : incomingProposal.getConcepts()) {
+                ProposedConceptResponse response = new ProposedConceptResponse();
 
-				response.setProposedConceptUuid(concept.getUuid());
-				response.setComment(concept.getComment());
+                List<ProposedConceptResponseName> names = new ArrayList<ProposedConceptResponseName>();
+                if (concept.getNames() == null || concept.getNames().isEmpty()) {
+                    throw new ConceptProposalSubmissionException("Missing concept names for conceptId:" + concept.getId());
 
-				final ConceptDatatype conceptDatatype = Context.getConceptService().getConceptDatatypeByUuid(concept.getDatatype());
-				if (conceptDatatype == null) {
-					throw new NullPointerException("Datatype expected");
-				}
-				response.setDatatype(conceptDatatype);
+                }
+                for (NameDto nameDto: concept.getNames()) {
+                    ProposedConceptResponseName name = new ProposedConceptResponseName();
+                    name.setName(nameDto.getName());
+                    name.setType(nameDto.getType());
+                    name.setLocale(new Locale(nameDto.getLocale()));
+                    names.add(name);
+                }
+                response.setNames(names);
 
-				if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
+                List<ProposedConceptResponseDescription> descriptions = new ArrayList<ProposedConceptResponseDescription>();
+                if (concept.getDescriptions() == null || concept.getDescriptions().isEmpty()) {
+                    throw new ConceptProposalSubmissionException("Missing concept description for conceptId:" + concept.getId());
 
-					final NumericDto numericDetails = concept.getNumericDetails();
-					ProposedConceptResponseNumeric proposedConceptResponseNumeric = new ProposedConceptResponseNumeric();
+                }
+                for (DescriptionDto descriptionDto: concept.getDescriptions()) {
+                    ProposedConceptResponseDescription description = new ProposedConceptResponseDescription();
+                    description.setDescription(descriptionDto.getDescription());
+                    description.setLocale(new Locale(descriptionDto.getLocale()));
+                    descriptions.add(description);
+                }
+                response.setDescriptions(descriptions);
 
-					proposedConceptResponseNumeric.setUnits(numericDetails.getUnits());
-					proposedConceptResponseNumeric.setPrecise(numericDetails.getPrecise());
-					proposedConceptResponseNumeric.setHiNormal(numericDetails.getHiNormal());
-					proposedConceptResponseNumeric.setHiCritical(numericDetails.getHiCritical());
-					proposedConceptResponseNumeric.setHiAbsolute(numericDetails.getHiAbsolute());
-					proposedConceptResponseNumeric.setLowNormal(numericDetails.getLowNormal());
-					proposedConceptResponseNumeric.setLowCritical(numericDetails.getLowCritical());
-					proposedConceptResponseNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
+                response.setProposedConceptUuid(concept.getUuid());
+                response.setComment(concept.getComment());
 
-					response.setNumericDetails(proposedConceptResponseNumeric);
-				}
+                final ConceptDatatype conceptDatatype = Context.getConceptService().getConceptDatatypeByUuid(concept.getDatatype());
+                if (conceptDatatype == null) {
+                    throw new ConceptProposalSubmissionException("Datatype is missing for conceptId:" + concept.getId());
+                }
+                response.setDatatype(conceptDatatype);
 
-				final ConceptClass conceptClass = Context.getConceptService().getConceptClassByUuid(concept.getConceptClass());
-				if (conceptClass == null) {
-					throw new NullPointerException("Concept class expected");
-				}
-				response.setConceptClass(conceptClass);
+                if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
 
-				proposedConceptResponsePackage.addProposedConcept(response);
-			}
-		}
+                    final NumericDto numericDetails = concept.getNumericDetails();
+                    ProposedConceptResponseNumeric proposedConceptResponseNumeric = new ProposedConceptResponseNumeric();
 
-		service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
+                    proposedConceptResponseNumeric.setUnits(numericDetails.getUnits());
+                    proposedConceptResponseNumeric.setPrecise(numericDetails.getPrecise());
+                    proposedConceptResponseNumeric.setHiNormal(numericDetails.getHiNormal());
+                    proposedConceptResponseNumeric.setHiCritical(numericDetails.getHiCritical());
+                    proposedConceptResponseNumeric.setHiAbsolute(numericDetails.getHiAbsolute());
+                    proposedConceptResponseNumeric.setLowNormal(numericDetails.getLowNormal());
+                    proposedConceptResponseNumeric.setLowCritical(numericDetails.getLowCritical());
+                    proposedConceptResponseNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
 
-		SubmissionResponseDto responseDto = new SubmissionResponseDto();
+                    response.setNumericDetails(proposedConceptResponseNumeric);
+                }
+
+                final ConceptClass conceptClass = Context.getConceptService().getConceptClassByUuid(concept.getConceptClass());
+                if (conceptClass == null) {
+                    throw new ConceptProposalSubmissionException("Concept class expected for conceptId:"+ concept.getId());
+                }
+                response.setConceptClass(conceptClass);
+
+                proposedConceptResponsePackage.addProposedConcept(response);
+            }
+
+
+            service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
+            responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
+            responseDto.setMessage("All Good!");
+
+        } catch (Exception ex) {
+            //TODO: update error handling, more specific catch block rather than the generic Exception, add proper logging etc.
+            ex.printStackTrace();
+            responseDto.setStatus(SubmissionResponseStatus.FAILURE);
+            responseDto.setMessage(ex.getMessage());
+        }
+
         responseDto.setId(proposedConceptResponsePackage.getId());
         return responseDto;
     }
 
-	@RequestMapping(value = "/cpm/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
-	public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
+    @RequestMapping(value = "/cpm/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
+    public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
 
-		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
-		final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
+        final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+        final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
 
-		return new SubmissionStatusDto(aPackage.getStatus());
-	}
+        return new SubmissionStatusDto(aPackage.getStatus());
+    }
 
-	@ExceptionHandler(APIAuthenticationException.class)
-	public void apiAuthenticationExceptionHandler(Exception e, HttpServletResponse response) {
+    @ExceptionHandler(APIAuthenticationException.class)
+    public void apiAuthenticationExceptionHandler(Exception e, HttpServletResponse response) {
 
-		if (Context.isAuthenticated()) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		} else {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			response.addHeader("WWW-Authenticate", "Basic realm=\"OpenMRS\"");
-		}
-	}
+        if (Context.isAuthenticated()) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.addHeader("WWW-Authenticate", "Basic realm=\"OpenMRS\"");
+        }
+    }
 }

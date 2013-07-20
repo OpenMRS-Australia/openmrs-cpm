@@ -39,11 +39,7 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
 	private final ProposalController controller = new ProposalController(null, null, new DescriptionDtoFactory(), new NameDtoFactory());
 
-	// See http://www.jayway.com/2010/12/28/using-powermock-with-spring-integration-testing/
-	// for using powermock when used with Spring
-	// (Can't do a @RunWith(PowerMockRunner.class) )
-	//
-	// Also see https://wiki.openmrs.org/display/docs/Mock+Doc
+
 	@Rule
 	public PowerMockRule rule = new PowerMockRule();
 
