@@ -8,58 +8,62 @@
 <p>
   Status: {{proposal.status | proposalStatus}}
 </p>
-<form name="form" novalidate >
-<p>
- <label>Name<span class="required">*</span><br/><input type="text" name="name" class="name" ng-model="proposal.name" required ng-mouseenter="errorMessage=nameErrorMsg()" ng-mouseleave="errorMessage=''" ng-disabled="isReadOnly" /></label>
-</p>
-<p>
- <label>Your email (for notifications)<span class="required">*</span><br/><input type="email" class="email" ng-mouseenter="errorMessage=emailErrorMsg()" ng-mouseleave="errorMessage=''" ng-model="proposal.email" name="email" required ng-disabled="isReadOnly" /></label>
-</p>
-<p>
- <label>Overall description/comments (eg what form are these concepts from?)<br/><textarea cols="80" rows="6" ng-model="proposal.description" ng-disabled="isReadOnly"></textarea></label>
-</p>
-
-<p>
-<h3>Concepts</h3>
-<table class="conceptTable" cellpadding="5" cellspacing="0">
- <thead>
-  <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
- </thead>
- <tbody class="noConceptsMsg" ng-show="proposal.concepts.length == 0">
-  <tr><td colspan="4" align="center"><em>No concepts added</em></td></tr>
- </tbody>
- <tbody class="conceptList results">
-  <tr ng-repeat="concept in proposal.concepts">
-   <td>{{concept.preferredName}}</td>
-   <td>{{concept.datatype}}</td>
-   <td><input ng-model="concept.comment" ng-disabled="isReadOnly"/></td>
-   <td><button ng-click="removeConcept(concept)" ng-disabled="isReadOnly">Remove</button></td>
-  </tr>
- </tbody>
-</table>
-<button ng-click="dialog='open'" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
-</p>
-
-<div class="cpm-button-guidance">
-  <div ng-show="!isEdit">
-    <span>You must save the proposal before it can be sent.</span>
+<form name="form" id="cpm-edit-proposal-form" novalidate >
+  <div>
+    <label>Name<span class="required">*</span></label>
+    <input type="text" name="name" class="name" ng-model="proposal.name" required ng-disabled="isReadOnly"></input>
+    <div ng-show="form.name.$dirty && form.name.$invalid">
+      <span class="error" ng-show="form.name.$error.required">Tell us your name.</span>
+    </div>
+  <div>
+   <label>Your email (for notifications)<span class="required">*</span></label>
+   <input type="email" class="email" ng-model="proposal.email" name="email" required ng-disabled="isReadOnly"></input>
+   <div ng-show="form.email.$dirty && form.email.$invalid">
+      <span class="error" ng-show="form.email.$error.required">Tell us your email address.</span>
+      <span class="error" ng-show="form.email.$error.email">Please specify a valid email address</span>
+    </div>
   </div>
-  <div class="error" ng-show="!proposal.description && isEdit">
-    <span>You must provide an overall description before the proposal can be sent.</span>
+  <div>
+   <label>Overall description/comments (eg what form are these concepts from?)<span class="required">*</span></label>
+   <textarea cols="80" rows="6" ng-model="proposal.description" name="description" required ng-disabled="isReadOnly"></textarea>
+   <div ng-show="form.description.$dirty && form.description.$invalid">
+      <span class="error" ng-show="form.description.$error.required">Please provide an overall description</span>
+    </div>
   </div>
-</div>
 
-<div class="cpm-button-group">
-  <button ng-click="save()" ng-disabled="form.$invalid || isReadOnly" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
-  <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || !isValidForSending()" accesskey="e" ng-switch="isSubmitting">
-    <span ng-switch-when="true">Sending...</span>
-    <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
-  </button>
-  <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
-</div>
+  <div>
+    <h3>Concepts</h3>
+    <table class="conceptTable" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
+      </thead>
+      <tbody class="noConceptsMsg" ng-show="proposal.concepts.length == 0">
+        <tr>
+          <td colspan="4" align="center"><em>No concepts added</em></td>
+        </tr>
+      </tbody>
+      <tbody class="conceptList results">
+        <tr ng-repeat="concept in proposal.concepts">
+          <td>{{concept.preferredName}}</td>
+          <td>{{concept.datatype}}</td>
+          <td><input ng-model="concept.comment" ng-disabled="isReadOnly"/></td>
+          <td><button ng-click="removeConcept(concept)" ng-disabled="isReadOnly">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button ng-click="dialog='open'" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
+  </div>
+
+  <div>
+    <button ng-click="save()" ng-disabled="isReadOnly" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+    <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly" accesskey="e" ng-switch="isSubmitting">
+      <span ng-switch-when="true">Sending...</span>
+      <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
+    </button>
+    <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
+  </div>
 </form>
 
 <div jquery-ui-dialog title="Add concepts">
   <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
 </div>
-
