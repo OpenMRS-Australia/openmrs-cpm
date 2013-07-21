@@ -175,27 +175,6 @@ define([
         expect(scope.isReadOnly).toBe(false);
     });
 
-    it('should not allow submitting the proposal if description empty', function () {
-        routeParams = {proposalId: 1};
-        httpBackend
-          .whenGET('/openmrs/ws/cpm/proposals/1')
-          .respond({
-            id: 1,
-            name: 'existing',
-            email: 'blah@blah.com',
-            status: 'DRAFT',
-            concepts:[{'name':'flu'}]
-          });
-        controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
-        httpBackend.flush();
-
-        scope.proposal.description = '';
-        expect(scope.isValidForSending()).toBe(false);
-
-        scope.proposal.description = 'now i tell you what';
-        expect(scope.isValidForSending()).toBe(true);
-    });
-
     afterEach(function(){
       httpBackend.verifyNoOutstandingExpectation();
     });
