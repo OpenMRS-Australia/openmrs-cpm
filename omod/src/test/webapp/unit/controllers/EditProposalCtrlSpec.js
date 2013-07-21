@@ -196,18 +196,6 @@ define([
         expect(scope.isValidForSending()).toBe(true);
     });
 
-    /*
-     * Not sure how to bind to view to get access to form validation yet
-     *
-    it('should not show any error messages for a clean form', function() {
-      routeParams = {};
-      controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
-
-      expect(scope.nameErrorMsg()).toBe('');
-      expect(scope.emailErrorMsg()).toBe('');
-    });
-    */
-
     afterEach(function(){
       httpBackend.verifyNoOutstandingExpectation();
     });

@@ -38,7 +38,6 @@ define([
         document.title = 'Create Concept Proposal';
       }
 
-
       if ($scope.isEdit) {
         $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
             $scope.isLoading = false;
@@ -57,21 +56,6 @@ define([
           $scope.proposal.concepts.length > 0 &&
           $scope.isReadOnly === false &&
           !!$scope.proposal.description;
-      };
-
-      $scope.nameErrorMsg = function() {
-        if ($scope.form.name.$dirty && $scope.form.name.$invalid) {
-          return 'Name is required';
-        }
-        return '';
-      };
-
-      $scope.emailErrorMsg = function() {
-        if ($scope.form.email.$dirty && $scope.form.email.$invalid) {
-          return 'Please specify a valid email address';
-        } else {
-          return '';
-        }
       };
 
       $scope.save = function() {
