@@ -40,6 +40,8 @@ Quickstart
     * `omod/target/cpm-1.0-SNAPSHOT-<build-id>.omod`
 5. Install the module into OpenMRS by uploading the OMOD file within administration section:
     * Administration -> Manage Modules -> Add or upgrade module -> Add module
+   
+   Alternatively you can use `publish-vagrant.sh` script
 
 The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
