@@ -19,7 +19,7 @@ define([
       $scope.isLoading = $scope.isEdit ? true : false;
       $scope.isReadOnly = true;
 
-      $scope.menu = MenuService.getMenu(1);
+      $scope.menu = Menu.getMenu(1);
 
       $scope.$on('AddConceptButtonClicked', function(e, concepts) {
         $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
