@@ -1,44 +1,64 @@
 package org.openmrs.module.cpm.web.controller;
 
 import org.openmrs.*;
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.web.common.CpmConstants;
 import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.Settings;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
+import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
+import org.openmrs.validator.ConceptValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.DirectFieldBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestOperations;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @Controller
 public class ProposalController {
 
-	@Autowired
-	private RestOperations submissionRestTemplate;
 
-	private final SubmitProposal submitProposal = new SubmitProposal();
-	private final UpdateProposedConceptPackage updateProposedConceptPackage = new UpdateProposedConceptPackage();
+	private final SubmitProposal submitProposal;
+
+	private final UpdateProposedConceptPackage updateProposedConceptPackage;
+
+    private final DescriptionDtoFactory descriptionDtoFactory;
+
+    private final NameDtoFactory nameDtoFactory;
+
+    private final ConceptDtoValidator conceptDtoValidator;
+
+    @Autowired
+    public ProposalController (final SubmitProposal submitProposal,
+                               final UpdateProposedConceptPackage updateProposedConceptPackage,
+                               final DescriptionDtoFactory descriptionDtoFactory,
+                               final NameDtoFactory nameDtoFactory,
+                               final ConceptDtoValidator conceptDtoValidator) {
+        this.submitProposal = submitProposal;
+        this.updateProposedConceptPackage = updateProposedConceptPackage;
+        this.descriptionDtoFactory = descriptionDtoFactory;
+        this.nameDtoFactory = nameDtoFactory;
+        this.conceptDtoValidator = conceptDtoValidator;
+    }
 
 	//
 	// Pages
@@ -46,31 +66,13 @@ public class ProposalController {
 
 	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
-		return "/module/cpm/proposals";
+		return CpmConstants.LIST_PROPOSAL_URL;
 	}
 
 	//
 	// Service endpoints
 	//
 
-	@RequestMapping(value = "/cpm/settings", method = RequestMethod.GET)
-	public @ResponseBody Settings getSettings() {
-		AdministrationService service = Context.getAdministrationService();
-		Settings settings = new Settings();
-		settings.setUrl(service.getGlobalProperty("cpm.url"));
-		settings.setUsername(service.getGlobalProperty("cpm.username"));
-		settings.setPassword(service.getGlobalProperty("cpm.password"));
-		return settings;
-	}
-
-	@RequestMapping(value = "/cpm/settings", method = RequestMethod.POST)
-	public @ResponseBody Settings postNewSettings(@RequestBody Settings settings) {
-		AdministrationService service = Context.getAdministrationService();
-		service.saveGlobalProperty(new GlobalProperty("cpm.url", settings.getUrl()));
-		service.saveGlobalProperty(new GlobalProperty("cpm.username", settings.getUsername()));
-		service.saveGlobalProperty(new GlobalProperty("cpm.password", settings.getPassword()));
-		return settings;
-	}
 
     @RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
     public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
@@ -80,14 +82,20 @@ public class ProposalController {
 
         if (query.equals("")) {
             final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
-//			final List<Concept> allConcepts = conceptService.getAllConcepts();
             for (final Concept concept : allConcepts) {
-                results.add(createConceptDto(concept));
+                ConceptDto conceptDto = createConceptDto(concept);
+                if(conceptDtoValidator.validate(conceptDto)) {
+                    results.add(conceptDto);
+                }
             }
         } else {
             final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
             for (final ConceptSearchResult conceptSearchResult : concepts) {
-                results.add(createConceptDto(conceptSearchResult.getConcept()));
+                ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
+                if(conceptDtoValidator.validate(conceptDto)) {
+                    results.add(conceptDto);
+
+                }
             }
         }
         SearchConceptResultDto resultDto = new SearchConceptResultDto();
@@ -96,43 +104,6 @@ public class ProposalController {
         return resultDto;
     }
 
-	private ConceptDto createConceptDto(final Concept concept) {
-
-		final ConceptDto dto = new ConceptDto();
-		dto.setId(concept.getConceptId());
-		dto.setNames(getNameDtos(concept));
-		dto.setPreferredName(concept.getName().getName());
-		dto.setDatatype(concept.getDatatype().getName());
-		dto.setDescriptions(getDescriptionDtos(concept));
-        if(concept.getDescription()!=null)  {
-		    dto.setCurrLocaleDescription(concept.getDescription().getDescription());
-        }
-
-		return dto;
-	}
-
-	public static ArrayList<NameDto> getNameDtos(Concept concept) {
-		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
-		for (ConceptName name: concept.getNames()) {
-			NameDto nameDto = new NameDto();
-			nameDto.setName(name.getName());
-			nameDto.setType(name.getConceptNameType());
-			nameDto.setLocale(name.getLocale().toString());
-			nameDtos.add(nameDto);
-		}
-		return nameDtos;
-	}
-
-	public static ArrayList<DescriptionDto> getDescriptionDtos(Concept concept) {
-		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
-		for (ConceptDescription description: concept.getDescriptions()) {
-			DescriptionDto descriptionDto = new DescriptionDto();
-			descriptionDto.setDescription(description.getDescription());
-			descriptionDto.setLocale(description.getLocale().toString());
-			descriptionDtos.add(descriptionDto);
-		}
-		return descriptionDtos;
-	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<ProposedConceptPackageDto> getProposals() {
@@ -189,7 +160,7 @@ public class ProposalController {
         proposedConceptService.saveProposedConceptPackage(conceptPackage);
 
 		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
-			submitProposal.submitProposedConcept(conceptPackage, submissionRestTemplate);
+			submitProposal.submitProposedConcept(conceptPackage);
 		}
 
 		return updatedPackage;
@@ -218,9 +189,9 @@ public class ProposalController {
 			final Concept concept = conceptProposal.getConcept();
 			final ProposedConceptDto conceptProposalDto = new ProposedConceptDto();
 			conceptProposalDto.setId(concept.getConceptId());
-			conceptProposalDto.setNames(getNameDtos(concept));
+			conceptProposalDto.setNames(nameDtoFactory.create(concept));
 			conceptProposalDto.setPreferredName(concept.getName().getName());
-			conceptProposalDto.setDescriptions(getDescriptionDtos(concept));
+			conceptProposalDto.setDescriptions(descriptionDtoFactory.create(concept));
             if(concept.getDescription() != null) {
                 conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
             }
@@ -238,8 +209,23 @@ public class ProposalController {
 		return submitProposal;
 	}
 
-	public UpdateProposedConceptPackage getUpdateProposedConceptPackage() {
-		return updateProposedConceptPackage;
-	}
+
+
+    private ConceptDto createConceptDto(final Concept concept) {
+
+        final ConceptDto dto = new ConceptDto();
+        dto.setId(concept.getConceptId());
+        dto.setNames(nameDtoFactory.create(concept));
+        dto.setPreferredName(concept.getName().getName());
+        dto.setDatatype(concept.getDatatype().getName());
+        dto.setDescriptions(descriptionDtoFactory.create(concept));
+        if(concept.getDescription()!=null)  {
+            dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+        }
+
+        return dto;
+    }
+
+
 
 }

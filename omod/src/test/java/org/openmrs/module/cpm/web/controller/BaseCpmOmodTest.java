@@ -7,7 +7,10 @@ import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 /**
  * Sub-classing the core OpenMRS Web test class
  */
-@Ignore("Base class for cpm omod tests")
 public abstract class BaseCpmOmodTest extends BaseModuleWebContextSensitiveTest {
-
+    // See http://www.jayway.com/2010/12/28/using-powermock-with-spring-integration-testing/
+    // for using powermock when used with Spring
+    // (Can't do a @RunWith(PowerMockRunner.class) )
+    //
+    // Also see https://wiki.openmrs.org/display/docs/Mock+Doc
 }

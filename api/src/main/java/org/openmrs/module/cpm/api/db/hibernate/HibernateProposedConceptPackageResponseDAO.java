@@ -77,7 +77,7 @@ public class HibernateProposedConceptPackageResponseDAO implements ProposedConce
 			sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageResponse);
 			return conceptPackageResponse; 
 		} else {
-			log.warn("Attempting to delete null package");
+			log.warn("Attempting to save or update null package");
 			return null;
 		}
 	}
