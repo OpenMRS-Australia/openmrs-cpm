@@ -1,6 +1,6 @@
 <div ng-controller="SearchConceptsDialogCtrl">
 
-<input style="width: 400px;" type="text" placeholder="Enter a search term to find concepts" class="searchBox" ng-model="searchTerm" ng-change="search" />
+<input style="width: 400px;" type="text" placeholder="Enter a search term to find concepts" class="searchBox" ng-model="searchTerm" ng-change="search()" />
 <span class="loading" ng-show="isSearching"><img ng-src="{{contextPath}}/images/loading.gif"/> Loading...</span>
 
 <div class="resultsContainer">

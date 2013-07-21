@@ -1,4 +1,4 @@
-define(['config'], function(config) {
+define(['config', 'js/services/searchConcept'], function(config) {
 
     var searchConceptsCtrl = function($scope, $timeout, SearchConcept) {
 
@@ -44,11 +44,12 @@ define(['config'], function(config) {
             }, "");
         };
 
-        $scope.processSearchResults = function(data) {
-
+        $scope.processSearchResults = function(response) {
             $scope.isSearching = false;
+            
+            var data = response.data;
 
-            if (data.requestNum >= $scope.currentRequestNum) {
+            if (parseInt(data.requestNum) >= $scope.currentRequestNum) {
                 $scope.currentRequestNum = data.requestNum;
                 $scope.concepts = data.concepts;
                 
