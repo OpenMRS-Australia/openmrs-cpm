@@ -1,73 +1,72 @@
 define(['angular-mocks', 'js/controllers/SearchConceptsDialogCtrl'], function() {
+    
     'use strict';
+    
     describe("Search Concepts Dialog Spec", function() {
-
-        var scope, httpBackend, controller, timeout;
         
-	var getUrl = function(qry, reqNum) {
-            return '/openmrs/ws/cpm/concepts?query=' + qry + '&requestNum=' + reqNum;
-	}
-
-	var doSearch = function(scope, timeout, http, qry) {
-	    scope.query = qry;
-            scope.search(qry);
-            timeout.flush();
-            httpBackend.flush();
-	}
+        var scope, controller;
 
         beforeEach(module('cpm.controllers'));
 
-        beforeEach(inject(function($rootScope, $controller, $httpBackend, $timeout) {
+        beforeEach(inject(function($rootScope, $controller ) {
+                
             scope = $rootScope.$new();
             controller = $controller;
-            httpBackend = $httpBackend;
-            timeout = $timeout;
-            controller('SearchConceptsDialogCtrl', {$scope: scope, $timeout: timeout});
+            controller('SearchConceptsDialogCtrl', { $scope: scope, 
+                $timeout: 'undefined', SearchConcept : 'undefined' });
         }));
 
-        it("should return concept search results", function() {
-            var qry1 = 'a';
-	    var conceptMock1 = [1, 2, 3];
-            var qry2 = 'ab';
-	    var conceptMock2 = [4, 5, 6];
-
-	    var reqUrl1 = getUrl(qry1, 1);
-	    var reqUrl2 = getUrl(qry2, 2);
-	    
-            httpBackend.whenGET(reqUrl1).respond(200, { requestNum: 1, concepts: conceptMock1 });
-            httpBackend.whenGET(reqUrl2).respond(200, { requestNum: 2, concepts: conceptMock2 });
-            //kick off a search 
-	    doSearch(scope, timeout, httpBackend, qry1);
-            //check that current request number is incremented
-	    expect(scope.currentRequestNum).toEqual(1); 
-	    //check that results are expected
-	    expect(scope.concepts).toEqual(conceptMock1);
-	    
-	    doSearch(scope, timeout, httpBackend, qry2);
-            expect(scope.currentRequestNum).toEqual(2); 
-	    expect(scope.concepts).toEqual(conceptMock2);
-        });
-
 	it("should throw away slow results that may override current/timely results", 
-	function() {
-            var qry1 = 'aba';
-	    var conceptMock = [1, 2, 3];
-	    var reqUrl1 = getUrl(qry1, 1);
-            httpBackend.whenGET(reqUrl1).respond(200, 
-		{ requestNum: 1, concepts: conceptMock });
-	    scope.query = qry1;
-            scope.search(qry1);
-            timeout.flush();
-	    scope.currentRequestNum = 3;//incr current req counter before executing mock request
-            httpBackend.flush();
+            function() {
+            var mockData1 = [4, 5, 6];
+            scope.currentRequestNum = 3;
+            
+            scope.concepts = mockData1;
+            
+	    var mockData2 = { requestNum: 1, concepts : 
+                        [{names: [{name:1},{name:2},{name:3}], 
+                        preferredName: 1}]};
+            
+            scope.processSearchResults(mockData2);
+            //incr current req counter before executing mock request
 	    expect(scope.currentRequestNum).toEqual(3);
 	    //check that results are thrown away
-	    expect(scope.concepts).not.toEqual(conceptMock);
+	    expect(scope.concepts).toEqual(mockData1);
+            expect(scope.concepts).not.toEqual(mockData2.concepts);
 	});
+        
+        it("should accept latest search results returned from the database", 
+            function() {
+            var mockData1 = [4, 5, 6];
+
+            scope.currentRequestNum = 1;
+            
+            scope.concepts = mockData1;
+            
+	    var mockData2 = { requestNum: 5, concepts : 
+                        [{names: [{name:1},{name:2},{name:3}], 
+                        preferredName: 1}]};
+
+            scope.processSearchResults(mockData2);
+            //incr current req counter before executing mock request
+	    expect(scope.currentRequestNum).toEqual(5);
+	    //check that results are thrown away
+	    expect(scope.concepts).not.toEqual(mockData1);
+            expect(scope.concepts).toEqual(mockData2.concepts);
+	});
+        
+        it("should concatenate names of concepts into a list of synonyms, " +
+            "whilst excluding preferred name from the list of synonyms", 
+            function() {
+            var mockData2 = { requestNum: 5, concepts : [{names: 
+                [{name:'1'},{name:'2'},{name:'3'}], preferredName: '1'}]};
+
+            scope.processSearchResults(mockData2);
+            expect(scope.concepts[0].synonyms).toEqual("2, 3");
+            expect(scope.concepts[0].preferredName).toEqual("1");
+        });
 
         afterEach(function(){
-            httpBackend.verifyNoOutstandingExpectation();
-            httpBackend.verifyNoOutstandingRequest();
         });
     });
 });
