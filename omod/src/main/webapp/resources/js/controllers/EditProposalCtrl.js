@@ -50,14 +50,7 @@ define([
 
         $scope.isReadOnly = false;
       }
-
-      $scope.isValidForSending = function() {
-        return $scope.isSubmitting === false &&
-          $scope.proposal.concepts.length > 0 &&
-          $scope.isReadOnly === false &&
-          !!$scope.proposal.description;
-      };
-
+      
       $scope.save = function() {
         //$scope.proposal.concepts=$scope.selectedConcepts;
 
