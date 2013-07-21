@@ -32,7 +32,7 @@
   </div>
 
   <div>
-    <h3>Concepts</h3>
+    <h3>Concepts<span class="required">*</span></h3>
     <table class="conceptTable" cellpadding="5" cellspacing="0">
       <thead>
         <tr><td>Name</td><td>Datatype</td><td colspan="2">Comments</td></tr>
@@ -55,7 +55,7 @@
   </div>
 
   <div>
-    <button ng-click="save()" ng-disabled="isReadOnly" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
+    <button ng-click="save()" ng-disabled="isReadOnly || !proposal.name || !proposal.email" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
     <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly" accesskey="e" ng-switch="isSubmitting">
       <span ng-switch-when="true">Sending...</span>
       <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
