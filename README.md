@@ -84,4 +84,6 @@ CI server: http://ec2-50-112-42-202.us-west-2.compute.amazonaws.com:8153/go/
 
 Mingle: https://minglehosting.thoughtworks.com/unicef/profile/login?project_id=openmrs_oz
 
-QA environment: http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs
+CI environment (admin, OpenMRS1): http://ec2-54-245-143-28.us-west-2.compute.amazonaws.com:8080/openmrs
+
+QA environment (admin, OpenMRS1): http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs
