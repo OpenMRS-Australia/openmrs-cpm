@@ -1,55 +1,65 @@
-define(['./index', 'config'], function(controllers, config) {
+define([
+    './index',
+    'config',
+    'js/services/services',
+    'js/services/menu'
+], function(controllers, config) {
 
-    controllers.controller('ReviewConceptCtrl', ['$scope', '$routeParams', 'ProposalReviewConcepts', 'Menu', function($scope, $routeParams, ProposalReviewConcepts, MenuService) {
+    'use strict';
 
-        var proposalId = $routeParams.proposalId;
-        var conceptId = $routeParams.conceptId;
-        $scope.isLoading = true;
-        $scope.contextPath = config.contextPath;
-        $scope.resourceLocation = config.resourceLocation;
+    controllers.controller('ReviewConceptCtrl',
 
-        $scope.menu = MenuService.getMenu();
+        function($scope, $routeParams, ProposalReviewConcepts, Menu) {
 
-        $scope.$on('AddConceptButtonClicked', function(e, concepts) {
-            if (concepts.length > 0) {
-                $scope.concept.conceptId = concepts[0].id;
-            }
-            $scope.concept.$update({proposalId: proposalId});
-            $scope.dialog = 'close';
-        });
+            var proposalId = $routeParams.proposalId;
+            var conceptId = $routeParams.conceptId;
+            $scope.isLoading = true;
+            $scope.contextPath = config.contextPath;
+            $scope.resourceLocation = config.resourceLocation;
 
-        $scope.$on('CloseSearchConceptsDialog', function() {
-            $scope.dialog = 'close';
-        });
+            $scope.menu = Menu.getMenu();
 
-        $scope.concept = ProposalReviewConcepts.get({proposalId: proposalId, conceptId: conceptId}, function() {
-            $scope.isLoading = false;
-        });
+            $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+                if (concepts.length > 0) {
+                    $scope.concept.conceptId = concepts[0].id;
+                }
+                $scope.concept.$update({proposalId: proposalId});
+                $scope.dialog = 'close';
+            });
 
-        $scope.showConcept = function(conceptId) {
-            $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
-        };
+            $scope.$on('CloseSearchConceptsDialog', function() {
+                $scope.dialog = 'close';
+            });
 
-        $scope.saveReviewComment = function() {
-            $scope.concept.$update({proposalId: proposalId});
-        };
+            $scope.concept = ProposalReviewConcepts.get({proposalId: proposalId, conceptId: conceptId}, function() {
+                $scope.isLoading = false;
+            });
 
-        $scope.conceptCreated = function() {
-            $scope.concept.status = 'CLOSED_NEW';
-            $scope.dialog='open';
-            $scope.$broadcast('InitSearchConceptsDialog', false);
-        };
+            $scope.showConcept = function(conceptId) {
+                $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
+            };
 
-        $scope.conceptExists = function() {
-            $scope.concept.status = 'CLOSED_EXISTING';
-            $scope.dialog='open';
-            $scope.$broadcast('InitSearchConceptsDialog', false);
-        };
+            $scope.saveReviewComment = function() {
+                $scope.concept.$update({proposalId: proposalId});
+            };
 
-        $scope.conceptRejected = function() {
-            $scope.concept.status = 'CLOSED_REJECTED';
-            $scope.concept.$update({proposalId: proposalId});
-        };
+            $scope.conceptCreated = function() {
+                $scope.concept.status = 'CLOSED_NEW';
+                $scope.dialog='open';
+                $scope.$broadcast('InitSearchConceptsDialog', false);
+            };
 
-    }])
+            $scope.conceptExists = function() {
+                $scope.concept.status = 'CLOSED_EXISTING';
+                $scope.dialog='open';
+                $scope.$broadcast('InitSearchConceptsDialog', false);
+            };
+
+            $scope.conceptRejected = function() {
+                $scope.concept.status = 'CLOSED_REJECTED';
+                $scope.concept.$update({proposalId: proposalId});
+            };
+
+        }
+    )
 });
