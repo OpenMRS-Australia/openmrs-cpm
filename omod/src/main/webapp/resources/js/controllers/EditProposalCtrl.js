@@ -19,7 +19,7 @@ define([
       $scope.isLoading = $scope.isEdit ? true : false;
       $scope.isReadOnly = true;
 
-      $scope.menu = Menu.getMenu(1);
+      $scope.menu = MenuService.getMenu(1);
 
       $scope.$on('AddConceptButtonClicked', function(e, concepts) {
         $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
@@ -29,7 +29,6 @@ define([
       $scope.$on('CloseSearchConceptsDialog', function() {
         $scope.dialog = 'close';
       });
-
 
       // XXX
       if ($scope.isEdit) {
@@ -50,10 +49,9 @@ define([
 
         $scope.isReadOnly = false;
       }
-      
+
       $scope.save = function() {
         //$scope.proposal.concepts=$scope.selectedConcepts;
-
         $scope.isLoading = true;
         if ($scope.isEdit) {
           $scope.proposal.$update(function() {
