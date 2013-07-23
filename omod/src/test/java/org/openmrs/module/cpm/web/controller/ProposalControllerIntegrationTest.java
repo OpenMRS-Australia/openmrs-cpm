@@ -101,7 +101,7 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 		request = new MockHttpServletRequest("PUT", "/cpm/proposals/1");
 		request.addHeader("Accept", "application/json");
 		request.addHeader("Content-Type", "application/json");
-		final String payload = "{\"name\":\"test\",\"id\":1,\"status\":\"TBS\",\"description\":\"test\",\"email\":\"test@test.com\",\"concepts\":[]}";
+		final String payload = "{\"name\":\"test\",\"description\":\"test\",\"email\":\"test@test.com\",\"concepts\":[]}";
 		request.setContent(payload.getBytes());
 
 		adapter.handle(request, response, controller);
