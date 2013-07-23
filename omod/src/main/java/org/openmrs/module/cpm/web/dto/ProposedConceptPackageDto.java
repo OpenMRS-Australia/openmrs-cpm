@@ -1,8 +1,8 @@
 package org.openmrs.module.cpm.web.dto;
 
-import java.util.List;
-
 import org.openmrs.module.cpm.PackageStatus;
+
+import java.util.List;
 
 public class ProposedConceptPackageDto {
 

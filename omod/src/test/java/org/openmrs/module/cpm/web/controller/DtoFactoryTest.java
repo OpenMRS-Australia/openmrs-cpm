@@ -7,6 +7,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openmrs.ConceptClass;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.cpm.web.dto.factory.DtoFactory;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
