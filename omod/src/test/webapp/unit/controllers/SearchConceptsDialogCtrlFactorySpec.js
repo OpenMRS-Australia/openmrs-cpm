@@ -23,9 +23,9 @@ define(['angular-mocks', 'js/controllers/SearchConceptsDialogCtrl'], function() 
             
             scope.concepts = mockData1;
             
-	    var mockData2 = { requestNum: 1, concepts : 
+	    var mockData2 = { data : { requestNum: 1, concepts : 
                         [{names: [{name:1},{name:2},{name:3}], 
-                        preferredName: 1}]};
+                        preferredName: 1}]} };
             
             scope.processSearchResults(mockData2);
             //incr current req counter before executing mock request
@@ -43,23 +43,23 @@ define(['angular-mocks', 'js/controllers/SearchConceptsDialogCtrl'], function() 
             
             scope.concepts = mockData1;
             
-	    var mockData2 = { requestNum: 5, concepts : 
+	    var mockData2 = { data : { requestNum: 5, concepts : 
                         [{names: [{name:1},{name:2},{name:3}], 
-                        preferredName: 1}]};
+                        preferredName: 1}]}};
 
             scope.processSearchResults(mockData2);
             //incr current req counter before executing mock request
 	    expect(scope.currentRequestNum).toEqual(5);
 	    //check that results are thrown away
 	    expect(scope.concepts).not.toEqual(mockData1);
-            expect(scope.concepts).toEqual(mockData2.concepts);
+            expect(scope.concepts).toEqual(mockData2.data.concepts);
 	});
         
         it("should concatenate names of concepts into a list of synonyms, " +
             "whilst excluding preferred name from the list of synonyms", 
             function() {
-            var mockData2 = { requestNum: 5, concepts : [{names: 
-                [{name:'1'},{name:'2'},{name:'3'}], preferredName: '1'}]};
+            var mockData2 = { data :{ requestNum: 5, concepts : [{names: 
+                [{name:'1'},{name:'2'},{name:'3'}], preferredName: '1'}]}};
 
             scope.processSearchResults(mockData2);
             expect(scope.concepts[0].synonyms).toEqual("2, 3");
