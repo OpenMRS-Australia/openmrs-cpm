@@ -40,6 +40,8 @@ Quickstart
     * `omod/target/cpm-1.0-SNAPSHOT-<build-id>.omod`
 5. Install the module into OpenMRS by uploading the OMOD file within administration section:
     * Administration -> Manage Modules -> Add or upgrade module -> Add module
+   
+   Alternatively you can use `publish-vagrant.sh` script
 
 The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
@@ -84,4 +86,6 @@ CI server: http://ec2-50-112-42-202.us-west-2.compute.amazonaws.com:8153/go/
 
 Mingle: https://minglehosting.thoughtworks.com/unicef/profile/login?project_id=openmrs_oz
 
-QA environment: http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs
+CI environment (admin, OpenMRS1): http://ec2-54-245-143-28.us-west-2.compute.amazonaws.com:8080/openmrs
+
+QA environment (admin, OpenMRS1): http://ec2-54-245-1-154.us-west-2.compute.amazonaws.com:8080/openmrs
