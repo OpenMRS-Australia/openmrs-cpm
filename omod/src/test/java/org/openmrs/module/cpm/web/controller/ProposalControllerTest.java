@@ -16,12 +16,15 @@ import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
+import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
+import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.web.client.RestOperations;
 
 import java.util.Collection;
 import java.util.Date;
@@ -50,8 +53,12 @@ public class ProposalControllerTest {
 	@Mock
 	UpdateProposedConceptPackage updateProposedConceptPackage;
 
+    @Mock
+    ConceptDtoValidator conceptDtoValidator;
+
     @InjectMocks
-    ProposalController controller = new ProposalController();
+    ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
+            new DescriptionDtoFactory(), new NameDtoFactory(), conceptDtoValidator );
 
 	@Before
 	public void before() throws Exception {
@@ -60,6 +67,8 @@ public class ProposalControllerTest {
 
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
+
+        when(conceptDtoValidator.validate(any(ConceptDto.class))).thenReturn(true);
 	}
 
 	@Test
@@ -73,7 +82,7 @@ public class ProposalControllerTest {
 
 		InOrder inOrder = inOrder(updateProposedConceptPackage, submitProposal);
 		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage, null);
+		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
 	}
 
 	@Test
@@ -83,7 +92,7 @@ public class ProposalControllerTest {
 		controller.updateProposal("1", dto);
 
 		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		verify(submitProposal, times(0)).submitProposedConcept(conceptPackage, null);
+		verify(submitProposal, times(0)).submitProposedConcept(conceptPackage);
     }
 
     @Test

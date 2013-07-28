@@ -9,12 +9,12 @@ import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class UpdateProposedConceptPackage {
-	public UpdateProposedConceptPackage() {
-	}
 
 	public void updateProposedConcepts(ProposedConceptPackage conceptPackage,
 								ProposedConceptPackageDto packageDto) {

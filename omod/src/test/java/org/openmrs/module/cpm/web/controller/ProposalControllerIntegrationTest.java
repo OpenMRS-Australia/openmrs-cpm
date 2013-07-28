@@ -10,6 +10,9 @@ import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
+import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -35,13 +38,10 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
-	private final ProposalController controller = new ProposalController();
+	private final ProposalController controller = new ProposalController(null, null,
+            new DescriptionDtoFactory(), new NameDtoFactory(), new ConceptDtoValidator());
 
-	// See http://www.jayway.com/2010/12/28/using-powermock-with-spring-integration-testing/
-	// for using powermock when used with Spring
-	// (Can't do a @RunWith(PowerMockRunner.class) )
-	//
-	// Also see https://wiki.openmrs.org/display/docs/Mock+Doc
+
 	@Rule
 	public PowerMockRule rule = new PowerMockRule();
 
@@ -101,7 +101,7 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 		request = new MockHttpServletRequest("PUT", "/cpm/proposals/1");
 		request.addHeader("Accept", "application/json");
 		request.addHeader("Content-Type", "application/json");
-		final String payload = "{\"name\":\"test\",\"id\":1,\"status\":\"TBS\",\"description\":\"test\",\"email\":\"test@test.com\",\"concepts\":[]}";
+		final String payload = "{\"name\":\"test\",\"description\":\"test\",\"email\":\"test@test.com\",\"concepts\":[]}";
 		request.setContent(payload.getBytes());
 
 		adapter.handle(request, response, controller);
