@@ -22,8 +22,14 @@ define([
       $scope.menu = Menu.getMenu(1);
 
       $scope.addNewConceptsToExisting = function(concepts, existingConcepts) {
+        var conceptIdList = [];
+
+        existingConcepts.forEach(function(e) {
+          return conceptIdList.push(e.id);
+        })
+
         concepts.forEach(function(e) {
-          if (existingConcepts.indexOf(e) === -1) existingConcepts.push(e);
+          if (conceptIdList.indexOf(e.id) === -1) existingConcepts.push(e);
         });
       }
 
