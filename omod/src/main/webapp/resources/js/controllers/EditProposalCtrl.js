@@ -1,129 +1,114 @@
-define(['./index', 'config', 'js/services/services', 'js/services/menu'], function(controllers, config) {
-  controllers.controller('EditProposalCtrl', ['$scope', '$routeParams', 'Proposals', 'Menu', '$location', function($scope, $routeParams, Proposals, MenuService, $location) {
+define([
+  './index',
+  'config',
+  'js/services/services',
+  'js/services/menu'
+], function(controllers, config) {
 
-    $scope.contextPath = config.contextPath;
-    $scope.resourceLocation = config.resourceLocation;
+  'use strict';
 
-    var proposalId = $routeParams.proposalId;
-    $scope.isEdit = typeof proposalId !== 'undefined';
-    $scope.isSubmitting = false;
-    $scope.isLoading = $scope.isEdit ? true : false;
-    $scope.isReadOnly = true;
+  controllers.controller('EditProposalCtrl',
+    function($scope, $routeParams, $location, Proposals, Menu) {
 
-    $scope.menu = MenuService.getMenu(1);
+      $scope.contextPath = config.contextPath;
+      $scope.resourceLocation = config.resourceLocation;
 
-    $scope.addNewConceptsToExisting = function(concepts, existingConcepts) {
-      concepts.forEach(function(e) {
-        if (existingConcepts.indexOf(e) === -1) existingConcepts.push(e);
-      });
-    }
+      var proposalId = $routeParams.proposalId;
+      $scope.isEdit = typeof proposalId !== 'undefined';
+      $scope.isSubmitting = false;
+      $scope.isLoading = $scope.isEdit ? true : false;
+      $scope.isReadOnly = true;
 
-    $scope.$on('AddConceptButtonClicked', function(e, concepts) {
-      var existingConcepts = $scope.proposal.concepts;
-      $scope.addNewConceptsToExisting(concepts, existingConcepts);
-      $scope.dialog = 'close';
-    });
+      $scope.menu = Menu.getMenu(1);
 
-    $scope.$on('CloseSearchConceptsDialog', function() {
-      $scope.dialog = 'close';
-    });
-
-
-    // XXX
-    if ($scope.isEdit) {
-      document.title = 'Edit Concept Proposal';
-    } else {
-      document.title = 'Create Concept Proposal';
-    }
-
-
-    if ($scope.isEdit) {
-      $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
-          $scope.isLoading = false;
-          $scope.isReadOnly = $scope.proposal.status != 'DRAFT';
-      });
-    } else {
-      $scope.proposal = new Proposals();
-      $scope.proposal.status = 'DRAFT';
-      $scope.proposal.concepts= [];
-
-      $scope.isReadOnly = false;
-    }
-
-    $scope.isValidForSending = function() {
-      return $scope.isSubmitting === false &&
-        $scope.proposal.concepts.length > 0 &&
-        $scope.isReadOnly === false &&
-        !!$scope.proposal.description;
-    };
-
-    $scope.nameErrorMsg = function() {
-      if ($scope.form.name.$dirty && $scope.form.name.$invalid) {
-        return "Name is required";
+      $scope.addNewConceptsToExisting = function(concepts, existingConcepts) {
+        concepts.forEach(function(e) {
+          if (existingConcepts.indexOf(e) === -1) existingConcepts.push(e);
+        });
       }
-      return "";
-    };
 
-    $scope.emailErrorMsg = function() {
-      if ($scope.form.email.$dirty && $scope.form.email.$invalid) {
-        return "Please specify a valid email address";
-      } else {
-        return "";
-      }
-    };
+      $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+        var existingConcepts = $scope.proposal.concepts;
+        $scope.addNewConceptsToExisting(concepts, existingConcepts);
+        $scope.dialog = 'close';
+      });
 
-    $scope.save = function() {
-      //$scope.proposal.concepts=$scope.selectedConcepts;
+      $scope.$on('CloseSearchConceptsDialog', function() {
+        $scope.dialog = 'close';
+      });
 
-      $scope.isLoading = true;
+      // XXX
       if ($scope.isEdit) {
-        $scope.proposal.$update(function() {
-          $scope.isLoading = false;
-          alert("Saved!");
+        document.title = 'Edit Concept Proposal';
+      } else {
+        document.title = 'Create Concept Proposal';
+      }
+
+      if ($scope.isEdit) {
+        $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
+            $scope.isLoading = false;
+            $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
         });
       } else {
-        $scope.proposal.$save(function() {
-          // navigate to edit url or not?
-          // will fetch extra data but url will be up to date
-          $location.path('/edit/' + $scope.proposal.id);
-          $scope.isLoading = false;
-          alert("Saved!");
-        });
+        $scope.proposal = new Proposals();
+        $scope.proposal.status = 'DRAFT';
+        $scope.proposal.concepts= [];
+
+        $scope.isReadOnly = false;
       }
-    };
 
-    $scope.submit = function() {
-      $scope.proposal.status = 'TBS';
-      $scope.proposal.$update(function() {
-        $scope.isSubmitting = false;
-        $scope.isLoading = false;
-      }, function() {
-        $scope.isSubmitting = false;
-        $scope.isLoading = false;
-      });
-      $scope.isSubmitting = true;
-      $scope.isLoading = true;
-    };
-
-    $scope.deleteProposal = function() {
-      if (confirm("Are you sure?")) {
+      $scope.save = function() {
+        //$scope.proposal.concepts=$scope.selectedConcepts;
         $scope.isLoading = true;
-        $scope.proposal.$remove(function() {
-          $location.path('/');
+        if ($scope.isEdit) {
+          $scope.proposal.$update(function() {
+            $scope.isLoading = false;
+            alert('Saved!');
+          });
+        } else {
+          $scope.proposal.$save(function() {
+            // navigate to edit url or not?
+            // will fetch extra data but url will be up to date
+            $location.path('/edit/' + $scope.proposal.id);
+            $scope.isLoading = false;
+            alert('Saved!');
+          });
+        }
+      };
+
+      $scope.submit = function() {
+        $scope.proposal.status = 'TBS';
+        $scope.proposal.$update(function() {
+          $scope.isSubmitting = false;
+          $scope.isLoading = false;
+        }, function() {
+          $scope.isSubmitting = false;
           $scope.isLoading = false;
         });
-      }
-    };
+        $scope.isSubmitting = true;
+        $scope.isLoading = true;
+      };
 
-    $scope.removeConcept = function(concept) {
-      if (confirm("Are you sure?")) {
-        for (var i in $scope.proposal.concepts) {
-          if ($scope.proposal.concepts[i] == concept) {
-            delete $scope.proposal.concepts[i];
-            $scope.proposal.concepts.splice(i, 1);
+      $scope.deleteProposal = function() {
+        if (confirm('Are you sure?')) {
+          $scope.isLoading = true;
+          $scope.proposal.$remove(function() {
+            $location.path('/');
+            $scope.isLoading = false;
+          });
+        }
+      };
+
+      $scope.removeConcept = function(concept) {
+        if (confirm('Are you sure?')) {
+          for (var i in $scope.proposal.concepts) {
+            if ($scope.proposal.concepts[i] == concept) {
+              delete $scope.proposal.concepts[i];
+              $scope.proposal.concepts.splice(i, 1);
+            }
           }
         }
-      }
-    };
-  }]);
+      };
+    }
+  );
 });

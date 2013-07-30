@@ -32,6 +32,11 @@ input.ng-invalid.ng-dirty {
 	border-color: firebrick;
 	border-style: solid;
 }
+
+#cpm-edit-proposal-form label {
+	display: block;
+}
+
 .name, .email {
 	width: 600px;
 }
