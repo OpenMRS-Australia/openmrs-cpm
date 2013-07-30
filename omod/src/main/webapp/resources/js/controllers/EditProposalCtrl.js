@@ -12,8 +12,15 @@ define(['./index', 'config', 'js/services/services', 'js/services/menu'], functi
 
     $scope.menu = MenuService.getMenu(1);
 
+    $scope.addNewConceptsToExisting = function(concepts, existingConcepts) {
+      concepts.forEach(function(e) {
+        if (existingConcepts.indexOf(e) === -1) existingConcepts.push(e);
+      });
+    }
+
     $scope.$on('AddConceptButtonClicked', function(e, concepts) {
-      $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
+      var existingConcepts = $scope.proposal.concepts;
+      $scope.addNewConceptsToExisting(concepts, existingConcepts);
       $scope.dialog = 'close';
     });
 

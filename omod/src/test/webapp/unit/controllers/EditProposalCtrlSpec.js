@@ -40,6 +40,28 @@ define(['angular-mocks', 'js/controllers/EditProposalCtrl'], function() {
       expect(scope.isEdit).toBe(true);
     });
 
+    it("shoud not allow users add same concept twice to proposal", function() {
+      var testData = [1, 2, 4];
+      var existingConcepts = [1, 2, 3];
+      var expectedResult = [1, 2, 3, 4];
+
+      routeParams = {proposalId: 1};
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
+      controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+      httpBackend.flush();
+
+      scope.proposal = { 
+        concepts: existingConcepts
+      };
+
+      scope.addNewConceptsToExisting(testData, existingConcepts);
+      for (var x in expectedResult) {
+        var inConcepts = scope.proposal.concepts
+          .indexOf(expectedResult[x]) !== -1;
+        expect(inConcepts).toBe(true);
+      }
+    });
+
     it("should save a new proposal by POST-ing to the list of proposals", function() {
       routeParams = {};
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
