@@ -21,9 +21,13 @@ require.config({
         'angular-resource': 'lib/angular-resource',
         'domReady': 'lib/domReady',
         'jquery': 'lib/jquery',
-        'jquery-ui': 'lib/jquery-ui'
+        'jquery-ui': 'lib/jquery-ui',
+        'underscore': 'lib/underscore'
     },
     shim: {
+        'underscore': {
+            exports: '_'
+        },
         'jquery-ui': ['jquery'],
         'angular': {
             deps: ['jquery'],

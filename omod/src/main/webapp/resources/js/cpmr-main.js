@@ -4,12 +4,16 @@ require(['config'], function(config) {
 	  paths: {
 	    'angular': 'lib/angular',
 	    'angular-resource': 'lib/angular-resource',
-      'domReady': 'lib/domReady',
+      	'domReady': 'lib/domReady',
 	    'jquery': 'lib/jquery',
 	    'jquery-ui': 'lib/jquery-ui',
-	    'require': 'lib/require'
-	  },
-	  shim: {
+	    'require': 'lib/require',
+      	'underscore': 'lib/underscore'
+    },
+    shim: {
+	    'underscore': {
+	        exports: '_'
+	    },
 	    'jquery-ui': ['jquery'],
 	    'angular': {
 	      deps: ['jquery'],

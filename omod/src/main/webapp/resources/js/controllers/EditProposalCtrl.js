@@ -21,8 +21,14 @@ define([
 
       $scope.menu = Menu.getMenu(1);
 
+      $scope.getConceptUnion = function(concepts, existingConcepts) {
+        return _.uniq(_.union(concepts, existingConcepts), false, function(concept) { 
+            return concept.id; 
+        });
+      }
+
       $scope.$on('AddConceptButtonClicked', function(e, concepts) {
-        $scope.proposal.concepts = $scope.proposal.concepts.concat(concepts);
+        $scope.proposal.concepts = $scope.getConceptUnion(concepts, $scope.proposal.concepts);
         $scope.dialog = 'close';
       });
 
