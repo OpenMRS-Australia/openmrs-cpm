@@ -19,7 +19,7 @@ define(['config', 'js/services/searchConcept'], function(config) {
         var getSelectedConcepts = function() {
 
             if ($scope.isMultiple) {
-                return $scope.concepts.filter(function(e) {
+                return _.filter($scope.concepts, function(e) {
                     return e.selected;
                 });
             } else {
@@ -29,7 +29,7 @@ define(['config', 'js/services/searchConcept'], function(config) {
 
         var mergeNames = function(names, preferredName) {
 
-            return names.reduce(function(prev, curr) {
+            return _.reduce(names, function(prev, curr) {
                 var conceptName = curr.name;
                 if (conceptName !== "" &&
                         conceptName !== preferredName) {
@@ -53,7 +53,7 @@ define(['config', 'js/services/searchConcept'], function(config) {
                 $scope.currentRequestNum = data.requestNum;
                 $scope.concepts = data.concepts;
                 
-                $scope.concepts.forEach(function(concept) {
+                _.forEach($scope.concepts, function(concept) {
                     if (concept.names)
                         concept.synonyms = mergeNames(concept.names,
                             concept.preferredName);

@@ -1,5 +1,6 @@
 define([
   'angular-mocks',
+  'lib/underscore',
   'js/controllers/EditProposalCtrl'
 ], function() {
 
@@ -61,11 +62,10 @@ define([
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
 
-      scope.proposal = { 
-        concepts: existingConcepts
-      };
+      scope.proposal.concepts = existingConcepts;
 
-      scope.addNewConceptsToExisting(testData, existingConcepts);
+      scope.proposal.concepts = scope.getConceptUnion(testData, existingConcepts);
+
       for (var x in expectedResult) {
         var inConcepts = scope.proposal.concepts.filter(function(e) {
           return e.id == expectedResult[x].id;

@@ -7,6 +7,7 @@ define([
 		'angular',
 		'config',
 		'require',
+		'underscore',
 		'js/controllers/index',
 	    'js/directives/index',
 	    'js/filters/index',
