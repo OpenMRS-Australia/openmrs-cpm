@@ -81,7 +81,7 @@ define([
           function() {
             $scope.isSubmitting = false;
             $location.path('/');
-            Alerts.queueAlert({message: 'Proposal successfully submitted'});
+            Alerts.queue({message: 'Proposal successfully submitted'});
           },
           function() {
             $scope.isSubmitting = false;
