@@ -7,9 +7,13 @@ require(['config'], function(config) {
       'domReady': 'lib/domReady',
       'jquery': 'lib/jquery',
       'jquery-ui': 'lib/jquery-ui',
-      'require': 'lib/require'
+      'require': 'lib/require',
+      'underscore': 'lib/underscore'
     },
     shim: {
+      'underscore': {
+        exports: '_'
+      },
       'jquery-ui': ['jquery'],
       'angular': {
         deps: ['jquery'],
