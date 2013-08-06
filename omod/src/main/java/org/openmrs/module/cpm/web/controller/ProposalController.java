@@ -125,7 +125,7 @@ public class ProposalController {
 		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
 
-	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
 
 		// TODO: some server side validation here... not null fields, valid email?
