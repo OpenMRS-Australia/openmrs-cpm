@@ -1,6 +1,5 @@
 package org.openmrs.module.cpm.web.dto.factory;
 
-import com.google.common.collect.Lists;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.module.cpm.web.dto.concept.AnswerDto;
@@ -16,9 +15,15 @@ public class AnswerDtoFactory {
 		List<AnswerDto> answerDtos = new ArrayList<AnswerDto>();
 		for (ConceptAnswer answer: concept.getAnswers()) {
 			AnswerDto answerDto = new AnswerDto();
-			answerDto.setConceptUuid(answer.getConcept().getUuid());
-			answerDto.setAnswerConceptUuid(answer.getAnswerConcept().getUuid());
-			answerDto.setAnswerDrugUuid(answer.getAnswerDrug().getUuid());
+			if (answer.getConcept() != null) {
+				answerDto.setConceptUuid(answer.getConcept().getUuid());
+			}
+			if (answer.getAnswerConcept() != null) {
+				answerDto.setAnswerConceptUuid(answer.getAnswerConcept().getUuid());
+			}
+			if (answer.getAnswerDrug() != null) {
+				answerDto.setAnswerDrugUuid(answer.getAnswerDrug().getUuid());
+			}
 			answerDto.setSortWeight(answer.getSortWeight());
 			answerDtos.add(answerDto);
 		}
