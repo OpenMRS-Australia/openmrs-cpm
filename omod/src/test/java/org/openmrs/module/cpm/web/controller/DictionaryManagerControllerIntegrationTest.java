@@ -49,7 +49,7 @@ public class DictionaryManagerControllerIntegrationTest extends BaseCpmOmodTest 
     }
 
 	@Test
-	public void submitProposal_shouldSaveProposedConceptResponsePackageAnd_ReturnResponse() throws Exception {
+	public void submitProposal_validSubmission_shouldSaveProposedConceptResponsePackageAndReturnResponse() throws Exception {
         SubmissionDto submissionDto = createValidSubmissionDto();
         assertNotNull(controller);
 
