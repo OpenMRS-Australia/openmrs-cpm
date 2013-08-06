@@ -32,6 +32,11 @@ input.ng-invalid.ng-dirty {
 	border-color: firebrick;
 	border-style: solid;
 }
+
+#cpm-edit-proposal-form label {
+	display: block;
+}
+
 .name, .email {
 	width: 600px;
 }
@@ -75,11 +80,3 @@ div.loading {
 #cpm-settings #url { width: 350px; }
 
 #menu li { padding-right: 5px; }
-
-.cpm-button-guidance {
-	width: 600px;
-}
-
-.cpm-button-group {
-	margin-top: 1em;
-}
