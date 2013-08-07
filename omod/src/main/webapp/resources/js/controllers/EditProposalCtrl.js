@@ -77,8 +77,6 @@ define([
 
       $scope.submit = function() {
         $scope.proposal.status = 'TBS';
-        var redirectUrl = '/';
-        var successAlert = {message: 'Proposal successfully saved'};
 
         var setInFlight = function() {
           $scope.isSubmitting = true;
@@ -91,7 +89,7 @@ define([
         };
 
         var flightLanded = function() {
-          Alerts.queueAlert({message: 'Proposal successfully submitted'});
+          Alerts.queue({message: 'Proposal successfully submitted'});
           $location.path('/');
         }
 
