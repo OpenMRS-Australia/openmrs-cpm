@@ -60,7 +60,9 @@ define([
       var expectedResult = [{id:1}, {id:2}, {id:3}, {id:4}];
 
       routeParams = {proposalId: 1};
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals/1').respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
+      httpBackend
+        .expectGET('/openmrs/ws/cpm/proposals/1')
+        .respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
 

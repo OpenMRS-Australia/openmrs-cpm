@@ -77,7 +77,7 @@ define([
 
       $scope.submit = function() {
         $scope.proposal.status = 'TBS';
-
+        
         var setInFlight = function() {
           $scope.isSubmitting = true;
           $scope.isLoading = true;
