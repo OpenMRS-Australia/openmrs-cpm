@@ -77,15 +77,23 @@ define([
 
       $scope.submit = function() {
         $scope.proposal.status = 'TBS';
-        $scope.proposal.$update(function() {
+
+        var setInFlight = function() {
+          $scope.isSubmitting = true;
+          $scope.isLoading = true;
+        };
+
+        var cancelInFlight = function() {
           $scope.isSubmitting = false;
           $scope.isLoading = false;
-        }, function() {
-          $scope.isSubmitting = false;
-          $scope.isLoading = false;
-        });
-        $scope.isSubmitting = true;
-        $scope.isLoading = true;
+        };
+
+        setInFlight();
+        if (typeof $scope.proposal.id === 'undefined') {
+          $scope.proposal.$save(cancelInFlight, cancelInFlight);
+        } else {
+          $scope.proposal.$update(cancelInFlight, cancelInFlight);
+        }
       };
 
       $scope.deleteProposal = function() {
