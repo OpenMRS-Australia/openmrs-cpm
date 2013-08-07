@@ -199,6 +199,26 @@ define([
         expect(scope.isReadOnly).toBe(false);
     });
 
+    it('should POST a new resource with status "TBS" if the user clicks "Send proposal" from the "Create Proposal" screen', function(){
+
+        routeParams = {};
+        controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+
+        scope.proposal.name = 'new';
+        scope.proposal.email = 'blah@blah.com';
+        scope.proposal.description = 'proposal';
+
+        httpBackend.expectPOST('/openmrs/ws/cpm/proposals', {
+          status: "TBS",
+          concepts: [],
+          name: "new",
+          email: "blah@blah.com",
+          description: "proposal"
+        }).respond({});
+
+        scope.submit();
+    });
+
     afterEach(function(){
       httpBackend.verifyNoOutstandingExpectation();
     });

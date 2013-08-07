@@ -141,6 +141,11 @@ public class ProposalController {
 
 		// Return the DTO with the new ID for the benefit of the client
 		newPackage.setId(conceptPackage.getId());
+
+		if (newPackage.getStatus() == PackageStatus.TBS) {
+			submitProposal.submitProposedConcept(conceptPackage);
+		}
+
 		return newPackage;
 	}
 

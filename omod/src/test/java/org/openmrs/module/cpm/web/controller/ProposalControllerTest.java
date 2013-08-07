@@ -103,6 +103,34 @@ public class ProposalControllerTest {
 		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
 		verify(service).saveProposedConceptPackage(conceptPackage);
 		assertThat(newDraftProposal.getId(), is(1));
+
+		verify(submitProposal, never()).submitProposedConcept(conceptPackage);
+	}
+
+	@Test
+	public void addProposal_newProposalToBeSubmittedStraightAway_shouldCreateNewProposalAndSubmit() {
+		final ProposedConceptPackageDto newDraftProposal = new ProposedConceptPackageDto();
+		newDraftProposal.setName("new draft proposal");
+		newDraftProposal.setEmail("some@email.com");
+		newDraftProposal.setDescription("new draft proposal description");
+		newDraftProposal.setStatus(PackageStatus.TBS);
+		final List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
+		final ProposedConceptDto concept = new ProposedConceptDto();
+		concept.setUuid("concept-uuid");
+		concepts.add(concept);
+		newDraftProposal.setConcepts(concepts);
+		when(conceptPackage.getId()).thenReturn(1);
+
+		final ProposedConceptPackageDto response = controller.addProposal(newDraftProposal);
+
+		InOrder inOrder = inOrder(conceptPackage, updateProposedConceptPackage, service, submitProposal);
+		inOrder.verify(conceptPackage).setName("new draft proposal");
+		inOrder.verify(conceptPackage).setEmail("some@email.com");
+		inOrder.verify(conceptPackage).setDescription("new draft proposal description");
+		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
+		inOrder.verify(service).saveProposedConceptPackage(conceptPackage);
+		assertThat(newDraftProposal.getId(), is(1));
+		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
 	}
 
 	@Test
