@@ -1,6 +1,7 @@
 package org.openmrs.module.cpm.web.controller;
 
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.ConceptSearchResult;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
@@ -8,25 +9,15 @@ import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.common.CpmConstants;
-import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
-import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
-import org.openmrs.validator.ConceptValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.DirectFieldBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +36,16 @@ public class ProposalController {
 
     private final NameDtoFactory nameDtoFactory;
 
-    private final ConceptDtoValidator conceptDtoValidator;
 
     @Autowired
     public ProposalController (final SubmitProposal submitProposal,
                                final UpdateProposedConceptPackage updateProposedConceptPackage,
                                final DescriptionDtoFactory descriptionDtoFactory,
-                               final NameDtoFactory nameDtoFactory,
-                               final ConceptDtoValidator conceptDtoValidator) {
+                               final NameDtoFactory nameDtoFactory) {
         this.submitProposal = submitProposal;
         this.updateProposedConceptPackage = updateProposedConceptPackage;
         this.descriptionDtoFactory = descriptionDtoFactory;
         this.nameDtoFactory = nameDtoFactory;
-        this.conceptDtoValidator = conceptDtoValidator;
     }
 
 	//
@@ -84,19 +72,16 @@ public class ProposalController {
             final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
             for (final Concept concept : allConcepts) {
                 ConceptDto conceptDto = createConceptDto(concept);
-                if(conceptDtoValidator.validate(conceptDto)) {
                     results.add(conceptDto);
-                }
             }
         } else {
             final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
             for (final ConceptSearchResult conceptSearchResult : concepts) {
                 ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
-                if(conceptDtoValidator.validate(conceptDto)) {
-                    results.add(conceptDto);
+                results.add(conceptDto);
 
                 }
-            }
+
         }
         SearchConceptResultDto resultDto = new SearchConceptResultDto();
         resultDto.setConcepts(results);
