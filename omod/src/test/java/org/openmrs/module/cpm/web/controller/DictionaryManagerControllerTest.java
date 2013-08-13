@@ -1,5 +1,7 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,7 @@ import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,18 +61,18 @@ public class DictionaryManagerControllerTest {
 	@Test
 	public void submitProposal_regularProposal_shouldPersistDetails() throws Exception {
 
-		final SubmissionDto dto = setupRegularProposalFixture();
+		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
 
 		controller.submitProposal(dto);
 
 		verify(responseMock).setConceptClass(conceptClassMock);
 	}
 
-	private SubmissionDto setupRegularProposalFixture() throws Exception {
+	private SubmissionDto setupRegularProposalFixtureWithJson() throws Exception {
 
 		mockStatic(Context.class);
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
-		when(conceptServiceMock.getConceptDatatypeByUuid("blah")).thenReturn(dataTypeMock);
+		when(conceptServiceMock.getConceptDatatypeByUuid("some datatype")).thenReturn(dataTypeMock);
 		when(conceptServiceMock.getConceptClassByUuid("blah")).thenReturn(conceptClassMock);
 		when(dataTypeMock.getUuid()).thenReturn("uuid!");
 
@@ -80,31 +83,32 @@ public class DictionaryManagerControllerTest {
 
 		whenNew(ProposedConceptResponse.class).withNoArguments().thenReturn(responseMock);
 
+		String regularFixture =
+				"{" +
+				"  \"name\": \"A proposal\"," +
+				"  \"email\": \"asdf@asdf.com\"," +
+				"  \"description\": \"A description\"," +
+				"  \"concepts\": [" +
+				"    {" +
+				"      \"conceptClass\": \"blah\"," +
+				"      \"datatype\": \"some datatype\"," +
+				"      \"names\": [" +
+				"        {" +
+				"          \"name\": \"Concept name\"," +
+				"          \"locale\": \"en\"" +
+				"        }" +
+				"      ]," +
+				"      \"descriptions\": [" +
+				"        {" +
+				"          \"description\": \"Concept description\"," +
+				"          \"locale\": \"en\"" +
+				"        }" +
+				"      ]" +
+				"    }" +
+				"  ]" +
+				"}";
 
-		ProposedConceptDto concept = new ProposedConceptDto();
-		concept.setConceptClass("blah");
-		concept.setDatatype("blah");
-
-		List<NameDto> names = new ArrayList<NameDto>();
-		NameDto name = new NameDto();
-		name.setName("name");
-		name.setLocale("en");
-		names.add(name);
-		concept.setNames(names);
-
-		List<DescriptionDto> descriptions = new ArrayList<DescriptionDto>();
-		DescriptionDto description = new DescriptionDto();
-		description.setDescription("description");
-		description.setLocale("en");
-		descriptions.add(description);
-		concept.setDescriptions(descriptions);
-
-		ArrayList<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
-		concepts.add(concept);
-
-		SubmissionDto dto = new SubmissionDto();
-		dto.setConcepts(concepts);
-
-		return dto;
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(regularFixture, SubmissionDto.class);
 	}
 }
