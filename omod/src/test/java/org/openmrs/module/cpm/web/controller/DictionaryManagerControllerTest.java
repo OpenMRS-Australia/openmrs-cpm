@@ -60,16 +60,17 @@ public class DictionaryManagerControllerTest {
 
 	@Test
 	public void submitProposal_regularProposal_shouldPersistDetails() throws Exception {
-
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
+		setupRegularFixtureMocks();
 
 		controller.submitProposal(dto);
 
 		verify(responseMock).setConceptClass(conceptClassMock);
+		verify(responseMock).setComment("some comment");
+		verify(responseMock).setProposedConceptUuid("concept-uuid");
 	}
 
-	private SubmissionDto setupRegularProposalFixtureWithJson() throws Exception {
-
+	private void setupRegularFixtureMocks() throws Exception {
 		mockStatic(Context.class);
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
 		when(conceptServiceMock.getConceptDatatypeByUuid("some datatype")).thenReturn(dataTypeMock);
@@ -82,6 +83,9 @@ public class DictionaryManagerControllerTest {
 		when(proposedConceptResponsePackageMock.getId()).thenReturn(1);
 
 		whenNew(ProposedConceptResponse.class).withNoArguments().thenReturn(responseMock);
+	}
+
+	private SubmissionDto setupRegularProposalFixtureWithJson() throws Exception {
 
 		String regularFixture =
 				"{" +
@@ -90,8 +94,10 @@ public class DictionaryManagerControllerTest {
 				"  \"description\": \"A description\"," +
 				"  \"concepts\": [" +
 				"    {" +
+				"      \"uuid\": \"concept-uuid\"," +
 				"      \"conceptClass\": \"blah\"," +
 				"      \"datatype\": \"some datatype\"," +
+				"      \"comment\": \"some comment\"," +
 				"      \"names\": [" +
 				"        {" +
 				"          \"name\": \"Concept name\"," +
