@@ -83,25 +83,25 @@ public class DictionaryManagerControllerTest {
 
 		String regularFixture =
 				"{" +
-				"  \"name\": \"A proposal\"," +
-				"  \"email\": \"asdf@asdf.com\"," +
-				"  \"description\": \"A description\"," +
-				"  \"concepts\": [" +
+				"  'name': 'A proposal'," +
+				"  'email': 'asdf@asdf.com'," +
+				"  'description': 'A description'," +
+				"  'concepts': [" +
 				"    {" +
-				"      \"uuid\": \"concept-uuid\"," +
-				"      \"conceptClass\": \"blah\"," +
-				"      \"datatype\": \"some datatype\"," +
-				"      \"comment\": \"some comment\"," +
-				"      \"names\": [" +
+				"      'uuid': 'concept-uuid'," +
+				"      'conceptClass': 'blah'," +
+				"      'datatype': 'some datatype'," +
+				"      'comment': 'some comment'," +
+				"      'names': [" +
 				"        {" +
-				"          \"name\": \"Concept name\"," +
-				"          \"locale\": \"en\"" +
+				"          'name': 'Concept name'," +
+				"          'locale': 'en'" +
 				"        }" +
 				"      ]," +
-				"      \"descriptions\": [" +
+				"      'descriptions': [" +
 				"        {" +
-				"          \"description\": \"Concept description\"," +
-				"          \"locale\": \"en\"" +
+				"          'description': 'Concept description'," +
+				"          'locale': 'en'" +
 				"        }" +
 				"      ]" +
 				"    }" +
@@ -109,6 +109,6 @@ public class DictionaryManagerControllerTest {
 				"}";
 
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(regularFixture, SubmissionDto.class);
+		return mapper.readValue(regularFixture.replace("'", "\""), SubmissionDto.class);
 	}
 }
