@@ -1,6 +1,5 @@
 package org.openmrs.module.cpm.web.controller;
 
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,16 +12,9 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.ProposedConceptResponse;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,6 +60,8 @@ public class DictionaryManagerControllerTest {
 		verify(responseMock).setConceptClass(conceptClassMock);
 		verify(responseMock).setComment("some comment");
 		verify(responseMock).setProposedConceptUuid("concept-uuid");
+		verify(responseMock).setDatatype(dataTypeMock);
+		verify(responseMock).setConceptClass(conceptClassMock);
 	}
 
 	private void setupRegularFixtureMocks() throws Exception {
