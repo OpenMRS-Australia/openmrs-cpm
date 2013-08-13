@@ -273,23 +273,11 @@
 
     <!-- Adding id column to proposed concept response name -->
     <changeSet author="cpm" id="cpm_2013-08-12-1">
-        <dropTable tableName="cpm_proposed_concept_response_name"/>
-        <createTable tableName="cpm_proposed_concept_response_name">
-            <column autoIncrement="true" name="cpm_response_name_id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="proposed_concept_response" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="type" type="varchar(255)"/>
-            <column name="locale" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
+        <addAutoIncrement columnDataType="int"
+                          columnName="cpm_response_name_id"
+                          incrementBy="1"
+                          startWith="1"
+                          tableName="cpm_proposed_concept_response_name"/>
     </changeSet>
 
 
