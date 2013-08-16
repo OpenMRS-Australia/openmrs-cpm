@@ -1,5 +1,7 @@
 package org.openmrs.module.cpm;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.api.ConceptNameType;
 
 import javax.persistence.*;
@@ -8,14 +10,18 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "cpm_proposed_concept_response_name")
-public class ProposedConceptResponseName implements Serializable {
+public class ProposedConceptResponseName extends BaseOpenmrsObject implements Serializable {
 
-	@Id
+    @Id
+    @GeneratedValue(generator = "nativeIfNotAssigned")
+    @GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+    @Column(name = "cpm_response_name_id")
+    private Integer proposedConceptResponseNameId;
+
 	@ManyToOne
-	@JoinColumn(name = "proposed_concept_response")
-	private ProposedConceptResponse proposedConceptResponse;
+    @JoinColumn(name = "proposed_concept_response")
+    private ProposedConceptResponse proposedConceptResponse;
 
-	@Id
 	private String name;
 
 	@Enumerated(EnumType.STRING)
@@ -54,4 +60,14 @@ public class ProposedConceptResponseName implements Serializable {
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
+
+    @Override
+    public Integer getId() {
+        return proposedConceptResponseNameId;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        proposedConceptResponseNameId = id;
+    }
 }

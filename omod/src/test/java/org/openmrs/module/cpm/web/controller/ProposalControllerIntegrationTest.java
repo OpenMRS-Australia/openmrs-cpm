@@ -12,7 +12,6 @@ import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
-import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -39,7 +38,7 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
 	private final ProposalController controller = new ProposalController(null, null,
-            new DescriptionDtoFactory(), new NameDtoFactory(), new ConceptDtoValidator());
+            new DescriptionDtoFactory(), new NameDtoFactory());
 
 
 	@Rule
