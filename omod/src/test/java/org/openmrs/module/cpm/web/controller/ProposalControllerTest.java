@@ -9,11 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.openmrs.Concept;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptDescription;
-import org.openmrs.ConceptName;
-import org.openmrs.ConceptSearchResult;
+import org.openmrs.*;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
@@ -21,21 +17,15 @@ import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
-import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -62,12 +52,10 @@ public class ProposalControllerTest {
 	@Mock
 	UpdateProposedConceptPackage updateProposedConceptPackage;
 
-    @Mock
-    ConceptDtoValidator conceptDtoValidator;
 
     @InjectMocks
     ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
-            new DescriptionDtoFactory(), new NameDtoFactory(), conceptDtoValidator );
+            new DescriptionDtoFactory(), new NameDtoFactory() );
 
 	@Before
 	public void before() throws Exception {
@@ -77,7 +65,6 @@ public class ProposalControllerTest {
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
 
-        when(conceptDtoValidator.validate(any(ConceptDto.class))).thenReturn(true);
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 	}
