@@ -3,25 +3,19 @@ package org.openmrs.module.cpm.web.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponseName;
 import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.ProposedConceptResponseDtoFactory;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -49,7 +43,7 @@ public class ReviewControllerTest {
 	UpdateProposedConceptPackage updateProposedConceptPackage;
 
 	@InjectMocks
-	ReviewController controller = new ReviewController();
+	ReviewController controller = new ReviewController(new ProposedConceptResponseDtoFactory(new DescriptionDtoFactory(), new NameDtoFactory()));
 
 	@Before
 	public void before() throws Exception {

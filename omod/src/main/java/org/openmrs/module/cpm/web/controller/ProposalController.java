@@ -65,7 +65,7 @@ public class ProposalController {
     @RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
     public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
                                                              @RequestParam final String requestNum) {
-        final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
+        final List<ConceptDto> results = new ArrayList<ConceptDto>();
         final ConceptService conceptService = Context.getConceptService();
 
         if (query.equals("")) {
@@ -91,10 +91,10 @@ public class ProposalController {
 
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<ProposedConceptPackageDto> getProposals() {
+	public @ResponseBody List<ProposedConceptPackageDto> getProposals() {
 
 		final List<ProposedConceptPackage> allConceptProposalPackages = Context.getService(ProposedConceptService.class).getAllProposedConceptPackages();
-		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
+		final List<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
 
 		for (final ProposedConceptPackage conceptProposalPackage : allConceptProposalPackages) {
 
