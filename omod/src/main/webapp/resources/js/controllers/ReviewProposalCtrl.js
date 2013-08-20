@@ -1,6 +1,14 @@
-define(['./index', 'config'], function(controllers, config) {
+define([
+    'angular',
+    'config',
+    './index'
+  ],
+  function(angular, config) {
 
-    controllers.controller('ReviewProposalCtrl', ['$scope', '$routeParams', '$location', 'ProposalReviews', 'Menu', function($scope, $routeParams, $location, ProposalReviews, MenuService) {
+    'use strict';
+
+    angular.module('cpm.controllers').controller('ReviewProposalCtrl',
+      function($scope, $routeParams, $location, $window, ProposalReviews, MenuService) {
 
         var proposalId = $routeParams.proposalId;
         $scope.isLoading = true;
@@ -10,22 +18,22 @@ define(['./index', 'config'], function(controllers, config) {
         $scope.menu = MenuService.getMenu();
 
         $scope.proposal = ProposalReviews.get({proposalId: proposalId}, function() {
-            $scope.isLoading = false;
+          $scope.isLoading = false;
         });
 
         $scope.showConcept = function(conceptId) {
-            $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
+          $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
         };
 
         $scope.delete = function() {
-            if (confirm('Are you sure?')) {
-                $scope.isLoading = true;
-                $scope.proposal.$remove(function() {
-                    $scope.isLoading = false;
-                    $location.path('/');
-                });
-            }
-        }
-
-    }])
-});
+          if ($window.confirm('Are you sure?')) {
+            $scope.isLoading = true;
+            $scope.proposal.$remove(function() {
+              $scope.isLoading = false;
+              $location.path('/');
+            });
+          }
+        };
+      });
+  }
+);

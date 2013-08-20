@@ -18,7 +18,7 @@ require([
       },
       shim: {
         'underscore': {
-            exports: '_'
+          exports: '_'
         },
         'jquery-ui': ['jquery'],
         'angular': {
