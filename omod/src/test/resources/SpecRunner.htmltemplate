@@ -2,9 +2,6 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=$sourceEncoding$">
-  $if(autoRefresh)$
-    <meta http-equiv="refresh" content="$autoRefreshInterval$">
-  $endif$
   <title>Jasmine Spec Runner</title>
   $cssDependencies$
   $javascriptDependencies$
@@ -12,60 +9,61 @@
 </head>
 <body>
   <script>
+    'use strict';
+
     if(window.location.href.indexOf("ManualSpecRunner.html") !== -1) {
       document.body.appendChild(document.createTextNode("Warning: opening this HTML file directly from the file system is deprecated. You should instead try running `mvn jasmine:bdd` from the command line, and then visit `http://localhost:8234` in your browser. "));
     }
 
     var specs = $specsList$;
 
-    require.config({
-      baseUrl: '$sourceDir$',
-      paths: {
-          "angular": "lib/angular",
-          "angular-mocks": "../../../src/test/webapp/lib/angular-mocks",
-          "angular-resource": "lib/angular-resource",
-          "domReady": "lib/domReady",
-          "jquery": "lib/jquery",
-          "jquery-ui": "lib/jquery-ui"
-      },
-      shim: {
-          'jquery-ui': ['jquery'],
-          'angular': {
-              deps: ['jquery'],
-              exports: 'angular'
-          },
-          'angular-mocks': ['angular'],
-          'angular-resource': ['angular']
-      }
-      $if(customRunnerConfiguration)$
-        , $customRunnerConfiguration$
-      $endif$
-    });
-
     define('config', [], function() {
       return {
-        resourceLocation: '',
+        resourceLocation: '$sourceDir$',
         contextPath: '/openmrs'
       };
     });
 
-    require(specs, function() {
-      window.reporter = new jasmine.$reporter$(); 
-      jasmine.getEnv().addReporter(reporter);
+    require([
+        '../../../src/main/webapp/resources/js/requireJS-config'
+      ],
+      function() {
 
-      if ('$reporter$' == 'HtmlReporter') {
-        jasmine.getEnv().specFilter = function(spec) {
-          return window.reporter.specFilter(spec);
-        };
+        require.config({
+          paths: {
+              "angular-mocks": "../../../src/test/webapp/lib/angular-mocks"
+          },
+          shim: {
+              'angular-mocks': ['angular']
+          }
+          $if(customRunnerConfiguration)$
+            , $customRunnerConfiguration$
+          $endif$
+        });
+
+        require(
+          specs, 
+          function() {
+
+            window.reporter = new jasmine.$reporter$(); 
+            jasmine.getEnv().addReporter(reporter);
+
+            if ('$reporter$' == 'HtmlReporter') {
+              jasmine.getEnv().specFilter = function(spec) {
+                return window.reporter.specFilter(spec);
+              };
+            }
+            
+            //Don't do live updates when running through HTMLUnit
+            if ('$reporter$' == 'JsApiReporter'){
+              jasmine.getEnv().updateInterval = Number.MAX_VALUE;
+            }
+            
+            jasmine.getEnv().execute();
+          }
+        );
       }
-      
-      //Don't do live updates when running through HTMLUnit
-      if ('$reporter$' == 'JsApiReporter'){
-        jasmine.getEnv().updateInterval = Number.MAX_VALUE;
-      }
-      
-      jasmine.getEnv().execute();
-    });
+    );
   </script>
 </body>
 </html>

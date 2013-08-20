@@ -10,59 +10,59 @@
 
   <script>
 
+    'use strict';
+
     define('config', [], function() {
       return {
         // in production would be '/openmrs/moduleResources/cpm'
-        resourceLocation: 'resources',
+        resourceLocation: '../../main/webapp/resources',
         contextPath: '/openmrs'
       };
     });
 
-    requirejs.config({
-        baseUrl: "../../main/webapp/resources",
-        paths: {
-            "unit": "../../../test/webapp/unit",
-            "angular-mocks": "../../../test/webapp/lib/angular-mocks",
-            'angular': 'lib/angular',
-            'angular-resource': 'lib/angular-resource',
-            'domReady': 'lib/domReady',
-            'jquery': 'lib/jquery',
-            'jquery-ui': 'lib/jquery-ui'
-        },
-        shim: {
-            'jquery-ui': ['jquery'],
-            'angular': {
-                deps: ['jquery'],
-                exports: 'angular'
+    require(
+      ['../../main/webapp/resources/js/requireJS-config'],
+      function() {
+
+        requirejs.config({
+            paths: {
+              "unit": "../../../test/webapp/unit",
+              "angular-mocks": "../../../test/webapp/lib/angular-mocks"
             },
-            'angular-mocks': ['angular'],
-            'angular-resource': ['angular']
-        }
-    });
+            shim: {
+              'angular-mocks': ['angular']
+            }
+        });
 
-    require([
-      'domReady!',
-      'unit/filters/proposalStatusSpec',
-      'unit/controllers/ListProposalsCtrlSpec',
-      'unit/controllers/EditProposalCtrlSpec',
-      'unit/controllers/ReviewConceptCtrlSpec',
-	  'unit/controllers/SearchConceptsDialogCtrlFactorySpec',
-      'unit/directives/cpmMenuSpec.js'
-    ], function(document) {
+        require([
+            'domReady!',
+            'unit/filters/proposalStatusSpec',
+            'unit/controllers/ListProposalsCtrlSpec',
+            'unit/controllers/EditProposalCtrlSpec',
+            'unit/controllers/ReviewConceptCtrlSpec',
+            'unit/controllers/SearchConceptsDialogCtrlFactorySpec',
+            'unit/directives/cpmMenuSpec.js'
+          ],
+          function(document) {
 
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
 
-      var htmlReporter = new jasmine.HtmlReporter();
+            var htmlReporter = new jasmine.HtmlReporter();
 
-      jasmineEnv.addReporter(htmlReporter);
+            jasmineEnv.addReporter(htmlReporter);
 
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
+            jasmineEnv.specFilter = function(spec) {
+              return htmlReporter.specFilter(spec);
+            };
 
-      jasmineEnv.execute();
-  });
+            jasmineEnv.execute();
+          }
+        );
+      }
+    );
+
+    
   </script>
 </head>
 <body>
