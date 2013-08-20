@@ -3,13 +3,13 @@ define([
     'config',
     'js/services/services',
     'js/services/menu',
-    'js/directives/searchConceptDialog'
+    'js/directives/searchConceptDialog',
+    'js/services/alerts'
 ], function(controllers, config) {
 
     'use strict';
-
     controllers.controller('EditProposalCtrl',
-            function($scope, $routeParams, $location, Proposals, Menu) {
+            function($scope, $routeParams, $location, Proposals, Menu, Alerts) {
 
                 $scope.contextPath = config.contextPath;
                 $scope.resourceLocation = config.resourceLocation;
@@ -57,35 +57,48 @@ define([
                 }
 
                 $scope.save = function() {
-                    //$scope.proposal.concepts=$scope.selectedConcepts;
+                    var redirectUrl = '/';
+                    var successAlert = {message: 'Proposal successfully saved'};
                     $scope.isLoading = true;
                     if ($scope.isEdit) {
-                        $scope.proposal.$update(function() {
-                            $scope.isLoading = false;
-                            alert('Saved!');
+                        Proposals.update($scope.proposal, function() {
+                            $location.path(redirectUrl);
+                            Alerts.queue(successAlert);
                         });
-                    } else {
-                        $scope.proposal.$save(function() {
-                            // navigate to edit url or not?
-                            // will fetch extra data but url will be up to date
-                            $location.path('/edit/' + $scope.proposal.id);
-                            $scope.isLoading = false;
-                            alert('Saved!');
+                    }
+                    else {
+                        Proposals.save($scope.proposal, function() {
+                            $location.path(redirectUrl);
+                            Alerts.queue(successAlert);
                         });
                     }
                 };
 
                 $scope.submit = function() {
                     $scope.proposal.status = 'TBS';
-                    $scope.proposal.$update(function() {
+
+                    var setInFlight = function() {
+                        $scope.isSubmitting = true;
+                        $scope.isLoading = true;
+                    };
+
+                    var cancelInFlight = function() {
                         $scope.isSubmitting = false;
                         $scope.isLoading = false;
-                    }, function() {
-                        $scope.isSubmitting = false;
-                        $scope.isLoading = false;
-                    });
-                    $scope.isSubmitting = true;
-                    $scope.isLoading = true;
+                    };
+
+                    var flightLanded = function() {
+                        Alerts.queue({message: 'Proposal successfully submitted'});
+                        $location.path('/');
+                    }
+
+                    setInFlight();
+                    if (typeof $scope.proposal.id === 'undefined') {
+                        $scope.proposal.$save(flightLanded, cancelInFlight);
+                    }
+                    else {
+                        $scope.proposal.$update(flightLanded, cancelInFlight);
+                    }
                 };
 
                 $scope.deleteProposal = function() {

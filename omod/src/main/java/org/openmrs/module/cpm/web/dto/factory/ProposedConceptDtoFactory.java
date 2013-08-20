@@ -13,12 +13,14 @@ public class ProposedConceptDtoFactory {
 
     private final NameDtoFactory nameDtoFactory;
 
+	private final AnswerDtoFactory answerDtoFactory;
+
     @Autowired
-    public ProposedConceptDtoFactory(final DescriptionDtoFactory descriptionDtoFactory, final NameDtoFactory nameDtoFactory) {
+    public ProposedConceptDtoFactory(final DescriptionDtoFactory descriptionDtoFactory, final NameDtoFactory nameDtoFactory, AnswerDtoFactory answerDtoFactory) {
         this.descriptionDtoFactory = descriptionDtoFactory;
         this.nameDtoFactory = nameDtoFactory;
+		this.answerDtoFactory = answerDtoFactory;
     }
-
 
     public ProposedConceptDto create(final ProposedConcept proposedConcept, final Concept concept){
         ProposedConceptDto conceptDto = new ProposedConceptDto();
@@ -26,6 +28,7 @@ public class ProposedConceptDtoFactory {
         // concept details
         conceptDto.setNames(nameDtoFactory.create(concept));
         conceptDto.setDescriptions(descriptionDtoFactory.create(concept));
+		conceptDto.setAnswers(answerDtoFactory.create(concept));
         conceptDto.setUuid(concept.getUuid());
         conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
 

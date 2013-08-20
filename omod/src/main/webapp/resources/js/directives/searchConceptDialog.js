@@ -13,7 +13,6 @@ function(directives, config) {
             templateUrl: config.resourceLocation + "/partials/SearchConceptDialog.html",
             controller: 'SearchConceptDialogCtrl',
             link: function($scope, element, attr, jqueryUiDialog) {
-                console.log($scope);
                 $scope.$watch('isOpen', function(isOpen) {
                     jqueryUiDialog.dialog(isOpen);
                 });
