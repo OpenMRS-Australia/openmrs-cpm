@@ -1,8 +1,14 @@
-define(['./index', 'config'], function(filters, config) {
+define([
+    './index',
+    'config'
+  ],
+  function(filters) {
 
-  filters.filter('proposalStatus', function() {
-    return function(input) {
-      switch (input) {
+    'use strict';
+
+    filters.filter('proposalStatus', function() {
+      return function(input) {
+        switch (input) {
 
         case 'DRAFT':
           return 'Draft';
@@ -12,7 +18,8 @@ define(['./index', 'config'], function(filters, config) {
 
         default:
           return '';
-      }
-    };
-  });
-});
+        }
+      };
+    });
+  }
+);
