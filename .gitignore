@@ -30,6 +30,8 @@ openmrs-standalone-*
 # Netbeans
 nbproject
 
+node_modules/*
+
 # Bower components (partial list, pending better build tools)
 omod/src/main/webapp/resources/components/jasmine/jsdoc-template/*
 omod/src/main/webapp/resources/components/jasmine/spec/*
