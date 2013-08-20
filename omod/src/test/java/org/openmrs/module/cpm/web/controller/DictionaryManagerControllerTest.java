@@ -69,6 +69,11 @@ public class DictionaryManagerControllerTest {
 
 		controller.submitProposal(dto);
 
+		verify(proposedConceptResponsePackageMock).setName("A proposal");
+		verify(proposedConceptResponsePackageMock).setEmail("asdf@asdf.com");
+		verify(proposedConceptResponsePackageMock).setDescription("A description");
+		verify(proposedConceptResponsePackageMock).addProposedConcept(responseMock);
+
 		verify(responseMock).setConceptClass(conceptClassMock);
 		verify(responseMock).setComment("some comment");
 		verify(responseMock).setProposedConceptUuid("concept-uuid");
