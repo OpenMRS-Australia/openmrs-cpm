@@ -9,11 +9,3 @@ Feature: Settings Page
     When I enter the settings for a dictionary
     And I refresh the page
     Then those settings should still be there
-    
-  @Selenium
-  Scenario: Edit settings
-  	Given I'm on the Concept Proposal Settings page
-    When I change the settings for a dictionary
-    And I refresh the page
-    Then the settings should be changed
-    
