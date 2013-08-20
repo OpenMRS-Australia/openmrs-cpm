@@ -12,7 +12,7 @@ require([
         'angular-resource': 'components/angular-resource/angular-resource',
         'domReady': 'components/requirejs-domready/domReady',
         'jquery': 'components/jquery/jquery',
-        'jquery-ui': 'lib/jquery-ui/jquery-ui',
+        'jquery-ui': 'components/jquery-ui/jquery-ui',
         'require': 'components/requirejs/require',
         'underscore': 'components/underscore/underscore'
       },
