@@ -1,45 +1,52 @@
-define(['angular-mocks', 'js/directives/cpmMenu', 'js/services/menu'], function() {
-	
-  'use strict';
+define([
+    'angular-mocks',
+    'js/directives/cpmMenu',
+    'js/services/menu'
+  ],
 
-  describe("cpmMenu directive spec", function() {
+  function() {
+  
+    'use strict';
 
-  	var $scope, $compile;
+    describe('cpmMenu directive spec', function() {
 
-  	beforeEach(module('cpm.directives'));
-  	beforeEach(inject(function(_$rootScope_, _$compile_) {
-  		$scope = _$rootScope_;
-  		$compile = _$compile_;
-  	}));
+      var $scope, $compile;
 
-    var compileMenu = function (markup, scope) {
-      var el = $compile(markup)(scope);
-      scope.$digest();
-      return el;
-    };
+      beforeEach(module('cpm.directives'));
 
-  	it("should set the current page's menu class to 'active'", function() {
+      beforeEach(inject(function(_$rootScope_, _$compile_) {
+        $scope = _$rootScope_;
+        $compile = _$compile_;
+      }));
 
-      $scope.menu = [{
-          "active": false,
-          "link": "test.list#edit",
-          "text": "Menu Item #1"
-        },
-        {
-          "active": true,
-          "link": "test.list",
-          "text": "Menu Item #2"
-        }
-      ];
+      var compileMenu = function (markup, scope) {
+        var el = $compile(markup)(scope);
+        scope.$digest();
+        return el;
+      };
 
-      var menu = compileMenu('<cpm-menu menu="menu"></cpm-menu>', $scope);
+      it('should set the current page\'s menu class to \'active\'', function() {
 
-      var activeLink = menu.find("li.active a");
-  		expect(activeLink.text()).toBe("Menu Item #2");
+        $scope.menu = [{
+            'active': false,
+            'link': 'test.list#edit',
+            'text': 'Menu Item #1'
+          },
+          {
+            'active': true,
+            'link': 'test.list',
+            'text': 'Menu Item #2'
+          }
+        ];
 
-      var inactiveLink = menu.find("li:not(.active) a");
-      expect(inactiveLink.text()).toBe("Menu Item #1");
-  	});
-  });
+        var menu = compileMenu('<cpm-menu menu=\'menu\'></cpm-menu>', $scope);
 
-});
+        var activeLink = menu.find('li.active a');
+        expect(activeLink.text()).toBe('Menu Item #2');
+
+        var inactiveLink = menu.find('li:not(.active) a');
+        expect(inactiveLink.text()).toBe('Menu Item #1');
+      });
+    });
+  }
+);

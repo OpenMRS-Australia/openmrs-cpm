@@ -6,9 +6,8 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
 
-  { pattern: 'main/webapp/resources/lib/**/*.js', included: false, watched: true },
+  { pattern: 'main/webapp/resources/components/**/*.js', included: false, watched: true },
   { pattern: 'main/webapp/resources/js/**/*.js', included: false, watched: true },
-  { pattern: 'test/webapp/lib/**/*.js', included: false, watched: true },
   { pattern: 'test/webapp/unit/**/*Spec.js', included: false, watched: true },
 
   'test/webapp/test-main.js'
@@ -16,6 +15,7 @@ files = [
 
 // list of files to exclude
 exclude = [
+  'main/webapp/resources/components/**/*Spec.js',
   'main/webapp/resources/js/cpm-main',
   'main/webapp/resources/js/cpmr-main'
 ];

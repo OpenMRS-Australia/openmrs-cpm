@@ -23,7 +23,7 @@ require([
     require.config({
       baseUrl: config.resourceLocation,
       paths: {
-        'angular-mocks': '../../../test/webapp/lib/angular-mocks'
+        'angular-mocks': 'components/angular-mocks/angular-mocks'
       },
       shim: {
         'angular-mocks': ['angular']

@@ -9,10 +9,11 @@
 </head>
 <body>
   <script>
+
     'use strict';
 
-    if(window.location.href.indexOf("ManualSpecRunner.html") !== -1) {
-      document.body.appendChild(document.createTextNode("Warning: opening this HTML file directly from the file system is deprecated. You should instead try running `mvn jasmine:bdd` from the command line, and then visit `http://localhost:8234` in your browser. "));
+    if (window.location.href.indexOf("ManualSpecRunner.html") !== -1) {
+      document.body.appendChild(document.createTextNode("Warning: opening this HTML file directly from the file system is deprecated. You should instead try running `mvn jasmine:bdd` from the command line, and then visit `http://localhost:8234` in your browser."));
     }
 
     var specs = $specsList$;
@@ -31,10 +32,10 @@
 
         require.config({
           paths: {
-              "angular-mocks": "../../../src/test/webapp/lib/angular-mocks"
+            'angular-mocks': 'components/angular-mocks/angular-mocks'
           },
           shim: {
-              'angular-mocks': ['angular']
+            'angular-mocks': ['angular']
           }
           $if(customRunnerConfiguration)$
             , $customRunnerConfiguration$

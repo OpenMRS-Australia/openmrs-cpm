@@ -1,12 +1,12 @@
 <html>
 <head>
 
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
-  <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
-  <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
+  <link rel="shortcut icon" type="image/png" href="../../main/webapp/resources/components/jasmine/images/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine.css">
+  <script type="text/javascript" src="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine.js"></script>
+  <script type="text/javascript" src="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
 
-  <script src="../../main/webapp/resources/lib/require.js"></script>
+  <script src="../../main/webapp/resources/components/requirejs/require.js"></script>
 
   <script>
 
@@ -20,18 +20,20 @@
       };
     });
 
-    require(
-      ['../../main/webapp/resources/js/requireJS-config'],
+    require([
+        '../../main/webapp/resources/js/requireJS-config'
+      ],
+      
       function() {
 
         requirejs.config({
-            paths: {
-              "unit": "../../../test/webapp/unit",
-              "angular-mocks": "../../../test/webapp/lib/angular-mocks"
-            },
-            shim: {
-              'angular-mocks': ['angular']
-            }
+          paths: {
+            'unit': '../../../test/webapp/unit',
+            'angular-mocks': 'components/angular-mocks/angular-mocks'
+          },
+          shim: {
+            'angular-mocks': ['angular']
+          }
         });
 
         require([

@@ -8,13 +8,13 @@ require([
     requirejs.config({
       baseUrl: config.resourceLocation,
       paths: {
-        'angular': 'lib/angular',
-        'angular-resource': 'lib/angular-resource',
-        'domReady': 'lib/domReady',
-        'jquery': 'lib/jquery',
-        'jquery-ui': 'lib/jquery-ui',
-        'require': 'lib/require',
-        'underscore': 'lib/underscore'
+        'angular': 'components/angular/angular',
+        'angular-resource': 'components/angular-resource/angular-resource',
+        'domReady': 'components/requirejs-domready/domReady',
+        'jquery': 'components/jquery/jquery',
+        'jquery-ui': 'lib/jquery-ui/ui/jquery-ui',
+        'require': 'components/requirejs/require',
+        'underscore': 'components/underscore/underscore'
       },
       shim: {
         'underscore': {

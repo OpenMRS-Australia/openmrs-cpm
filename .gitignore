@@ -29,3 +29,18 @@ openmrs-standalone-*
 
 # Netbeans
 nbproject
+
+# Bower components (partial list, pending better build tools)
+omod/src/main/webapp/resources/components/jasmine/jsdoc-template/*
+omod/src/main/webapp/resources/components/jasmine/spec/*
+omod/src/main/webapp/resources/components/jasmine/spec/**/*
+omod/src/main/webapp/resources/components/jasmine/src/*
+omod/src/main/webapp/resources/components/jasmine/tasks/*
+omod/src/main/webapp/resources/components/jquery-ui/i18n/*
+omod/src/main/webapp/resources/components/jquery-ui/themes/*
+omod/src/main/webapp/resources/components/jquery-ui/ui/*
+omod/src/main/webapp/resources/components/requirejs/dist/*
+omod/src/main/webapp/resources/components/requirejs/docs/*
+omod/src/main/webapp/resources/components/requirejs/tests/*
+omod/src/main/webapp/resources/components/underscore/docs/*
+omod/src/main/webapp/resources/components/underscore/test/*
