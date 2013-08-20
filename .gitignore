@@ -32,7 +32,9 @@ nbproject
 
 node_modules/*
 
-# Bower components (partial list, pending better build tools)
+# Bower components (partial list - all "components" should eventually
+# be excluded, pending better build tools)
+omod/src/main/webapp/resources/components/jasmine/lib/jasmine-core/example/*
 omod/src/main/webapp/resources/components/jasmine/jsdoc-template/*
 omod/src/main/webapp/resources/components/jasmine/spec/*
 omod/src/main/webapp/resources/components/jasmine/spec/**/*
@@ -45,4 +47,5 @@ omod/src/main/webapp/resources/components/requirejs/dist/*
 omod/src/main/webapp/resources/components/requirejs/docs/*
 omod/src/main/webapp/resources/components/requirejs/tests/*
 omod/src/main/webapp/resources/components/underscore/docs/*
+omod/src/main/webapp/resources/components/underscore/index.html
 omod/src/main/webapp/resources/components/underscore/test/*
