@@ -1,27 +1,35 @@
 define(['./index', 'jquery', 'jquery-ui'], function(directives, $) {
 
-	directives.directive('jqueryUiDialog', function () {
-  		return function (scope, element, attrs) {
-          	var dialog = $(element).dialog(
-          	{
-	          	autoOpen: false, 
-	          	width: 800, 
-	          	title: attrs.title,
-	          	close: function() {
-	            	try {
-		            	var functionName = attrs.jqueryUiDialogClosed;
-	                	if (typeof scope[functionName] === "function") {
-	                    	setTimeout(
-	                      		function(){ scope.$apply(scope[functionName]); },
-	                      		100);
-	                  	}
-                  	}
-                  	catch(err) { }
-	            }
-	        });
-	        scope.$watch("dialog", function (value) {
-	            $(element).dialog(value);
-	        });
-	    }
-	});
+    directives.directive('jqueryUiDialog', function() {
+        return {
+            scope: {
+                onClose: "&onClose",
+                title: "@title"
+            },
+            controller: function($scope) {
+                this.dialog = function(isOpen) {
+                    $scope.isOpen = isOpen;
+                    var open = isOpen ? "open" : "close";
+                    $scope.$element.dialog(open);
+                };
+            },
+            link: function($scope, element, attrs) {
+                $scope.isOpen = false;
+                $scope.$element = $(element);
+
+                $scope.$element.dialog({
+                    autoOpen: false,
+                    width: 800,
+                    title: $scope.title,
+                    close: function() {
+                        if ($scope.isOpen) {
+                            $scope.$apply(function() {
+                                $scope.onClose();
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
 });

@@ -19,18 +19,14 @@ define([
 
             $scope.menu = Menu.getMenu();
 
-            $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+            $scope.acceptConcept = function(concepts) {
                 if (concepts.length > 0) {
                     $scope.concept.conceptId = concepts[0].id;
                 }
                 $scope.concept.$update({proposalId: proposalId});
-                $scope.dialog = 'close';
-            });
-
-            $scope.$on('CloseSearchConceptsDialog', function() {
-                $scope.dialog = 'close';
-            });
-
+                $scope.isSearchDialogOpen = false;
+            };
+            
             $scope.concept = ProposalReviewConcepts.get({proposalId: proposalId, conceptId: conceptId}, function() {
                 $scope.isLoading = false;
             });
@@ -45,14 +41,12 @@ define([
 
             $scope.conceptCreated = function() {
                 $scope.concept.status = 'CLOSED_NEW';
-                $scope.dialog='open';
-                $scope.$broadcast('InitSearchConceptsDialog', false);
+                $scope.isSearchDialogOpen = true;
             };
 
             $scope.conceptExists = function() {
                 $scope.concept.status = 'CLOSED_EXISTING';
-                $scope.dialog='open';
-                $scope.$broadcast('InitSearchConceptsDialog', false);
+                $scope.isSearchDialogOpen = true;
             };
 
             $scope.conceptRejected = function() {

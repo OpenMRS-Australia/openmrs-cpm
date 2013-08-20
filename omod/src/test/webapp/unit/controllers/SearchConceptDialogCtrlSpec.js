@@ -1,12 +1,12 @@
 define([
     'angular-mocks', 
     'lib/underscore',
-    'js/controllers/SearchConceptsDialogCtrl'
+    'js/controllers/SearchConceptDialogCtrl'
 ], function() {
     
     'use strict';
     
-    describe("Search Concepts Dialog Spec", function() {
+    describe("Search Concept Dialog Spec", function() {
         
         var scope, controller;
 
@@ -16,7 +16,7 @@ define([
                 
             scope = $rootScope.$new();
             controller = $controller;
-            controller('SearchConceptsDialogCtrl', { $scope: scope, 
+            controller('SearchConceptDialogCtrl', { $scope: scope, 
                 $timeout: 'undefined', SearchConcept : 'undefined' });
         }));
 

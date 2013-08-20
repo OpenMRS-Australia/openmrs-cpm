@@ -86,6 +86,4 @@
     <button ng-click="conceptRejected()">Reject this concept</button>
 </p>
 
-<div jquery-ui-dialog title="Select a concept">
-    <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
-</div>
+<search-concept-dialog is-multiple="false" on-accept-fn="acceptConcept" dialog-open="isSearchDialogOpen"></search-concept-dialog>
