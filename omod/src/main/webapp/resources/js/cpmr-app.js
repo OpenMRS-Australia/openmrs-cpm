@@ -4,21 +4,24 @@
  */
 
 define([
-		'angular',
-		'config',
-		'require',
-		'js/controllers/index',
-	    'js/directives/index',
-	    'js/filters/index',
-	    'js/services/index'
-	], function(angular) {
+    'angular',
+    'config',
+    'require',
+    'underscore',
+    'js/controllers/index',
+    'js/directives/index',
+    'js/filters/index',
+    'js/services/index'
+  ],
+  function(angular) {
 
-		'use strict';
+    'use strict';
 
-		return angular.module('cpm-review', [
-			'cpm.services',
-			'cpm.controllers',
-			'cpm.filters', 
-			'cpm.directives'
-		]);
-});
+    return angular.module('cpm-review', [
+      'cpm.services',
+      'cpm.controllers',
+      'cpm.filters',
+      'cpm.directives'
+    ]);
+  }
+);

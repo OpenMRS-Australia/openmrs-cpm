@@ -5,7 +5,7 @@
 
 <link href="${pageContext.request.contextPath}/moduleResources/cpm/css/cpm.css" type="text/css" rel="stylesheet">
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/cpmr-main" src="${pageContext.request.contextPath}/moduleResources/cpm/lib/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/cpmr-main" src="${pageContext.request.contextPath}/moduleResources/cpm/components/requirejs/require.js"></script>
 
 <div id="cpm-review" ng-view>Loading...</div>
 

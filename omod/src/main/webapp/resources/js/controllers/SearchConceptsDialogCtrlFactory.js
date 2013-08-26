@@ -1,102 +1,108 @@
-define(['config', 'js/services/searchConcept'], function(config) {
+define([
+    'config',
+    'js/services/searchConcept'
+  ],
+  function(config) {
+
+    'use strict';
 
     var searchConceptsCtrl = function($scope, $timeout, SearchConcept) {
 
-        var SEARCH_DELAY = 250;
-        var searchTimeout;
+      var SEARCH_DELAY = 250;
+      var searchTimeout;
 
-        $scope.currentRequestNum = 0;
-        $scope.contextPath = config.contextPath;
-        $scope.isMultiple = true;
-        $scope.concepts = [];
+      $scope.currentRequestNum = 0;
+      $scope.contextPath = config.contextPath;
+      $scope.isMultiple = true;
+      $scope.concepts = [];
 
-        $scope.$on('InitSearchConceptsDialog', function(e, isMultiple) {
+      $scope.$on('InitSearchConceptsDialog', function(e, isMultiple) {
+        $scope.isMultiple = isMultiple;
+      });
 
-            $scope.isMultiple = isMultiple;
-        });
+      var getSelectedConcepts = function() {
 
+        if ($scope.isMultiple) {
+          return _.filter($scope.concepts, function(e) {
+            return e.selected;
+          });
+        }
+        else {
+          return [$scope.selectedConcept];
+        }
+      };
 
-        var getSelectedConcepts = function() {
+      var mergeNames = function(names, preferredName) {
 
-            if ($scope.isMultiple) {
-                return $scope.concepts.filter(function(e) {
-                    return e.selected;
-                });
-            } else {
-                return [$scope.selectedConcept];
+        return _.reduce(names, function(prev, curr) {
+          var conceptName = curr.name;
+          if (conceptName !== '' && conceptName !== preferredName) {
+            if (prev === '') {
+              return conceptName;
             }
-        };
-
-        var mergeNames = function(names, preferredName) {
-
-            return names.reduce(function(prev, curr) {
-                var conceptName = curr.name;
-                if (conceptName !== "" &&
-                        conceptName !== preferredName) {
-                    if (prev == "") {
-                        return conceptName;
-                    } else {
-                        return prev + ", " + conceptName;
-                    }
-                } else {
-                    return prev;
-                }
-            }, "");
-        };
-
-        $scope.processSearchResults = function(response) {
-            $scope.isSearching = false;
-            
-            var data = response.data;
-
-            if (parseInt(data.requestNum) >= $scope.currentRequestNum) {
-                $scope.currentRequestNum = data.requestNum;
-                $scope.concepts = data.concepts;
-                
-                $scope.concepts.forEach(function(concept) {
-                    if (concept.names)
-                        concept.synonyms = mergeNames(concept.names,
-                            concept.preferredName);
-                });
+            else {
+              return prev + ', ' + conceptName;
             }
-        };
+          }
+          else {
+            return prev;
+          }
+        }, '');
+      };
 
-        $scope.search = function() {
+      $scope.processSearchResults = function(response) {
+        $scope.isSearching = false;
+        
+        var data = response.data;
 
-            if (typeof searchTimeout !== "undefined") {
-                $timeout.cancel(searchTimeout);
+        if (parseInt(data.requestNum, 10) >= $scope.currentRequestNum) {
+          $scope.currentRequestNum = data.requestNum;
+          $scope.concepts = data.concepts;
+          
+          _.forEach($scope.concepts, function(concept) {
+            if (concept.names) {
+              concept.synonyms = mergeNames(
+                concept.names,
+                concept.preferredName);
             }
+          });
+        }
+      };
 
-            searchTimeout = $timeout(function() {
-                
-                $scope.currentRequestNum++;
-                $scope.isSearching = true;
-                SearchConcept.runQuery($scope.searchTerm, $scope.currentRequestNum)
-                        .then($scope.processSearchResults);
-            }, SEARCH_DELAY);
-        };
+      $scope.search = function() {
 
-        $scope.conceptClicked = function(concept) {
+        if (typeof searchTimeout !== 'undefined') {
+          $timeout.cancel(searchTimeout);
+        }
 
-            if ($scope.isMultiple) {
-                concept.selected = !concept.selected;
-            } else {
-                $scope.selectedConcept = concept;
-            }
-        };
+        searchTimeout = $timeout(function() {
+          $scope.currentRequestNum++;
+          $scope.isSearching = true;
+          SearchConcept
+            .runQuery($scope.searchTerm, $scope.currentRequestNum)
+            .then($scope.processSearchResults);
+        }, SEARCH_DELAY);
+      };
 
-        $scope.add = function() {
+      $scope.conceptClicked = function(concept) {
+        if ($scope.isMultiple) {
+          concept.selected = !concept.selected;
+        }
+        else {
+          $scope.selectedConcept = concept;
+        }
+      };
 
-            var concepts = getSelectedConcepts();
+      $scope.add = function() {
+        var concepts = getSelectedConcepts();
+        $scope.$emit('AddConceptButtonClicked', concepts);
+      };
 
-            $scope.$emit('AddConceptButtonClicked', concepts);
-        };
-
-        $scope.cancel = function() {
-
-            $scope.$emit('CloseSearchConceptsDialog');
-        };
+      $scope.cancel = function() {
+        $scope.$emit('CloseSearchConceptsDialog');
+      };
     };
 
     return searchConceptsCtrl;
-});
+  }
+);

@@ -1,30 +1,36 @@
 define([
-  './index',
-  'config',
-  'js/services/services',
-  'js/services/menu'
-], function(controllers, config) {
+    'angular',
+    'config',
+    'js/services/services',
+    'js/services/menu',
+    'js/services/alerts',
+    './index'
+  ],
+  function(angular, config) {
 
-  'use strict';
+    'use strict';
 
-  controllers.controller('ListProposalsCtrl',
+    angular.module('cpm.controllers').controller('ListProposalsCtrl',
 
-    function($scope, $location, Proposals, Menu) {
+      function($scope, $location, Proposals, Menu, Alerts) {
 
-      document.title = 'Manage Concept Proposals';
-      $scope.contextPath = config.contextPath;
-      $scope.resourceLocation = config.resourceLocation;
-      $scope.responseReceived = false;
+        document.title = 'Manage Concept Proposals';
+        $scope.contextPath = config.contextPath;
+        $scope.resourceLocation = config.resourceLocation;
+        $scope.responseReceived = false;
 
-      $scope.menu = Menu.getMenu(2);
+        $scope.menu = Menu.getMenu(2);
 
-      $scope.proposals = Proposals.query(function() {
-        $scope.responseReceived = true;
-      });
+        $scope.alerts = Alerts.dequeue();
 
-      $scope.editProposal = function(proposalId) {
-        $location.path('/edit/' + proposalId)
+        $scope.proposals = Proposals.query(function() {
+          $scope.responseReceived = true;
+        });
+
+        $scope.editProposal = function(proposalId) {
+          $location.path('/edit/' + proposalId);
+        };
       }
-    }
-  );
-});
+    );
+  }
+);

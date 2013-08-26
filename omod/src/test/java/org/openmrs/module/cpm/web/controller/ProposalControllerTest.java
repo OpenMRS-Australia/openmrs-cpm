@@ -15,27 +15,26 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
+import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
-import org.openmrs.module.cpm.web.dto.validator.ConceptDtoValidator;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Context.class, LocaleUtility.class})
+@PrepareForTest({Context.class, LocaleUtility.class, ProposalController.class})
 public class ProposalControllerTest {
 
 	@Mock
@@ -53,12 +52,10 @@ public class ProposalControllerTest {
 	@Mock
 	UpdateProposedConceptPackage updateProposedConceptPackage;
 
-    @Mock
-    ConceptDtoValidator conceptDtoValidator;
 
     @InjectMocks
     ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
-            new DescriptionDtoFactory(), new NameDtoFactory(), conceptDtoValidator );
+            new DescriptionDtoFactory(), new NameDtoFactory() );
 
 	@Before
 	public void before() throws Exception {
@@ -68,7 +65,59 @@ public class ProposalControllerTest {
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
 
-        when(conceptDtoValidator.validate(any(ConceptDto.class))).thenReturn(true);
+
+		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
+	}
+
+	@Test
+	public void addProposal_newDraftProposal_shouldOnlyCreateNewProposal() {
+		final ProposedConceptPackageDto newDraftProposal = new ProposedConceptPackageDto();
+		newDraftProposal.setName("new draft proposal");
+		newDraftProposal.setEmail("some@email.com");
+		newDraftProposal.setDescription("new draft proposal description");
+		final List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
+		final ProposedConceptDto concept = new ProposedConceptDto();
+		concept.setUuid("concept-uuid");
+		concepts.add(concept);
+		newDraftProposal.setConcepts(concepts);
+		when(conceptPackage.getId()).thenReturn(1);
+
+		final ProposedConceptPackageDto response = controller.addProposal(newDraftProposal);
+
+		verify(conceptPackage).setName("new draft proposal");
+		verify(conceptPackage).setEmail("some@email.com");
+		verify(conceptPackage).setDescription("new draft proposal description");
+		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
+		verify(service).saveProposedConceptPackage(conceptPackage);
+		assertThat(newDraftProposal.getId(), is(1));
+
+		verify(submitProposal, never()).submitProposedConcept(conceptPackage);
+	}
+
+	@Test
+	public void addProposal_newProposalToBeSubmittedStraightAway_shouldCreateNewProposalAndSubmit() {
+		final ProposedConceptPackageDto newDraftProposal = new ProposedConceptPackageDto();
+		newDraftProposal.setName("new draft proposal");
+		newDraftProposal.setEmail("some@email.com");
+		newDraftProposal.setDescription("new draft proposal description");
+		newDraftProposal.setStatus(PackageStatus.TBS);
+		final List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
+		final ProposedConceptDto concept = new ProposedConceptDto();
+		concept.setUuid("concept-uuid");
+		concepts.add(concept);
+		newDraftProposal.setConcepts(concepts);
+		when(conceptPackage.getId()).thenReturn(1);
+
+		final ProposedConceptPackageDto response = controller.addProposal(newDraftProposal);
+
+		InOrder inOrder = inOrder(conceptPackage, updateProposedConceptPackage, service, submitProposal);
+		inOrder.verify(conceptPackage).setName("new draft proposal");
+		inOrder.verify(conceptPackage).setEmail("some@email.com");
+		inOrder.verify(conceptPackage).setDescription("new draft proposal description");
+		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
+		inOrder.verify(service).saveProposedConceptPackage(conceptPackage);
+		assertThat(newDraftProposal.getId(), is(1));
+		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
 	}
 
 	@Test

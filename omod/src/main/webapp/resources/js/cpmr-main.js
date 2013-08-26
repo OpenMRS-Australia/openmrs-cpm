@@ -1,25 +1,12 @@
-require(['config'], function(config) {
-  requirejs.config({
-    baseUrl: config.resourceLocation,
-	  paths: {
-	    'angular': 'lib/angular',
-	    'angular-resource': 'lib/angular-resource',
-      'domReady': 'lib/domReady',
-	    'jquery': 'lib/jquery',
-	    'jquery-ui': 'lib/jquery-ui',
-	    'require': 'lib/require'
-	  },
-	  shim: {
-	    'jquery-ui': ['jquery'],
-	    'angular': {
-	      deps: ['jquery'],
-	      exports: 'angular'
-	    },
-	    'angular-resource': ['angular']
-	  }
-	});
+require([
+    'requireJS-config'
+  ],
+  function() {
 
-	require(['js/cpmr-bootstrap'], function () {
-	    // nothing to do here - see cpmr-bootstrap.js
-	});
-});
+    'use strict';
+
+    require(['js/cpmr-bootstrap'], function () {
+        // nothing to do here - see cpmr-bootstrap.js
+    });
+  }
+);

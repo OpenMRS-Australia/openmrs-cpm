@@ -19,6 +19,8 @@ public class ConceptDto {
 
 	private Collection<DescriptionDto> descriptions;
 
+	private Collection<AnswerDto> answers;
+
 	// for UI, not necessary for submission
 	private String currLocaleDescription;
 
@@ -78,6 +80,14 @@ public class ConceptDto {
 
 	public void setDescriptions(Collection<DescriptionDto> descriptions) {
 		this.descriptions = descriptions;
+	}
+
+	public Collection<AnswerDto> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(Collection<AnswerDto> answers) {
+		this.answers = answers;
 	}
 
 	public String getCurrLocaleDescription() {

@@ -271,4 +271,14 @@
         </addColumn>
     </changeSet>
 
+    <!-- Adding id column to proposed concept response name -->
+    <changeSet id="cpm_2013-08-20-1" author="cpm">
+        <dropPrimaryKey tableName="cpm_proposed_concept_response_name" />
+        <addColumn tableName="cpm_proposed_concept_response_name">
+            <column autoIncrement="true" name="cpm_response_name_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

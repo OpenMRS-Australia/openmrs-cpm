@@ -1,5 +1,7 @@
 package org.openmrs.module.cpm;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.api.ConceptNameType;
 
 import javax.persistence.*;
@@ -8,50 +10,64 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "cpm_proposed_concept_response_name")
-public class ProposedConceptResponseName implements Serializable {
+public class ProposedConceptResponseName extends BaseOpenmrsObject implements Serializable {
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "proposed_concept_response")
-	private ProposedConceptResponse proposedConceptResponse;
+  @Id
+  @GeneratedValue(generator = "nativeIfNotAssigned")
+  @GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+  @Column(name = "cpm_response_name_id")
+  private Integer proposedConceptResponseNameId;
 
-	@Id
-	private String name;
+  @ManyToOne
+  @JoinColumn(name = "proposed_concept_response")
+  private ProposedConceptResponse proposedConceptResponse;
 
-	@Enumerated(EnumType.STRING)
-	private ConceptNameType type;
+  private String name;
 
-	private Locale locale;
+  @Enumerated(EnumType.STRING)
+  private ConceptNameType type;
 
-	public ProposedConceptResponse getProposedConceptResponse() {
-		return proposedConceptResponse;
-	}
+  private Locale locale;
 
-	public void setProposedConceptResponse(ProposedConceptResponse proposedConceptResponse) {
-		this.proposedConceptResponse = proposedConceptResponse;
-	}
+  public ProposedConceptResponse getProposedConceptResponse() {
+    return proposedConceptResponse;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public void setProposedConceptResponse(ProposedConceptResponse proposedConceptResponse) {
+    this.proposedConceptResponse = proposedConceptResponse;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public ConceptNameType getType() {
-		return type;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setType(ConceptNameType type) {
-		this.type = type;
-	}
+  public ConceptNameType getType() {
+    return type;
+  }
 
-	public Locale getLocale() {
-		return locale;
-	}
+  public void setType(ConceptNameType type) {
+    this.type = type;
+  }
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
+  public Locale getLocale() {
+    return locale;
+  }
+
+  public void setLocale(Locale locale) {
+    this.locale = locale;
+  }
+
+  @Override
+  public Integer getId() {
+    return proposedConceptResponseNameId;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    proposedConceptResponseNameId = id;
+  }
 }
