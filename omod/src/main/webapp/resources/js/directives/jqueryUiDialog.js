@@ -1,4 +1,11 @@
-define(['./index', 'jquery', 'jquery-ui'], function(directives, $) {
+define([
+    './index',
+    'jquery',
+    'jquery-ui'
+  ],
+  function(directives, $) {
+	
+	'use strict';
 
     directives.directive('jqueryUiDialog', function() {
         return {

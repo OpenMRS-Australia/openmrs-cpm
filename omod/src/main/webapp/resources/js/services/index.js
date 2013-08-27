@@ -1,6 +1,12 @@
-define(['angular', 'angular-resource'], function (angular) {
+define([
+    'angular',
+    'angular-resource'
+  ],
+
+  function (angular) {
 	
     'use strict';
 
-    return angular.module('cpm.services', ['ngResource'])
-});
+    return angular.module('cpm.services', ['ngResource']);
+  }
+);

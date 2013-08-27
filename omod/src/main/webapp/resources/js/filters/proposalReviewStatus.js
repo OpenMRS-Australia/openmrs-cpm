@@ -1,12 +1,18 @@
-define(['./index', 'config'], function(filters, config) {
+define([
+    './index',
+    'config'
+  ],
+  function(filters, config) {
 
-  function getConceptLink(conceptId) {
+    'use strict';
+
+    function getConceptLink(conceptId) {
       return '<a onclick="var event = arguments[0] || window.event; event.stopPropagation();" href="' + config.contextPath + '/dictionary/concept.htm?conceptId=' + conceptId + '">' + conceptId + '</a>';
-  }
+    }
 
-  filters.filter('proposalReviewStatus', function() {
-    return function(proposal) {
-      switch (proposal.status) {
+    filters.filter('proposalReviewStatus', function() {
+      return function(proposal) {
+        switch (proposal.status) {
 
         case 'RECEIVED':
           return 'Open';
@@ -22,7 +28,8 @@ define(['./index', 'config'], function(filters, config) {
 
         default:
           return '';
-      }
-    }
-  });
-});
+        }
+      };
+    });
+  }
+);

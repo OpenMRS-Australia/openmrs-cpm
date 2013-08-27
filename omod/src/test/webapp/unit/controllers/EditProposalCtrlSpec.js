@@ -1,6 +1,6 @@
 define([
   'angular-mocks',
-  'lib/underscore',
+  'underscore',
   'js/controllers/EditProposalCtrl'
 ], function() {
 

@@ -4,21 +4,25 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponseNumeric;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
+import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -29,25 +33,16 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class DictionaryManagerControllerTest {
 
 	@Mock
-	private ProposedConceptResponse responseMock;
-
-	@Mock
 	private ConceptDatatype dataTypeMock;
 
 	@Mock
 	private ConceptClass conceptClassMock;
 
 	@Mock
-	private ProposedConceptResponseNumeric responseNumericMock;
-
-	@Mock
 	private ConceptService conceptServiceMock;
 
 	@Mock
 	private ProposedConceptService proposedConceptServiceMock;
-
-	@Mock
-	private ProposedConceptResponsePackage proposedConceptResponsePackageMock;
 
 	private DictionaryManagerController controller;
 
@@ -58,8 +53,6 @@ public class DictionaryManagerControllerTest {
 		mockStatic(Context.class);
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
 		when(Context.getService(ProposedConceptService.class)).thenReturn(proposedConceptServiceMock);
-		whenNew(ProposedConceptResponsePackage.class).withNoArguments().thenReturn(proposedConceptResponsePackageMock);
-		whenNew(ProposedConceptResponse.class).withNoArguments().thenReturn(responseMock);
 	}
 
 	@Test
@@ -69,23 +62,31 @@ public class DictionaryManagerControllerTest {
 
 		controller.submitProposal(dto);
 
-		verify(proposedConceptResponsePackageMock).setName("A proposal");
-		verify(proposedConceptResponsePackageMock).setEmail("asdf@asdf.com");
-		verify(proposedConceptResponsePackageMock).setDescription("A description");
-		verify(proposedConceptResponsePackageMock).addProposedConcept(responseMock);
+		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
+		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
+		final ProposedConceptResponsePackage value = captor.getValue();
+		assertThat(value.getName(), is("A proposal"));
+		assertThat(value.getEmail(), is("asdf@asdf.com"));
+		assertThat(value.getDescription(), is("A description"));
 
-		verify(responseMock).setConceptClass(conceptClassMock);
-		verify(responseMock).setComment("some comment");
-		verify(responseMock).setProposedConceptUuid("concept-uuid");
-		verify(responseMock).setDatatype(dataTypeMock);
-		verify(responseMock).setConceptClass(conceptClassMock);
+		final ArrayList<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
+		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
+		assertThat(proposedConceptResponse.getProposedConceptUuid(), is("concept-uuid"));
+		assertThat(proposedConceptResponse.getComment(), is("some comment"));
+		assertThat(proposedConceptResponse.getConceptClass(), is(conceptClassMock));
+		assertThat(proposedConceptResponse.getDatatype(), is(dataTypeMock));
+
+		final List<ProposedConceptResponseName> names = proposedConceptResponse.getNames();
+		assertThat(names.get(0).getName(), is("Concept name"));
+
+		final List<ProposedConceptResponseDescription> descriptions = proposedConceptResponse.getDescriptions();
+		assertThat(descriptions.get(0).getDescription(), is("Concept description"));
 	}
 
 	private void setupRegularFixtureMocks() throws Exception {
 		when(conceptServiceMock.getConceptDatatypeByUuid("datatype-uuid")).thenReturn(dataTypeMock);
 		when(conceptServiceMock.getConceptClassByUuid("concept-class-uuid")).thenReturn(conceptClassMock);
 		when(dataTypeMock.getUuid()).thenReturn("uuid!");
-		when(proposedConceptResponsePackageMock.getId()).thenReturn(1);
 	}
 
 	private SubmissionDto setupRegularProposalFixtureWithJson() throws Exception {
@@ -129,19 +130,21 @@ public class DictionaryManagerControllerTest {
 
 		controller.submitProposal(dto);
 
-		verify(responseMock).setConceptClass(conceptClassMock);
-		verify(responseMock).setComment("some comment");
-		verify(responseMock).setProposedConceptUuid("concept-uuid");
-		verify(responseMock).setDatatype(dataTypeMock);
-		verify(responseMock).setConceptClass(conceptClassMock);
+		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
+		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
+		final ProposedConceptResponsePackage value = captor.getValue();
+		final ArrayList<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
+		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
+		assertThat(proposedConceptResponse.getDatatype(), is(dataTypeMock));
 
-		verify(responseNumericMock).setUnits("ml");
-		verify(responseNumericMock).setHiNormal(100.5);
-		verify(responseNumericMock).setHiCritical(110.0);
-		verify(responseNumericMock).setHiAbsolute(1000.0);
-		verify(responseNumericMock).setLowNormal(20.3);
-		verify(responseNumericMock).setLowCritical(15.0);
-		verify(responseNumericMock).setLowAbsolute(0.0);
+		final ProposedConceptResponseNumeric numericDetails = proposedConceptResponse.getNumericDetails();
+		assertThat(numericDetails.getUnits(), is("ml"));
+		assertThat(numericDetails.getHiNormal(), is(100.5));
+		assertThat(numericDetails.getHiCritical(), is(110.0));
+		assertThat(numericDetails.getHiAbsolute(), is(1000.0));
+		assertThat(numericDetails.getLowNormal(), is(20.3));
+		assertThat(numericDetails.getLowCritical(), is(15.0));
+		assertThat(numericDetails.getLowAbsolute(), is(0.0));
 	}
 
 	private SubmissionDto setupNumericProposalFixture() throws IOException {
@@ -188,6 +191,5 @@ public class DictionaryManagerControllerTest {
 	private void setupNumericFixtureMocks() throws Exception {
 		when(conceptServiceMock.getConceptDatatypeByUuid("8d4a4488-c2cc-11de-8d13-0010c6dffd0f")).thenReturn(dataTypeMock);
 		when(dataTypeMock.getUuid()).thenReturn("8d4a4488-c2cc-11de-8d13-0010c6dffd0f");
-		whenNew(ProposedConceptResponseNumeric.class).withNoArguments().thenReturn(responseNumericMock);
 	}
 }

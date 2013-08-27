@@ -1,20 +1,31 @@
-define(['./index', 'config'], function(controllers, config) {
+define([
+    'angular',
+    'config',
+    './index'
+  ],
+  function(angular, config) {
 
-  controllers.controller('ListIncomingProposalsCtrl', ['$scope', 'ProposalReviews', 'Menu', '$location', function($scope, ProposalReviews, MenuService, $location) {
+    'use strict';
 
-    document.title = 'Incoming Concept Proposals';
-    $scope.contextPath = config.contextPath;
-    $scope.resourceLocation = config.resourceLocation;
-    $scope.responseReceived = false;
+    angular.module('cpm.controllers')
+      .controller('ListIncomingProposalsCtrl',
+        function($scope, $location, ProposalReviews, MenuService) {
 
-    $scope.menu = MenuService.getMenu(3);
+          document.title = 'Incoming Concept Proposals';
+          $scope.contextPath = config.contextPath;
+          $scope.resourceLocation = config.resourceLocation;
+          $scope.responseReceived = false;
 
-    $scope.proposals = ProposalReviews.query(function() {
-      $scope.responseReceived = true;
-    });
+          $scope.menu = MenuService.getMenu(3);
 
-    $scope.editProposal = function(proposalId) {
-      $location.path('/edit/' + proposalId)
-    }
-  }]);
-});
+          $scope.proposals = ProposalReviews.query(function() {
+            $scope.responseReceived = true;
+          });
+
+          $scope.editProposal = function(proposalId) {
+            $location.path('/edit/' + proposalId);
+          };
+        }
+      );
+  }
+);

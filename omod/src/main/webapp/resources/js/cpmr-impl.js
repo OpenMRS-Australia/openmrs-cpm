@@ -1,7 +1,3 @@
-/**
- * This is where you add new components to the application
- * you don't need to sweat the dependency order (that is what RequireJS is for)
- */
 define([
     'js/controllers/ListIncomingProposalsCtrl',
     'js/controllers/ReviewProposalCtrl',
@@ -15,5 +11,8 @@ define([
     'js/filters/boolToYesOrNo',
     'js/services/menu',
     'js/services/services'
-], function() {
-});
+  ],
+  function () {
+    'use strict';
+  }
+);
