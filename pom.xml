@@ -149,7 +149,7 @@
                 <module>functional-tests</module>
             </modules>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
 
@@ -160,7 +160,7 @@
                 <module>omod</module>
             </modules>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
         <profile>
@@ -171,6 +171,10 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <properties>
+                <url.path>http://localhost:8888/openmrs/admin</url.path>
+            </properties>
+
         </profile>
     </profiles>
 
