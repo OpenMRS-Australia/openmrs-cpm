@@ -37,6 +37,7 @@ public class TestDictionaryManagerEndpoint {
 	private DefaultHttpClient httpclient;
 
 
+    @Ignore
 	@Test
 	public void submitProposalWithNoAuth_shouldReceived401() throws IOException {
 
@@ -61,6 +62,7 @@ public class TestDictionaryManagerEndpoint {
 	}
 
 	// TODO: verify that a proposal with no concepts is allowed
+    @Ignore
 	@Test
 	public void submitProposalNoConcepts_shouldReceive200() throws IOException {
 
@@ -72,6 +74,7 @@ public class TestDictionaryManagerEndpoint {
 		assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
 	}
 
+    @Ignore
 	@Test
 	public void submitProposalSingleConcept_shouldReceive200() throws IOException {
 
@@ -83,6 +86,7 @@ public class TestDictionaryManagerEndpoint {
 		assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
 	}
 
+    @Ignore
 	@Test
 	public void submitProposalThenRetrieveStatus_statusShouldBeReceived() throws IOException {
 

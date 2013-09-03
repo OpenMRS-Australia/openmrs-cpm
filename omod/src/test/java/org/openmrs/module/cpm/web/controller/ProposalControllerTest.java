@@ -4,19 +4,25 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import junit.framework.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openmrs.*;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
+import org.openmrs.module.cpm.ProposalStatus;
+import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
+import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
+import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
@@ -67,6 +73,66 @@ public class ProposalControllerTest {
 
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
+	}
+
+	@Test
+	@Ignore
+	public void getProposalById_simpleProposal_shouldBindToDto() {
+
+		when(conceptPackage.getName()).thenReturn("A sample proposal");
+		when(conceptPackage.getDescription()).thenReturn("A sample proposal description");
+		when(conceptPackage.getStatus()).thenReturn(PackageStatus.DRAFT);
+		when(conceptPackage.getEmail()).thenReturn("asdf@asdf.com");
+		Set<ProposedConcept> proposedConcepts = new HashSet<ProposedConcept>();
+		ProposedConcept proposedConcept = mock(ProposedConcept.class);
+		when(proposedConcept.getStatus()).thenReturn(ProposalStatus.DRAFT);
+		when(proposedConcept.getComment()).thenReturn("A concept comment");
+
+		Concept concept = mock(Concept.class);
+		when(concept.getId()).thenReturn(123);
+		when(concept.getConceptId()).thenReturn(123);
+		ConceptName name = mock(ConceptName.class);
+		when(name.getConceptNameType()).thenReturn(ConceptNameType.FULLY_SPECIFIED);
+		when(name.getLocale()).thenReturn(Locale.ENGLISH);
+		when(name.getName()).thenReturn("A concept name");
+		when(concept.getName()).thenReturn(name);
+		ConceptDescription description = mock(ConceptDescription.class);
+		when(description.getDescription()).thenReturn("A concept description");
+		when(description.getLocale()).thenReturn(Locale.ENGLISH);
+		when(concept.getDescription()).thenReturn(description);
+		ConceptDatatype datatype = mock(ConceptDatatype.class);
+		when(datatype.getName()).thenReturn("Numeric");
+		when(concept.getDatatype()).thenReturn(datatype);
+		when(proposedConcept.getConcept()).thenReturn(concept);
+
+		proposedConcepts.add(proposedConcept);
+		when(conceptPackage.getProposedConcepts()).thenReturn(proposedConcepts);
+
+		final ProposedConceptPackageDto packageDto = controller.getProposalById("1");
+
+		assertThat(packageDto.getName(), is("A sample proposal"));
+		assertThat(packageDto.getDescription(), is("A sample proposal description"));
+		assertThat(packageDto.getEmail(), is("asdf@asdf.com"));
+		assertThat(packageDto.getStatus(), is(PackageStatus.DRAFT));
+
+		final List<ProposedConceptDto> concepts = packageDto.getConcepts();
+		assertThat(concepts.size(), is(1));
+		final ProposedConceptDto conceptDto = concepts.get(0);
+		assertThat(conceptDto.getStatus(), is(ProposalStatus.DRAFT));
+		assertThat(conceptDto.getComment(), is("A concept comment"));
+		assertThat(conceptDto.getPreferredName(), is("A concept name"));
+		assertThat(conceptDto.getDatatype(), is("Numeric"));
+
+		final ArrayList<NameDto> names = new ArrayList<NameDto>(conceptDto.getNames());
+		assertThat(names.size(), is(1));
+		assertThat(names.get(0).getName(), is("A concept name"));
+		assertThat(names.get(0).getLocale(), is("EN"));
+		assertThat(names.get(0).getType(), is(ConceptNameType.FULLY_SPECIFIED));
+
+		final ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>(conceptDto.getDescriptions());
+		assertThat(descriptionDtos.size(), is(1));
+		assertThat(descriptionDtos.get(0).getDescription(), is("A concept description"));
+		assertThat(descriptionDtos.get(0).getLocale(), is("EN"));
 	}
 
 	@Test
