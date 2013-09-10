@@ -1,0 +1,33 @@
+
+allprojects {
+
+    apply plugin: 'java'
+
+    version = '1.0-SNAPSHOT'
+    ext.openMrsVersion = '1.9.2'
+
+    configurations {
+        compile.exclude module: 'jms'
+        compile.exclude module: 'jmxtools'
+        compile.exclude module: 'jmxri'
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://mavenrepo.openmrs.org/nexus/content/repositories/public'
+        }
+    }
+
+    dependencies {
+        compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
+        compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
+
+        testCompile "org.openmrs.api:openmrs-api:${openMrsVersion}:tests"
+        testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
+        testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
+
+        testCompile 'junit:junit:4.10'
+        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
+    }
+}
