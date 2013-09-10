@@ -8,14 +8,14 @@ define([
     'use strict';
 
     angular.module('cpm.controllers').controller('ReviewProposalCtrl',
-      function($scope, $routeParams, $location, $window, ProposalReviews, MenuService) {
+      function($scope, $routeParams, $location, $window, ProposalReviews, Menu) {
 
         var proposalId = $routeParams.proposalId;
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
 
-        $scope.menu = MenuService.getMenu();
+        $scope.menu = Menu.getMenu();
 
         $scope.proposal = ProposalReviews.get({proposalId: proposalId}, function() {
           $scope.isLoading = false;
