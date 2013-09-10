@@ -1,4 +1,4 @@
-<div jquery-ui-dialog on-close="onClose()" title="{{title}}">
+<div>
     <input style="width: 400px;" type="text" placeholder="Enter a search term to find concepts" class="searchBox" ng-model="searchTerm" ng-change="search()" />
     <span class="loading" ng-show="isSearching"><img ng-src="{{contextPath}}/images/loading.gif"/> Loading...</span>
 
@@ -31,6 +31,6 @@
 
     <div class="dialogFooter">
         <button ng-click="add()">Add</button>
-        <button ng-click="onClose()">Cancel</button>
+        <button ng-click="cancel()">Cancel</button>
     </div>
 </div>

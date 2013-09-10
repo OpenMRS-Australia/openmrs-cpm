@@ -3,40 +3,40 @@ define([
     'jquery',
     'jquery-ui'
   ],
-  function(directives, $) {
-	
-	'use strict';
+  function (directives, $) {
 
-    directives.directive('jqueryUiDialog', function() {
-        return {
-            scope: {
-                onClose: "&onClose",
-                title: "@title"
-            },
-            controller: function($scope) {
-                this.dialog = function(isOpen) {
-                    $scope.isOpen = isOpen;
-                    var open = isOpen ? "open" : "close";
-                    $scope.$element.dialog(open);
-                };
-            },
-            link: function($scope, element, attrs) {
-                $scope.isOpen = false;
-                $scope.$element = $(element);
+    'use strict';
 
-                $scope.$element.dialog({
-                    autoOpen: false,
-                    width: 800,
-                    title: $scope.title,
-                    close: function() {
-                        if ($scope.isOpen) {
-                            $scope.$apply(function() {
-                                $scope.onClose();
-                            });
-                        }
-                    }
+    directives.directive('jqueryUiDialog', function () {
+      return {
+        restrict: 'E',
+        scope: {
+          title: '=title',
+          dialogOpen: '=dialogOpen'
+        },
+        controller: function ($scope) {
+          $scope.$watch('dialogOpen', function (isOpen) {
+            var open = isOpen ? 'open' : 'close';
+            $scope.$element.dialog(open);
+          });
+        },
+        link: function ($scope, element) {
+          $scope.dialogOpen = false;
+          $scope.$element = $(element);
+
+          $scope.$element.dialog({
+            autoOpen: false,
+            width: 800,
+            title: $scope.title,
+            close: function () {
+              if ($scope.dialogOpen) {
+                $scope.$apply(function () {
+                  $scope.dialogOpen = false;
                 });
+              }
             }
+          });
         }
+      };
     });
-});
+  });

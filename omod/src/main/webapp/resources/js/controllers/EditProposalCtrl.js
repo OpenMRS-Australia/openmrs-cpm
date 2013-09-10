@@ -4,10 +4,11 @@ define([
     'js/services/services',
     'js/services/menu',
     'js/directives/searchConceptDialog',
-    'js/services/alerts'
+    'js/directives/jqueryUiDialog',
+    'js/services/alerts',
     './index'
   ],
-  function(controllers, config) {
+  function(angular, config) {
 
     'use strict';
 
@@ -26,7 +27,7 @@ define([
         $scope.menu = Menu.getMenu(1);
 
         $scope.openSearchConceptDialog = function() {
-        	$scope.isSearchDialogOpen = true;
+          $scope.isSearchDialogOpen = true;
         };
 
         $scope.getConceptUnion = function(concepts, existingConcepts) {
@@ -39,9 +40,9 @@ define([
         };
 
         $scope.acceptConcepts = function(concepts) {
-        	$scope.proposal.concepts = $scope.getConceptUnion(concepts, $scope.proposal.concepts);
-        	$scope.isSearchDialogOpen = false;
-      	};
+          $scope.proposal.concepts = $scope.getConceptUnion(concepts, $scope.proposal.concepts);
+          $scope.isSearchDialogOpen = false;
+        };
 
         if ($scope.isEdit) {
           document.title = 'Edit Concept Proposal';

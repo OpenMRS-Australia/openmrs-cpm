@@ -1,7 +1,7 @@
 define([
     'angular-mocks', 
     'underscore',
-    'js/controllers/SearchConceptsDialogCtrl'
+    'js/controllers/SearchConceptDialogCtrl'
 ], function() {
     
     'use strict';
