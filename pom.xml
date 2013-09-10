@@ -163,6 +163,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+        
         <profile>
             <id>functionalTests</id>
             <modules>
