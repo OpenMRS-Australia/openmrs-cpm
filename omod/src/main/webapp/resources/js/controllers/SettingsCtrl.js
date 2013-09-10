@@ -8,7 +8,7 @@ define([
     'use strict';
   
     angular.module('cpm.controllers').controller('SettingsCtrl',
-      function($scope, Settings, MenuService) {
+      function($scope, Settings, Menu) {
 
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
@@ -16,7 +16,7 @@ define([
         document.title = 'Manage Concept Proposal Settings';
         $scope.isLoading = true;
 
-        $scope.menu = MenuService.getMenu(4);
+        $scope.menu = Menu.getMenu(4);
 
         $scope.settings = Settings.get(function() {
           $scope.isLoading = false;
