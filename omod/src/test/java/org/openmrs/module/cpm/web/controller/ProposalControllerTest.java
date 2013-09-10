@@ -76,7 +76,6 @@ public class ProposalControllerTest {
 	}
 
 	@Test
-	@Ignore
 	public void getProposalById_simpleProposal_shouldBindToDto() {
 
 		when(conceptPackage.getName()).thenReturn("A sample proposal");
@@ -96,10 +95,15 @@ public class ProposalControllerTest {
 		when(name.getLocale()).thenReturn(Locale.ENGLISH);
 		when(name.getName()).thenReturn("A concept name");
 		when(concept.getName()).thenReturn(name);
+		Collection<ConceptName> conceptNames = new ArrayList<ConceptName>();
+		conceptNames.add(name);
+		when(concept.getNames()).thenReturn(conceptNames);
 		ConceptDescription description = mock(ConceptDescription.class);
 		when(description.getDescription()).thenReturn("A concept description");
 		when(description.getLocale()).thenReturn(Locale.ENGLISH);
-		when(concept.getDescription()).thenReturn(description);
+		Collection<ConceptDescription> conceptDescriptions = new ArrayList<ConceptDescription>();
+		conceptDescriptions.add(description);
+		when(concept.getDescriptions()).thenReturn(conceptDescriptions);
 		ConceptDatatype datatype = mock(ConceptDatatype.class);
 		when(datatype.getName()).thenReturn("Numeric");
 		when(concept.getDatatype()).thenReturn(datatype);
@@ -126,13 +130,13 @@ public class ProposalControllerTest {
 		final ArrayList<NameDto> names = new ArrayList<NameDto>(conceptDto.getNames());
 		assertThat(names.size(), is(1));
 		assertThat(names.get(0).getName(), is("A concept name"));
-		assertThat(names.get(0).getLocale(), is("EN"));
+		assertThat(names.get(0).getLocale(), is("en"));
 		assertThat(names.get(0).getType(), is(ConceptNameType.FULLY_SPECIFIED));
 
 		final ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>(conceptDto.getDescriptions());
 		assertThat(descriptionDtos.size(), is(1));
 		assertThat(descriptionDtos.get(0).getDescription(), is("A concept description"));
-		assertThat(descriptionDtos.get(0).getLocale(), is("EN"));
+		assertThat(descriptionDtos.get(0).getLocale(), is("en"));
 	}
 
 	@Test
