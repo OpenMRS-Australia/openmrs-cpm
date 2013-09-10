@@ -64,5 +64,6 @@
   </div>
 </form>
 
-<search-concept-dialog is-multiple="true" on-accept-fn="acceptConcepts" 
-                       jquery-ui-dialog title="title" dialog-open="isSearchDialogOpen"></search-concept-dialog>
+<jquery-ui-dialog title="Add concept" dialog-open="isSearchDialogOpen">
+  <search-concept-dialog is-multiple="true" on-accept-fn="acceptConcepts"></search-concept-dialog>
+</jquery-ui-dialog>

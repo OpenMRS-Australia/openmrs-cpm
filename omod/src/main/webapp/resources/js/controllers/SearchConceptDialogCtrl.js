@@ -6,12 +6,6 @@ define(['./index', 'config', 'js/services/searchConcept', 'js/directives/jqueryU
         var SEARCH_DELAY = 250;
         var searchTimeout;
 
-        if ($scope.isMultiple) {
-          $scope.title = 'Add concept';
-        } else {
-          $scope.title = 'Select a concept';
-        }
-
         $scope.currentRequestNum = 0;
         $scope.contextPath = config.contextPath;
         $scope.concepts = [];
@@ -89,10 +83,6 @@ define(['./index', 'config', 'js/services/searchConcept', 'js/directives/jqueryU
         $scope.add = function() {
           var concepts = getSelectedConcepts();
           $scope.onAcceptFn(concepts);
-        };
-
-        $scope.cancel = function() {
-          $scope.dialogOpen = false;
         };
       });
   });

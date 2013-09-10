@@ -46,8 +46,7 @@ define([
 
         if ($scope.isEdit) {
           document.title = 'Edit Concept Proposal';
-        }
-        else {
+        } else {
           document.title = 'Create Concept Proposal';
         }
 

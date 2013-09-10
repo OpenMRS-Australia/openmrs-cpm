@@ -10,8 +10,11 @@ define([
     directives.directive('jqueryUiDialog', function () {
       return {
         restrict: 'E',
+        replace: true,
+        transclude: true,
+        template: "<div><div ng-transclude></div></div>",
         scope: {
-          title: '=title',
+          title: '@title',
           dialogOpen: '=dialogOpen'
         },
         controller: function ($scope) {
@@ -19,21 +22,28 @@ define([
             var open = isOpen ? 'open' : 'close';
             $scope.$element.dialog(open);
           });
+          
+          this.closeDialog = function() {
+            $scope.dialogOpen = false;
+          };
         },
         link: function ($scope, element) {
           $scope.dialogOpen = false;
           $scope.$element = $(element);
-
-          $scope.$element.dialog({
-            autoOpen: false,
-            width: 800,
-            title: $scope.title,
-            close: function () {
-              if ($scope.dialogOpen) {
-                $scope.$apply(function () {
-                  $scope.dialogOpen = false;
-                });
-              }
+          $scope.$watch('title', function(title) {
+            if (!_.isUndefined(title)) {
+              $scope.$element.dialog({
+                autoOpen: false,
+                width: 800,
+                title: title,
+                close: function () {
+                  if ($scope.dialogOpen) {
+                    $scope.$apply(function () {
+                      $scope.dialogOpen = false;
+                    });
+                  }
+                }
+              });
             }
           });
         }

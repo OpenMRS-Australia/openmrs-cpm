@@ -11,7 +11,12 @@ define(['./index', 'config', 'js/controllers/SearchConceptDialogCtrl', './jquery
         },
         require: '^jqueryUiDialog',
         templateUrl: config.resourceLocation + '/partials/SearchConceptDialog.html',
-        controller: 'SearchConceptDialogCtrl'
+        controller: 'SearchConceptDialogCtrl',
+        link: function($scope, ele, attr, jqueryUiDialog) {
+          $scope.cancel = function() {
+            jqueryUiDialog.closeDialog();
+          };
+        }
       };
     });
   });
