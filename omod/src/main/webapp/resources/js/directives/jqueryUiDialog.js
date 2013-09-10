@@ -30,6 +30,7 @@ define([
         link: function ($scope, element) {
           $scope.dialogOpen = false;
           $scope.$element = $(element);
+          
           $scope.$watch('title', function(title) {
             if (!_.isUndefined(title)) {
               $scope.$element.dialog({

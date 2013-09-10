@@ -8,7 +8,7 @@ define([
 
           describe('jqueryUiDialog directive spec', function() {
 
-            var $scope, element;
+            var $scope, element, dialog;
             var title = "test title";
             beforeEach(module('cpm.directives'));
 
@@ -16,26 +16,25 @@ define([
               inject(function($rootScope, $compile) {
                 $scope = $rootScope.$new();
 
-                $scope.testTitle = title;
-                $scope.isOpen = false;
+                $scope.open = false;
 
-                element = $compile('<jquery-ui-dialog title=\'testTitle\' dialog-open=\'isOpen\'></jquery-ui-dialog>')($scope);
+                element = $compile('<jquery-ui-dialog title=\'' + title + '\' dialog-open=\'open\'></jquery-ui-dialog>')($scope);
 
-                $scope.$digest();
+                $scope.$apply();
+
+                dialog = element.scope().$element;
+
               });
             });
 
             it('Title should be equal "test title"', function() {
-              var dialog = element.scope().$element;
               expect(dialog.dialog('option', 'title')).toBe(title);
             });
 
             it('should open dialog', function() {
-              var dialog = element.scope().$element;
               expect(dialog.dialog("isOpen")).toBe(false);
 
-              $scope.isOpen = true;
-              $scope.$digest();
+              $scope.$apply($scope.open = true);
               expect(dialog.dialog("isOpen")).toBe(true);
             });
           });
