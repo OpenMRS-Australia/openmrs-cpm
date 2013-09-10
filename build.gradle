@@ -31,3 +31,30 @@ allprojects {
         testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
     }
 }
+
+task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
+
+    baseName = 'openmrs-cpm'
+    extension = 'omod'
+
+    subprojects.each {
+        subproject ->
+            from subproject.configurations.archives.allArtifacts.files.collect {
+                zipTree(it)
+            }
+
+    }
+
+    into('web/resources') {
+        from fileTree(dir: 'omod/src/main/webapp')
+    }
+
+    dependsOn configurations.runtime
+    into('lib') {
+        from { configurations.runtime }
+    }
+}
+
+artifacts {
+    archives createOmod
+}
