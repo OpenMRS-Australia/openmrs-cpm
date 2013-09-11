@@ -59,6 +59,15 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
     into('lib') {
         from configurations.releaseJars
     }
+
+    metaInf {
+        into('maven/org.openmrs.module/cpm-omod')
+        def pomProperties = new File('pom.properties')
+        pomProperties << "version=${project.version}\n"
+        pomProperties << "groupId=org.openmrs.module\n"
+        pomProperties << "artifactId=cpm\n"
+        from pomProperties
+    }
 }
 
 artifacts {
