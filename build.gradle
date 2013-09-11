@@ -7,6 +7,9 @@ allprojects {
     ext.openMrsVersion = '1.9.2'
 
     configurations {
+
+        releaseJars
+
         compile.exclude module: 'jms'
         compile.exclude module: 'jmxtools'
         compile.exclude module: 'jmxri'
@@ -49,9 +52,11 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
         from fileTree(dir: 'omod/src/main/webapp')
     }
 
-    dependsOn configurations.runtime
     into('lib') {
-        from { configurations.runtime }
+        subprojects.each {
+            project ->
+                from project.configurations.releaseJars.dependencies.files
+        }
     }
 }
 
