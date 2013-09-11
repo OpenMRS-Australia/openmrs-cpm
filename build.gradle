@@ -3,6 +3,7 @@ allprojects {
 
     apply plugin: 'java'
 
+    group = 'org.openmrs.module'
     version = '1.0-SNAPSHOT'
     ext.openMrsVersion = '1.9.2'
 
@@ -63,9 +64,9 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
     metaInf {
         into('maven/org.openmrs.module/cpm-omod')
         def pomProperties = new File(getTemporaryDir(), 'pom.properties')
-        pomProperties << "version=${project.version}\n"
-        pomProperties << "groupId=org.openmrs.module\n"
-        pomProperties << "artifactId=cpm\n"
+        pomProperties.write "version=${project.version}\n"
+        pomProperties << "groupId=${project.group}\n"
+        pomProperties << "artifactId=${project.name}\n"
         from pomProperties
     }
 }
