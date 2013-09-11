@@ -52,7 +52,7 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
 
     }
 
-    into('web/resources') {
+    into('web/module') {
         from fileTree(dir: 'omod/src/main/webapp')
     }
 
