@@ -1,5 +1,6 @@
 package org.openmrs.module.cpm.web.controller;
 
+import org.dozer.DozerBeanMapper;
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.api.ConceptService;
@@ -7,6 +8,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
 import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
+import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.common.CpmConstants;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
@@ -107,7 +109,15 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
-		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
+		final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
+//		return createProposedConceptPackageDto(proposedConceptPackageById);
+
+		DozerBeanMapper mapper = new DozerBeanMapper();
+		List<String> files = new ArrayList<String>();
+		files.add("dozer-mappings.xml");
+		mapper.setMappingFiles(files);
+		final ProposedConceptPackageDto result = mapper.map(proposedConceptPackage, ProposedConceptPackageDto.class);
+		return result;
 	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)

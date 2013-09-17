@@ -4,17 +4,17 @@ import org.openmrs.module.cpm.SubmissionResponseStatus;
 
 public class SubmissionResponseDto {
 
-    private int id;
+    private Integer id;
 
     private SubmissionResponseStatus status;
 
     private String message;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
