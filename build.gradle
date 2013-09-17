@@ -34,6 +34,8 @@ allprojects {
         testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
         testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
 
+        testCompile 'org.slf4j:slf4j-api:1.6.0'
+
         testCompile 'junit:junit:4.10'
         testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
 
