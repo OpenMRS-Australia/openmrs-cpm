@@ -17,6 +17,7 @@ allprojects {
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url 'http://mavenrepo.openmrs.org/nexus/content/repositories/public'
