@@ -15,6 +15,7 @@ allprojects {
         compile.exclude module: 'jmxtools'
         compile.exclude module: 'jmxri'
         compile.exclude module: 'slf4j'
+        compile.exclude module: 'slf4j-api'
     }
 
     repositories {
