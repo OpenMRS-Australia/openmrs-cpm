@@ -14,8 +14,6 @@ allprojects {
         compile.exclude module: 'jms'
         compile.exclude module: 'jmxtools'
         compile.exclude module: 'jmxri'
-        compile.exclude module: 'slf4j'
-        compile.exclude module: 'slf4j-api'
     }
 
     repositories {
@@ -34,7 +32,9 @@ allprojects {
         testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
         testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
 
-        testCompile 'org.slf4j:slf4j-api:1.6.0'
+        compile 'org.slf4j:slf4j-api:1.6.0'
+        compile 'org.slf4j:slf4j-log4j12:1.6.0'
+        compile 'log4j:log4j:1.2.15'
 
         testCompile 'junit:junit:4.10'
         testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
