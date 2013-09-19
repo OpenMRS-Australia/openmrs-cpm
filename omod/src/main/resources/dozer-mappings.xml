@@ -17,12 +17,10 @@
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.Integer</class-b>
             </converter>
-            <!--
             <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
                             <class-a>org.openmrs.Concept</class-a>
                             <class-b>java.lang.String</class-b>
                         </converter>
-            -->
         </custom-converters>
     </configuration>
     <mapping>
