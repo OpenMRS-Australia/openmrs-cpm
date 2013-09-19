@@ -9,12 +9,10 @@
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptClass</class-b>
             </converter>
-            <!--
             <converter type="org.openmrs.module.cpm.web.converter.DatatypeConverter">
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptDatatype</class-b>
             </converter>
-            -->
             <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.Integer</class-b>
