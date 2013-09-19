@@ -9,22 +9,22 @@
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptClass</class-b>
             </converter>
+            <!--
             <converter type="org.openmrs.module.cpm.web.converter.DatatypeConverter">
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptDatatype</class-b>
             </converter>
+            -->
             <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.Integer</class-b>
             </converter>
+            <!--
             <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
-                <class-a>org.openmrs.Concept</class-a>
-                <class-b>java.lang.String</class-b>
-            </converter>
-            <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
-                <class-a>org.openmrs.Concept</class-a>
-                <class-b>java.lang.String</class-b>
-            </converter>
+                            <class-a>org.openmrs.Concept</class-a>
+                            <class-b>java.lang.String</class-b>
+                        </converter>
+            -->
         </custom-converters>
     </configuration>
     <mapping>
@@ -53,12 +53,32 @@
             <b>id</b>
         </field>
         <field>
-            <a>concept</a>
+            <a>concept.name.name</a>
             <b>preferredName</b>
         </field>
         <field>
-            <a>concept</a>
+            <a>concept.datatype.name</a>
+            <b>datatype</b>
+        </field>
+        <field>
+            <a>concept.names</a>
             <b>names</b>
+            <a-hint>org.openmrs.ConceptName</a-hint>
+            <b-hint>org.openmrs.module.cpm.web.dto.concept.NameDto</b-hint>
+        </field>
+        <field>
+            <a>concept.descriptions</a>
+            <b>descriptions</b>
+            <a-hint>org.openmrs.ConceptDescription</a-hint>
+            <b-hint>org.openmrs.module.cpm.web.dto.concept.DescriptionDto</b-hint>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.ConceptName</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.concept.NameDto</class-b>
+        <field>
+            <a>conceptNameType</a>
+            <b>type</b>
         </field>
     </mapping>
     <mapping>
