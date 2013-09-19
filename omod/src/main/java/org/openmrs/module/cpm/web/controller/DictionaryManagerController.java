@@ -53,7 +53,8 @@ public class DictionaryManagerController {
 		files.add("dozer-mappings.xml");
 		mapper.setMappingFiles(files);
 		final ProposedConceptResponsePackage result = mapper.map(incomingProposal, ProposedConceptResponsePackage.class);
-            final ProposedConceptService service = Context.getService(ProposedConceptService.class);
+
+        final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 
 //		try{
 //            proposedConceptResponsePackage.setName(incomingProposal.getName());
@@ -138,7 +139,16 @@ public class DictionaryManagerController {
 //            responseDto.setStatus(SubmissionResponseStatus.FAILURE);
 //            responseDto.setMessage(ex.getMessage());
 //        }
-		service.saveProposedConceptResponsePackage(result);
+        try {
+		    service.saveProposedConceptResponsePackage(result);
+        }
+        catch (Exception ex) {
+            //TODO: update error handling, more specific catch block rather than the generic Exception, add proper logging etc.
+            ex.printStackTrace();
+            responseDto.setStatus(SubmissionResponseStatus.FAILURE);
+            responseDto.setMessage(ex.getMessage());
+            return responseDto;
+        }
 		responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
 		responseDto.setMessage("All Good!");
 		responseDto.setId(proposedConceptResponsePackage.getId());
