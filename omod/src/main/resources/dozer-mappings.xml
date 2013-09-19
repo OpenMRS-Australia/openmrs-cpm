@@ -61,4 +61,12 @@
             <b>names</b>
         </field>
     </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptResponse</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptDto</class-b>
+        <field>
+            <a>proposedConceptUuid</a>
+            <b>uuid</b>
+        </field>
+    </mapping>
 </mappings>
