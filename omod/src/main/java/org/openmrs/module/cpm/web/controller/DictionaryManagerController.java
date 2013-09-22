@@ -18,6 +18,8 @@ import org.openmrs.module.cpm.web.dto.SubmissionStatusDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.openmrs.module.cpm.web.dto.concept.NumericDto;
+import org.openmrs.module.cpm.web.service.CpmMapperService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +39,9 @@ public class DictionaryManagerController {
 
     protected final Logger log = Logger.getLogger(getClass());
 
+	@Autowired
+	private CpmMapperService mapperService;
+
     //
     // Proposer-Reviewer webservice endpoints
     //
@@ -44,15 +49,7 @@ public class DictionaryManagerController {
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
-        //TODO: method size getting large...
-        final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
-        SubmissionResponseDto responseDto = new SubmissionResponseDto();
-
-		DozerBeanMapper mapper = new DozerBeanMapper();
-		List<String> files = new ArrayList<String>();
-		files.add("dozer-mappings.xml");
-		mapper.setMappingFiles(files);
-		final ProposedConceptResponsePackage result = mapper.map(incomingProposal, ProposedConceptResponsePackage.class);
+		final ProposedConceptResponsePackage result = mapperService.convertDtoToProposedConceptResponsePackage(incomingProposal);
 
         final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 
@@ -139,7 +136,10 @@ public class DictionaryManagerController {
 //            responseDto.setStatus(SubmissionResponseStatus.FAILURE);
 //            responseDto.setMessage(ex.getMessage());
 //        }
-        try {
+
+	    SubmissionResponseDto responseDto = new SubmissionResponseDto();
+
+	    try {
 		    service.saveProposedConceptResponsePackage(result);
         }
         catch (Exception ex) {
@@ -151,7 +151,7 @@ public class DictionaryManagerController {
         }
 		responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
 		responseDto.setMessage("All Good!");
-		responseDto.setId(proposedConceptResponsePackage.getId());
+		responseDto.setId(result.getId());
 
         return responseDto;
     }

@@ -111,6 +111,13 @@
         <version>2.2</version>
     </dependency>
 
+
+    <dependency>
+        <groupId>net.sf.dozer</groupId>
+        <artifactId>dozer</artifactId>
+        <version>5.4.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
