@@ -8,7 +8,8 @@ import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
-import org.openmrs.module.cpm.web.dto.factory.DtoFactory;
+import org.openmrs.module.cpm.web.dto.factory.ProposedConceptResponseDtoFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,13 @@ import java.util.Set;
 @Controller
 public class ReviewController {
 
+    private final ProposedConceptResponseDtoFactory proposedConceptResponseDtoFactory;
+
+    @Autowired
+    public ReviewController(final ProposedConceptResponseDtoFactory proposedConceptResponseDtoFactory) {
+        this.proposedConceptResponseDtoFactory = proposedConceptResponseDtoFactory;
+    }
+
 	//
 	// Pages
 	//
@@ -38,10 +46,10 @@ public class ReviewController {
 	//
 
 	@RequestMapping(value = "/cpm/proposalReviews", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<ProposedConceptResponsePackageDto> getProposalResponses() {
+	public @ResponseBody List<ProposedConceptResponsePackageDto> getProposalResponses() {
 
 		final List<ProposedConceptResponsePackage> allConceptProposalResponsePackages = Context.getService(ProposedConceptService.class).getAllProposedConceptResponsePackages();
-		final ArrayList<ProposedConceptResponsePackageDto> response = new ArrayList<ProposedConceptResponsePackageDto>();
+		final List<ProposedConceptResponsePackageDto> response = new ArrayList<ProposedConceptResponsePackageDto>();
 
 		for (final ProposedConceptResponsePackage conceptProposalResponsePackage : allConceptProposalResponsePackages) {
 
@@ -68,7 +76,7 @@ public class ReviewController {
 	public @ResponseBody ProposedConceptResponseDto getConceptResponse(@PathVariable int proposalId, @PathVariable int conceptId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		final ProposedConceptResponse proposedConcept = service.getProposedConceptResponsePackageById(proposalId).getProposedConcept(conceptId);
-		return DtoFactory.createProposedConceptResponseDto(proposedConcept);
+		return proposedConceptResponseDtoFactory.createProposedConceptResponseDto(proposedConcept);
 	}
 
 	@RequestMapping(value = "/cpm/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
@@ -87,7 +95,7 @@ public class ReviewController {
 
 			service.saveProposedConceptResponsePackage(aPackage);
 		}
-		return DtoFactory.createProposedConceptResponseDto(proposedConcept);
+		return proposedConceptResponseDtoFactory.createProposedConceptResponseDto(proposedConcept);
 	}
 
 	private ProposedConceptResponsePackageDto createProposedConceptResponsePackageDto(final ProposedConceptResponsePackage responsePackage) {
@@ -108,7 +116,7 @@ public class ReviewController {
 		final List<ProposedConceptResponseDto> list = new ArrayList<ProposedConceptResponseDto>();
 		if (proposedConcepts != null) {
 			for (final ProposedConceptResponse conceptProposal : proposedConcepts) {
-				list.add(DtoFactory.createProposedConceptResponseDto(conceptProposal));
+				list.add(proposedConceptResponseDtoFactory.createProposedConceptResponseDto(conceptProposal));
 			}
 		}
 
