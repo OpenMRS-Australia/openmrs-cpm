@@ -10,10 +10,9 @@ import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
-import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
-import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -37,8 +36,9 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	private MockHttpServletRequest request;
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	private final AnnotationMethodHandlerAdapter adapter = new AnnotationMethodHandlerAdapter();
-	private final ProposalController controller = new ProposalController(null, null,
-            new DescriptionDtoFactory(), new NameDtoFactory());
+
+	@Autowired
+	private ProposalController controller;
 
 
 	@Rule

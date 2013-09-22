@@ -17,6 +17,7 @@ import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.service.CpmMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,16 +39,20 @@ public class ProposalController {
 
     private final NameDtoFactory nameDtoFactory;
 
+	private final CpmMapperService mapperService;
+
 
     @Autowired
     public ProposalController (final SubmitProposal submitProposal,
                                final UpdateProposedConceptPackage updateProposedConceptPackage,
                                final DescriptionDtoFactory descriptionDtoFactory,
-                               final NameDtoFactory nameDtoFactory) {
+                               final NameDtoFactory nameDtoFactory,
+                               final CpmMapperService mapperService) {
         this.submitProposal = submitProposal;
         this.updateProposedConceptPackage = updateProposedConceptPackage;
         this.descriptionDtoFactory = descriptionDtoFactory;
         this.nameDtoFactory = nameDtoFactory;
+	    this.mapperService = mapperService;
     }
 
 	//
@@ -111,13 +116,7 @@ public class ProposalController {
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
 		final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
 //		return createProposedConceptPackageDto(proposedConceptPackageById);
-
-		DozerBeanMapper mapper = new DozerBeanMapper();
-		List<String> files = new ArrayList<String>();
-		files.add("dozer-mappings.xml");
-		mapper.setMappingFiles(files);
-		final ProposedConceptPackageDto result = mapper.map(proposedConceptPackage, ProposedConceptPackageDto.class);
-		return result;
+		return mapperService.convertProposedConceptPackageToDto(proposedConceptPackage);
 	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)

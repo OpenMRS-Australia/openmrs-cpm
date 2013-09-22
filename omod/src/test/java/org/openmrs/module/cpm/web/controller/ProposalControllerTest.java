@@ -4,28 +4,23 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import junit.framework.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openmrs.*;
-import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposalStatus;
-import org.openmrs.module.cpm.ProposedConcept;
 import org.openmrs.module.cpm.ProposedConceptPackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
 import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.cpm.web.service.CpmMapperService;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -36,32 +31,38 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Context.class, LocaleUtility.class, ProposalController.class})
 public class ProposalControllerTest {
 
 	@Mock
-	ProposedConceptService service;
+	private ProposedConceptService service;
 
     @Mock
-    ConceptService  conceptService;
+    private ConceptService  conceptService;
 
     @Mock
-	ProposedConceptPackage conceptPackage;
+    private ProposedConceptPackage conceptPackage;
 
 	@Mock
-	SubmitProposal submitProposal;
+	private SubmitProposal submitProposal;
 
 	@Mock
-	UpdateProposedConceptPackage updateProposedConceptPackage;
+	private UpdateProposedConceptPackage updateProposedConceptPackage;
+
+	@Mock
+	private CpmMapperService cpmMapperService;
 
 
     @InjectMocks
-    ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
-            new DescriptionDtoFactory(), new NameDtoFactory() );
+    private ProposalController controller = new ProposalController(submitProposal, updateProposedConceptPackage,
+            new DescriptionDtoFactory(), new NameDtoFactory(), cpmMapperService );
+
+	private Integer proposedConceptPackageId = 1;
+
 
 	@Before
 	public void before() throws Exception {
@@ -69,8 +70,7 @@ public class ProposalControllerTest {
         mockStatic(LocaleUtility.class);
 
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
-		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
-
+		when(service.getProposedConceptPackageById(proposedConceptPackageId)).thenReturn(conceptPackage);
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 	}
@@ -78,65 +78,17 @@ public class ProposalControllerTest {
 	@Test
 	public void getProposalById_simpleProposal_shouldBindToDto() {
 
-		when(conceptPackage.getName()).thenReturn("A sample proposal");
-		when(conceptPackage.getDescription()).thenReturn("A sample proposal description");
-		when(conceptPackage.getStatus()).thenReturn(PackageStatus.DRAFT);
-		when(conceptPackage.getEmail()).thenReturn("asdf@asdf.com");
-		Set<ProposedConcept> proposedConcepts = new HashSet<ProposedConcept>();
-		ProposedConcept proposedConcept = mock(ProposedConcept.class);
-		when(proposedConcept.getStatus()).thenReturn(ProposalStatus.DRAFT);
-		when(proposedConcept.getComment()).thenReturn("A concept comment");
+		ProposedConceptPackageDto expectedDto = new ProposedConceptPackageDto();
+		when(cpmMapperService.convertProposedConceptPackageToDto(conceptPackage)).thenReturn(expectedDto);
 
-		Concept concept = mock(Concept.class);
-		when(concept.getId()).thenReturn(123);
-		when(concept.getConceptId()).thenReturn(123);
-		ConceptName name = mock(ConceptName.class);
-		when(name.getConceptNameType()).thenReturn(ConceptNameType.FULLY_SPECIFIED);
-		when(name.getLocale()).thenReturn(Locale.ENGLISH);
-		when(name.getName()).thenReturn("A concept name");
-		when(concept.getName()).thenReturn(name);
-		Collection<ConceptName> conceptNames = new ArrayList<ConceptName>();
-		conceptNames.add(name);
-		when(concept.getNames()).thenReturn(conceptNames);
-		ConceptDescription description = mock(ConceptDescription.class);
-		when(description.getDescription()).thenReturn("A concept description");
-		when(description.getLocale()).thenReturn(Locale.ENGLISH);
-		Collection<ConceptDescription> conceptDescriptions = new ArrayList<ConceptDescription>();
-		conceptDescriptions.add(description);
-		when(concept.getDescriptions()).thenReturn(conceptDescriptions);
-		ConceptDatatype datatype = mock(ConceptDatatype.class);
-		when(datatype.getName()).thenReturn("Numeric");
-		when(concept.getDatatype()).thenReturn(datatype);
-		when(proposedConcept.getConcept()).thenReturn(concept);
+		final ProposedConceptPackageDto actualDto = controller.getProposalById(proposedConceptPackageId.toString());
 
-		proposedConcepts.add(proposedConcept);
-		when(conceptPackage.getProposedConcepts()).thenReturn(proposedConcepts);
+		assertThat(actualDto, is(expectedDto));
+		verifyStatic(times(1));
+		Context.getService(ProposedConceptService.class);
 
-		final ProposedConceptPackageDto packageDto = controller.getProposalById("1");
+		verify(service.getProposedConceptPackageById(proposedConceptPackageId));
 
-		assertThat(packageDto.getName(), is("A sample proposal"));
-		assertThat(packageDto.getDescription(), is("A sample proposal description"));
-		assertThat(packageDto.getEmail(), is("asdf@asdf.com"));
-		assertThat(packageDto.getStatus(), is(PackageStatus.DRAFT));
-
-		final List<ProposedConceptDto> concepts = packageDto.getConcepts();
-		assertThat(concepts.size(), is(1));
-		final ProposedConceptDto conceptDto = concepts.get(0);
-		assertThat(conceptDto.getStatus(), is(ProposalStatus.DRAFT));
-		assertThat(conceptDto.getComment(), is("A concept comment"));
-		assertThat(conceptDto.getPreferredName(), is("A concept name"));
-		assertThat(conceptDto.getDatatype(), is("Numeric"));
-
-		final ArrayList<NameDto> names = new ArrayList<NameDto>(conceptDto.getNames());
-		assertThat(names.size(), is(1));
-		assertThat(names.get(0).getName(), is("A concept name"));
-		assertThat(names.get(0).getLocale(), is("en"));
-		assertThat(names.get(0).getType(), is(ConceptNameType.FULLY_SPECIFIED));
-
-		final ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>(conceptDto.getDescriptions());
-		assertThat(descriptionDtos.size(), is(1));
-		assertThat(descriptionDtos.get(0).getDescription(), is("A concept description"));
-		assertThat(descriptionDtos.get(0).getLocale(), is("en"));
 	}
 
 	@Test
