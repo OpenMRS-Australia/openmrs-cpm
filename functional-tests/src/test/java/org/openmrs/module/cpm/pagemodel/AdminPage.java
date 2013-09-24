@@ -10,11 +10,13 @@ public class AdminPage {
 	private static final String settingsUrl = "/module/cpm/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
-    private String openmrsUrl;
+    private String openmrsUrl = "openmrs";
 
-	public AdminPage(final RemoteWebDriver driver, final String adminPageUrl, String openmrsUrl) {
-        this.openmrsUrl = openmrsUrl;
-		this.driver = driver;
+    public AdminPage(final RemoteWebDriver driver) {
+        this.driver = driver;
+    }
+
+	public void navigateToAdminPage(String adminPageUrl) {
 		driver.navigate().to(adminPageUrl);
 	}
 
