@@ -1,21 +1,31 @@
 package org.openmrs.module.cpm.web.service;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.Concept;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptDescription;
-import org.openmrs.ConceptName;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.*;
+import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.controller.BaseCpmOmodTest;
+import org.openmrs.module.cpm.web.controller.ProposalController;
+import org.openmrs.module.cpm.web.controller.SubmitProposal;
+import org.openmrs.module.cpm.web.controller.UpdateProposedConceptPackage;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.util.LocaleUtility;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -24,19 +34,80 @@ import java.util.*;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest(Context.class)
-public class CpmMapperServiceTest extends BaseCpmOmodTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Context.class, LocaleUtility.class, ProposalController.class})
+public class CpmMapperServiceTest {
+
+	@Mock
+	private ProposedConceptService service;
+
+	@Mock
+	private ConceptService conceptService;
+
+	@Mock
+	private ProposedConceptPackage conceptPackage;
+
+	@Mock
+	private SubmitProposal submitProposal;
+
+	@Mock
+	private UpdateProposedConceptPackage updateProposedConceptPackage;
+
+	private Integer proposedConceptPackageId = 1;
+
+	@Mock
+	private ConceptClass conceptClass;
+
+	@Mock
+	private Concept concept;
+
+	@Mock
+	private ConceptDatatype datatype;
+
+	@Mock
+	private ProposedConceptResponsePackage conceptResponsePackage;
+
+	@Before
+	public void before() throws Exception {
+
+		DozerBeanMapper mapper = new DozerBeanMapper();
+		mapperService = new CpmMapperService(mapper);
+		List<String> files = new ArrayList<String>();
+		files.add("dozer-mappings.xml");
+		mapper.setMappingFiles(files);
+
+		mockStatic(Context.class);
+		mockStatic(LocaleUtility.class);
+
+		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
+		when(service.getProposedConceptPackageById(proposedConceptPackageId)).thenReturn(conceptPackage);
 
 
-	@Autowired
+		// for dozer
+		PowerMockito.when(Context.class, "getConceptService").thenReturn(conceptService);
+		when(conceptService.getConceptClassByUuid(anyString())).thenReturn(conceptClass);
+		when(conceptService.getConcept(anyString())).thenReturn(concept);
+		when(conceptService.getConceptDatatypeByUuid(anyString())).thenReturn(datatype);
+	}
+
+
 	private CpmMapperService mapperService;
 
 	@Test
 	public void convertDtoToProposedConceptResponsePackage_shouldBindToDomain() throws Exception {
+
+		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
 
+
 		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
+
+
 		assertThat(value.getName(), is("A proposal"));
 		assertThat(value.getEmail(), is("asdf@asdf.com"));
 		assertThat(value.getDescription(), is("A description"));
@@ -45,13 +116,15 @@ public class CpmMapperServiceTest extends BaseCpmOmodTest {
 		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
 		assertThat(proposedConceptResponse.getProposedConceptUuid(), is("concept-uuid"));
 		assertThat(proposedConceptResponse.getComment(), is("some comment"));
-		assertNull(proposedConceptResponse.getConceptClass());
-		assertNull(proposedConceptResponse.getDatatype());
+		assertThat(proposedConceptResponse.getConceptClass(), is(conceptClass));
+		assertThat(proposedConceptResponse.getDatatype(), is(datatype));
 
 		final List<ProposedConceptResponseName> names = proposedConceptResponse.getNames();
+		assertThat(names.size(), is(1));
 		assertThat(names.get(0).getName(), is("Concept name"));
 
 		final List<ProposedConceptResponseDescription> descriptions = proposedConceptResponse.getDescriptions();
+		assertThat(descriptions.size(), is(1));
 		assertThat(descriptions.get(0).getDescription(), is("Concept description"));
 	}
 
@@ -168,7 +241,9 @@ public class CpmMapperServiceTest extends BaseCpmOmodTest {
 
 
 	@Test
-	public void convertDtoToProposedConceptResponsePackage_numbericProposal() throws Exception {
+	public void convertDtoToProposedConceptResponsePackage_numericProposal() throws Exception {
+
+		whenNew(ProposedConceptResponsePackage.class).withNoArguments().thenReturn(conceptResponsePackage);
 		final SubmissionDto dto = setupNumericProposalFixture();
 
 		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
