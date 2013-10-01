@@ -8,17 +8,20 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
+import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -31,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DictionaryManagerController.class, Context.class})
 public class DictionaryManagerControllerTest {
-
+	
 	@Mock
 	private ConceptDatatype dataTypeMock;
 
@@ -60,7 +63,7 @@ public class DictionaryManagerControllerTest {
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
 		setupRegularFixtureMocks();
 
-		controller.submitProposal(dto);
+		SubmissionResponseDto response = controller.submitProposal(dto);
 
 		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
 		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
@@ -77,10 +80,21 @@ public class DictionaryManagerControllerTest {
 		assertThat(proposedConceptResponse.getDatatype(), is(dataTypeMock));
 
 		final List<ProposedConceptResponseName> names = proposedConceptResponse.getNames();
-		assertThat(names.get(0).getName(), is("Concept name"));
+		assertThat(names.size(), is(1));
+		ProposedConceptResponseName name = names.get(0);
+		assertThat(name.getName(), is("Concept name"));
+		assertThat(name.getType(), is(ConceptNameType.FULLY_SPECIFIED));
+		assertThat(name.getLocale(), is(Locale.ENGLISH));
 
 		final List<ProposedConceptResponseDescription> descriptions = proposedConceptResponse.getDescriptions();
-		assertThat(descriptions.get(0).getDescription(), is("Concept description"));
+		assertThat(descriptions.size(), is(1));
+		ProposedConceptResponseDescription description = descriptions.get(0);
+		assertThat(description.getDescription(), is("Concept description"));
+		assertThat(description.getLocale(), is(Locale.ENGLISH));
+		
+		assertThat(response.getStatus(), is(SubmissionResponseStatus.SUCCESS));
+		assertThat(response.getMessage(), is("All Good!"));
+		assertThat(response.getId(), is(0));
 	}
 
 	private void setupRegularFixtureMocks() throws Exception {
@@ -105,6 +119,7 @@ public class DictionaryManagerControllerTest {
 				"      'names': [" +
 				"        {" +
 				"          'name': 'Concept name'," +
+				"          'type': 'FULLY_SPECIFIED'," +
 				"          'locale': 'en'" +
 				"        }" +
 				"      ]," +
@@ -139,6 +154,7 @@ public class DictionaryManagerControllerTest {
 
 		final ProposedConceptResponseNumeric numericDetails = proposedConceptResponse.getNumericDetails();
 		assertThat(numericDetails.getUnits(), is("ml"));
+		assertThat(numericDetails.getPrecise(), is(true));
 		assertThat(numericDetails.getHiNormal(), is(100.5));
 		assertThat(numericDetails.getHiCritical(), is(110.0));
 		assertThat(numericDetails.getHiAbsolute(), is(1000.0));
