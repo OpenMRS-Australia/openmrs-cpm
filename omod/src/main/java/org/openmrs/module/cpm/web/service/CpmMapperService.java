@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CpmMapperService {
 
-	@Autowired
 	private Mapper dozerBeanMapper;
+
+	@Autowired
+	public CpmMapperService(Mapper dozerBeanMapper) {
+		this.dozerBeanMapper = dozerBeanMapper;
+	}
 
 	public ProposedConceptResponsePackage convertDtoToProposedConceptResponsePackage(final SubmissionDto incomingProposal){
 		return dozerBeanMapper.map(incomingProposal, ProposedConceptResponsePackage.class);
