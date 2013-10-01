@@ -98,6 +98,11 @@ public class CpmMapperServiceTest {
 
 	private CpmMapperService mapperService;
 
+
+	//
+	// RESTful request from proposal server to review server
+	//
+
 	@Test
 	public void convertDtoToProposedConceptResponsePackage_shouldBindToDomain() throws Exception {
 
@@ -130,6 +135,73 @@ public class CpmMapperServiceTest {
 
 
 	@Test
+	public void convertDtoToProposedConceptResponsePackage_numericProposal() throws Exception {
+
+		whenNew(ProposedConceptResponsePackage.class).withNoArguments().thenReturn(conceptResponsePackage);
+		final SubmissionDto dto = setupNumericProposalFixture();
+
+		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
+
+		final List<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
+		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
+
+		final ProposedConceptResponseNumeric numericDetails = proposedConceptResponse.getNumericDetails();
+		assertThat(numericDetails.getUnits(), is("ml"));
+		assertThat(numericDetails.getHiNormal(), is(100.5));
+		assertThat(numericDetails.getHiCritical(), is(110.0));
+		assertThat(numericDetails.getHiAbsolute(), is(1000.0));
+		assertThat(numericDetails.getLowNormal(), is(20.3));
+		assertThat(numericDetails.getLowCritical(), is(15.0));
+		assertThat(numericDetails.getLowAbsolute(), is(0.0));
+	}
+
+	private SubmissionDto setupNumericProposalFixture() throws IOException {
+		final String fixture =
+				"{" +
+						"  'name': 'A proposal'," +
+						"  'email': 'asdf@asdf.com'," +
+						"  'description': 'A description'," +
+						"  'concepts': [" +
+						"    {" +
+						"      'uuid': 'concept-uuid'," +
+						"      'conceptClass': 'concept-class-uuid'," +
+						"      'datatype': '8d4a4488-c2cc-11de-8d13-0010c6dffd0f'," +
+						"      'comment': 'some comment'," +
+						"      'names': [" +
+						"        {" +
+						"          'name': 'Concept name'," +
+						"          'locale': 'en'" +
+						"        }" +
+						"      ]," +
+						"      'descriptions': [" +
+						"        {" +
+						"          'description': 'Concept description'," +
+						"          'locale': 'en'" +
+						"        }" +
+						"      ]," +
+						"      'numericDetails': {" +
+						"        'units': 'ml'," +
+						"        'precise': true," +
+						"        'hiNormal': 100.5," +
+						"        'hiCritical': 110," +
+						"        'hiAbsolute': 1000," +
+						"        'lowNormal': 20.3," +
+						"        'lowCritical': 15," +
+						"        'lowAbsolute': 0" +
+						"      }" +
+						"    }" +
+						"  ]" +
+						"}";
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(fixture.replace("'", "\""), SubmissionDto.class);
+	}
+
+
+	//
+	// RESTful requests from AngularJS to ProposalController
+	//
+
+	@Test
 	public void convertProposedConceptPackageToDto_shouldBindToDto() {
 		ProposedConceptPackage proposedConceptPackage = createProposedConceptPackage();
 
@@ -160,6 +232,7 @@ public class CpmMapperServiceTest {
 		assertThat(descriptionDtos.get(0).getDescription(), is("A concept description"));
 		assertThat(descriptionDtos.get(0).getLocale(), is("en"));
 	}
+
 
 	private ProposedConceptPackage createProposedConceptPackage(){
 
@@ -204,8 +277,6 @@ public class CpmMapperServiceTest {
 		return conceptPackage;
 	}
 
-
-
 	private SubmissionDto setupRegularProposalFixtureWithJson() throws Exception {
 
 		String regularFixture =
@@ -237,69 +308,6 @@ public class CpmMapperServiceTest {
 
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(regularFixture.replace("'", "\""), SubmissionDto.class);
-	}
-
-
-	@Test
-	public void convertDtoToProposedConceptResponsePackage_numericProposal() throws Exception {
-
-		whenNew(ProposedConceptResponsePackage.class).withNoArguments().thenReturn(conceptResponsePackage);
-		final SubmissionDto dto = setupNumericProposalFixture();
-
-		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
-
-		final List<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
-		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
-
-		final ProposedConceptResponseNumeric numericDetails = proposedConceptResponse.getNumericDetails();
-		assertThat(numericDetails.getUnits(), is("ml"));
-		assertThat(numericDetails.getHiNormal(), is(100.5));
-		assertThat(numericDetails.getHiCritical(), is(110.0));
-		assertThat(numericDetails.getHiAbsolute(), is(1000.0));
-		assertThat(numericDetails.getLowNormal(), is(20.3));
-		assertThat(numericDetails.getLowCritical(), is(15.0));
-		assertThat(numericDetails.getLowAbsolute(), is(0.0));
-	}
-
-	private SubmissionDto setupNumericProposalFixture() throws IOException {
-		final String fixture =
-				"{" +
-				"  'name': 'A proposal'," +
-				"  'email': 'asdf@asdf.com'," +
-				"  'description': 'A description'," +
-				"  'concepts': [" +
-				"    {" +
-				"      'uuid': 'concept-uuid'," +
-				"      'conceptClass': 'concept-class-uuid'," +
-				"      'datatype': '8d4a4488-c2cc-11de-8d13-0010c6dffd0f'," +
-				"      'comment': 'some comment'," +
-				"      'names': [" +
-				"        {" +
-				"          'name': 'Concept name'," +
-				"          'locale': 'en'" +
-				"        }" +
-				"      ]," +
-				"      'descriptions': [" +
-				"        {" +
-				"          'description': 'Concept description'," +
-				"          'locale': 'en'" +
-				"        }" +
-				"      ]," +
-				"      'numericDetails': {" +
-				"        'units': 'ml'," +
-				"        'precise': true," +
-				"        'hiNormal': 100.5," +
-				"        'hiCritical': 110," +
-				"        'hiAbsolute': 1000," +
-				"        'lowNormal': 20.3," +
-				"        'lowCritical': 15," +
-				"        'lowAbsolute': 0" +
-				"      }" +
-				"    }" +
-				"  ]" +
-				"}";
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(fixture.replace("'", "\""), SubmissionDto.class);
 	}
 
 
