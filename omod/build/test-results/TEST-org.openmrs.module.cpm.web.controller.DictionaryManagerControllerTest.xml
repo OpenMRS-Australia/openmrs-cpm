@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.openmrs.module.cpm.web.controller.DictionaryManagerControllerTest" tests="2" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="openmrs-dev" time="1.38121991002E9">
+  <properties/>
+  <testcase name="submitProposal_regularProposal_shouldPersistDetails" classname="org.openmrs.module.cpm.web.controller.DictionaryManagerControllerTest" time="12.291"/>
+  <testcase name="submitProposal_numericProposal_shouldPersistDetails" classname="org.openmrs.module.cpm.web.controller.DictionaryManagerControllerTest" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/vagrant/.gradle/caches/artifacts-26/filestore/org.slf4j/slf4j-log4j12/1.6.0/jar/63810ca9ef9726b38d31b061670dafc951415671/slf4j-log4j12-1.6.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/vagrant/.gradle/caches/artifacts-26/filestore/org.slf4j/slf4j-log4j12/1.6.0/jar/63810ca9ef9726b38d31b061670dafc951415671/slf4j-log4j12-1.6.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+]]></system-err>
+</testsuite>

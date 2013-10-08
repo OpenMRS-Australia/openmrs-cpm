@@ -21,9 +21,9 @@ import cucumber.api.java.en.When;
 
 public class SettingsStepDefs {
 	
-	private AdminPage adminPage;
+
 	private SettingsPage page;
-	private String openmrsUrl = "openmrs";
+
 	
     @Given("^I'm on the Concept Proposal Settings page$")
     public void navigate_to_page() throws IOException {
@@ -50,39 +50,8 @@ public class SettingsStepDefs {
     
 
 	public void loadPage() throws IOException {
-		String username;
-		String password;
-		String adminPageUrl;
-
-		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
-			username = System.getenv("openmrs_username");
-			password = System.getenv("openmrs_password");
-
-			if (StringUtils.isNotBlank(System.getenv("openmrs_url"))) {
-				openmrsUrl = System.getenv("openmrs_url");
-			}
-
-			adminPageUrl = String.format("http://%s/%s/admin", System.getenv("openmrs_server"), openmrsUrl);
-		} else {
-			final Properties p = new Properties();
-			final InputStream is = getClass().getResourceAsStream("/config.properties");
-
-			p.load(new InputStreamReader(is));
-			username = p.getProperty("username");
-			password = p.getProperty("password");
-			adminPageUrl = p.getProperty("adminPageUrl");
-		}
-
-		adminPage = new AdminPage(SeleniumDriver.getDriver(), adminPageUrl, openmrsUrl);
-		adminPage.login(username, password);
-		page = adminPage.navigateToSettings();
+        Login login = new Login();
+		page = login.login().navigateToSettings();
 	}
-
-
-
-
-
-
-    
     
 }

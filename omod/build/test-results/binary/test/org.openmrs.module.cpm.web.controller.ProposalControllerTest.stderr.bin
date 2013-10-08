@@ -1,0 +1,3 @@
+getProposalById_simpleProposal_shouldBindToDtïSLF4J: Class path contains multiple SLF4J bindings.ŠgetProposalById_simpleProposal_shouldBindToDtïäSLF4J: Found binding in [jar:file:/home/vagrant/.gradle/caches/artifacts-26/filestore/org.slf4j/slf4j-log4j12/1.6.0/jar/63810ca9ef9726b38d31b061670dafc951415671/slf4j-log4j12-1.6.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+getProposalById_simpleProposal_shouldBindToDtïäSLF4J: Found binding in [jar:file:/home/vagrant/.gradle/caches/artifacts-26/filestore/org.slf4j/slf4j-log4j12/1.6.0/jar/63810ca9ef9726b38d31b061670dafc951415671/slf4j-log4j12-1.6.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+getProposalById_simpleProposal_shouldBindToDtïÒSLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
