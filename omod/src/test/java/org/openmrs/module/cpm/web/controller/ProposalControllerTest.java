@@ -65,19 +65,39 @@ public class ProposalControllerTest {
 
 	@Before
 	public void before() throws Exception {
-		mockStatic(Context.class);
         mockStatic(LocaleUtility.class);
+        mockStatic(Context.class);
 
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
+		PowerMockito.when(Context.class, "getConceptService").thenReturn(conceptService);
+        PowerMockito.when(LocaleUtility.class, "getLocalesInOrder").thenReturn(Sets.newHashSet(Locale.US));
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
-
+		when(service.getAllProposedConceptPackages()).thenReturn(Lists.newArrayList(conceptPackage));
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 	}
 
 	@Test
 	public void getProposalById_simpleProposal_shouldBindToDto() {
+		setupProposalEntity();
 
+		ProposedConceptPackageDto packageDto = controller.getProposalById("1");
+
+		verifyProposalDto(packageDto);
+	}
+	
+	@Test
+	public void getProposals_simpleProposal_shouldBindToDto() {
+		setupProposalEntity();
+		
+		ArrayList<ProposedConceptPackageDto> packageDtos = controller.getProposals();
+		
+		assertThat(packageDtos.size(), is(1));
+		verifyProposalDto(packageDtos.get(0));
+	}
+	
+	private void setupProposalEntity() {
+		when(conceptPackage.getId()).thenReturn(1);
 		when(conceptPackage.getName()).thenReturn("A sample proposal");
 		when(conceptPackage.getDescription()).thenReturn("A sample proposal description");
 		when(conceptPackage.getStatus()).thenReturn(PackageStatus.DRAFT);
@@ -95,15 +115,11 @@ public class ProposalControllerTest {
 		when(name.getLocale()).thenReturn(Locale.ENGLISH);
 		when(name.getName()).thenReturn("A concept name");
 		when(concept.getName()).thenReturn(name);
-		Collection<ConceptName> conceptNames = new ArrayList<ConceptName>();
-		conceptNames.add(name);
-		when(concept.getNames()).thenReturn(conceptNames);
+		when(concept.getNames()).thenReturn(Lists.newArrayList(name));
 		ConceptDescription description = mock(ConceptDescription.class);
 		when(description.getDescription()).thenReturn("A concept description");
 		when(description.getLocale()).thenReturn(Locale.ENGLISH);
-		Collection<ConceptDescription> conceptDescriptions = new ArrayList<ConceptDescription>();
-		conceptDescriptions.add(description);
-		when(concept.getDescriptions()).thenReturn(conceptDescriptions);
+		when(concept.getDescriptions()).thenReturn(Lists.newArrayList(description));
 		ConceptDatatype datatype = mock(ConceptDatatype.class);
 		when(datatype.getName()).thenReturn("Numeric");
 		when(concept.getDatatype()).thenReturn(datatype);
@@ -111,9 +127,10 @@ public class ProposalControllerTest {
 
 		proposedConcepts.add(proposedConcept);
 		when(conceptPackage.getProposedConcepts()).thenReturn(proposedConcepts);
-
-		final ProposedConceptPackageDto packageDto = controller.getProposalById("1");
-
+	}
+	
+	private void verifyProposalDto(ProposedConceptPackageDto packageDto) {
+		assertThat(packageDto.getId(), is(1));
 		assertThat(packageDto.getName(), is("A sample proposal"));
 		assertThat(packageDto.getDescription(), is("A sample proposal description"));
 		assertThat(packageDto.getEmail(), is("asdf@asdf.com"));
@@ -122,6 +139,7 @@ public class ProposalControllerTest {
 		final List<ProposedConceptDto> concepts = packageDto.getConcepts();
 		assertThat(concepts.size(), is(1));
 		final ProposedConceptDto conceptDto = concepts.get(0);
+		assertThat(conceptDto.getId(), is(123));
 		assertThat(conceptDto.getStatus(), is(ProposalStatus.DRAFT));
 		assertThat(conceptDto.getComment(), is("A concept comment"));
 		assertThat(conceptDto.getPreferredName(), is("A concept name"));
@@ -141,45 +159,38 @@ public class ProposalControllerTest {
 
 	@Test
 	public void addProposal_newDraftProposal_shouldOnlyCreateNewProposal() {
-		final ProposedConceptPackageDto newDraftProposal = new ProposedConceptPackageDto();
-		newDraftProposal.setName("new draft proposal");
-		newDraftProposal.setEmail("some@email.com");
-		newDraftProposal.setDescription("new draft proposal description");
-		final List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
-		final ProposedConceptDto concept = new ProposedConceptDto();
-		concept.setUuid("concept-uuid");
-		concepts.add(concept);
-		newDraftProposal.setConcepts(concepts);
-		when(conceptPackage.getId()).thenReturn(1);
+		ProposedConceptPackageDto proposalDto = createProposalDto();
 
-		final ProposedConceptPackageDto response = controller.addProposal(newDraftProposal);
+		controller.addProposal(proposalDto);
 
-		verify(conceptPackage).setName("new draft proposal");
-		verify(conceptPackage).setEmail("some@email.com");
-		verify(conceptPackage).setDescription("new draft proposal description");
-		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
-		verify(service).saveProposedConceptPackage(conceptPackage);
-		assertThat(newDraftProposal.getId(), is(1));
-
-		verify(submitProposal, never()).submitProposedConcept(conceptPackage);
+		verifyProposalEntity(proposalDto, false);
 	}
 
 	@Test
 	public void addProposal_newProposalToBeSubmittedStraightAway_shouldCreateNewProposalAndSubmit() {
+		ProposedConceptPackageDto newDraftProposal = createProposalDto();
+		newDraftProposal.setStatus(PackageStatus.TBS);
+		
+		controller.addProposal(newDraftProposal);
+
+		verifyProposalEntity(newDraftProposal, true);
+	}
+	
+	private ProposedConceptPackageDto createProposalDto() {
 		final ProposedConceptPackageDto newDraftProposal = new ProposedConceptPackageDto();
 		newDraftProposal.setName("new draft proposal");
 		newDraftProposal.setEmail("some@email.com");
 		newDraftProposal.setDescription("new draft proposal description");
-		newDraftProposal.setStatus(PackageStatus.TBS);
 		final List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
 		final ProposedConceptDto concept = new ProposedConceptDto();
 		concept.setUuid("concept-uuid");
 		concepts.add(concept);
 		newDraftProposal.setConcepts(concepts);
 		when(conceptPackage.getId()).thenReturn(1);
-
-		final ProposedConceptPackageDto response = controller.addProposal(newDraftProposal);
-
+		return newDraftProposal;
+	}
+	
+	private void verifyProposalEntity(ProposedConceptPackageDto newDraftProposal, boolean shouldHaveSubmitted) {
 		InOrder inOrder = inOrder(conceptPackage, updateProposedConceptPackage, service, submitProposal);
 		inOrder.verify(conceptPackage).setName("new draft proposal");
 		inOrder.verify(conceptPackage).setEmail("some@email.com");
@@ -187,64 +198,40 @@ public class ProposalControllerTest {
 		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, newDraftProposal);
 		inOrder.verify(service).saveProposedConceptPackage(conceptPackage);
 		assertThat(newDraftProposal.getId(), is(1));
-		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
+		inOrder.verify(submitProposal, times((shouldHaveSubmitted) ? 1 : 0)).submitProposedConcept(conceptPackage);
 	}
 
 	@Test
 	public void updateProposal_sendProposal_shouldPersistChangesAndSendProposal() throws Exception {
-
 		when(conceptPackage.getStatus()).thenReturn(PackageStatus.DRAFT);
 
 		ProposedConceptPackageDto dto = new ProposedConceptPackageDto();
 		dto.setStatus(PackageStatus.TBS);
 		controller.updateProposal("1", dto);
 
-		InOrder inOrder = inOrder(updateProposedConceptPackage, submitProposal);
-		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		inOrder.verify(submitProposal).submitProposedConcept(conceptPackage);
+		VerifyProposalUpdated(dto, true);
 	}
 
 	@Test
 	public void updateProposal_saveProposal_shouldPersistChanges() {
-
 		ProposedConceptPackageDto dto = new ProposedConceptPackageDto();
 		controller.updateProposal("1", dto);
 
-		verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
-		verify(submitProposal, times(0)).submitProposedConcept(conceptPackage);
+		VerifyProposalUpdated(dto, false);
     }
+	
+	private void VerifyProposalUpdated(ProposedConceptPackageDto dto, boolean shouldHaveBeenSubmitted) {
+		InOrder inOrder = inOrder(updateProposedConceptPackage, submitProposal);
+		inOrder.verify(updateProposedConceptPackage).updateProposedConcepts(conceptPackage, dto);
+		inOrder.verify(submitProposal, times((shouldHaveBeenSubmitted) ? 1 : 0)).submitProposedConcept(conceptPackage);
+	}
 
     @Test
-    public void shouldFindConcepts() throws  Exception{
-
-
-        ConceptSearchResult result = new ConceptSearchResult();
-        Concept concept = new Concept();
-        concept.setConceptId(123);
-        concept.setDateChanged(new Date());
-        concept.setId(111);
-        ConceptName conceptName = new ConceptName();
-        conceptName.setName("My concept name");
-        conceptName.setLocale(Locale.UK);
-        Collection<ConceptName>  conceptNames = Lists.newArrayList();
-        concept.setNames(conceptNames);
-        ConceptDatatype datatype = new ConceptDatatype();
-        datatype.setName("my datatype");
-        concept.setPreferredName(conceptName);
-        concept.setDatatype(datatype);
-        Collection<ConceptDescription> descriptions = Lists.newArrayList();
-        concept.setDescriptions(descriptions);
-
-        result.setConcept(concept);
-
-        List<ConceptSearchResult> resultList = Lists.newArrayList(result);
-
-        PowerMockito.when(Context.class, "getConceptService").thenReturn(conceptService);
-
-        PowerMockito.when(LocaleUtility.class, "getLocalesInOrder").thenReturn(Sets.newHashSet(Locale.US));
+    public void findConcepts_shouldFindConcepts() throws Exception{
+        Concept concept = createNewConcept();
+        List<ConceptSearchResult> resultList = createNewSearchResults(concept);
 
         when(conceptService.getConcepts(anyString(), any(Locale.class), anyBoolean())).thenReturn(resultList);
-
 
         String requestNum = "100";
         SearchConceptResultDto resultDto = controller.findConcepts("dummyQuery", requestNum);
@@ -252,7 +239,30 @@ public class ProposalControllerTest {
         Assert.assertEquals(resultDto.getRequestNum(), requestNum);
         Assert.assertEquals(resultDto.getConcepts().size(), resultList.size());
         Assert.assertTrue(resultDto.getConcepts().get(0).getId() == concept.getId());
-
-
+    }
+    
+    private Concept createNewConcept() {
+    	Concept concept = new Concept();
+        concept.setConceptId(123);
+        concept.setDateChanged(new Date());
+        concept.setId(111);
+        ConceptName conceptName = new ConceptName();
+        conceptName.setName("My concept name");
+        conceptName.setLocale(Locale.UK);
+        Collection<ConceptName> conceptNames = Lists.newArrayList();
+        concept.setNames(conceptNames);
+        ConceptDatatype datatype = new ConceptDatatype();
+        datatype.setName("my datatype");
+        concept.setPreferredName(conceptName);
+        concept.setDatatype(datatype);
+        Collection<ConceptDescription> descriptions = Lists.newArrayList();
+        concept.setDescriptions(descriptions);
+        return concept;
+    }
+    
+    private List<ConceptSearchResult> createNewSearchResults(Concept concept) {
+    	ConceptSearchResult result = new ConceptSearchResult();
+        result.setConcept(concept);
+        return Lists.newArrayList(result);
     }
 }

@@ -68,7 +68,7 @@ Ideally somebody else should merge your code into `master` (which will trigger
 a build) and delete the short-lived branch. Occasionally, you may need to do
 this yourself.
 
-And then you're done.
+And then you're done. More information on how to use Git to synchronize changes to/from your fork here: https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests
 
 Links
 -----
