@@ -17,6 +17,10 @@
                 <td align="right"><label for="password">Password</label></td>
                 <td><input type="password" id="password" ng-model="settings.password" /></td>
             </tr>
+            <tr>
+                <td></td>
+                <td><span ng-show="settings.urlInvalid" style="font-weight: bold; color: red;">These settings appear to be incorrect; you may not be able to submit proposals.  The URL should point to the root of the OpenMRS installation.</span></td>
+            </tr>
         </table>
         <button ng-click="save()" ng-disabled="isLoading">Save</button>
     </form>
