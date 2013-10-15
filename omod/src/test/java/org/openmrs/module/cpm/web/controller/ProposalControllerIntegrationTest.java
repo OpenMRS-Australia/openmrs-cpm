@@ -48,7 +48,6 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	public ExpectedException exception = ExpectedException.none();
 
 	@Test
-	@Ignore // Ignoring until can figure out VerifyError exception on Go
 	public void testCreateConceptForm() throws Exception {
 		request = new MockHttpServletRequest("GET", "/module/cpm/proposals.list");
 		final ModelAndView handle = adapter.handle(request, response, controller);
@@ -61,7 +60,6 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 	 * now just expecting the seralisation exception
 	 */
 	@Test
-	@Ignore // Ignoring until can figure out VerifyError exception on Go
 	public void testMonitorProposalsList() throws Exception {
 
 		exception.expect(HttpMediaTypeNotAcceptableException.class);

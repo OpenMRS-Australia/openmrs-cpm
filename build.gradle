@@ -38,6 +38,12 @@ allprojects {
         releaseJars 'com.google.guava:guava:13.0.1'
         releaseJars 'joda-time:joda-time:2.2'
     }
+
+    // required for testing on Java 7
+    // source: http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm.
+    test {
+        jvmArgs '-XX:-UseSplitVerifier'
+    }
 }
 
 task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
