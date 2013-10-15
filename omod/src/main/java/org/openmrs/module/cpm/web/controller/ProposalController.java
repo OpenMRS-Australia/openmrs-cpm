@@ -2,6 +2,7 @@ package org.openmrs.module.cpm.web.controller;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
+import org.openmrs.PersonName;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.PackageStatus;
@@ -18,6 +19,8 @@ import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,10 +112,26 @@ public class ProposalController {
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
 		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
+	
+	@RequestMapping(value = "/cpm/proposals/", method = RequestMethod.GET)
+	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {
+		PersonName name = Context.getAuthenticatedUser().getPersonName();
+		ProposedConceptPackageDto proposal = new ProposedConceptPackageDto();
+		proposal.setName(getDisplayName(name));
+		return proposal;
+	}
+	
+	private String getDisplayName(PersonName name) {
+		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
+		String displayName = "";
+		for (String component : components) {
+			displayName += String.format("%s ", component);
+		}
+		return displayName.trim();
+	}
 
 	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
-
 		// TODO: some server side validation here... not null fields, valid email?
 
 		final ProposedConceptPackage conceptPackage = new ProposedConceptPackage();

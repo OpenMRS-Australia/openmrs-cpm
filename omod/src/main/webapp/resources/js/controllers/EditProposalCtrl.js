@@ -57,11 +57,12 @@ define([
           });
         }
         else {
-          $scope.proposal = new Proposals();
-          $scope.proposal.status = 'DRAFT';
-          $scope.proposal.concepts= [];
+          $scope.proposal = Proposals.get({}, function() {
+        	  $scope.proposal.status = 'DRAFT';
+              $scope.proposal.concepts= [];
 
-          $scope.isReadOnly = false;
+              $scope.isReadOnly = false;
+          });
         }
 
         $scope.save = function() {

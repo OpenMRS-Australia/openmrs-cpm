@@ -37,8 +37,7 @@ public class CpmSettingsController {
     }
 	
     @RequestMapping(value = "/cpm/settings", method = RequestMethod.GET)
-    public @ResponseBody
-    Settings getSettings() {
+    public @ResponseBody Settings getSettings() {
         AdministrationService service = Context.getAdministrationService();
         Settings settings = new Settings();
         settings.setUrl(service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY));
