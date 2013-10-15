@@ -1,24 +1,62 @@
 define([
     'angular-mocks', 
     'underscore',
-    'js/controllers/SearchConceptsDialogCtrl'
+    'js/controllers/SearchConceptsDialogCtrl',
+    'js/services/searchConcept'
 ], function() {
     
     'use strict';
     
     describe("Search Concepts Dialog Spec", function() {
         
-        var scope, controller;
-
+        var scope, controller, timeout, searchConcept, httpBackend;
+        
         beforeEach(module('cpm.controllers'));
 
-        beforeEach(inject(function($rootScope, $controller ) {
+        beforeEach(inject(function($rootScope, $controller, $timeout, SearchConcept, $httpBackend) {
                 
             scope = $rootScope.$new();
             controller = $controller;
+            timeout = $timeout;
+            searchConcept = SearchConcept;
+            httpBackend = $httpBackend;
+            
+            // Simulate backend response for blank search so timeout.flush() does not throw error
+            httpBackend.whenGET(/\/openmrs\/ws\/cpm\/concepts\?query=&requestNum=.*/).respond("whatever");
+            
             controller('SearchConceptsDialogCtrl', { $scope: scope, 
-                $timeout: 'undefined', SearchConcept : 'undefined' });
+                $timeout: timeout, SearchConcept: searchConcept});
         }));
+
+	it("(#33) should not search if the search box is empty.", 
+            function() {		
+			// Initiate search with data
+			scope.searchTerm = "A";
+			scope.search();
+			
+            // Clear search box and search again
+			scope.searchTerm = "";
+			scope.search();
+			
+			// Should be no timeout set for search
+			expect(timeout.flush).toThrow();
+//			timeout.verifyNoPendingTasks(); // available from version 1.1.2 of angular
+ 	});
+
+	it("(#33) should clear existing concept search results if the search box is empty.", 
+            function() {
+            // Populate "existing concept search results"
+            var mockData1 = [4, 5, 6];
+            scope.currentRequestNum = 3;
+            scope.concepts = mockData1;
+            
+            // Clear search box and search again
+			scope.searchTerm = "";
+			scope.search();
+			
+	        // Check there are now no results
+		    expect(scope.concepts).toEqual([]);
+	});
 
 	it("should throw away slow results that may override current/timely results", 
             function() {
