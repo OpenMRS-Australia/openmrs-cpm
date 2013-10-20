@@ -17,8 +17,6 @@ target
 #Gradle build directories
 .gradle
 build
-api/build
-omod/build
 
 # IntelliJ project files
 .idea
