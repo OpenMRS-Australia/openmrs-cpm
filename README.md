@@ -17,7 +17,7 @@ We are looking for volunteers to help!  Please contact us via the [mailing list]
 
 If you're new to web or Java development, or are just curious to see what we're working with, have a look at the [summary of technologies used](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Resources).
 
-Contributors submit contributions in the form of [pull requests](https://help.github.com/articles/using-pull-requests) in order for a member of our team to review the code appropriately as any commits to master are picked up by our continuous deployment server.
+Contributors submit contributions in the form of [pull requests](https://help.github.com/articles/using-pull-requests) in order for a member of our team to review the code appropriately, as any commits to master are picked up by our continuous deployment server.
 
 Quickstart
 ----------
@@ -25,6 +25,8 @@ Quickstart
 Follow the instructions in readme.txt on https://github.com/rdoh/cpm-go
 
 As of now, you will need to come to the meetup in order to have access to the USB keys referenced in that document.
+
+The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
 Sample workflow
 ---------------
@@ -55,11 +57,7 @@ If either of these commands fail, the PR will be sent back without further revie
 
 If your changes are approved, the pull request will be merged into the OpenMRS-cpm `master`, which will trigger a build. If changes are requested, discuss the changes with the reviewer, and then make modifications on the feature branch on your fork (which will cause them to appear in the pull request).
 
-Once your pull request has been accepted, be sure to update your fork as described under "Staying updated": https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests. 
-
-Errata
-------
-The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
+Once your pull request has been accepted, be sure to update your fork as described under "Staying updated": https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests.
 
 Links
 -----
