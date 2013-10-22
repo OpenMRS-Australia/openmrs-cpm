@@ -63,7 +63,7 @@
             <a>concept.name.name</a>
             <b>preferredName</b>
         </field>
-        <field>
+        <field type="one-way">
             <a>concept.datatype.name</a>
             <b>datatype</b>
         </field>
