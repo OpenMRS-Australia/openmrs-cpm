@@ -79,7 +79,7 @@ public class ProposalControllerTest {
 	public void getProposalById_simpleProposal_shouldBindToDto() {
 
 		ProposedConceptPackageDto expectedDto = new ProposedConceptPackageDto();
-		when(cpmMapperService.convertProposedConceptPackageToDto(conceptPackage)).thenReturn(expectedDto);
+		when(cpmMapperService.convertProposedConceptPackageToProposedConceptDto(conceptPackage)).thenReturn(expectedDto);
 
 		final ProposedConceptPackageDto actualDto = controller.getProposalById(proposedConceptPackageId.toString());
 

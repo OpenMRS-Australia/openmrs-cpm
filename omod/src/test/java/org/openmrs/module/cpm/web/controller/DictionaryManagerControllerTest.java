@@ -72,7 +72,7 @@ public class DictionaryManagerControllerTest {
 
 		SubmissionResponseDto response = controller.submitProposal(dto);
 
-		verify(mapperServiceMock).convertDtoToProposedConceptResponsePackage(dto);
+		verify(mapperServiceMock).convertSubmissionDtoToProposedConceptResponsePackage(dto);
 
 		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
 		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
@@ -95,7 +95,7 @@ public class DictionaryManagerControllerTest {
 
 		SubmissionResponseDto response = controller.submitProposal(dto);
 
-		verify(mapperServiceMock).convertDtoToProposedConceptResponsePackage(dto);
+		verify(mapperServiceMock).convertSubmissionDtoToProposedConceptResponsePackage(dto);
 		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
 		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
 		final ProposedConceptResponsePackage actual = captor.getValue();
@@ -106,7 +106,7 @@ public class DictionaryManagerControllerTest {
 
 	private void setupRegularFixtureMocks(ProposedConceptResponsePackage expectedResponse) throws Exception {
 
-		when(mapperServiceMock.convertDtoToProposedConceptResponsePackage(Matchers.any(SubmissionDto.class))).thenReturn(expectedResponse);
+		when(mapperServiceMock.convertSubmissionDtoToProposedConceptResponsePackage(Matchers.any(SubmissionDto.class))).thenReturn(expectedResponse);
 	}
 
 

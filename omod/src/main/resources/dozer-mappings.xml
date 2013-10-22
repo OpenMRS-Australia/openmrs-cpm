@@ -18,9 +18,9 @@
                 <class-b>java.lang.Integer</class-b>
             </converter>
             <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
-                            <class-a>org.openmrs.Concept</class-a>
-                            <class-b>java.lang.String</class-b>
-                        </converter>
+                <class-a>org.openmrs.Concept</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
         </custom-converters>
     </configuration>
     <mapping>
@@ -40,6 +40,16 @@
             <b>concepts</b>
             <a-hint>org.openmrs.module.cpm.ProposedConcept</a-hint>
             <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptDto</b-hint>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptResponsePackage</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto</class-b>
+        <field>
+            <a>proposedConcepts</a>
+            <b>concepts</b>
+            <a-hint>org.openmrs.module.cpm.ProposedConceptResponse</a-hint>
+            <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto</b-hint>
         </field>
     </mapping>
     <mapping>
@@ -69,6 +79,10 @@
             <a-hint>org.openmrs.ConceptDescription</a-hint>
             <b-hint>org.openmrs.module.cpm.web.dto.concept.DescriptionDto</b-hint>
         </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptResponse</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto</class-b>
     </mapping>
     <mapping>
         <class-a>org.openmrs.ConceptName</class-a>

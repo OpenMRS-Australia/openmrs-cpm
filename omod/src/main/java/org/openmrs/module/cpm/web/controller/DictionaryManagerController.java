@@ -3,21 +3,13 @@ package org.openmrs.module.cpm.web.controller;
 import org.directwebremoting.util.Logger;
 //import org.dozer.DozerBeanMapper;
 //import org.dozer.Mapper;
-import org.dozer.DozerBeanMapper;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.cpm.*;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.api.exception.ConceptProposalSubmissionException;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.web.dto.SubmissionStatusDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
-import org.openmrs.module.cpm.web.dto.concept.NumericDto;
 import org.openmrs.module.cpm.web.service.CpmMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class DictionaryManagerController {
@@ -49,7 +38,7 @@ public class DictionaryManagerController {
     @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
-		final ProposedConceptResponsePackage result = mapperService.convertDtoToProposedConceptResponsePackage(incomingProposal);
+		final ProposedConceptResponsePackage result = mapperService.convertSubmissionDtoToProposedConceptResponsePackage(incomingProposal);
 
         final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 

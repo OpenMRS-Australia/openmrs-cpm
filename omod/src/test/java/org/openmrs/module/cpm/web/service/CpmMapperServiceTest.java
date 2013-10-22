@@ -2,23 +2,35 @@ package org.openmrs.module.cpm.web.service;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
+import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.*;
+import org.openmrs.module.cpm.PackageStatus;
+import org.openmrs.module.cpm.ProposalStatus;
+import org.openmrs.module.cpm.ProposedConcept;
+import org.openmrs.module.cpm.ProposedConceptPackage;
+import org.openmrs.module.cpm.ProposedConceptResponse;
+import org.openmrs.module.cpm.ProposedConceptResponseDescription;
+import org.openmrs.module.cpm.ProposedConceptResponseName;
+import org.openmrs.module.cpm.ProposedConceptResponseNumeric;
+import org.openmrs.module.cpm.ProposedConceptResponsePackage;
 import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.controller.BaseCpmOmodTest;
 import org.openmrs.module.cpm.web.controller.ProposalController;
 import org.openmrs.module.cpm.web.controller.SubmitProposal;
 import org.openmrs.module.cpm.web.controller.UpdateProposedConceptPackage;
 import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
 import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
+import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
 import org.openmrs.module.cpm.web.dto.SubmissionDto;
 import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
 import org.openmrs.module.cpm.web.dto.concept.NameDto;
@@ -26,16 +38,21 @@ import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
-import static junit.framework.Assert.assertNull;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
@@ -73,6 +90,9 @@ public class CpmMapperServiceTest {
 	@Mock
 	private ProposedConceptResponsePackage conceptResponsePackage;
 
+	private CpmMapperService mapperService;
+
+
 	@Before
 	public void before() throws Exception {
 
@@ -97,21 +117,18 @@ public class CpmMapperServiceTest {
 	}
 
 
-	private CpmMapperService mapperService;
-
-
 	//
 	// RESTful request from proposal server to review server
 	//
 
 	@Test
-	public void convertDtoToProposedConceptResponsePackage_shouldBindToDomain() throws Exception {
+	public void convertSubmissionDtoToProposedConceptResponsePackage_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
 
 
-		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
+		ProposedConceptResponsePackage value = mapperService.convertSubmissionDtoToProposedConceptResponsePackage(dto);
 
 
 		assertThat(value.getName(), is("A proposal"));
@@ -136,12 +153,12 @@ public class CpmMapperServiceTest {
 
 
 	@Test
-	public void convertDtoToProposedConceptResponsePackage_numericProposal() throws Exception {
+	public void convertSubmissionDtoToProposedConceptResponsePackage_numericProposal() throws Exception {
 
 		whenNew(ProposedConceptResponsePackage.class).withNoArguments().thenReturn(conceptResponsePackage);
 		final SubmissionDto dto = setupNumericProposalFixture();
 
-		ProposedConceptResponsePackage value = mapperService.convertDtoToProposedConceptResponsePackage(dto);
+		ProposedConceptResponsePackage value = mapperService.convertSubmissionDtoToProposedConceptResponsePackage(dto);
 
 		final List<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
 		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
@@ -234,7 +251,7 @@ public class CpmMapperServiceTest {
 		dto.setConcepts(concepts);
 
 
-		ProposedConceptPackage proposedConceptPackage = mapperService.convertDtoToProposedConceptPackage(dto);
+		ProposedConceptPackage proposedConceptPackage = mapperService.convertProposedConceptDtoToProposedConceptPackage(dto);
 
 
 		assertThat(proposedConceptPackage, is(notNullValue()));
@@ -251,7 +268,7 @@ public class CpmMapperServiceTest {
 	public void convertProposedConceptPackageToDto_regularProposal_shouldBindToDto() {
 		ProposedConceptPackage proposedConceptPackage = createProposedConceptPackage();
 
-		final ProposedConceptPackageDto packageDto = mapperService.convertProposedConceptPackageToDto(proposedConceptPackage);
+		final ProposedConceptPackageDto packageDto = mapperService.convertProposedConceptPackageToProposedConceptDto(proposedConceptPackage);
 
 
 		assertThat(packageDto.getName(), is("A sample proposal"));
@@ -356,5 +373,45 @@ public class CpmMapperServiceTest {
 		return mapper.readValue(regularFixture.replace("'", "\""), SubmissionDto.class);
 	}
 
+
+	//
+	// RESTful requests from AngularJS to ReviewController
+	//
+
+	@Test
+	public void convertReviewDtoToProposedConceptResponsePackage_regularProposal_shouldBindReviewCommentAndStatus() {
+
+		ProposedConceptResponseDto concept = new ProposedConceptResponseDto();
+		concept.setReviewComment("A reviewer's comment");
+		concept.setStatus(ProposalStatus.CLOSED_NEW);
+		ProposedConceptResponsePackageDto dto = new ProposedConceptResponsePackageDto();
+		dto.setConcepts(newArrayList(concept));
+
+		final ProposedConceptResponsePackage responsePackage = mapperService.convertProposedConceptResponseDtoToProposedConceptResponsePackage(dto);
+
+		final ArrayList<ProposedConceptResponse> responses = newArrayList(responsePackage.getProposedConcepts());
+		assertThat(responses.size(), is(1));
+		assertThat(responses.get(0).getReviewComment(), is("A reviewer's comment"));
+		assertThat(responses.get(0).getStatus(), is(ProposalStatus.CLOSED_NEW));
+	}
+
+	@Test
+	public void convertProposedConceptResponsePackageToReviewDto_regularProposal_shouldBindReviewCommentAndStatus() {
+
+		final ProposedConceptResponsePackage mockPackage = mock(ProposedConceptResponsePackage.class);
+		final Set<ProposedConceptResponse> mockProposedConceptResponses = new HashSet<ProposedConceptResponse>();
+		final ProposedConceptResponse mockResponse = mock(ProposedConceptResponse.class);
+		when(mockResponse.getReviewComment()).thenReturn("A reviewer's comment");
+		when(mockResponse.getStatus()).thenReturn(ProposalStatus.CLOSED_EXISTING);
+		mockProposedConceptResponses.add(mockResponse);
+		when(mockPackage.getProposedConcepts()).thenReturn(mockProposedConceptResponses);
+
+		final ProposedConceptResponsePackageDto dto = mapperService.convertProposedConceptResponsePackageToProposedConceptResponseDto(mockPackage);
+
+		final List<ProposedConceptResponseDto> concepts = dto.getConcepts();
+		assertThat(concepts.size(), is(1));
+		assertThat(concepts.get(0).getReviewComment(), is("A reviewer's comment"));
+		assertThat(concepts.get(0).getStatus(), is(ProposalStatus.CLOSED_EXISTING));
+	}
 
 }
