@@ -9,6 +9,13 @@ define(['./index', 'config'], function(services, config) {
       { update: {method: 'PUT'}, cache: true }
     );
   });
+  
+  services.factory('CreateProposals', function($resource) {
+    return $resource(
+      config.contextPath + '/ws/cpm/proposals/create',
+      { update: {method: 'PUT'}, cache: true }
+    );
+  });
 
   services.factory('ProposalReviews', function($resource) {
     return $resource(

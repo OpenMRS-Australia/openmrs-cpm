@@ -110,11 +110,14 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
-		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
+		if (proposalId.equals("0")) {
+			return getEmptyProposal();
+		} else {
+			return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
+		}
 	}
 	
-	@RequestMapping(value = "/cpm/proposals/", method = RequestMethod.GET)
-	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {
+	private ProposedConceptPackageDto getEmptyProposal() {
 		PersonName name = Context.getAuthenticatedUser().getPersonName();
 		ProposedConceptPackageDto proposal = new ProposedConceptPackageDto();
 		proposal.setName(getDisplayName(name));

@@ -11,15 +11,18 @@ define([
     'use strict';
 
     angular.module('cpm.controllers').controller('EditProposalCtrl',
-      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts) {
+      function($scope, $routeParams, $location, $window, Proposals, CreateProposals, Menu, Alerts) {
 
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
 
         var proposalId = $routeParams.proposalId;
-        $scope.isEdit = typeof proposalId !== 'undefined';
+        if (typeof proposalId === 'undefined') {
+        	proposalId = 0;
+        }
+        $scope.isEdit = proposalId !== 0;
         $scope.isSubmitting = false;
-        $scope.isLoading = $scope.isEdit ? true : false;
+        $scope.isLoading = true;
         $scope.isReadOnly = true;
 
         $scope.menu = Menu.getMenu(1);
@@ -50,20 +53,20 @@ define([
           document.title = 'Create Concept Proposal';
         }
 
-        if ($scope.isEdit) {
+        //if ($scope.isEdit) {
           $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
             $scope.isLoading = false;
-            $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
+            $scope.isReadOnly = proposalId !== 0 && $scope.proposal.status !== 'DRAFT';
           });
-        }
+        /*}
         else {
-          $scope.proposal = Proposals.get({}, function() {
+          $scope.proposal = CreateProposals.get(function() {
+        	  $scope.isLoading = false;
         	  $scope.proposal.status = 'DRAFT';
-              $scope.proposal.concepts= [];
-
-              $scope.isReadOnly = false;
+              $scope.proposal.concepts = [];
           });
-        }
+          $scope.isReadOnly = false;
+        }*/
 
         $scope.save = function() {
           var redirectUrl = '/';
