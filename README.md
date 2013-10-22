@@ -59,6 +59,12 @@ If your changes are approved, the pull request will be merged into the OpenMRS-c
 
 Once your pull request has been accepted, be sure to update your fork as described under "Staying updated": https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests.
 
+Managing Go
+-----------
+
+ * Manage Go server: sudo /etc/init.d/go-server <cmd>
+ * Setup Go Agent: sudo /etc/init.d/go-agent <cmd>
+
 Links
 -----
 
