@@ -1,9 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.openmrs.module.cpm.web.controller.ProposalControllerIntegrationTest" tests="3" failures="0" errors="0" timestamp="2013-10-08T08:11:50" hostname="openmrs-dev" time="41.908">
-  <properties/>
-  <testcase name="testCreateConceptForm" classname="org.openmrs.module.cpm.web.controller.ProposalControllerIntegrationTest" time="21.867"/>
-  <testcase name="testMonitorProposalsList" classname="org.openmrs.module.cpm.web.controller.ProposalControllerIntegrationTest" time="20.031"/>
-  <ignored-testcase name="updateProposal_UpdatedPackageIsToBeSubmittedWhileExistingIsDraft_ShouldMakeRestCallAndPersistWithStatusSubmitted" classname="org.openmrs.module.cpm.web.controller.ProposalControllerIntegrationTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

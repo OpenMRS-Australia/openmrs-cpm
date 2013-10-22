@@ -1,7 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="com.openmrs.module.cpm.test.CpmBaseContextSensitive" tests="1" failures="0" errors="0" timestamp="2013-10-08T08:10:05" hostname="openmrs-dev" time="0.001">
-  <properties/>
-  <ignored-testcase name="initializationError" classname="com.openmrs.module.cpm.test.CpmBaseContextSensitive" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
