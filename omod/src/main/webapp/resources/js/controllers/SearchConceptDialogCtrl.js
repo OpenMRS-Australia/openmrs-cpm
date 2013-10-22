@@ -40,19 +40,20 @@ define(['./index', 'config', 'js/services/searchConcept', 'js/directives/jqueryU
 
         $scope.processSearchResults = function(response) {
           $scope.isSearching = false;
+          if ($scope.searchTerm !== '') {
+            var data = response.data;
 
-          var data = response.data;
+            if (parseInt(data.requestNum, 10) >= $scope.currentRequestNum) {
+              $scope.currentRequestNum = data.requestNum;
+              $scope.concepts = data.concepts;
 
-          if (parseInt(data.requestNum, 10) >= $scope.currentRequestNum) {
-            $scope.currentRequestNum = data.requestNum;
-            $scope.concepts = data.concepts;
-
-            _.forEach($scope.concepts, function(concept) {
-              if (concept.names) {
-                concept.synonyms = mergeNames(concept.names,
-                  concept.preferredName);
-              }
-            });
+              _.forEach($scope.concepts, function(concept) {
+                if (concept.names) {
+                  concept.synonyms = mergeNames(concept.names,
+                    concept.preferredName);
+                }
+              });
+            }
           }
         };
 
