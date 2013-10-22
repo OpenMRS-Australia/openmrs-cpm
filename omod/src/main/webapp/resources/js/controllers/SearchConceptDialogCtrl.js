@@ -62,13 +62,17 @@ define(['./index', 'config', 'js/services/searchConcept', 'js/directives/jqueryU
             $timeout.cancel(searchTimeout);
           }
 
-          searchTimeout = $timeout(function() {
-
-            $scope.currentRequestNum++;
-            $scope.isSearching = true;
-            SearchConcept.runQuery($scope.searchTerm, $scope.currentRequestNum)
-            .then($scope.processSearchResults);
-          }, SEARCH_DELAY);
+          if ($scope.searchTerm !== '') {
+            searchTimeout = $timeout(function() {
+              $scope.currentRequestNum++;
+              $scope.isSearching = true;
+              SearchConcept
+                .runQuery($scope.searchTerm, $scope.currentRequestNum)
+                .then($scope.processSearchResults);
+            }, SEARCH_DELAY);
+          } else {
+            $scope.concepts = [];
+          }
         };
 
         $scope.conceptClicked = function(concept) {
