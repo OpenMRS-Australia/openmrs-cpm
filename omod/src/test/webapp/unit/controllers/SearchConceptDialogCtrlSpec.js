@@ -1,13 +1,13 @@
 define([
   'angular-mocks',
   'underscore',
-  'js/controllers/SearchConceptsDialogCtrl',
+  'js/controllers/SearchConceptDialogCtrl',
   'js/services/searchConcept'
 ], function() {
 
   'use strict';
 
-  describe('Search Concepts Dialog Spec', function() {
+  describe('Search Concept Dialog Spec', function() {
 
     var scope, controller, timeout, searchConcept, httpBackend;
 
@@ -24,7 +24,7 @@ define([
       // Simulate backend response for blank search so timeout.flush() does not throw error
       httpBackend.whenGET(/\/openmrs\/ws\/cpm\/concepts\?query=&requestNum=.*/).respond('whatever');
 
-      controller('SearchConceptsDialogCtrl', { $scope: scope,
+      controller('SearchConceptDialogCtrl', { $scope: scope,
         $timeout: timeout, SearchConcept: searchConcept});
     }));
 
@@ -112,3 +112,4 @@ define([
     });
   });
 });
+
