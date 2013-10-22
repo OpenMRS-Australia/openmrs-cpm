@@ -12,7 +12,7 @@ define([
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: "<div><div ng-transclude></div></div>",
+        template: '<div><div ng-transclude></div></div>',
         scope: {
           title: '@title',
           dialogOpen: '=dialogOpen'
