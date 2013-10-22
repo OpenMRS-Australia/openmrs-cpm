@@ -122,6 +122,63 @@ public class CpmMapperServiceTest {
 	//
 
 	@Test
+	public void convertProposedConceptPackageToSubmissionDto_shouldBindToDomain() throws Exception {
+
+		// Some things to note here:
+		//  * Locales will be serialised with toString()
+		//  * ConceptDataType will be serialised with the UUID
+		//  * ConceptClass will be serialised with the UUID
+
+		// The details about the overall "package"
+		final ProposedConceptPackage aPackage = new ProposedConceptPackage();
+		aPackage.setDescription("A description about the related concepts");
+		aPackage.setEmail("The proposer's email");
+		aPackage.setName("Name of proposal");
+
+		// The newly created concept being proposed
+		final Concept concept = new Concept();
+		final Collection<ConceptName> names = new ArrayList<ConceptName>();
+		final ConceptName mainName = new ConceptName();
+		mainName.setName("A newly created concept");
+		mainName.setLocale(Locale.ENGLISH);
+		names.add(mainName);
+		concept.setNames(names);
+		final ConceptDatatype conceptDatatype = new ConceptDatatype();
+		conceptDatatype.setUuid("datatype-uuid");
+		concept.setDatatype(conceptDatatype);
+		final ConceptClass conceptClass = new ConceptClass();
+		conceptClass.setUuid("concept-class-uuid");
+		concept.setConceptClass(conceptClass);
+
+		// The comment for the new concept
+		final ProposedConcept proposedConcept = new ProposedConcept();
+		proposedConcept.setConcept(concept);
+		proposedConcept.setComment("A comment about the mocked concept");
+		final Set<ProposedConcept> proposedConcepts = new HashSet<ProposedConcept>();
+		proposedConcepts.add(proposedConcept);
+		aPackage.setProposedConcepts(proposedConcepts);
+
+
+		final SubmissionDto dto = mapperService.convertProposedConceptPackageToSubmissionDto(aPackage);
+
+
+		assertThat(dto.getName(), is("Name of proposal"));
+		assertThat(dto.getDescription(), is("A description about the related concepts"));
+		assertThat(dto.getEmail(), is("The proposer's email"));
+		final List<ProposedConceptDto> concepts = dto.getConcepts();
+		assertThat(concepts.size(), is(1));
+		final ProposedConceptDto newConcept = concepts.get(0);
+		assertThat(newConcept.getComment(), is("A comment about the mocked concept"));
+		ArrayList<NameDto> dtoNames = newArrayList(newConcept.getNames());
+		assertThat(dtoNames.size(), is(1));
+		assertThat(dtoNames.get(0).getName(), is("A newly created concept"));
+		assertThat(dtoNames.get(0).getLocale(), is("en"));
+		assertThat(newConcept.getDatatype(), is("datatype-uuid"));
+		assertThat(newConcept.getConceptClass(), is("concept-class-uuid"));
+
+	}
+
+	@Test
 	public void convertSubmissionDtoToProposedConceptResponsePackage_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);

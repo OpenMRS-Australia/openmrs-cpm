@@ -19,6 +19,10 @@ public class CpmMapperService {
 		this.dozerBeanMapper = dozerBeanMapper;
 	}
 
+	public SubmissionDto convertProposedConceptPackageToSubmissionDto(ProposedConceptPackage proposedConceptPackage) {
+		return dozerBeanMapper.map(proposedConceptPackage, SubmissionDto.class);
+	}
+
 	public ProposedConceptResponsePackage convertSubmissionDtoToProposedConceptResponsePackage(final SubmissionDto incomingProposal){
 		return dozerBeanMapper.map(incomingProposal, ProposedConceptResponsePackage.class);
 	}
