@@ -6,17 +6,34 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
     var scope;
     var httpBackend;
     var controller;
+    var menuService;
 
     beforeEach(module('cpm.controllers'));
 
-    beforeEach(inject(function($rootScope, $controller, $httpBackend) {
+    beforeEach(inject(function($rootScope, $controller, $httpBackend, Menu) {
       scope = $rootScope.$new();
       controller = $controller;
       httpBackend = $httpBackend;
+      menuService = Menu;
     }));
 
+    beforeEach(function () {
+      httpBackend.whenGET('/openmrs/ws/cpm/proposals').respond([]);
+    });
+
+    it('should get menu', function () {
+      var menuResponse = 'something';
+      spyOn(menuService, 'getMenu').andCallFake(function (index) {
+        expect(index).toBe(2);
+        return menuResponse;
+      });
+      
+      controller('ListProposalsCtrl', {$scope: scope, $routeParams: {}});
+
+      expect(scope.menu).toBe(menuResponse);
+    });
+
     it("should have reponseReceived initialised to false", function() {
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([]);
       controller('ListProposalsCtrl', {$scope: scope});
       // no flush
 

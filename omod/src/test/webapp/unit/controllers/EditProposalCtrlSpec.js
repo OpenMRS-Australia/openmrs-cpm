@@ -13,16 +13,30 @@ define([
     var routeParams;
     var controller;
     var alertsService;
+    var menuService;
 
     beforeEach(module('cpm.controllers'));
 
-    beforeEach(inject(function($rootScope, $controller, $httpBackend, Alerts) {
+    beforeEach(inject(function($rootScope, $controller, $httpBackend, Alerts, Menu) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
       controller = $controller;
       alertsService = Alerts;
+      menuService = Menu;
     }));
 
+
+    it('should get menu', function () {
+      var menuResponse = 'something';
+      spyOn(menuService, 'getMenu').andCallFake(function (index) {
+        expect(index).toBe(1);
+        return menuResponse;
+      });
+      
+      controller('EditProposalCtrl', {$scope: scope, $routeParams: {}});
+
+      expect(scope.menu).toBe(menuResponse);
+    });
 
     it('should not fetch anything and set the mode to create and initialise the status to \'DRAFT\' when not given a proposal id', function() {
       routeParams = {};

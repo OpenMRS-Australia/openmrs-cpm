@@ -51,7 +51,7 @@
         </tr>
       </tbody>
     </table>
-    <button ng-click="dialog='open'" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
+    <button ng-click="openSearchConceptDialog()" accesskey="a" ng-disabled="isReadOnly"><span class="accesskey">A</span>dd Concepts</button>
   </div>
 
   <div>
@@ -64,6 +64,6 @@
   </div>
 </form>
 
-<div jquery-ui-dialog title="Add concepts">
-  <div ng-include="resourceLocation + '/partials/SearchConceptsDialog.html'"></div>
-</div>
+<jquery-ui-dialog title="Add concept" dialog-open="isSearchDialogOpen">
+  <search-concept-dialog is-multiple="true" on-accept-fn="acceptConcepts"></search-concept-dialog>
+</jquery-ui-dialog>

@@ -6,15 +6,29 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
     var scope;
     var httpBackend;
     var controller;
+    var menuService;
 
     beforeEach(module('cpm.controllers'));
 
-    beforeEach(inject(function($rootScope, $controller, $httpBackend) {
+    beforeEach(inject(function($rootScope, $controller, $httpBackend, Menu) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
       controller = $controller;
+      menuService = Menu;
     }));
 
+    it('should get menu', function () {
+      httpBackend.whenGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({});
+      var menuResponse = 'something';
+      spyOn(menuService, 'getMenu').andCallFake(function (index) {
+        expect(index).not.toBeDefined();
+        return menuResponse;
+      });
+      
+      controller('ReviewConceptCtrl', {$scope: scope, $routeParams: {proposalId: 1, conceptId: 1}});
+
+      expect(scope.menu).toBe(menuResponse);
+    });
 
     it("should fetch a comment from a supplied concept review", function() {
       httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({
