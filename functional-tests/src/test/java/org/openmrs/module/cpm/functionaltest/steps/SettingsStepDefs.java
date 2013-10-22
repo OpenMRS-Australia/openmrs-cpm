@@ -23,14 +23,8 @@ public class SettingsStepDefs {
 	
 	private AdminPage adminPage;
 	private SettingsPage page;
-	private static FirefoxDriver driver;
 	private String openmrsUrl = "openmrs";
 	
-	@Before("@Selenium")
-	public void startScenario() {
-		driver = new FirefoxDriver();
-	}
-
     @Given("^I'm on the Concept Proposal Settings page$")
     public void navigate_to_page() throws IOException {
     	loadPage();
@@ -43,7 +37,7 @@ public class SettingsStepDefs {
     
     @When("^I refresh the page$")
     public void i_refresh_the_page() {
-    	driver.navigate().refresh();
+    	SeleniumDriver.getDriver().navigate().refresh();
     }
 
     @Then("^those settings should still be there$")
@@ -79,19 +73,16 @@ public class SettingsStepDefs {
 			adminPageUrl = p.getProperty("adminPageUrl");
 		}
 
-		adminPage = new AdminPage(driver, adminPageUrl, openmrsUrl);
+		adminPage = new AdminPage(SeleniumDriver.getDriver(), adminPageUrl, openmrsUrl);
 		adminPage.login(username, password);
 		page = adminPage.navigateToSettings();
 	}
 
 
 
-	@After("@Selenium")
-	public static void endScenario() {
-		driver.quit();
-	}
-    
-    
+
+
+
     
     
 }

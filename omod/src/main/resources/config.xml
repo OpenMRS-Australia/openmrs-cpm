@@ -2,26 +2,24 @@
 
 <module configVersion="1.2">
 
-	<!-- Module Properties -->
-	<id>${project.parent.artifactId}</id>
-	<name>${project.parent.name}</name>
-	<version>${project.parent.version}-SHA1-${buildNumber}</version>
-	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
-	<author>OpenMRS Australia</author>
-	<description>
-		${project.parent.description}
-	</description>
-	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
-	<require_version>${openMRSVersion}</require_version>
-	<!-- / Module Properties -->
+    <id>cpm</id>
+    <name>Concept Proposal Module</name>
+    <version>1.0-SNAPSHOT</version>
+    <package>org.openmrs.module.cpm</package>
+    <author>OpenMRS Australia</author>
+    <description>
+        Enable sharing of concepts
+    </description>
+    <updateURL>https://modules.openmrs.org/modules/download/cpm/update.rdf</updateURL>
+    <require_version>1.9.2</require_version>
 
 	
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.ConceptProposalModuleActivator</activator>
+	<activator>org.openmrs.module.cpm.ConceptProposalModuleActivator</activator>
 	
 	<extension>
 		<point>org.openmrs.admin.list</point>
-		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
+		<class>org.openmrs.module.cpm.extension.html.AdminList</class>
 	</extension>
 	
 	<!-- Hibernate config -->

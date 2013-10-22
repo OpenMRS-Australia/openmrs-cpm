@@ -1,0 +1,88 @@
+
+allprojects {
+
+    apply plugin: 'java'
+
+    group = 'org.openmrs.module'
+    version = '1.0-SNAPSHOT'
+    ext.openMrsVersion = '1.9.2'
+
+    configurations {
+
+        releaseJars
+
+        compile.exclude module: 'jms'
+        compile.exclude module: 'jmxtools'
+        compile.exclude module: 'jmxri'
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://mavenrepo.openmrs.org/nexus/content/repositories/public'
+        }
+    }
+
+    dependencies {
+        compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
+        compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
+
+        testCompile "org.openmrs.api:openmrs-api:${openMrsVersion}:tests"
+        testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
+        testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
+
+        testCompile 'junit:junit:4.10'
+        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
+
+        releaseJars 'org.apache.httpcomponents:httpclient:4.2.3'
+        releaseJars 'com.google.guava:guava:13.0.1'
+        releaseJars 'joda-time:joda-time:2.2'
+    }
+
+    // required for testing on Java 7
+    // source: http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm.
+    test {
+        jvmArgs '-XX:-UseSplitVerifier'
+    }
+}
+
+task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
+
+    baseName = 'openmrs-cpm'
+    extension = 'omod'
+
+    subprojects.each {
+        subproject ->
+            from subproject.configurations.archives.allArtifacts.files.collect {
+                zipTree(it)
+            }
+
+    }
+
+    into('web/module') {
+        from fileTree(dir: 'omod/src/main/webapp')
+    }
+
+    into('lib') {
+        from configurations.releaseJars
+    }
+
+    metaInf {
+        into('maven/org.openmrs.module/cpm-omod')
+        def pomProperties = new File(getTemporaryDir(), 'pom.properties')
+        pomProperties.write "version=${project.version}\n"
+        pomProperties << "groupId=${project.group}\n"
+        pomProperties << "artifactId=${project.name}\n"
+        from pomProperties
+    }
+}
+
+artifacts {
+    archives createOmod
+}
+
+defaultTasks 'createOmod'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}

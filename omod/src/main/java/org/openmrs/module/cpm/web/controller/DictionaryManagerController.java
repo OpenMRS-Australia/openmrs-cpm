@@ -125,7 +125,9 @@ public class DictionaryManagerController {
             service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
             responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
             responseDto.setMessage("All Good!");
-            responseDto.setId(proposedConceptResponsePackage.getId());
+            if (proposedConceptResponsePackage.getId() != null) {
+            	responseDto.setId(proposedConceptResponsePackage.getId());
+            }
 
         } catch (Exception ex) {
             //TODO: update error handling, more specific catch block rather than the generic Exception, add proper logging etc.
