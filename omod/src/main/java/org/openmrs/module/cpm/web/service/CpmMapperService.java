@@ -27,6 +27,7 @@ public class CpmMapperService {
 
 	}
 
-
-
+	public ProposedConceptPackage convertDtoToProposedConceptPackage(ProposedConceptPackageDto dto) {
+		return dozerBeanMapper.map(dto, ProposedConceptPackage.class);
+	}
 }

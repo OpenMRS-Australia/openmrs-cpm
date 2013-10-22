@@ -33,6 +33,7 @@ import java.util.*;
 
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -202,7 +203,52 @@ public class CpmMapperServiceTest {
 	//
 
 	@Test
-	public void convertProposedConceptPackageToDto_shouldBindToDto() {
+	public void convertDtoToProposedConceptPackage_regularProposal_shouldBindToEntity() {
+
+		ProposedConceptPackageDto dto = new ProposedConceptPackageDto();
+		dto.setName("asdf");
+		dto.setEmail("some@email.com");
+		dto.setDescription("a description!");
+		dto.setStatus(PackageStatus.DRAFT);
+
+		List<ProposedConceptDto> concepts = new ArrayList<ProposedConceptDto>();
+		ProposedConceptDto aConcept = new ProposedConceptDto();
+		aConcept.setDatatype("datatype-uuid");
+		aConcept.setConceptClass("concept-class-uuid");
+
+		Collection<NameDto> names = new ArrayList<NameDto>();
+		NameDto name = new NameDto();
+		name.setName("Concept name!");
+		name.setLocale("en");
+		names.add(name);
+		aConcept.setNames(names);
+
+		Collection<DescriptionDto> descriptions = new ArrayList<DescriptionDto>();
+		DescriptionDto description = new DescriptionDto();
+		description.setDescription("Concept description!");
+		description.setLocale("en");
+		descriptions.add(description);
+		aConcept.setDescriptions(descriptions);
+
+		concepts.add(aConcept);
+		dto.setConcepts(concepts);
+
+
+		ProposedConceptPackage proposedConceptPackage = mapperService.convertDtoToProposedConceptPackage(dto);
+
+
+		assertThat(proposedConceptPackage, is(notNullValue()));
+		assertThat(proposedConceptPackage.getName(), is("asdf"));
+		assertThat(proposedConceptPackage.getEmail(), is("some@email.com"));
+		assertThat(proposedConceptPackage.getDescription(), is("a description!"));
+		assertThat(proposedConceptPackage.getStatus(), is(PackageStatus.DRAFT));
+
+		final Set<ProposedConcept> proposedConcepts = proposedConceptPackage.getProposedConcepts();
+		assertThat(proposedConcepts.size(), is(1));
+	}
+
+	@Test
+	public void convertProposedConceptPackageToDto_regularProposal_shouldBindToDto() {
 		ProposedConceptPackage proposedConceptPackage = createProposedConceptPackage();
 
 		final ProposedConceptPackageDto packageDto = mapperService.convertProposedConceptPackageToDto(proposedConceptPackage);

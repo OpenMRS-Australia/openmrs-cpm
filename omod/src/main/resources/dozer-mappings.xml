@@ -38,6 +38,7 @@
         <field>
             <a>proposedConcepts</a>
             <b>concepts</b>
+            <a-hint>org.openmrs.module.cpm.ProposedConcept</a-hint>
             <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptDto</b-hint>
         </field>
     </mapping>
@@ -48,7 +49,7 @@
             <a>concept</a>
             <b>id</b>
         </field>
-        <field>
+        <field type="one-way">
             <a>concept.name.name</a>
             <b>preferredName</b>
         </field>
