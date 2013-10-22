@@ -26,7 +26,7 @@ Follow the instructions in readme.txt on https://github.com/rdoh/cpm-go
 
 As of now, you will need to come to the meetup in order to have access to the USB keys referenced in that document.
 
-The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/HowTo) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
+The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/How-To-Set-Up-A-Development-Environment) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
 Sample workflow
 ---------------
