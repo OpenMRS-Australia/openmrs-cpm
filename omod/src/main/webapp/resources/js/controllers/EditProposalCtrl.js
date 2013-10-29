@@ -3,10 +3,12 @@ define([
     'config',
     'js/services/services',
     'js/services/menu',
+    'js/directives/searchConceptDialog',
+    'js/directives/jqueryUiDialog',
     'js/services/alerts',
     './index'
   ],
-  function(controllers, config) {
+  function(angular, config) {
 
     'use strict';
 
@@ -24,6 +26,10 @@ define([
 
         $scope.menu = Menu.getMenu(1);
 
+        $scope.openSearchConceptDialog = function() {
+          $scope.isSearchDialogOpen = true;
+        };
+
         $scope.getConceptUnion = function(concepts, existingConcepts) {
           return _.uniq(
             _.union(concepts, existingConcepts),
@@ -33,20 +39,14 @@ define([
             });
         };
 
-        $scope.$on('AddConceptButtonClicked', function(e, concepts) {
+        $scope.acceptConcepts = function(concepts) {
           $scope.proposal.concepts = $scope.getConceptUnion(concepts, $scope.proposal.concepts);
-          $scope.dialog = 'close';
-        });
+          $scope.isSearchDialogOpen = false;
+        };
 
-        $scope.$on('CloseSearchConceptsDialog', function() {
-          $scope.dialog = 'close';
-        });
-
-        // XXX
         if ($scope.isEdit) {
           document.title = 'Edit Concept Proposal';
-        }
-        else {
+        } else {
           document.title = 'Create Concept Proposal';
         }
 
