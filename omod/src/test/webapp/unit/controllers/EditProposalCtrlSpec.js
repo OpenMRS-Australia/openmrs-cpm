@@ -28,6 +28,14 @@ define([
 
     it('should get menu', function () {
       var menuResponse = 'something';
+      httpBackend
+	  	.expectGET('/openmrs/ws/cpm/proposals/0')
+	    .respond({
+		  name: 'Mr Prefilled',
+		  description: null,
+		  email: 'prefilled@email.com',
+		  status: 'DRAFT'
+		});
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
         expect(index).toBe(1);
         return menuResponse;

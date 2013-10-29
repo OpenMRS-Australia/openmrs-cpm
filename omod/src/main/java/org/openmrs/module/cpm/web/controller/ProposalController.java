@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.Set;
 
 @Controller
 public class ProposalController {
-
+	public static final String EmptyProposalId = "0";
 
 	private final SubmitProposal submitProposal;
 
@@ -110,7 +111,7 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
-		if (proposalId.equals("0")) {
+		if (proposalId.equals(EmptyProposalId)) {
 			return getEmptyProposal();
 		} else {
 			return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
@@ -121,6 +122,15 @@ public class ProposalController {
 		PersonName name = Context.getAuthenticatedUser().getPersonName();
 		ProposedConceptPackageDto proposal = new ProposedConceptPackageDto();
 		proposal.setName(getDisplayName(name));
+		
+		ProposedConceptPackage mostRecentProposal = Context.getService(ProposedConceptService.class).getMostRecentConceptProposalPackage();
+		if (mostRecentProposal != null) {
+			proposal.setEmail(mostRecentProposal.getEmail());
+			if (Strings.isNullOrEmpty(proposal.getName())) {
+				proposal.setName(mostRecentProposal.getName());
+			}
+		}
+		
 		return proposal;
 	}
 	
@@ -128,7 +138,9 @@ public class ProposalController {
 		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
 		String displayName = "";
 		for (String component : components) {
-			displayName += String.format("%s ", component);
+			if (!Strings.isNullOrEmpty(component)) {
+				displayName += String.format("%s ", component);
+			}
 		}
 		return displayName.trim();
 	}

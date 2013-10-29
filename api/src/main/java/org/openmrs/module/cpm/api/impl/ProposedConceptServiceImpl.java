@@ -2,6 +2,7 @@ package org.openmrs.module.cpm.api.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.cpm.ProposedConceptPackage;
@@ -52,6 +53,11 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 		proposalDao.deleteConceptProposalPackage(conceptPackage);
     }
 	
+	@Override
+	public ProposedConceptPackage getMostRecentConceptProposalPackage() {
+		return proposalDao.getMostRecentConceptProposalPackage();
+	}
+	
 	//	Moving on to all of the services for the server side of the Concept Proposal Module
 	
 	@Override
@@ -83,5 +89,4 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	public void deleteProposedConceptResponsePackageById(final int proposalId) throws APIException {
 		proposalResponseDao.deleteConceptProposalResponsePackageById(proposalId);
 	}
-
 }
