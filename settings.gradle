@@ -1,2 +1,2 @@
-include 'api', 'omod'
+include 'api', 'omod', 'functional-tests'
 rootProject.name = 'cpm'
