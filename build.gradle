@@ -46,42 +46,7 @@ allprojects {
     }
 }
 
-task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
-
-    baseName = 'openmrs-cpm'
-    extension = 'omod'
-
-    subprojects.each {
-        subproject ->
-            from subproject.configurations.archives.allArtifacts.files.collect {
-                zipTree(it)
-            }
-
-    }
-
-    into('web/module') {
-        from fileTree(dir: 'omod/src/main/webapp')
-    }
-
-    into('lib') {
-        from configurations.releaseJars
-    }
-
-    metaInf {
-        into('maven/org.openmrs.module/cpm-omod')
-        def pomProperties = new File(getTemporaryDir(), 'pom.properties')
-        pomProperties.write "version=${project.version}\n"
-        pomProperties << "groupId=${project.group}\n"
-        pomProperties << "artifactId=${project.name}\n"
-        from pomProperties
-    }
-}
-
-artifacts {
-    archives createOmod
-}
-
-defaultTasks 'createOmod'
+defaultTasks 'conceptpropose:createOmod', 'conceptreview:createOmod'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
