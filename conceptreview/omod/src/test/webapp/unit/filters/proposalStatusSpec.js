@@ -5,7 +5,7 @@ define(['angular-mocks', 'js/filters/proposalStatus'], function() {
 
     var filter;
 
-    beforeEach(module('cpm.filters'));
+    beforeEach(module('cpmr.filters'));
 
     beforeEach(inject(function(_proposalStatusFilter_) {
       filter = _proposalStatusFilter_;
