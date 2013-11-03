@@ -1,7 +1,7 @@
 define([
     'angular',
     'config',
-    'js/services/services',
+    'js/services/proposals',
     'js/services/menu',
     'js/services/alerts',
     './index'

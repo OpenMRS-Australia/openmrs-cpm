@@ -1,7 +1,7 @@
 define([
     'angular',
     'config',
-    'js/services/services',
+    'js/services/searchConcept',
     'js/services/menu',
     'js/directives/searchConceptDialog',
     'js/directives/jqueryUiDialog',
