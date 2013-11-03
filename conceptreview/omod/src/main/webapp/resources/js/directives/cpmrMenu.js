@@ -3,7 +3,7 @@ define(['./index'],
 
     'use strict';
 
-    directives.directive('cpmMenu', function() {
+    directives.directive('cpmrMenu', function() {
       return {
         restrict: 'E',
         replace: true,

@@ -7,7 +7,7 @@ define([
 
     'use strict';
 
-    angular.module('cpm.controllers')
+    angular.module('cpmr.controllers')
       .controller('ListIncomingProposalsCtrl',
         function($scope, $location, ProposalReviews, Menu) {
 
@@ -16,7 +16,7 @@ define([
           $scope.resourceLocation = config.resourceLocation;
           $scope.responseReceived = false;
 
-          $scope.menu = Menu.getMenu(3);
+          $scope.menu = Menu.getMenu(1);
 
           $scope.proposals = ProposalReviews.query(function() {
             $scope.responseReceived = true;

@@ -18,10 +18,10 @@ define([
     'use strict';
 
     return angular.module('cpm-review', [
-      'cpm.services',
-      'cpm.controllers',
-      'cpm.filters',
-      'cpm.directives'
+      'cpmr.services',
+      'cpmr.controllers',
+      'cpmr.filters',
+      'cpmr.directives'
     ]);
   }
 );

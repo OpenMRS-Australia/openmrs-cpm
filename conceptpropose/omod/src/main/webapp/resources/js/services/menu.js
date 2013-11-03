@@ -22,10 +22,6 @@ define([
             'text': 'Monitor Proposals'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposalReview.list',
-            'text': 'Incoming Proposals'
-          },
-          {
             'link': config.contextPath + '/module/cpm/proposals.list#settings',
             'text': 'Settings'
           }

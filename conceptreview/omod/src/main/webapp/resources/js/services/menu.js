@@ -1,33 +1,23 @@
 define([
-    './index',
-    'config'
+    'angular',
+    'config',
+    './index'
   ],
 
-  function(services, config) {
+  function(angular, config) {
 
     'use strict';
 
-    services.service('Menu', function() {
+    angular.module('cpmr.services').service('Menu',
+      function() {
       this.getMenu = function(activeIndex) {
         var menuItems = [{
             'link': config.contextPath + '/admin',
             'text': 'Admin'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposals.list#edit',
-            'text': 'Create Proposal'
-          },
-          {
-            'link': config.contextPath + '/module/cpm/proposals.list',
-            'text': 'Monitor Proposals'
-          },
-          {
             'link': config.contextPath + '/module/cpm/proposalReview.list',
             'text': 'Incoming Proposals'
-          },
-          {
-            'link': config.contextPath + '/module/cpm/proposals.list#settings',
-            'text': 'Settings'
           }
         ];
 

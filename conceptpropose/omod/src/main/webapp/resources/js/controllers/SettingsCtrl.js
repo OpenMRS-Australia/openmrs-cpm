@@ -16,7 +16,7 @@ define([
         document.title = 'Manage Concept Proposal Settings';
         $scope.isLoading = true;
 
-        $scope.menu = Menu.getMenu(4);
+        $scope.menu = Menu.getMenu(3);
 
         $scope.settings = Settings.get(function() {
           $scope.isLoading = false;
