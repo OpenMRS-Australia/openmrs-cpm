@@ -39,7 +39,7 @@ define([
           }
         ];
 
-        var menu = compileMenu('<cpm-menu menu=\'menu\'></cpm-menu>', $scope);
+        var menu = compileMenu('<cpmr-menu menu=\'menu\'></cpmr-menu>', $scope);
 
         var activeLink = menu.find('li.active a');
         expect(activeLink.text()).toBe('Menu Item #2');
