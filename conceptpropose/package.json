@@ -1,6 +1,6 @@
 {
-  "name": "openmrs-cpm",
-  "version": "1.0.0",
+  "name": "openmrs-module-conceptpropose",
+  "version": "1.0.2",
   "devDependencies": {
     "bower": "~0.10.0",
     "grunt": "~0.4.1",

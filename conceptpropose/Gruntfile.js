@@ -7,11 +7,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    srcDir: 'conceptpropose/omod/src/main/webapp',
-    testDir: 'conceptpropose/omod/src/test/webapp',
+    srcDir: 'omod/src/main/webapp',
+    testDir: 'omod/src/test/webapp',
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '../.jshintrc'
       },
       all: [
         'Gruntfile.js',
