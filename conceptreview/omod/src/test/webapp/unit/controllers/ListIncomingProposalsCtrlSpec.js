@@ -21,7 +21,7 @@ define(['angular-mocks', 'js/controllers/ListIncomingProposalsCtrl'], function()
       httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews').respond({});
       var menuResponse = 'something';
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
-        expect(index).toBe(3);
+        expect(index).toBe(1);
         return menuResponse;
       });
       
