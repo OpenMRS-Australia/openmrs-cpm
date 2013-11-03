@@ -1,4 +1,10 @@
-define(['./index', 'config', 'js/services/searchConcept', 'js/directives/jqueryUiDialog'],
+define(['
+    ./index',
+    'config',
+    'js/services/searchConcept',
+    'js/directives/jqueryUiDialog'
+  ],
+  
   function(controllers, config) {
     'use strict';
     controllers.controller('SearchConceptDialogCtrl',
