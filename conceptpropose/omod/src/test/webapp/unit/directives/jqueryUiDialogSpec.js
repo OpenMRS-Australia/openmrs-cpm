@@ -9,7 +9,7 @@ define([
           describe('jqueryUiDialog directive spec', function() {
 
             var $scope, element, dialog;
-            var title = "test title";
+            var title = 'test title';
             beforeEach(module('cpm.directives'));
 
             beforeEach(function() {
@@ -27,15 +27,15 @@ define([
               });
             });
 
-            it('Title should be equal "test title"', function() {
+            it('Title should be equal \'test title\'', function() {
               expect(dialog.dialog('option', 'title')).toBe(title);
             });
 
             it('should open dialog', function() {
-              expect(dialog.dialog("isOpen")).toBe(false);
+              expect(dialog.dialog('isOpen')).toBe(false);
 
               $scope.$apply($scope.open = true);
-              expect(dialog.dialog("isOpen")).toBe(true);
+              expect(dialog.dialog('isOpen')).toBe(true);
             });
           });
         }

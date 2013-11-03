@@ -1,4 +1,7 @@
 module.exports = function(config) {
+
+  'use strict';
+
   config.set({
     basePath: '../../',
     frameworks: ['jasmine', 'requirejs'],
@@ -31,4 +34,4 @@ module.exports = function(config) {
     captureTimeout: 60000,
     singleRun: false
   });
-}
+};

@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
   'use strict';
 
-  describe("ListProposals Controller Spec", function() {
+  describe('ListProposals Controller Spec', function() {
 
     var scope;
     var httpBackend;
@@ -33,7 +33,7 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
       expect(scope.menu).toBe(menuResponse);
     });
 
-    it("should have reponseReceived initialised to false", function() {
+    it('should have reponseReceived initialised to false', function() {
       controller('ListProposalsCtrl', {$scope: scope});
       // no flush
 
@@ -41,8 +41,8 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
     });
 
 
-    it("should fetch a list of proposals (packages) and display them", function() {
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: "Test", status: "DRAFT"}]);
+    it('should fetch a list of proposals (packages) and display them', function() {
+      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: 'Test', status: 'DRAFT'}]);
       controller('ListProposalsCtrl', {$scope: scope});
       httpBackend.flush();
 

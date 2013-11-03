@@ -25,7 +25,6 @@ define([
       menuService = Menu;
     }));
 
-
     it('should get menu', function () {
       var menuResponse = 'something';
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
@@ -68,33 +67,24 @@ define([
       expect(scope.isEdit).toBe(true);
     });
 
-    it("shoud not allow users add same concept twice to proposal", function() {
+    it('shoud not allow users add same concept twice to proposal', function() {
       var testData = [{id:1}, {id:2}, {id:3}];
       var existingConcepts = [{id:1}, {id:2}, {id:4}];
-      var expectedResult = [{id:1}, {id:2}, {id:3}, {id:4}];
 
       routeParams = {proposalId: 1};
       httpBackend
         .expectGET('/openmrs/ws/cpm/proposals/1')
-        .respond({id: 1, name: "A single proposal", description: "foo", status: "DRAFT"});
+        .respond({id: 1, name: 'A single proposal', description: 'foo', status: 'DRAFT'});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
 
-      scope.proposal.concepts = existingConcepts;
+      var uniqueConcepts = scope.getConceptUnion(testData, existingConcepts);
 
-      scope.proposal.concepts = scope.getConceptUnion(testData, existingConcepts);
-
-      for (var x in expectedResult) {
-        var inConcepts = scope.proposal.concepts.filter(function(e) {
-          return e.id == expectedResult[x].id;
-        });
-          
-        expect(inConcepts.length).toBe(1);
-      }
+      expect(uniqueConcepts.length).toBe(_.uniq(uniqueConcepts).length);
     });
 
     it(
-      'should save a new proposal by POST-ing to the list of proposals and redirecting to proposal list', 
+      'should save a new proposal by POST-ing to the list of proposals and redirecting to proposal list',
       inject(function($location) {
         routeParams = {};
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
@@ -114,7 +104,7 @@ define([
 
         scope.save();
 
-        httpBackend.flush();        
+        httpBackend.flush();
 
         expect($location.path()).toBe('/');
       }
@@ -189,7 +179,8 @@ define([
         name: 'existing',
         email: 'blah@blah.com',
         concepts:[{'name':'flu'}],
-        status: 'TBS'};
+        status: 'TBS'
+      };
       httpBackend
         .expectPUT('/openmrs/ws/cpm/proposals/1', proposal)
         .respond({});
@@ -214,7 +205,8 @@ define([
         httpBackend.flush();
 
         expect(scope.isReadOnly).toBe(true);
-    });
+      }
+    );
 
     it('should be editable if the status is \'DRAFT\'', function() {
 
@@ -233,7 +225,8 @@ define([
         httpBackend.flush();
 
         expect(scope.isReadOnly).toBe(false);
-    });
+      }
+    );
 
     it('should be editable if we are creating a new proposal', function() {
 
@@ -242,9 +235,10 @@ define([
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
 
         expect(scope.isReadOnly).toBe(false);
-    });
+      }
+    );
 
-    it('should POST a new resource with status "TBS" if the user clicks "Send proposal" from the "Create Proposal" screen', function(){
+    it('should POST a new resource with status \'TBS\' if the user clicks \'Send proposal\' from the \'Create Proposal\' screen', function(){
 
         routeParams = {};
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
@@ -253,16 +247,19 @@ define([
         scope.proposal.email = 'blah@blah.com';
         scope.proposal.description = 'proposal';
 
-        httpBackend.expectPOST('/openmrs/ws/cpm/proposals', {
-          status: "TBS",
-          concepts: [],
-          name: "new",
-          email: "blah@blah.com",
-          description: "proposal"
-        }).respond({});
+        httpBackend
+          .expectPOST('/openmrs/ws/cpm/proposals', {
+            status: 'TBS',
+            concepts: [],
+            name: 'new',
+            email: 'blah@blah.com',
+            description: 'proposal'
+          })
+          .respond({});
 
         scope.submit();
-    });
+      }
+    );
 
     afterEach(function(){
       httpBackend.verifyNoOutstandingExpectation();

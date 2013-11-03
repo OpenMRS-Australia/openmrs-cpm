@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/controllers/SettingsCtrl'], function() {
   'use strict';
 
-  describe("SettingsCtrl", function() {
+  describe('SettingsCtrl', function() {
 
     var scope;
     var httpBackend;
