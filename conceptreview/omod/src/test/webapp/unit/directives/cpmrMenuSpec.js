@@ -1,6 +1,6 @@
 define([
     'angular-mocks',
-    'js/directives/cpmMenu',
+    'js/directives/cpmrMenu',
     'js/services/menu'
   ],
 
@@ -8,11 +8,11 @@ define([
   
     'use strict';
 
-    describe('cpmMenu directive spec', function() {
+    describe('cpmrMenu directive spec', function() {
 
       var $scope, $compile;
 
-      beforeEach(module('cpm.directives'));
+      beforeEach(module('cpmr.directives'));
 
       beforeEach(inject(function(_$rootScope_, _$compile_) {
         $scope = _$rootScope_;
