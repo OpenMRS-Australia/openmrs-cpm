@@ -22,7 +22,7 @@ define(['angular-mocks', 'js/controllers/SettingsCtrl'], function() {
     it('should get menu', function () {
       var menuResponse = 'something';
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
-        expect(index).toBe(4);
+        expect(index).toBe(3);
         return menuResponse;
       });
       
