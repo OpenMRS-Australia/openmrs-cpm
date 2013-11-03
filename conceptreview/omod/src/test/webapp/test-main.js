@@ -6,7 +6,7 @@ var config = {
   contextPath: '/openmrs'
 };
 
-define('config', [], function() { return config; })
+define('config', [], function() { 'use strict'; return config; });
 
 require([
     'base/main/webapp/resources/js/requireJS-config'
@@ -17,7 +17,7 @@ require([
     'use strict';
 
     var tests = Object.keys(window.__karma__.files).filter(function (file) {
-      return /Spec\.js$/.test(file);
+      return (/Spec\.js$/).test(file);
     });
 
     require.config({

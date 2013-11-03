@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/controllers/ReviewProposalCtrl'], function() {
   'use strict';
 
-  describe("ReviewProposalCtrl Controller Spec", function() {
+  describe('ReviewProposalCtrl Controller Spec', function() {
 
     var scope;
     var httpBackend;
@@ -9,7 +9,8 @@ define(['angular-mocks', 'js/controllers/ReviewProposalCtrl'], function() {
     var menuService;
 
     beforeEach(function () {
-      module('cpmr.controllers')
+      module('cpmr.controllers');
+      
       inject(function($rootScope, $controller, $httpBackend, Menu) {
         scope = $rootScope.$new();
         controller = $controller;

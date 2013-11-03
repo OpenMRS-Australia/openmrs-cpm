@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/controllers/ListIncomingProposalsCtrl'], function() {
   'use strict';
 
-  describe("ListIncomingProposals Controller Spec", function() {
+  describe('ListIncomingProposals Controller Spec', function() {
 
     var scope;
     var httpBackend;

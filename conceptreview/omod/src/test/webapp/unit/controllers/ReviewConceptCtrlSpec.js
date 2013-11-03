@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
   'use strict';
 
-  describe("Review Concept Controller Spec", function() {
+  describe('Review Concept Controller Spec', function() {
 
     var scope;
     var httpBackend;
@@ -30,7 +30,7 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
       expect(scope.menu).toBe(menuResponse);
     });
 
-    it("should fetch a comment from a supplied concept review", function() {
+    it('should fetch a comment from a supplied concept review', function() {
       httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({
         id: 1,
         reviewComment: 'some comment'
@@ -41,17 +41,21 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
       expect(scope.concept.reviewComment).toBe('some comment');
     });
 
-    it("should persist a comment", function() {
+    it('should persist a comment', function() {
       httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({
         id: 1,
         reviewComment: 'some comment'
       });
-      controller('ReviewConceptCtrl', {$scope: scope, $routeParams: {proposalId: 1, conceptId: 1}})
+      controller('ReviewConceptCtrl', {$scope: scope, $routeParams: {proposalId: 1, conceptId: 1}});
       httpBackend.flush();
 
-      httpBackend.expectPUT('/openmrs/ws/cpm/proposalReviews/1/concepts/1', '{"id":1,"reviewComment":"A comment to persist"}').respond({});
+      httpBackend
+        .expectPUT(
+          '/openmrs/ws/cpm/proposalReviews/1/concepts/1',
+          '{\"id\":1,\"reviewComment\":\"A comment to persist\"}')
+        .respond({});
 
-      scope.concept.reviewComment = "A comment to persist";
+      scope.concept.reviewComment = 'A comment to persist';
       scope.saveReviewComment();
 
     });

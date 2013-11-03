@@ -1,7 +1,7 @@
 define(['angular-mocks', 'js/filters/proposalStatus'], function() {
   'use strict';
 
-  describe("proposalStatusFilter Spec", function() {
+  describe('proposalStatusFilter Spec', function() {
 
     var filter;
 
@@ -12,11 +12,11 @@ define(['angular-mocks', 'js/filters/proposalStatus'], function() {
     }));
 
 
-    it("should convert DRAFT to Draft", function() {
+    it('should convert DRAFT to Draft', function() {
       expect(filter('DRAFT')).toBe('Draft');
     });
 
-    it("should convert SUBMITTED to Submitted", function() {
+    it('should convert SUBMITTED to Submitted', function() {
       expect(filter('SUBMITTED')).toBe('Submitted');
     });
 

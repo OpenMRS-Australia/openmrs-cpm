@@ -15,7 +15,8 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= srcDir %>/resources/js/{,**/}*.js'
+        '<%= srcDir %>/resources/js/{,**/}*.js',
+        '<%= testDir %>/{,**/}*.js'
       ]
     },
     karma: {
