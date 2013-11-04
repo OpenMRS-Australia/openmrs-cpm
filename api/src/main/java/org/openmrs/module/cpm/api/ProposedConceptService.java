@@ -90,6 +90,13 @@ public interface ProposedConceptService extends OpenmrsService {
 	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
 	@Transactional
 	void deleteProposedConceptPackage(ProposedConceptPackage conceptPackage) throws APIException;
+	
+	/**
+	 * Gets the most recently created ProposedConceptPacage
+	 */
+	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Transactional
+	ProposedConceptPackage getMostRecentConceptProposalPackage() throws APIException;
 
 
     //	Moving on to all of the services for the server side of the Concept Proposal Module
