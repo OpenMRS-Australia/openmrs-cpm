@@ -13,16 +13,13 @@ define([
     'use strict';
 
     angular.module('cpm.controllers').controller('EditProposalCtrl',
-      function($scope, $routeParams, $location, $window, Proposals, CreateProposals, Menu, Alerts) {
+      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts) {
 
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
 
         var proposalId = $routeParams.proposalId;
-        if (typeof proposalId === 'undefined') {
-        	proposalId = 0;
-        }
-        $scope.isEdit = proposalId !== 0;
+        $scope.isEdit = typeof proposalId !== 'undefined';
         $scope.isSubmitting = false;
         $scope.isLoading = true;
         $scope.isReadOnly = true;
@@ -53,20 +50,13 @@ define([
           document.title = 'Create Concept Proposal';
         }
 
-        //if ($scope.isEdit) {
-          $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
-            $scope.isLoading = false;
-            $scope.isReadOnly = proposalId !== 0 && $scope.proposal.status !== 'DRAFT';
-          });
-        /*}
-        else {
-          $scope.proposal = CreateProposals.get(function() {
-        	  $scope.isLoading = false;
-        	  $scope.proposal.status = 'DRAFT';
-              $scope.proposal.concepts = [];
-          });
-          $scope.isReadOnly = false;
-        }*/
+        var proposalsParams = {
+          proposalId: ($scope.isEdit) ? proposalId : 'empty'
+        };
+        $scope.proposal = Proposals.get(proposalsParams, function() {
+          $scope.isLoading = false;
+          $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
+        });
 
         $scope.save = function() {
           var redirectUrl = '/';
@@ -105,11 +95,11 @@ define([
           };
 
           setInFlight();
-          if (typeof $scope.proposal.id === 'undefined') {
-            $scope.proposal.$save(flightLanded, cancelInFlight);
+          if ($scope.isEdit) {
+            $scope.proposal.$update(flightLanded, cancelInFlight);
           }
           else {
-            $scope.proposal.$update(flightLanded, cancelInFlight);
+        	$scope.proposal.$save(flightLanded, cancelInFlight);
           }
         };
 

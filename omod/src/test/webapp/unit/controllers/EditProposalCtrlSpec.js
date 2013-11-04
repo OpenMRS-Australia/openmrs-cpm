@@ -25,17 +25,9 @@ define([
       menuService = Menu;
     }));
 
-
     it('should get menu', function () {
       var menuResponse = 'something';
-      httpBackend
-	  	.expectGET('/openmrs/ws/cpm/proposals/0')
-	    .respond({
-		  name: 'Mr Prefilled',
-		  description: null,
-		  email: 'prefilled@email.com',
-		  status: 'DRAFT'
-		});
+      setupEmptyProposal();
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
         expect(index).toBe(1);
         return menuResponse;
@@ -48,14 +40,7 @@ define([
 
     it('should not fetch anything and set the mode to create and initialise the status to \'DRAFT\' when not given a proposal id', function() {
       routeParams = {};
-      httpBackend
-      	.expectGET('/openmrs/ws/cpm/proposals/0')
-	    .respond({
-		  name: 'Mr Prefilled',
-		  description: null,
-		  email: 'prefilled@email.com',
-		  status: 'DRAFT'
-		});
+      setupEmptyProposal();
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       try {
         httpBackend.flush();
@@ -114,14 +99,7 @@ define([
       'should save a new proposal by POST-ing to the list of proposals and redirecting to proposal list', 
       inject(function($location) {        
         routeParams = {};
-        httpBackend
-      	.expectGET('/openmrs/ws/cpm/proposals/0')
-	    .respond({
-		  name: 'Mr Prefilled',
-		  description: null,
-		  email: 'prefilled@email.com',
-		  status: 'DRAFT'
-		});
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
         
         scope.name = 'new';
@@ -265,14 +243,7 @@ define([
         // initiate controller
         routeParams = {};
         
-        httpBackend
-	      .expectGET('/openmrs/ws/cpm/proposals/0')
-		  .respond({
-			name: 'Mr Prefilled',
-			description: null,
-			email: 'prefilled@email.com',
-			status: 'DRAFT'
-		  });
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
         httpBackend.flush();
 
@@ -282,14 +253,7 @@ define([
     it('should POST a new resource with status "TBS" if the user clicks "Send proposal" from the "Create Proposal" screen', function(){
 
         routeParams = {};
-        httpBackend
-	      .expectGET('/openmrs/ws/cpm/proposals/0')
-		  .respond({
-			name: 'Mr Prefilled',
-			description: null,
-			email: 'prefilled@email.com',
-			status: 'DRAFT'
-		  });
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
         httpBackend.flush();
         
@@ -311,6 +275,17 @@ define([
       httpBackend.verifyNoOutstandingExpectation();
       alertsService.dequeue();
     });
+    
+    var setupEmptyProposal = function() {
+    	httpBackend
+	  	.expectGET('/openmrs/ws/cpm/proposals/empty')
+	    .respond({
+		  name: 'Mr Prefilled',
+		  description: null,
+		  email: 'prefilled@email.com',
+		  status: 'DRAFT'
+		});
+    }
 
   });
 });

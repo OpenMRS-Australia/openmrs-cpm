@@ -30,8 +30,6 @@ import java.util.Set;
 
 @Controller
 public class ProposalController {
-	public static final String EmptyProposalId = "0";
-
 	private final SubmitProposal submitProposal;
 
 	private final UpdateProposedConceptPackage updateProposedConceptPackage;
@@ -111,24 +109,20 @@ public class ProposalController {
 
 	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
-		if (proposalId.equals(EmptyProposalId)) {
-			return getEmptyProposal();
-		} else {
-			return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
-		}
+		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
 	
-	private ProposedConceptPackageDto getEmptyProposal() {
+	@RequestMapping(value = "/cpm/proposals/empty", method = RequestMethod.GET)
+	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {
 		PersonName name = Context.getAuthenticatedUser().getPersonName();
 		ProposedConceptPackageDto proposal = new ProposedConceptPackageDto();
+		proposal.setStatus(PackageStatus.DRAFT);
+		proposal.setConcepts(new ArrayList<ProposedConceptDto>());
 		proposal.setName(getDisplayName(name));
 		
 		ProposedConceptPackage mostRecentProposal = Context.getService(ProposedConceptService.class).getMostRecentConceptProposalPackage();
 		if (mostRecentProposal != null) {
 			proposal.setEmail(mostRecentProposal.getEmail());
-			if (Strings.isNullOrEmpty(proposal.getName())) {
-				proposal.setName(mostRecentProposal.getName());
-			}
 		}
 		
 		return proposal;
@@ -144,9 +138,15 @@ public class ProposalController {
 		}
 		return displayName.trim();
 	}
-
-	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/cpm/proposals/", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
+		return addProposal(String.valueOf(newPackage.getId()), newPackage);
+	}
+
+	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.POST)
+	public @ResponseBody ProposedConceptPackageDto addProposal(@PathVariable final String proposalId,
+	                                                           @RequestBody final ProposedConceptPackageDto newPackage) {
 		// TODO: some server side validation here... not null fields, valid email?
 
 		final ProposedConceptPackage conceptPackage = new ProposedConceptPackage();

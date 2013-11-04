@@ -92,7 +92,7 @@ public class ProposalControllerTest {
 	public void getEmptyPropsoal_noProposals_givenNameOnly() {
 		when(userName.getGivenName()).thenReturn("Aidan");
 		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
 		
 		assertThat(packageDto.getName(), is("Aidan"));
 		assertNull(packageDto.getEmail());
@@ -102,7 +102,7 @@ public class ProposalControllerTest {
 	public void getEmptyPropsoal_noProposals_middleNameOnly() {
 		when(userName.getMiddleName()).thenReturn("Jeremy");
 		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
 		
 		assertThat(packageDto.getName(), is("Jeremy"));
 		assertNull(packageDto.getEmail());
@@ -112,7 +112,7 @@ public class ProposalControllerTest {
 	public void getEmptyPropsoal_noProposals_lastNameOnly() {
 		when(userName.getFamilyName()).thenReturn("Bebbington");
 		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
 		
 		assertThat(packageDto.getName(), is("Bebbington"));
 		assertNull(packageDto.getEmail());
@@ -123,7 +123,7 @@ public class ProposalControllerTest {
 		when(userName.getGivenName()).thenReturn("Aidan");
 		when(userName.getFamilyName()).thenReturn("Bebbington");
 		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
 		
 		assertThat(packageDto.getName(), is("Aidan Bebbington"));
 		assertNull(packageDto.getEmail());
@@ -135,37 +135,20 @@ public class ProposalControllerTest {
 		when(userName.getMiddleName()).thenReturn("Jeremy");
 		when(userName.getFamilyName()).thenReturn("Bebbington");
 		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
 		
 		assertThat(packageDto.getName(), is("Aidan Jeremy Bebbington"));
 		assertNull(packageDto.getEmail());
 	}
 	
 	@Test
-	public void getMostRecentConceptProposal_previousProposalExists_noUserName() {
-		setupMostRecentProposal();
-		when(recentProposal.getEmail()).thenReturn("aidanbebbington@fake.com");
-		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
-		
-		assertNull(packageDto.getName());
-		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
-	}
-	
-	@Test
-	public void getMostRecentConceptProposal_previousProposalExists_userNameFromProposal() {
-		setupMostRecentProposal();
-		when(recentProposal.getName()).thenReturn("Aidan Bebbington");
-		when(recentProposal.getEmail()).thenReturn("aidanbebbington@fake.com");
-		
-		ProposedConceptPackageDto packageDto = controller.getProposalById(ProposalController.EmptyProposalId);
-		
-		assertThat(packageDto.getName(), is("Aidan Bebbington"));
-		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
-	}
-	
-	private void setupMostRecentProposal() {
+	public void getEmptyPropsoal_previousProposalExists_emailIsSet() {
 		when(service.getMostRecentConceptProposalPackage()).thenReturn(recentProposal);
+		when(recentProposal.getEmail()).thenReturn("aidanbebbington@fake.com");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
 	}
 
 	@Test

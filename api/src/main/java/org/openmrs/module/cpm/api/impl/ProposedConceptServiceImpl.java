@@ -2,7 +2,6 @@ package org.openmrs.module.cpm.api.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Query;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.cpm.ProposedConceptPackage;
