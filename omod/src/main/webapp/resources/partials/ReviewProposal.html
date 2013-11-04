@@ -14,7 +14,7 @@
     <tbody class="results">
         <tr ng-repeat="concept in proposal.concepts" ng-click="showConcept(concept.id)" style="cursor: pointer;">
             <td>{{concept.preferredName}}</td>
-            <td>{{concept.class}}, {{concept.datatype}}</td>
+            <td>{{concept.conceptClass}}, {{concept.datatype}}</td>
             <td>{{concept.comment}}</td>
             <td ng-bind-html-unsafe="concept | proposalReviewStatus"></td>
         </tr>
