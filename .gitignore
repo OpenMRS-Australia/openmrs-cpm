@@ -17,6 +17,7 @@ target
 #Gradle build directories
 .gradle
 build
+out
 
 # IntelliJ project files
 .idea
