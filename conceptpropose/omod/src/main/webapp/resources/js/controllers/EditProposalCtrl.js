@@ -99,7 +99,7 @@ define([
             $scope.proposal.$update(flightLanded, cancelInFlight);
           }
           else {
-        	$scope.proposal.$save(flightLanded, cancelInFlight);
+            $scope.proposal.$save(flightLanded, cancelInFlight);
           }
         };
 
