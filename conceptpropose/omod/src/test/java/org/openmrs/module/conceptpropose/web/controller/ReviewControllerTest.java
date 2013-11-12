@@ -1,36 +1,28 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposalStatus;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponseName;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptpropose.ProposedConceptResponse;
+import org.openmrs.module.conceptpropose.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponsePackageDto;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import java.util.ArrayList;
+import java.util.Date;
 
-import java.util.*;
-
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -41,13 +33,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class ReviewControllerTest {
 
 	@Mock
-	ProposedConceptService service;
+    ProposedConceptService service;
 
 	@Mock
-	ProposedConceptResponsePackage proposedConceptResponsePackage;
+    ProposedConceptResponsePackage proposedConceptResponsePackage;
 
 	@Mock
-	ProposedConceptResponse proposedConceptResponse;
+    ProposedConceptResponse proposedConceptResponse;
 
 	@Mock
 	SubmitProposal submitProposal;

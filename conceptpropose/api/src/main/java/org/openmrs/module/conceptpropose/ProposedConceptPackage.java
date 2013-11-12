@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm;
+package org.openmrs.module.conceptpropose;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

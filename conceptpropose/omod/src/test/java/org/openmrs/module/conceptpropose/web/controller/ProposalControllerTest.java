@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -14,18 +14,18 @@ import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposalStatus;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
-import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
-import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
-import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.conceptpropose.PackageStatus;
+import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
+import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -44,13 +44,13 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class ProposalControllerTest {
 
 	@Mock
-	ProposedConceptService service;
+    ProposedConceptService service;
 
     @Mock
     ConceptService  conceptService;
 
     @Mock
-	ProposedConceptPackage conceptPackage;
+    ProposedConceptPackage conceptPackage;
 
 	@Mock
 	SubmitProposal submitProposal;

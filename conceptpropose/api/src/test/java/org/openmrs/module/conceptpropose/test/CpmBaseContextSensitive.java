@@ -1,4 +1,4 @@
-package com.openmrs.module.cpm.test;
+package org.openmrs.module.conceptpropose.test;
 
 import java.util.Properties;
 

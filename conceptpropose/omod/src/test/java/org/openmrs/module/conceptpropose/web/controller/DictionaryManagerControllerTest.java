@@ -11,10 +11,12 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.*;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.controller.DictionaryManagerController;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
 import org.openmrs.module.cpm.*;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 

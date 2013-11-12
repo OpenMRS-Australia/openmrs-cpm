@@ -1,14 +1,14 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto;
+import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

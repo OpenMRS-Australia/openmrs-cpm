@@ -1,8 +1,8 @@
-package org.openmrs.module.cpm.web.dto;
+package org.openmrs.module.conceptpropose.web.dto;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.openmrs.module.cpm.ProposalStatus;
-import org.openmrs.module.cpm.web.dto.concept.ConceptDto;
+import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProposedConceptDto extends ConceptDto {

@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.api.db.hibernate;
+package org.openmrs.module.conceptpropose.api.db.hibernate;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
+import org.openmrs.module.conceptpropose.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptpropose.api.db.ProposedConceptPackageResponseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HibernateProposedConceptPackageResponseDAO implements ProposedConceptPackageResponseDAO {
 	
-	private static Log log = LogFactory.getLog(HibernateProposedConceptPackageDAO.class);
+	private static Log log = LogFactory.getLog(org.openmrs.module.conceptpropose.api.db.hibernate.HibernateProposedConceptPackageDAO.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;

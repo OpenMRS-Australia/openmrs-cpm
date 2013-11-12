@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 
 import org.junit.Ignore;

@@ -1,7 +1,7 @@
-package org.openmrs.module.cpm.api.db;
+package org.openmrs.module.conceptpropose.api.db;
 
 import org.openmrs.api.APIException;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptpropose.ProposedConceptResponsePackage;
 
 import java.util.List;
 

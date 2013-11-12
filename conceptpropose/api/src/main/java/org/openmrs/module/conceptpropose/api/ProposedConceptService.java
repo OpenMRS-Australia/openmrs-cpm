@@ -1,11 +1,11 @@
-package org.openmrs.module.cpm.api;
+package org.openmrs.module.conceptpropose.api;
 
 import java.util.List;
 
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.cpm.*;
+import org.openmrs.module.conceptpropose.*;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @see org.openmrs.api.context.Context
  * @see org.openmrs.api.ConceptService
  */
+@SuppressWarnings("JavadocReference")
 public interface ProposedConceptService extends OpenmrsService {
 	
 	//	Starting with all of the services for the client side of the ProposedConcept module

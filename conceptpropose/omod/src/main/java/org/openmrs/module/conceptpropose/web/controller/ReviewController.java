@@ -1,14 +1,14 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConceptResponse;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponseDto;
-import org.openmrs.module.cpm.web.dto.ProposedConceptResponsePackageDto;
-import org.openmrs.module.cpm.web.dto.factory.DtoFactory;
+import org.openmrs.module.conceptpropose.ProposedConceptResponse;
+import org.openmrs.module.conceptpropose.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponsePackageDto;
+import org.openmrs.module.conceptpropose.web.dto.factory.DtoFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,18 +1,13 @@
-package org.openmrs.module.cpm.web.filter;
+package org.openmrs.module.conceptpropose.web.filter;
 
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xerces.impl.dv.util.Base64;
-import org.openmrs.api.context.Context;
 import org.directwebremoting.util.Logger;
-import org.openmrs.module.cpm.web.common.CpmConstants;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.web.common.CpmConstants;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 

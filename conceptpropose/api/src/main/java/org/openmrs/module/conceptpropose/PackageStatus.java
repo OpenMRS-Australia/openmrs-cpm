@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm;
+package org.openmrs.module.conceptpropose;
 
 
 public enum PackageStatus {

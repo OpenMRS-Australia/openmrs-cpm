@@ -1,6 +1,6 @@
-package org.openmrs.module.cpm.web.dto;
+package org.openmrs.module.conceptpropose.web.dto;
 
-import org.openmrs.module.cpm.SubmissionResponseStatus;
+import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
 
 public class SubmissionResponseDto {
 

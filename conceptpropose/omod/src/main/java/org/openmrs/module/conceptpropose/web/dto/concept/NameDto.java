@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.dto.concept;
+package org.openmrs.module.conceptpropose.web.dto.concept;
 
 import org.openmrs.api.ConceptNameType;
 

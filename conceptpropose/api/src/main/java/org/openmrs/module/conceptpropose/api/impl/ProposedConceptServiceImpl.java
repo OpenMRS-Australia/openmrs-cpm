@@ -1,20 +1,20 @@
-package org.openmrs.module.cpm.api.impl;
+package org.openmrs.module.conceptpropose.api.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.ProposedConceptResponsePackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.api.db.ProposedConceptPackageDAO;
-import org.openmrs.module.cpm.api.db.ProposedConceptPackageResponseDAO;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.api.db.ProposedConceptPackageDAO;
+import org.openmrs.module.conceptpropose.api.db.ProposedConceptPackageResponseDAO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("org.openmrs.module.cpm.api.ProposedConceptService")
+@Service("org.openmrs.module.conceptpropose.api.ProposedConceptService")
 public class ProposedConceptServiceImpl extends BaseOpenmrsService implements ProposedConceptService {
 	
 	private static final Log log = LogFactory.getLog(ProposedConceptServiceImpl.class);

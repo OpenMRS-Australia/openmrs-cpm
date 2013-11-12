@@ -1,9 +1,9 @@
-package org.openmrs.module.cpm.web.dto.factory;
+package org.openmrs.module.conceptpropose.web.dto.factory;
 
 import com.google.common.collect.Lists;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

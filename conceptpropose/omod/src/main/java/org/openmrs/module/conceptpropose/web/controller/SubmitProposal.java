@@ -1,19 +1,17 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
 import org.directwebremoting.util.Logger;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.api.exception.ConceptProposalSubmissionException;
-import org.openmrs.module.cpm.web.authentication.factory.AuthHttpHeaderFactory;
-import org.openmrs.module.cpm.web.common.CpmConstants;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
-import org.openmrs.module.cpm.web.dto.factory.SubmissionDtoFactory;
+import org.openmrs.module.conceptpropose.PackageStatus;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.authentication.factory.AuthHttpHeaderFactory;
+import org.openmrs.module.conceptpropose.web.common.CpmConstants;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.factory.SubmissionDtoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +19,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
-
-import java.nio.charset.Charset;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.cpm;
+package org.openmrs.module.conceptpropose;
 
 
 import org.apache.commons.logging.Log;

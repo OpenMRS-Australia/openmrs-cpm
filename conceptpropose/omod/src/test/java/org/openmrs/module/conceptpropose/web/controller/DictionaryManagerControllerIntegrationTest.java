@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -12,12 +12,12 @@ import org.openmrs.ConceptDescription;
 import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.SubmissionResponseStatus;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
-import org.openmrs.module.cpm.web.dto.concept.DescriptionDto;
-import org.openmrs.module.cpm.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.beans.factory.annotation.Autowired;
 

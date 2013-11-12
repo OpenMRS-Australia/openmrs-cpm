@@ -1,8 +1,8 @@
-package org.openmrs.module.cpm.web.dto.factory;
+package org.openmrs.module.conceptpropose.web.dto.factory;
 
 import org.openmrs.Concept;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
+import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

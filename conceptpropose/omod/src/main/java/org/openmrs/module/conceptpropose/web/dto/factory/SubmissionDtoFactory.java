@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.dto.factory;
+package org.openmrs.module.conceptpropose.web.dto.factory;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
@@ -6,11 +6,11 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.ProposedConcept;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.web.dto.ProposedConceptDto;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.concept.NumericDto;
+import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

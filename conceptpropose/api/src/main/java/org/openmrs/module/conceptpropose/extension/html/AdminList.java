@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.cpm.extension.html;
+package org.openmrs.module.conceptpropose.extension.html;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

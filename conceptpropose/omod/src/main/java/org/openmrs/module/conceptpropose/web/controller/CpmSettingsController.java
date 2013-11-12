@@ -1,10 +1,10 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.web.common.CpmConstants;
-import org.openmrs.module.cpm.web.dto.Settings;
+import org.openmrs.module.conceptpropose.web.common.CpmConstants;
+import org.openmrs.module.conceptpropose.web.dto.Settings;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

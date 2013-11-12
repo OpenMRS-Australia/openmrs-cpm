@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.api.exception;
+package org.openmrs.module.conceptpropose.api.exception;
 
 
 import org.openmrs.api.APIException;

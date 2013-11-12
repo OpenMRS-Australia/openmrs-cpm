@@ -1,8 +1,8 @@
-package org.openmrs.module.cpm.web.authentication.factory;
+package org.openmrs.module.conceptpropose.web.authentication.factory;
 
 import com.google.common.base.Joiner;
 import org.apache.commons.codec.binary.Base64;
-import org.openmrs.module.cpm.web.common.CpmConstants;
+import org.openmrs.module.conceptpropose.web.common.CpmConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 

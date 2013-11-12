@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.api.db.hibernate;
+package org.openmrs.module.conceptpropose.api.db.hibernate;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.api.db.ProposedConceptPackageDAO;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.api.db.ProposedConceptPackageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

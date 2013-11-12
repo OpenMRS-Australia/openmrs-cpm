@@ -1,8 +1,8 @@
-package org.openmrs.module.cpm.web.dto.factory;
+package org.openmrs.module.conceptpropose.web.dto.factory;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
-import org.openmrs.module.cpm.web.dto.concept.AnswerDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

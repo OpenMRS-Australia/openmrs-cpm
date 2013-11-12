@@ -1,17 +1,17 @@
-package org.openmrs.module.cpm.web.controller;
+package org.openmrs.module.conceptpropose.web.controller;
 
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.cpm.PackageStatus;
-import org.openmrs.module.cpm.ProposedConceptPackage;
-import org.openmrs.module.cpm.api.ProposedConceptService;
-import org.openmrs.module.cpm.web.dto.SubmissionDto;
-import org.openmrs.module.cpm.web.dto.SubmissionResponseDto;
-import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
-import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.conceptpropose.PackageStatus;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.api.ProposedConceptService;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.springframework.mock.web.MockHttpServletRequest;

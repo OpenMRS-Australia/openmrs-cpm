@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm;
+package org.openmrs.module.conceptpropose;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.BaseOpenmrsObject;

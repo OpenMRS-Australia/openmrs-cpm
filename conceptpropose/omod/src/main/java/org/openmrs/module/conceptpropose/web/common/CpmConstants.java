@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.common;
+package org.openmrs.module.conceptpropose.web.common;
 
 import org.apache.commons.codec.CharEncoding;
 

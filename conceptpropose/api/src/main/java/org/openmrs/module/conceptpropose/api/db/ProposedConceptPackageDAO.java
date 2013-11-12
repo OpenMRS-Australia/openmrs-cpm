@@ -1,8 +1,8 @@
-package org.openmrs.module.cpm.api.db;
+package org.openmrs.module.conceptpropose.api.db;
 
 import java.util.List;
 
-import org.openmrs.module.cpm.ProposedConceptPackage;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 
 /**
  * Service interface for the ProposedConceptPackage service data access objects.  This interface is used by Spring to inject

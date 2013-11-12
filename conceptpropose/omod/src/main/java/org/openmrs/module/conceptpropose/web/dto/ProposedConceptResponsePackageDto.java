@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.web.dto;
+package org.openmrs.module.conceptpropose.web.dto;
 
 import java.util.List;
 
