@@ -62,10 +62,10 @@ public class SubmitProposal {
         //        service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
 		final HttpEntity requestEntity = new HttpEntity<SubmissionDto>(submission, headers);
 
-		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/cpm/dictionarymanager/proposals";
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptpropose/dictionarymanager/proposals";
 		ResponseEntity responseEntity = submissionRestTemplate.exchange(url, HttpMethod.POST, requestEntity, SubmissionResponseDto.class);
 
-//		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/cpm/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
+//		final SubmissionResponseDto result = submissionRestTemplate.postForObject("http://localhost:8080/openmrs/ws/conceptpropose/dictionarymanager/proposals", submission, SubmissionResponseDto.class);
 //
 //        TODO: Find out how to determine success/failure for the submission returned by dictionarymanagercontroller
        if (responseEntity == null || !responseEntity.getStatusCode().equals(HttpStatus.SC_OK) ) {

@@ -38,7 +38,7 @@ public class DictionaryManagerController {
     // Proposer-Reviewer webservice endpoints
     //
 
-    @RequestMapping(value = "/cpm/dictionarymanager/proposals", method = RequestMethod.POST)
+    @RequestMapping(value = "/conceptpropose/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
         //TODO: method size getting large...
@@ -139,7 +139,7 @@ public class DictionaryManagerController {
         return responseDto;
     }
 
-    @RequestMapping(value = "/cpm/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/conceptpropose/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
     public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
 
         final ProposedConceptService service = Context.getService(ProposedConceptService.class);

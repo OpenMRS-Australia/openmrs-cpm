@@ -52,7 +52,7 @@ public class ProposalController {
 	// Pages
 	//
 
-	@RequestMapping(value = "module/cpm/proposals.list", method = RequestMethod.GET)
+	@RequestMapping(value = "module/conceptpropose/proposals.list", method = RequestMethod.GET)
 	public String listProposals() {
 		return CpmConstants.LIST_PROPOSAL_URL;
 	}
@@ -62,7 +62,7 @@ public class ProposalController {
 	//
 
 
-    @RequestMapping(value = "/cpm/concepts", method = RequestMethod.GET)
+    @RequestMapping(value = "/conceptpropose/concepts", method = RequestMethod.GET)
     public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
                                                              @RequestParam final String requestNum) {
         final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
@@ -90,7 +90,7 @@ public class ProposalController {
     }
 
 
-	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptpropose/proposals", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<ProposedConceptPackageDto> getProposals() {
 
 		final List<ProposedConceptPackage> allConceptProposalPackages = Context.getService(ProposedConceptService.class).getAllProposedConceptPackages();
@@ -105,12 +105,12 @@ public class ProposalController {
 		return response;
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
 		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
 
-	@RequestMapping(value = "/cpm/proposals", method = RequestMethod.POST)
+	@RequestMapping(value = "/conceptpropose/proposals", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
 
 		// TODO: some server side validation here... not null fields, valid email?
@@ -134,7 +134,7 @@ public class ProposalController {
 		return newPackage;
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.PUT)
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
                                                                   @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
@@ -156,7 +156,7 @@ public class ProposalController {
 		return updatedPackage;
 	}
 
-	@RequestMapping(value = "/cpm/proposals/{proposalId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
 	public void deleteProposal(@PathVariable final String proposalId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));

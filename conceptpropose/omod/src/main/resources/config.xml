@@ -5,7 +5,7 @@
     <id>cpm</id>
     <name>Concept Proposal Module</name>
     <version>1.0-SNAPSHOT</version>
-    <package>org.openmrs.module.cpm</package>
+    <package>org.openmrs.module.conceptpropose</package>
     <author>OpenMRS Australia</author>
     <description>
         Enable sharing of concepts
@@ -15,16 +15,16 @@
 
 	
 	<!-- Module Activator -->
-	<activator>org.openmrs.module.cpm.ConceptProposalModuleActivator</activator>
+	<activator>org.openmrs.module.conceptpropose.ConceptProposalModuleActivator</activator>
 	
 	<extension>
 		<point>org.openmrs.admin.list</point>
-		<class>org.openmrs.module.cpm.extension.html.AdminList</class>
+		<class>org.openmrs.module.conceptpropose.extension.html.AdminList</class>
 	</extension>
 	
 	<!-- Hibernate config -->
 	<packagesWithMappedClasses>
-		org.openmrs.module.cpm
+		org.openmrs.module.conceptpropose
 	</packagesWithMappedClasses>
 
     <!-- Global Properties -->
@@ -64,12 +64,12 @@
 
     <filter>
         <filter-name>cpm-authorisation</filter-name>
-        <filter-class>org.openmrs.module.cpm.web.filter.AuthorizationFilter</filter-class>
+        <filter-class>org.openmrs.module.conceptpropose.web.filter.AuthorizationFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>cpm-authorisation</filter-name>
-        <url-pattern>/ws/cpm/dictionarymanager/*</url-pattern>
+        <url-pattern>/ws/conceptpropose/dictionarymanager/*</url-pattern>
     </filter-mapping>
 
 </module>

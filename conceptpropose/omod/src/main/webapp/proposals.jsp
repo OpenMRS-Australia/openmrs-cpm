@@ -3,7 +3,7 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<link href="${pageContext.request.contextPath}/moduleResources/cpm/css/cpm.css" type="text/css" rel="stylesheet"/>
+<link href="${pageContext.request.contextPath}/moduleResources/conceptpropose/css/cpm.css" type="text/css" rel="stylesheet"/>
 
 <script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/cpm-main" src="${pageContext.request.contextPath}/moduleResources/cpm/components/requirejs/require.js"></script>
 
@@ -12,7 +12,7 @@
 <script>
     define('config', [], function() {
       return {
-        resourceLocation: '${pageContext.request.contextPath}/moduleResources/cpm',
+        resourceLocation: '${pageContext.request.contextPath}/moduleResources/conceptpropose',
         contextPath: '${pageContext.request.contextPath}'
       };
     });

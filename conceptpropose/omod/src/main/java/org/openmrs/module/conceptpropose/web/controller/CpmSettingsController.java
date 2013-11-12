@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CpmSettingsController {
 
-    @RequestMapping(value = "/cpm/settings", method = RequestMethod.GET)
+    @RequestMapping(value = "/conceptpropose/settings", method = RequestMethod.GET)
     public @ResponseBody
     Settings getSettings() {
         AdministrationService service = Context.getAdministrationService();
@@ -25,7 +25,7 @@ public class CpmSettingsController {
         return settings;
     }
 
-    @RequestMapping(value = "/cpm/settings", method = RequestMethod.POST)
+    @RequestMapping(value = "/conceptpropose/settings", method = RequestMethod.POST)
     public @ResponseBody Settings postNewSettings(@RequestBody Settings settings) {
         AdministrationService service = Context.getAdministrationService();
         service.saveGlobalProperty(new GlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY, settings.getUrl()));

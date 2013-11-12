@@ -22,7 +22,7 @@
 
     <!-- MVC configuration -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-    <context:component-scan base-package="org.openmrs.module.cpm.web.controller" />
+    <context:component-scan base-package="org.openmrs.module.conceptpropose.web.controller" />
 
     <!-- REST configuration -->
     <bean id="submissionRestTemplate" class="org.springframework.web.client.RestTemplate">

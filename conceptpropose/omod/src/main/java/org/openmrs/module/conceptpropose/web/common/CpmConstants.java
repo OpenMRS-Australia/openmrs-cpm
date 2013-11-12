@@ -10,7 +10,7 @@ public interface CpmConstants {
 
     String SETTINGS_URL_PROPERTY = "cpm.url";
 
-    String LIST_PROPOSAL_URL = "/module/cpm/proposals";
+    String LIST_PROPOSAL_URL = "/module/conceptpropose/proposals";
 
     String AUTH_DATA_DELIMITER = ":";
 

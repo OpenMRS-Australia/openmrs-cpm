@@ -49,9 +49,9 @@ public class ProposalControllerIntegrationTest extends BaseCpmOmodTest {
 
 	@Test
 	public void testCreateConceptForm() throws Exception {
-		request = new MockHttpServletRequest("GET", "/module/cpm/proposals.list");
+		request = new MockHttpServletRequest("GET", "/module/conceptpropose/proposals.list");
 		final ModelAndView handle = adapter.handle(request, response, controller);
-		assertEquals("/module/cpm/proposals", handle.getViewName());
+		assertEquals("/module/conceptpropose/proposals", handle.getViewName());
 		assertEquals(200, response.getStatus());
 	}
 
