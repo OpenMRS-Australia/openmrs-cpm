@@ -27,6 +27,7 @@ import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.LocaleUtility;
+import org.openmrs.util.OpenmrsConstants;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -35,6 +36,7 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
@@ -57,6 +59,18 @@ public class ProposalControllerTest {
 
 	@Mock
 	UpdateProposedConceptPackage updateProposedConceptPackage;
+	
+	@Mock
+	User user;
+	
+	@Mock
+	PersonName userName;
+	
+	@Mock
+	Map<String, String> userProperties;
+	
+	@Mock
+	ProposedConceptPackage recentProposal;
 
 
     @InjectMocks
@@ -68,13 +82,88 @@ public class ProposalControllerTest {
         mockStatic(LocaleUtility.class);
         mockStatic(Context.class);
 
-		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
+        PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
 		PowerMockito.when(Context.class, "getConceptService").thenReturn(conceptService);
         PowerMockito.when(LocaleUtility.class, "getLocalesInOrder").thenReturn(Sets.newHashSet(Locale.US));
+        PowerMockito.when(Context.class, "getAuthenticatedUser").thenReturn(user);
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
 		when(service.getAllProposedConceptPackages()).thenReturn(Lists.newArrayList(conceptPackage));
-
+		when(user.getPersonName()).thenReturn(userName);
+		when(user.getUserProperties()).thenReturn(userProperties);
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
+	}
+	
+	@Test
+	public void getEmptyPropsoal_noProposals_givenNameOnly() {
+		when(userName.getGivenName()).thenReturn("Aidan");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getName(), is("Aidan"));
+		assertNull(packageDto.getEmail());
+	}
+	
+	@Test
+	public void getEmptyPropsoal_noProposals_middleNameOnly() {
+		when(userName.getMiddleName()).thenReturn("Jeremy");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getName(), is("Jeremy"));
+		assertNull(packageDto.getEmail());
+	}
+	
+	@Test
+	public void getEmptyPropsoal_noProposals_lastNameOnly() {
+		when(userName.getFamilyName()).thenReturn("Bebbington");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getName(), is("Bebbington"));
+		assertNull(packageDto.getEmail());
+	}
+	
+	@Test
+	public void getEmptyPropsoal_noProposals_firstAndLastName() {
+		when(userName.getGivenName()).thenReturn("Aidan");
+		when(userName.getFamilyName()).thenReturn("Bebbington");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getName(), is("Aidan Bebbington"));
+		assertNull(packageDto.getEmail());
+	}
+	
+	@Test
+	public void getEmptyPropsoal_noProposals_fullName() {
+		when(userName.getGivenName()).thenReturn("Aidan");
+		when(userName.getMiddleName()).thenReturn("Jeremy");
+		when(userName.getFamilyName()).thenReturn("Bebbington");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getName(), is("Aidan Jeremy Bebbington"));
+		assertNull(packageDto.getEmail());
+	}
+	
+	@Test
+	public void getEmptyPropsoal_notificationEmailSet() {
+		when(service.getMostRecentConceptProposalPackage()).thenReturn(recentProposal);
+		when(userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS)).thenReturn("aidanbebbington@fake.com");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
+	}
+	
+	@Test
+	public void getEmptyPropsoal_previousProposalExists_notificationEmailNotSet() {
+		when(service.getMostRecentConceptProposalPackage()).thenReturn(recentProposal);
+		when(recentProposal.getEmail()).thenReturn("aidanbebbington@fake.com");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
 	}
 
 	@Test
