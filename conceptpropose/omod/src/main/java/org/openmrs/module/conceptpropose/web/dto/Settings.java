@@ -7,6 +7,8 @@ public class Settings {
 	private String username;
 
 	private String password;
+	
+	private boolean urlInvalid;
 
 	public String getUrl() {
 		return url;
@@ -30,5 +32,13 @@ public class Settings {
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+	
+	public boolean getUrlInvalid() {
+		return urlInvalid;
+	}
+	
+	public void setUrlInvalid(boolean urlInvalid) {
+		this.urlInvalid = urlInvalid;
 	}
 }

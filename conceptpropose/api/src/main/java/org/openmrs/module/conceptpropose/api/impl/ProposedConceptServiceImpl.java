@@ -52,6 +52,11 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 		proposalDao.deleteConceptProposalPackage(conceptPackage);
     }
 	
+	@Override
+	public ProposedConceptPackage getMostRecentConceptProposalPackage() {
+		return proposalDao.getMostRecentConceptProposalPackage();
+	}
+	
 	//	Moving on to all of the services for the server side of the Concept Proposal Module
 	
 	@Override
@@ -83,5 +88,4 @@ public class ProposedConceptServiceImpl extends BaseOpenmrsService implements Pr
 	public void deleteProposedConceptResponsePackageById(final int proposalId) throws APIException {
 		proposalResponseDao.deleteConceptProposalResponsePackageById(proposalId);
 	}
-
 }

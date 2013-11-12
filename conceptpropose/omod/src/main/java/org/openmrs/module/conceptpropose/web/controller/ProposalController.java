@@ -2,6 +2,8 @@ package org.openmrs.module.conceptpropose.web.controller;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
+import org.openmrs.PersonName;
+import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.PackageStatus;
@@ -15,19 +17,22 @@ import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
+import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
 @Controller
 public class ProposalController {
-
-
 	private final SubmitProposal submitProposal;
 
 	private final UpdateProposedConceptPackage updateProposedConceptPackage;
@@ -110,9 +115,50 @@ public class ProposalController {
 		return createProposedConceptPackageDto(Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId)));
 	}
 
-	@RequestMapping(value = "/conceptpropose/proposals", method = RequestMethod.POST)
+	@RequestMapping(value = "/conceptpropose/proposals/empty", method = RequestMethod.GET)
+	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {
+		User user = Context.getAuthenticatedUser();
+		ProposedConceptPackageDto proposal = new ProposedConceptPackageDto();
+		proposal.setStatus(PackageStatus.DRAFT);
+		proposal.setConcepts(new ArrayList<ProposedConceptDto>());
+		proposal.setName(getDisplayName(user));
+		proposal.setEmail(getNotificationEmail(user));
+		
+		if (Strings.isNullOrEmpty(proposal.getEmail())) {
+			ProposedConceptPackage mostRecentProposal = Context.getService(ProposedConceptService.class).getMostRecentConceptProposalPackage();
+			if (mostRecentProposal != null) {
+				proposal.setEmail(mostRecentProposal.getEmail());
+			}
+		}
+		
+		return proposal;
+	}
+	
+	private String getDisplayName(User user) {
+		PersonName name = user.getPersonName();
+		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
+		String displayName = "";
+		for (String component : components) {
+			if (!Strings.isNullOrEmpty(component)) {
+				displayName += String.format("%s ", component);
+			}
+		}
+		return displayName.trim();
+	}
+	
+	private String getNotificationEmail(User user) {
+		Map<String, String> userProperties = user.getUserProperties();
+		return userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS);
+	}
+	
+	@RequestMapping(value = "/conceptpropose/proposals/", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
+		return addProposal(String.valueOf(newPackage.getId()), newPackage);
+	}
 
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.POST)
+	public @ResponseBody ProposedConceptPackageDto addProposal(@PathVariable final String proposalId,
+	                                                           @RequestBody final ProposedConceptPackageDto newPackage) {
 		// TODO: some server side validation here... not null fields, valid email?
 
 		final ProposedConceptPackage conceptPackage = new ProposedConceptPackage();
@@ -198,7 +244,6 @@ public class ProposalController {
 	public SubmitProposal getSubmitProposal() {
 		return submitProposal;
 	}
-
 
 
     private ConceptDto createConceptDto(final Concept concept) {

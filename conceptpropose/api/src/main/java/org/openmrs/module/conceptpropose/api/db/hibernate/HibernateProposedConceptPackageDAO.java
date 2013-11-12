@@ -94,5 +94,14 @@ public class HibernateProposedConceptPackageDAO implements ProposedConceptPackag
 			log.warn("Attempting to delete null package");
 		}
 	}
+	
+	@Override
+	public ProposedConceptPackage getMostRecentConceptProposalPackage() {
+		Query query = sessionFactory.getCurrentSession().createQuery("from ProposedConceptPackage order by date_created desc");
+		query.setMaxResults(1);
+		ProposedConceptPackage result = (ProposedConceptPackage) query.uniqueResult();
+		if (log.isDebugEnabled()) { log.debug("getMostRecentConceptProposalPackage returned: " + result); }
+		return result;
+	}
 
 }

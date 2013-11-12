@@ -19,5 +19,6 @@ public interface ProposedConceptPackageDAO {
 	ProposedConceptPackage saveConceptProposalPackage(ProposedConceptPackage conceptPackage);
 	
 	void deleteConceptProposalPackage(ProposedConceptPackage conceptPackage);
-		
+	
+	ProposedConceptPackage getMostRecentConceptProposalPackage();
 }

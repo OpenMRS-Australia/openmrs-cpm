@@ -21,7 +21,7 @@ define([
         var proposalId = $routeParams.proposalId;
         $scope.isEdit = typeof proposalId !== 'undefined';
         $scope.isSubmitting = false;
-        $scope.isLoading = $scope.isEdit ? true : false;
+        $scope.isLoading = true;
         $scope.isReadOnly = true;
 
         $scope.menu = Menu.getMenu(1);
@@ -50,19 +50,13 @@ define([
           document.title = 'Create Concept Proposal';
         }
 
-        if ($scope.isEdit) {
-          $scope.proposal = Proposals.get({proposalId: proposalId}, function() {
-            $scope.isLoading = false;
-            $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
-          });
-        }
-        else {
-          $scope.proposal = new Proposals();
-          $scope.proposal.status = 'DRAFT';
-          $scope.proposal.concepts= [];
-
-          $scope.isReadOnly = false;
-        }
+        var proposalsParams = {
+          proposalId: ($scope.isEdit) ? proposalId : 'empty'
+        };
+        $scope.proposal = Proposals.get(proposalsParams, function() {
+          $scope.isLoading = false;
+          $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
+        });
 
         $scope.save = function() {
           var redirectUrl = '/';
@@ -101,11 +95,11 @@ define([
           };
 
           setInFlight();
-          if (typeof $scope.proposal.id === 'undefined') {
-            $scope.proposal.$save(flightLanded, cancelInFlight);
+          if ($scope.isEdit) {
+            $scope.proposal.$update(flightLanded, cancelInFlight);
           }
           else {
-            $scope.proposal.$update(flightLanded, cancelInFlight);
+        	$scope.proposal.$save(flightLanded, cancelInFlight);
           }
         };
 

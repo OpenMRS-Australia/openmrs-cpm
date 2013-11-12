@@ -27,6 +27,7 @@ define([
 
     it('should get menu', function () {
       var menuResponse = 'something';
+      setupEmptyProposal();
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
         expect(index).toBe(1);
         return menuResponse;
@@ -39,12 +40,14 @@ define([
 
     it('should not fetch anything and set the mode to create and initialise the status to \'DRAFT\' when not given a proposal id', function() {
       routeParams = {};
+      setupEmptyProposal();
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       try {
         httpBackend.flush();
       } catch (e) {}
 
-      expect(scope.proposal.name).toBeUndefined();
+      expect(scope.proposal.name).toBe('Mr Prefilled');
+      expect(scope.proposal.description).toBe(null);
       expect(scope.isEdit).toBe(false);
       expect(scope.proposal.status).toBe('DRAFT');
     });
@@ -52,7 +55,7 @@ define([
     it('should fetch a proposal and set the mode to edit given a proposal id', function() {
       routeParams = {proposalId: 1};
       httpBackend
-        .expectGET('/openmrs/ws/cpm/proposals/1')
+        .expectGET('/openmrs/ws/conceptpropose/proposals/1')
         .respond({
           id: 1,
           name: 'A single proposal',
@@ -67,13 +70,13 @@ define([
       expect(scope.isEdit).toBe(true);
     });
 
-    it('shoud not allow users add same concept twice to proposal', function() {
+    it('should not allow users add same concept twice to proposal', function() {
       var testData = [{id:1}, {id:2}, {id:3}];
       var existingConcepts = [{id:1}, {id:2}, {id:4}];
 
       routeParams = {proposalId: 1};
       httpBackend
-        .expectGET('/openmrs/ws/cpm/proposals/1')
+        .expectGET('/openmrs/ws/conceptpropose/proposals/1')
         .respond({id: 1, name: 'A single proposal', description: 'foo', status: 'DRAFT'});
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
@@ -87,14 +90,15 @@ define([
       'should save a new proposal by POST-ing to the list of proposals and redirecting to proposal list',
       inject(function($location) {
         routeParams = {};
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
-
+        
         scope.name = 'new';
         scope.email = 'blah@blah.com';
         scope.description = 'proposal';
-
+        
         httpBackend
-          .expectPOST('/openmrs/ws/cpm/proposals')
+          .expectPOST('/openmrs/ws/conceptpropose/proposals')
           .respond({
             id: 1,
             name: 'new',
@@ -114,7 +118,7 @@ define([
       
       routeParams = { proposalId: 1 };
       httpBackend
-        .expectGET('/openmrs/ws/cpm/proposals/1')
+        .expectGET('/openmrs/ws/conceptpropose/proposals/1')
         .respond({
           id: 1,
           name: 'A single proposal',
@@ -125,7 +129,7 @@ define([
       httpBackend.flush();
 
       httpBackend
-        .expectPUT('/openmrs/ws/cpm/proposals/1')
+        .expectPUT('/openmrs/ws/conceptpropose/proposals/1')
         .respond({
           id: 1,
           name: 'new',
@@ -145,7 +149,7 @@ define([
       spyOn(window, 'confirm').andReturn(true);
       routeParams = {proposalId: 1};
       httpBackend
-        .expectGET('/openmrs/ws/cpm/proposals/1')
+        .expectGET('/openmrs/ws/conceptpropose/proposals/1')
         .respond({
           id: 1,
           name: 'A single proposal',
@@ -155,7 +159,7 @@ define([
       controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
       httpBackend.flush();
       
-      httpBackend.expectDELETE('/openmrs/ws/cpm/proposals/1').respond({});
+      httpBackend.expectDELETE('/openmrs/ws/conceptpropose/proposals/1').respond({});
       scope.deleteProposal();
     });
 
@@ -164,7 +168,7 @@ define([
       // initiate controller
       routeParams = {proposalId: 1};
       httpBackend
-        .whenGET('/openmrs/ws/cpm/proposals/1')
+        .whenGET('/openmrs/ws/conceptpropose/proposals/1')
         .respond({
           id: 1,
           name: 'existing',
@@ -182,7 +186,7 @@ define([
         status: 'TBS'
       };
       httpBackend
-        .expectPUT('/openmrs/ws/cpm/proposals/1', proposal)
+        .expectPUT('/openmrs/ws/conceptpropose/proposals/1', proposal)
         .respond({});
 
       scope.submit();
@@ -193,7 +197,7 @@ define([
         // initiate controller
         routeParams = {proposalId: 1};
         httpBackend
-          .whenGET('/openmrs/ws/cpm/proposals/1').
+          .whenGET('/openmrs/ws/conceptpropose/proposals/1').
           respond({
             id: 1,
             name: 'existing',
@@ -213,7 +217,7 @@ define([
         // initiate controller
         routeParams = {proposalId: 1};
         httpBackend
-          .whenGET('/openmrs/ws/cpm/proposals/1')
+          .whenGET('/openmrs/ws/conceptpropose/proposals/1')
           .respond({
             id: 1,
             name: 'existing',
@@ -232,7 +236,10 @@ define([
 
         // initiate controller
         routeParams = {};
+        
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
+        httpBackend.flush();
 
         expect(scope.isReadOnly).toBe(false);
       }
@@ -241,14 +248,16 @@ define([
     it('should POST a new resource with status \'TBS\' if the user clicks \'Send proposal\' from the \'Create Proposal\' screen', function(){
 
         routeParams = {};
+        setupEmptyProposal();
         controller('EditProposalCtrl', {$scope: scope, $routeParams: routeParams});
-
+        httpBackend.flush();
+        
         scope.proposal.name = 'new';
         scope.proposal.email = 'blah@blah.com';
         scope.proposal.description = 'proposal';
 
         httpBackend
-          .expectPOST('/openmrs/ws/cpm/proposals', {
+          .expectPOST('/openmrs/ws/conceptpropose/proposals', {
             status: 'TBS',
             concepts: [],
             name: 'new',
@@ -265,6 +274,17 @@ define([
       httpBackend.verifyNoOutstandingExpectation();
       alertsService.dequeue();
     });
+    
+    var setupEmptyProposal = function() {
+    	httpBackend
+	  	.expectGET('/openmrs/ws/conceptpropose/proposals/empty')
+	    .respond({
+		  name: 'Mr Prefilled',
+		  description: null,
+		  email: 'prefilled@email.com',
+		  status: 'DRAFT'
+		});
+    }
 
   });
 });
