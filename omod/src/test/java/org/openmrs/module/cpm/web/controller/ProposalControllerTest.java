@@ -27,6 +27,7 @@ import org.openmrs.module.cpm.web.dto.concept.SearchConceptResultDto;
 import org.openmrs.module.cpm.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.cpm.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.LocaleUtility;
+import org.openmrs.util.OpenmrsConstants;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -66,6 +67,9 @@ public class ProposalControllerTest {
 	PersonName userName;
 	
 	@Mock
+	Map<String, String> userProperties;
+	
+	@Mock
 	ProposedConceptPackage recentProposal;
 
 
@@ -85,6 +89,7 @@ public class ProposalControllerTest {
 		when(service.getProposedConceptPackageById(1)).thenReturn(conceptPackage);
 		when(service.getAllProposedConceptPackages()).thenReturn(Lists.newArrayList(conceptPackage));
 		when(user.getPersonName()).thenReturn(userName);
+		when(user.getUserProperties()).thenReturn(userProperties);
 		whenNew(ProposedConceptPackage.class).withNoArguments().thenReturn(conceptPackage);
 	}
 	
@@ -142,7 +147,17 @@ public class ProposalControllerTest {
 	}
 	
 	@Test
-	public void getEmptyPropsoal_previousProposalExists_emailIsSet() {
+	public void getEmptyPropsoal_notificationEmailSet() {
+		when(service.getMostRecentConceptProposalPackage()).thenReturn(recentProposal);
+		when(userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS)).thenReturn("aidanbebbington@fake.com");
+		
+		ProposedConceptPackageDto packageDto = controller.getEmptyProposal();
+		
+		assertThat(packageDto.getEmail(), is("aidanbebbington@fake.com"));
+	}
+	
+	@Test
+	public void getEmptyPropsoal_previousProposalExists_notificationEmailNotSet() {
 		when(service.getMostRecentConceptProposalPackage()).thenReturn(recentProposal);
 		when(recentProposal.getEmail()).thenReturn("aidanbebbington@fake.com");
 		
