@@ -258,11 +258,10 @@ define([
 
         httpBackend
           .expectPOST('/openmrs/ws/conceptpropose/proposals', {
-            status: 'TBS',
-            concepts: [],
             name: 'new',
+            description: 'proposal',
             email: 'blah@blah.com',
-            description: 'proposal'
+            status: 'TBS'
           })
           .respond({});
 
@@ -276,15 +275,15 @@ define([
     });
     
     var setupEmptyProposal = function() {
-    	httpBackend
-	  	.expectGET('/openmrs/ws/conceptpropose/proposals/empty')
-	    .respond({
-		  name: 'Mr Prefilled',
-		  description: null,
-		  email: 'prefilled@email.com',
-		  status: 'DRAFT'
-		});
-    }
+      httpBackend
+        .expectGET('/openmrs/ws/conceptpropose/proposals/empty')
+        .respond({
+          name: 'Mr Prefilled',
+          description: null,
+          email: 'prefilled@email.com',
+          status: 'DRAFT'
+        });
+    };
 
   });
 });
