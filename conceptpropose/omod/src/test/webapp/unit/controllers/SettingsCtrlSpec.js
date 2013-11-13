@@ -16,7 +16,7 @@ define(['angular-mocks', 'js/controllers/SettingsCtrl'], function() {
         httpBackend = $httpBackend;
         menuService = Menu;
       });
-      httpBackend.whenGET('/openmrs/ws/cpm/settings').respond({});
+      httpBackend.whenGET('/openmrs/ws/conceptpropose/settings').respond({});
     });
 
     it('should get menu', function () {

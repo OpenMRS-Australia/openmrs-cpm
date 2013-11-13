@@ -22,7 +22,7 @@ define([
       httpBackend = $httpBackend;
 
       // Simulate backend response for blank search so timeout.flush() does not throw error
-      httpBackend.whenGET(/\/openmrs\/ws\/cpm\/concepts\?query=&requestNum=.*/).respond('whatever');
+      httpBackend.whenGET(/\/openmrs\/ws\/conceptpropose\/concepts\?query=&requestNum=.*/).respond('whatever');
 
       controller('SearchConceptDialogCtrl', { $scope: scope,
         $timeout: timeout, SearchConcept: searchConcept});

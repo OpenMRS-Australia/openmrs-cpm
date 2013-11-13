@@ -9,7 +9,7 @@ define([
 
     angular.module('cpm.services').factory('Settings',
       function($resource) {
-        return $resource(config.contextPath + '/ws/cpm/settings');
+        return $resource(config.contextPath + '/ws/conceptpropose/settings');
       }
     );
   }

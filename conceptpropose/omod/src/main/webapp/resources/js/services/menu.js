@@ -14,15 +14,15 @@ define([
             'text': 'Admin'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposals.list#edit',
+            'link': config.contextPath + '/module/conceptpropose/proposals.list#edit',
             'text': 'Create Proposal'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposals.list',
+            'link': config.contextPath + '/module/conceptpropose/proposals.list',
             'text': 'Monitor Proposals'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposals.list#settings',
+            'link': config.contextPath + '/module/conceptpropose/proposals.list#settings',
             'text': 'Settings'
           }
         ];

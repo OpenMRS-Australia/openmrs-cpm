@@ -18,7 +18,7 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
     }));
 
     beforeEach(function () {
-      httpBackend.whenGET('/openmrs/ws/cpm/proposals').respond([]);
+      httpBackend.whenGET('/openmrs/ws/conceptpropose/proposals').respond([]);
     });
 
     it('should get menu', function () {
@@ -42,7 +42,7 @@ define(['angular-mocks', 'js/controllers/ListProposalsCtrl'], function() {
 
 
     it('should fetch a list of proposals (packages) and display them', function() {
-      httpBackend.expectGET('/openmrs/ws/cpm/proposals').respond([{id: 1, description: 'Test', status: 'DRAFT'}]);
+      httpBackend.expectGET('/openmrs/ws/conceptpropose/proposals').respond([{id: 1, description: 'Test', status: 'DRAFT'}]);
       controller('ListProposalsCtrl', {$scope: scope});
       httpBackend.flush();
 
