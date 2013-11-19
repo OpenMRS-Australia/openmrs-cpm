@@ -31,8 +31,8 @@ allprojects {
         testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
         testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
 
-        testCompile 'junit:junit:4.10'
-        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
+        testCompile 'junit:junit:4.11'
+        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.5.1"
 
         releaseJars 'org.apache.httpcomponents:httpclient:4.2.3'
         releaseJars 'com.google.guava:guava:13.0.1'
