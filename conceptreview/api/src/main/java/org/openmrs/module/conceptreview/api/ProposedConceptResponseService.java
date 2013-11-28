@@ -1,12 +1,13 @@
-package org.openmrs.module.conceptpropose.api;
-
-import java.util.List;
+package org.openmrs.module.conceptreview.api;
 
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.conceptpropose.*;
+import org.openmrs.module.conceptreview.ConceptReviewConsts;
+import org.openmrs.module.conceptreview.ProposedConceptResponsePackage;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Contains methods exposing the core functionality. It is an API that can be used outside of the
@@ -21,80 +22,76 @@ import org.springframework.transaction.annotation.Transactional;
  * @see org.openmrs.api.ConceptService
  */
 @SuppressWarnings("JavadocReference")
-public interface ProposedConceptService extends OpenmrsService {
+public interface ProposedConceptResponseService extends OpenmrsService {
 	
 	/**
-	 * Gets a list of all of the proposals that have been proposed on this OpenMRS instance. For
+	 * Gets a list of all of the proposals that have been received on this OpenMRS instance. For
 	 * instances acting in the role of clients this will return all of the packages that have been
 	 * created for submissions. For instances acting in the role of servers this will return all of
 	 * the packages that have been received via the REST services
-	 * 
+	 *
 	 * @return A list of ConceptProposalPackages that may be in a variety of states
-	 * @throws APIException
+	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	List<ProposedConceptPackage> getAllProposedConceptPackages() throws APIException;
-	
+	List<ProposedConceptResponsePackage> getAllProposedConceptResponsePackages() throws APIException;
+
 	/**
 	 * Gets a specific ProposedConceptPackage by its id (id field in the class,
 	 * concept_proposal_package_id in the database)
-	 * 
+	 *
 	 * @return The ConceptProposalPackages corresponding to the id parameter if it is available,
 	 *         otherwise a null result
-	 * @throws APIException
+	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ProposedConceptPackage getProposedConceptPackageById(Integer id) throws APIException;
-	
+	ProposedConceptResponsePackage getProposedConceptResponsePackageById(Integer id) throws APIException;
+
 	/**
 	 * Gets a specific ProposedConceptPackage by its uuid (uuid field in the class, uuid in the
 	 * database)
-	 * 
+	 *
 	 * @return The ConceptProposalPackages corresponding to the uuid parameter if it is available,
 	 *         otherwise a null result
-	 * @throws APIException
+	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ProposedConceptPackage getProposedConceptPackageByUuid(String uuid) throws APIException;
-	
+	ProposedConceptResponsePackage getProposedConceptResponsePackageByProposalUuid(String uuid) throws APIException;
+
 	/**
 	 * Saves a ProposedConceptPackage including references to all of the individual
 	 * ConceptProposals. For instances acting in the role of clients this can be used to save a
 	 * draft concept proposal before sending for submission. For instances acting in the role of
 	 * servers this can be used to save comments or status updates at the package level
-	 * 
+	 *
 	 * @param The ProposedConceptPackage to be created or updated
 	 * @return The updated ProposedConceptPackage - including the id assigned to it during storage
-	 * @throws APIException
+	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ShareablePackage saveProposedConceptPackage(ProposedConceptPackage conceptPackage) throws APIException;
-	
+	ProposedConceptResponsePackage saveProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackage) throws APIException;
+
 	/**
 	 * Deletes a ProposedConceptPackage including references to all of the individual
 	 * ConceptProposals - but does not delete the individual ConceptProposals themselves.
-	 * 
+	 *
 	 * @param The ProposedConceptPackage to be removed from persistent storage
-	 * @throws APIException
+	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	void deleteProposedConceptPackage(ProposedConceptPackage conceptPackage) throws APIException;
-	
-	/**
-	 * Gets the most recently created ProposedConceptPacage
-	 */
-	@Authorized(ConceptProposalConsts.MODULE_PRIVILEGE)
-	@Transactional
-	ProposedConceptPackage getMostRecentConceptProposalPackage() throws APIException;
+	void deleteProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackage) throws APIException;
 
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+	@Transactional
+	void deleteProposedConceptResponsePackageById(int proposalId) throws APIException;
 }

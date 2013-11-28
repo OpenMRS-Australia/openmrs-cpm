@@ -1,4 +1,5 @@
-include 'conceptpropose',
+include 'common',
+        'conceptpropose',
         'conceptpropose:api',
         'conceptpropose:omod',
         'conceptreview',
