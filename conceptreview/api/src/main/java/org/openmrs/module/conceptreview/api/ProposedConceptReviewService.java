@@ -4,7 +4,7 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.conceptreview.ConceptReviewConsts;
-import org.openmrs.module.conceptreview.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Contains methods exposing the core functionality. It is an API that can be used outside of the
  * module. This is used in conjunction with the Core OpenMRS API for adding/saving the individual
- * ProposedConcept/ProposedConceptResponse line items that are contained within packages.
+ * ProposedConcept/ProposedConceptReview line items that are contained within packages.
  * <p>
  * Usage example:<br>
  * <code>
@@ -22,7 +22,7 @@ import java.util.List;
  * @see org.openmrs.api.ConceptService
  */
 @SuppressWarnings("JavadocReference")
-public interface ProposedConceptResponseService extends OpenmrsService {
+public interface ProposedConceptReviewService extends OpenmrsService {
 	
 	/**
 	 * Gets a list of all of the proposals that have been received on this OpenMRS instance. For
@@ -36,7 +36,7 @@ public interface ProposedConceptResponseService extends OpenmrsService {
 	 */
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	List<ProposedConceptResponsePackage> getAllProposedConceptResponsePackages() throws APIException;
+	List<ProposedConceptReviewPackage> getAllProposedConceptReviewPackages() throws APIException;
 
 	/**
 	 * Gets a specific ProposedConceptPackage by its id (id field in the class,
@@ -49,7 +49,7 @@ public interface ProposedConceptResponseService extends OpenmrsService {
 	 */
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ProposedConceptResponsePackage getProposedConceptResponsePackageById(Integer id) throws APIException;
+	ProposedConceptReviewPackage getProposedConceptReviewPackageById(Integer id) throws APIException;
 
 	/**
 	 * Gets a specific ProposedConceptPackage by its uuid (uuid field in the class, uuid in the
@@ -62,7 +62,7 @@ public interface ProposedConceptResponseService extends OpenmrsService {
 	 */
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ProposedConceptResponsePackage getProposedConceptResponsePackageByProposalUuid(String uuid) throws APIException;
+	ProposedConceptReviewPackage getProposedConceptReviewPackageByProposalUuid(String uuid) throws APIException;
 
 	/**
 	 * Saves a ProposedConceptPackage including references to all of the individual
@@ -77,7 +77,7 @@ public interface ProposedConceptResponseService extends OpenmrsService {
 	 */
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	ProposedConceptResponsePackage saveProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackage) throws APIException;
+	ProposedConceptReviewPackage saveProposedConceptReviewPackage(ProposedConceptReviewPackage conceptPackage) throws APIException;
 
 	/**
 	 * Deletes a ProposedConceptPackage including references to all of the individual
@@ -89,9 +89,9 @@ public interface ProposedConceptResponseService extends OpenmrsService {
 	 */
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	void deleteProposedConceptResponsePackage(ProposedConceptResponsePackage conceptPackage) throws APIException;
+	void deleteProposedConceptReviewPackage(ProposedConceptReviewPackage conceptPackage) throws APIException;
 
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
-	void deleteProposedConceptResponsePackageById(int proposalId) throws APIException;
+	void deleteProposedConceptReviewPackageById(int proposalId) throws APIException;
 }

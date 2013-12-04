@@ -51,20 +51,20 @@ public class DictionaryManagerControllerIntegrationTest extends BaseModuleWebCon
 
 	@Test
 	@Ignore  // Test is failing due to org.hibernate.LazyInitializationException in createValidSubmissionDto()
-	public void submitProposal_validSubmission_shouldSaveProposedConceptResponsePackageAndReturnResponse() throws Exception {
+	public void submitProposal_validSubmission_shouldSaveProposedConceptReviewPackageAndReturnReview() throws Exception {
         SubmissionDto submissionDto = createValidSubmissionDto();
         assertNotNull(controller);
 
-        final SubmissionResponseDto response = controller.submitProposal(submissionDto);
+        final SubmissionResponseDto review = controller.submitProposal(submissionDto);
 
-        assertNotNull(response);
-        assertNotNull(response.getId());
-        assertTrue(SubmissionResponseStatus.SUCCESS.equals(response.getStatus()));
-        assertTrue("All Good!".equalsIgnoreCase(response.getMessage()));
+        assertNotNull(review);
+        assertNotNull(review.getId());
+        assertTrue(SubmissionResponseStatus.SUCCESS.equals(review.getStatus()));
+        assertTrue("All Good!".equalsIgnoreCase(review.getMessage()));
     }
 
     @Test
-    public void submitProposal_invalidSubmission_shouldReturnErrorResponse() throws Exception {
+    public void submitProposal_invalidSubmission_shouldReturnErrorReview() throws Exception {
         NameDto nameDto = new NameDto();
         nameDto.setName("SAME");
         nameDto.setType(ConceptNameType.SHORT);
@@ -82,10 +82,10 @@ public class DictionaryManagerControllerIntegrationTest extends BaseModuleWebCon
         submissionDto.setConcepts(proposedConceptDtos);
         submissionDto.setDescription("Invalid data type missing example");
 
-        final SubmissionResponseDto response = controller.submitProposal(submissionDto);
+        final SubmissionResponseDto review = controller.submitProposal(submissionDto);
 
-        assertNotNull(response);
-        assertTrue(SubmissionResponseStatus.FAILURE.equals(response.getStatus()));
+        assertNotNull(review);
+        assertTrue(SubmissionResponseStatus.FAILURE.equals(review.getStatus()));
 
 
     }

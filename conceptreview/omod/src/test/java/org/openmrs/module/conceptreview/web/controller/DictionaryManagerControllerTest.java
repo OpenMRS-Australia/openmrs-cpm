@@ -11,12 +11,11 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.conceptpropose.api.ProposedConceptService;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
 import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
 import org.openmrs.module.conceptreview.*;
-import org.openmrs.module.cpm.*;
+import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -46,7 +45,7 @@ public class DictionaryManagerControllerTest {
 	private ConceptService conceptServiceMock;
 
 	@Mock
-	private ProposedConceptService proposedConceptServiceMock;
+	private ProposedConceptReviewService proposedConceptServiceMock;
 
 	private DictionaryManagerController controller;
 
@@ -56,7 +55,7 @@ public class DictionaryManagerControllerTest {
 
 		mockStatic(Context.class);
 		when(Context.getConceptService()).thenReturn(conceptServiceMock);
-		when(Context.getService(ProposedConceptService.class)).thenReturn(proposedConceptServiceMock);
+		when(Context.getService(ProposedConceptReviewService.class)).thenReturn(proposedConceptServiceMock);
 	}
 
 	@Test
@@ -64,38 +63,38 @@ public class DictionaryManagerControllerTest {
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
 		setupRegularFixtureMocks();
 
-		SubmissionResponseDto response = controller.submitProposal(dto);
+		SubmissionResponseDto review = controller.submitProposal(dto);
 
-		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
-		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
-		final ProposedConceptResponsePackage value = captor.getValue();
+		ArgumentCaptor<ProposedConceptReviewPackage> captor = ArgumentCaptor.forClass(ProposedConceptReviewPackage.class);
+		verify(proposedConceptServiceMock).saveProposedConceptReviewPackage(captor.capture());
+		final ProposedConceptReviewPackage value = captor.getValue();
 		assertThat(value.getName(), is("A proposal"));
 		assertThat(value.getEmail(), is("asdf@asdf.com"));
 		assertThat(value.getDescription(), is("A description"));
 
-		final ArrayList<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
-		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
-		assertThat(proposedConceptResponse.getProposedConceptUuid(), is("concept-uuid"));
-		assertThat(proposedConceptResponse.getComment(), is("some comment"));
-		assertThat(proposedConceptResponse.getConceptClass(), is(conceptClassMock));
-		assertThat(proposedConceptResponse.getDatatype(), is(dataTypeMock));
+		final ArrayList<ProposedConceptReview> proposedConcepts = new ArrayList<ProposedConceptReview>(value.getProposedConcepts());
+		final ProposedConceptReview proposedConceptReview = proposedConcepts.get(0);
+		assertThat(proposedConceptReview.getProposedConceptUuid(), is("concept-uuid"));
+		assertThat(proposedConceptReview.getComment(), is("some comment"));
+		assertThat(proposedConceptReview.getConceptClass(), is(conceptClassMock));
+		assertThat(proposedConceptReview.getDatatype(), is(dataTypeMock));
 
-		final List<ProposedConceptResponseName> names = proposedConceptResponse.getNames();
+		final List<ProposedConceptReviewName> names = proposedConceptReview.getNames();
 		assertThat(names.size(), is(1));
-		ProposedConceptResponseName name = names.get(0);
+		ProposedConceptReviewName name = names.get(0);
 		assertThat(name.getName(), is("Concept name"));
 		assertThat(name.getType(), is(ConceptNameType.FULLY_SPECIFIED));
 		assertThat(name.getLocale(), is(Locale.ENGLISH));
 
-		final List<ProposedConceptResponseDescription> descriptions = proposedConceptResponse.getDescriptions();
+		final List<ProposedConceptReviewDescription> descriptions = proposedConceptReview.getDescriptions();
 		assertThat(descriptions.size(), is(1));
-		ProposedConceptResponseDescription description = descriptions.get(0);
+		ProposedConceptReviewDescription description = descriptions.get(0);
 		assertThat(description.getDescription(), is("Concept description"));
 		assertThat(description.getLocale(), is(Locale.ENGLISH));
 		
-		assertThat(response.getStatus(), is(SubmissionResponseStatus.SUCCESS));
-		assertThat(response.getMessage(), is("All Good!"));
-		assertThat(response.getId(), is(0));
+		assertThat(review.getStatus(), is(SubmissionResponseStatus.SUCCESS));
+		assertThat(review.getMessage(), is("All Good!"));
+		assertThat(review.getId(), is(0));
 	}
 
 	private void setupRegularFixtureMocks() throws Exception {
@@ -146,14 +145,14 @@ public class DictionaryManagerControllerTest {
 
 		controller.submitProposal(dto);
 
-		ArgumentCaptor<ProposedConceptResponsePackage> captor = ArgumentCaptor.forClass(ProposedConceptResponsePackage.class);
-		verify(proposedConceptServiceMock).saveProposedConceptResponsePackage(captor.capture());
-		final ProposedConceptResponsePackage value = captor.getValue();
-		final ArrayList<ProposedConceptResponse> proposedConcepts = new ArrayList<ProposedConceptResponse>(value.getProposedConcepts());
-		final ProposedConceptResponse proposedConceptResponse = proposedConcepts.get(0);
-		assertThat(proposedConceptResponse.getDatatype(), is(dataTypeMock));
+		ArgumentCaptor<ProposedConceptReviewPackage> captor = ArgumentCaptor.forClass(ProposedConceptReviewPackage.class);
+		verify(proposedConceptServiceMock).saveProposedConceptReviewPackage(captor.capture());
+		final ProposedConceptReviewPackage value = captor.getValue();
+		final ArrayList<ProposedConceptReview> proposedConcepts = new ArrayList<ProposedConceptReview>(value.getProposedConcepts());
+		final ProposedConceptReview proposedConceptReview = proposedConcepts.get(0);
+		assertThat(proposedConceptReview.getDatatype(), is(dataTypeMock));
 
-		final ProposedConceptResponseNumeric numericDetails = proposedConceptResponse.getNumericDetails();
+		final ProposedConceptReviewNumeric numericDetails = proposedConceptReview.getNumericDetails();
 		assertThat(numericDetails.getUnits(), is("ml"));
 		assertThat(numericDetails.getPrecise(), is(true));
 		assertThat(numericDetails.getHiNormal(), is(100.5));

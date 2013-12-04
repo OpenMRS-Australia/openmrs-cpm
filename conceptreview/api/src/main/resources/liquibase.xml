@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+
+    <changeSet id="conceptreview_2013-12-04" author="OpenMRS-Australia">
+
+        <createTable tableName="cpm_proposed_concept_review_package">
+            <column autoIncrement="true" name="cpm_proposed_concept_review_package_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_proposed_concept_package_uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="creator" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changedBy" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_changed" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_review">
+            <column autoIncrement="true" name="cpm_proposed_concept_review_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="cpm_proposed_concept_review_package_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_proposed_concept_uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concept_id" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="comment" type="varchar(255)"/>
+            <column name="reviewComment" type="varchar(255)"/>
+            <column name="datatype_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concept_class_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpm_proposed_concept_review_numeric_id" type="int"/>
+            <column name="cpm_proposed_concept_review_answer_id" type="int"/>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_review_name">
+            <column autoIncrement="true" name="cpm_review_name_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="proposed_concept_review" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(255)"/>
+            <column name="locale" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_review_description">
+            <column name="proposed_concept_review" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="locale" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_review_numeric">
+            <column autoIncrement="true" name="cpm_proposed_concept_review_numeric_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="hi_absolute" type="double precision"/>
+            <column name="hi_critical" type="double precision"/>
+            <column name="hi_normal" type="double precision"/>
+            <column name="low_absolute" type="double precision"/>
+            <column name="low_critical" type="double precision"/>
+            <column name="low_normal" type="double precision"/>
+            <column name="units" type="varchar(50)"/>
+            <column defaultValueBoolean="false" name="precise" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cpm_proposed_concept_review_answer">
+            <column autoIncrement="true" name="cpm_proposed_concept_review_answer_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="proposed_concept_review" type="int"/>
+
+            <column name="answer_concept_uuid" type="varchar(38)"/>
+            <column name="answer_drug_uuid" type="varchar(38)"/>
+
+            <column name="sort_weight" type="double precision"/>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -2,7 +2,7 @@ package org.openmrs.module.conceptpropose.web.dto;
 
 import java.util.List;
 
-public class ProposedConceptResponsePackageDto {
+public class ProposedConceptReviewPackageDto {
 
 	private int id;
 
@@ -14,7 +14,7 @@ public class ProposedConceptResponsePackageDto {
 
 	private String description;
 
-	private List<ProposedConceptResponseDto> concepts;
+	private List<ProposedConceptReviewDto> concepts;
 
 	public int getId() {
 		return id;
@@ -56,11 +56,11 @@ public class ProposedConceptResponsePackageDto {
 		this.description = description;
 	}
 
-	public List<ProposedConceptResponseDto> getConcepts() {
+	public List<ProposedConceptReviewDto> getConcepts() {
 		return concepts;
 	}
 
-	public void setConcepts(final List<ProposedConceptResponseDto> concepts) {
+	public void setConcepts(final List<ProposedConceptReviewDto> concepts) {
 		this.concepts = concepts;
 	}
 }

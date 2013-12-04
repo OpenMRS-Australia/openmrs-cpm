@@ -6,12 +6,12 @@ import org.openmrs.BaseOpenmrsObject;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cpm_proposed_concept_response_answer")
-public class ProposedConceptResponseAnswer extends BaseOpenmrsObject {
+@Table(name = "cpm_proposed_concept_review_answer")
+public class ProposedConceptReviewAnswer extends BaseOpenmrsObject {
 
 	private Integer conceptAnswerId;
 
-	private ProposedConceptResponse proposedConceptResponse;
+	private ProposedConceptReview proposedConceptReview;
 
 	private String answerConceptUuid;
 
@@ -22,7 +22,7 @@ public class ProposedConceptResponseAnswer extends BaseOpenmrsObject {
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_response_answer_id")
+	@Column(name = "cpm_proposed_concept_review_answer_id")
 	@Override
 	public Integer getId() {
 		return conceptAnswerId;
@@ -34,13 +34,13 @@ public class ProposedConceptResponseAnswer extends BaseOpenmrsObject {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "proposed_concept_response")
-	public ProposedConceptResponse getProposedConceptResponse() {
-		return proposedConceptResponse;
+	@JoinColumn(name = "proposed_concept_review")
+	public ProposedConceptReview getProposedConceptReview() {
+		return proposedConceptReview;
 	}
 
-	public void setProposedConceptResponse(ProposedConceptResponse proposedConceptResponse) {
-		this.proposedConceptResponse = proposedConceptResponse;
+	public void setProposedConceptReview(ProposedConceptReview proposedConceptReview) {
+		this.proposedConceptReview = proposedConceptReview;
 	}
 
 	@Column(name = "answer_concept_uuid")

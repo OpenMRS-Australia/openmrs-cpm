@@ -11,11 +11,12 @@ import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.ProposalStatus;
-import org.openmrs.module.conceptreview.ProposedConceptResponse;
-import org.openmrs.module.conceptreview.ProposedConceptResponsePackage;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptpropose.api.ProposedConceptService;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponsePackageDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
+import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -33,13 +34,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class ReviewControllerTest {
 
 	@Mock
-    ProposedConceptService service;
+	ProposedConceptReviewService service;
 
 	@Mock
-    ProposedConceptResponsePackage proposedConceptResponsePackage;
+	ProposedConceptReviewPackage proposedConceptReviewPackage;
 
 	@Mock
-    ProposedConceptResponse proposedConceptResponse;
+	ProposedConceptReview proposedConceptReview;
 
 	@InjectMocks
 	ReviewController controller = new ReviewController();
@@ -49,55 +50,55 @@ public class ReviewControllerTest {
 		mockStatic(Context.class);
 		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
 
-		when(service.getProposedConceptResponsePackageById(1)).thenReturn(proposedConceptResponsePackage);
-		when(service.getAllProposedConceptResponsePackages()).thenReturn(Lists.newArrayList(proposedConceptResponsePackage));
-		when(proposedConceptResponsePackage.getProposedConcept(1)).thenReturn(proposedConceptResponse);
+		when(service.getProposedConceptReviewPackageById(1)).thenReturn(proposedConceptReviewPackage);
+		when(service.getAllProposedConceptReviewPackages()).thenReturn(Lists.newArrayList(proposedConceptReviewPackage));
+		when(proposedConceptReviewPackage.getProposedConcept(1)).thenReturn(proposedConceptReview);
 	}
 
 	@Test
-	public void updateConceptResponse_shouldPersistReviewComment() {
-		final ProposedConceptResponseDto dto = new ProposedConceptResponseDto();
+	public void updateConceptReview_shouldPersistReviewComment() {
+		final ProposedConceptReviewDto dto = new ProposedConceptReviewDto();
 		dto.setReviewComment("A review comment");
 		dto.setStatus(ProposalStatus.SUBMITTED);
 
-		controller.updateConceptResponse(1, 1, dto);
+		controller.updateConceptReview(1, 1, dto);
 
-		verify(proposedConceptResponse).setReviewComment("A review comment");
-		verify(proposedConceptResponse).setStatus(ProposalStatus.SUBMITTED);
-		verify(proposedConceptResponse, times(0)).setConcept(any(Concept.class));
-		verify(service, times(1)).saveProposedConceptResponsePackage(proposedConceptResponsePackage);
+		verify(proposedConceptReview).setReviewComment("A review comment");
+		verify(proposedConceptReview).setStatus(ProposalStatus.SUBMITTED);
+		verify(proposedConceptReview, times(0)).setConcept(any(Concept.class));
+		verify(service, times(1)).saveProposedConceptReviewPackage(proposedConceptReviewPackage);
 	}
 	
 	@Test
-	public void getProposalResponse_shouldRetrieveProposalResponse() {
+	public void getProposalReview_shouldRetrieveProposalReview() {
 		setupProposalMock();
 		
-		ProposedConceptResponsePackageDto proposalDto = controller.getProposalResponse(1);
+		ProposedConceptReviewPackageDto proposalDto = controller.getProposalReview(1);
 		
 		verifyProposalDto(proposalDto);
 	}
 	
 	@Test
-	public void getProposalResponses_shouldRetrieveProposalResponses() {
+	public void getProposalReviews_shouldRetrieveProposalReviews() {
 		setupProposalMock();
 		
-		ArrayList<ProposedConceptResponsePackageDto> proposals = controller.getProposalResponses();
+		ArrayList<ProposedConceptReviewPackageDto> proposals = controller.getProposalReviews();
 		
 		assertThat(proposals.size(), is(1));
 		verifyProposalDto(proposals.get(0));
 	}
 	
 	private void setupProposalMock() {
-		when(proposedConceptResponsePackage.getId()).thenReturn(1);
-		when(proposedConceptResponsePackage.getName()).thenReturn("test proposal");
-		when(proposedConceptResponsePackage.getEmail()).thenReturn("test@test.com");
-		when(proposedConceptResponsePackage.getDescription()).thenReturn("test proposal description");
+		when(proposedConceptReviewPackage.getId()).thenReturn(1);
+		when(proposedConceptReviewPackage.getName()).thenReturn("test proposal");
+		when(proposedConceptReviewPackage.getEmail()).thenReturn("test@test.com");
+		when(proposedConceptReviewPackage.getDescription()).thenReturn("test proposal description");
 		DateTime dateCreated = new DateTime(new Date()).minusDays(5);
-		when(proposedConceptResponsePackage.getDateCreated()).thenReturn(dateCreated.toDate());
-		when(proposedConceptResponsePackage.getProposedConcepts()).thenReturn(Sets.newHashSet(proposedConceptResponse));
+		when(proposedConceptReviewPackage.getDateCreated()).thenReturn(dateCreated.toDate());
+		when(proposedConceptReviewPackage.getProposedConcepts()).thenReturn(Sets.newHashSet(proposedConceptReview));
 	}
 	
-	private void verifyProposalDto(ProposedConceptResponsePackageDto proposalDto) {
+	private void verifyProposalDto(ProposedConceptReviewPackageDto proposalDto) {
 		assertThat(proposalDto.getId(), is(1));
 		assertThat(proposalDto.getName(), is("test proposal"));
 		assertThat(proposalDto.getEmail(), is("test@test.com"));

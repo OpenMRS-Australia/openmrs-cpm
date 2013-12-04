@@ -15,7 +15,7 @@ import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
 import org.openmrs.module.conceptreview.*;
-import org.openmrs.module.conceptreview.api.ProposedConceptResponseService;
+import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,30 +52,30 @@ public class DictionaryManagerController {
 	SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
         //TODO: method size getting large...
-        final ProposedConceptResponsePackage proposedConceptResponsePackage = new ProposedConceptResponsePackage();
+        final ProposedConceptReviewPackage proposedConceptReviewPackage = new ProposedConceptReviewPackage();
         SubmissionResponseDto responseDto = new SubmissionResponseDto();
 
         try{
-            final ProposedConceptResponseService service = Context.getService(ProposedConceptResponseService.class);
-            proposedConceptResponsePackage.setName(incomingProposal.getName());
-            proposedConceptResponsePackage.setEmail(incomingProposal.getEmail());
-            proposedConceptResponsePackage.setDescription(incomingProposal.getDescription());
-            proposedConceptResponsePackage.setProposedConceptPackageUuid("is-this-really-needed?");
+            final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
+            proposedConceptReviewPackage.setName(incomingProposal.getName());
+            proposedConceptReviewPackage.setEmail(incomingProposal.getEmail());
+            proposedConceptReviewPackage.setDescription(incomingProposal.getDescription());
+            proposedConceptReviewPackage.setProposedConceptPackageUuid("is-this-really-needed?");
 
             if (incomingProposal.getConcepts() == null) {
                 throw new ProposalSubmissionException("Concepts are missing in the submission");
 
             }
             for (ProposedConceptDto concept : incomingProposal.getConcepts()) {
-                ProposedConceptResponse response = new ProposedConceptResponse();
+                ProposedConceptReview response = new ProposedConceptReview();
 
-                List<ProposedConceptResponseName> names = new ArrayList<ProposedConceptResponseName>();
+                List<ProposedConceptReviewName> names = new ArrayList<ProposedConceptReviewName>();
                 if (concept.getNames() == null || concept.getNames().isEmpty()) {
                     throw new ProposalSubmissionException("Missing concept names for conceptId:" + concept.getId());
 
                 }
                 for (NameDto nameDto: concept.getNames()) {
-                    ProposedConceptResponseName name = new ProposedConceptResponseName();
+                    ProposedConceptReviewName name = new ProposedConceptReviewName();
                     name.setName(nameDto.getName());
                     name.setType(nameDto.getType());
                     name.setLocale(new Locale(nameDto.getLocale()));
@@ -83,13 +83,13 @@ public class DictionaryManagerController {
                 }
                 response.setNames(names);
 
-                List<ProposedConceptResponseDescription> descriptions = new ArrayList<ProposedConceptResponseDescription>();
+                List<ProposedConceptReviewDescription> descriptions = new ArrayList<ProposedConceptReviewDescription>();
                 if (concept.getDescriptions() == null || concept.getDescriptions().isEmpty()) {
                     throw new ProposalSubmissionException("Missing concept description for conceptId:" + concept.getId());
 
                 }
                 for (DescriptionDto descriptionDto: concept.getDescriptions()) {
-                    ProposedConceptResponseDescription description = new ProposedConceptResponseDescription();
+                    ProposedConceptReviewDescription description = new ProposedConceptReviewDescription();
                     description.setDescription(descriptionDto.getDescription());
                     description.setLocale(new Locale(descriptionDto.getLocale()));
                     descriptions.add(description);
@@ -108,18 +108,18 @@ public class DictionaryManagerController {
                 if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
 
                     final NumericDto numericDetails = concept.getNumericDetails();
-                    ProposedConceptResponseNumeric proposedConceptResponseNumeric = new ProposedConceptResponseNumeric();
+                    ProposedConceptReviewNumeric proposedConceptReviewNumeric = new ProposedConceptReviewNumeric();
 
-                    proposedConceptResponseNumeric.setUnits(numericDetails.getUnits());
-                    proposedConceptResponseNumeric.setPrecise(numericDetails.getPrecise());
-                    proposedConceptResponseNumeric.setHiNormal(numericDetails.getHiNormal());
-                    proposedConceptResponseNumeric.setHiCritical(numericDetails.getHiCritical());
-                    proposedConceptResponseNumeric.setHiAbsolute(numericDetails.getHiAbsolute());
-                    proposedConceptResponseNumeric.setLowNormal(numericDetails.getLowNormal());
-                    proposedConceptResponseNumeric.setLowCritical(numericDetails.getLowCritical());
-                    proposedConceptResponseNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
+                    proposedConceptReviewNumeric.setUnits(numericDetails.getUnits());
+                    proposedConceptReviewNumeric.setPrecise(numericDetails.getPrecise());
+                    proposedConceptReviewNumeric.setHiNormal(numericDetails.getHiNormal());
+                    proposedConceptReviewNumeric.setHiCritical(numericDetails.getHiCritical());
+                    proposedConceptReviewNumeric.setHiAbsolute(numericDetails.getHiAbsolute());
+                    proposedConceptReviewNumeric.setLowNormal(numericDetails.getLowNormal());
+                    proposedConceptReviewNumeric.setLowCritical(numericDetails.getLowCritical());
+                    proposedConceptReviewNumeric.setLowAbsolute(numericDetails.getLowAbsolute());
 
-                    response.setNumericDetails(proposedConceptResponseNumeric);
+                    response.setNumericDetails(proposedConceptReviewNumeric);
                 }
 
                 final ConceptClass conceptClass = Context.getConceptService().getConceptClassByUuid(concept.getConceptClass());
@@ -128,15 +128,15 @@ public class DictionaryManagerController {
                 }
                 response.setConceptClass(conceptClass);
 
-                proposedConceptResponsePackage.addProposedConcept(response);
+                proposedConceptReviewPackage.addProposedConcept(response);
             }
 
 
-            service.saveProposedConceptResponsePackage(proposedConceptResponsePackage);
+            service.saveProposedConceptReviewPackage(proposedConceptReviewPackage);
             responseDto.setStatus(SubmissionResponseStatus.SUCCESS);
             responseDto.setMessage("All Good!");
-            if (proposedConceptResponsePackage.getId() != null) {
-            	responseDto.setId(proposedConceptResponsePackage.getId());
+            if (proposedConceptReviewPackage.getId() != null) {
+            	responseDto.setId(proposedConceptReviewPackage.getId());
             }
 
         } catch (Exception ex) {
@@ -152,8 +152,8 @@ public class DictionaryManagerController {
     @RequestMapping(value = "/conceptpropose/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
     public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
 
-        final ProposedConceptResponseService service = Context.getService(ProposedConceptResponseService.class);
-        final ProposedConceptResponsePackage aPackage = service.getProposedConceptResponsePackageById(proposalId);
+        final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
+        final ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageById(proposalId);
 
         return new SubmissionStatusDto(aPackage.getStatus());
     }

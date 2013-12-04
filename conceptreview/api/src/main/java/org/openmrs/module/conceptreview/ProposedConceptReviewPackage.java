@@ -29,12 +29,12 @@ import java.util.Set;
  * package and its individual concepts.
  */
 @Entity
-@Table(name = "cpm_proposed_concept_response_package")
-public class ProposedConceptResponsePackage extends ShareablePackage<ProposedConceptResponse> implements Auditable {
+@Table(name = "cpm_proposed_concept_review_package")
+public class ProposedConceptReviewPackage extends ShareablePackage<ProposedConceptReview> implements Auditable {
 
-	private static Log log = LogFactory.getLog(ProposedConceptResponsePackage.class);
+	private static Log log = LogFactory.getLog(ProposedConceptReviewPackage.class);
 
-	private Integer proposedConceptResponsePackageId;
+	private Integer proposedConceptReviewPackageId;
 
 	private String proposedConceptPackageUuid;
 
@@ -48,7 +48,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 
 	private Integer version;
 	
-	public ProposedConceptResponsePackage() {
+	public ProposedConceptReviewPackage() {
 		setStatus(PackageStatus.RECEIVED);
 		dateCreated = new Date();
 		dateChanged = new Date();
@@ -58,15 +58,15 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_response_package_id", nullable = false)
+	@Column(name = "cpm_proposed_concept_review_package_id", nullable = false)
 	@Override
 	public Integer getId() {
-		return proposedConceptResponsePackageId;
+		return proposedConceptReviewPackageId;
 	}
 
 	@Override
 	public void setId(final Integer id) {
-		proposedConceptResponsePackageId = id;
+		proposedConceptReviewPackageId = id;
 	}
 
 	@Column(name = "cpm_proposed_concept_package_uuid")
@@ -139,7 +139,7 @@ public class ProposedConceptResponsePackage extends ShareablePackage<ProposedCon
 
 	@OneToMany(mappedBy = "proposedConceptPackage", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Override
-	public Set<ProposedConceptResponse> getProposedConcepts() {
+	public Set<ProposedConceptReview> getProposedConcepts() {
 		return proposedConcepts;
 	}
 

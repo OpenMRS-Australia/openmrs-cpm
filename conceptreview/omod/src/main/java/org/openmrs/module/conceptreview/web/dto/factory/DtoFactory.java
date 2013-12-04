@@ -2,11 +2,11 @@ package org.openmrs.module.conceptreview.web.dto.factory;
 
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
-import org.openmrs.module.conceptreview.ProposedConceptResponse;
-import org.openmrs.module.conceptreview.ProposedConceptResponseDescription;
-import org.openmrs.module.conceptreview.ProposedConceptResponseName;
-import org.openmrs.module.conceptreview.ProposedConceptResponseNumeric;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
+import org.openmrs.module.conceptreview.ProposedConceptReviewName;
+import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
@@ -16,12 +16,12 @@ import java.util.List;
 
 public class DtoFactory {
 
-	public static ProposedConceptResponseDto createProposedConceptResponseDto(final ProposedConceptResponse conceptProposal) {
-		final ProposedConceptResponseDto conceptProposalDto = new ProposedConceptResponseDto();
+	public static ProposedConceptReviewDto createProposedConceptReviewDto(final ProposedConceptReview conceptProposal) {
+		final ProposedConceptReviewDto conceptProposalDto = new ProposedConceptReviewDto();
 
-		final List<ProposedConceptResponseName> names = conceptProposal.getNames();
+		final List<ProposedConceptReviewName> names = conceptProposal.getNames();
 		if (names != null) {
-			for (ProposedConceptResponseName name : names) {
+			for (ProposedConceptReviewName name : names) {
 				if (name.getType() == ConceptNameType.FULLY_SPECIFIED) {
 					conceptProposalDto.setPreferredName(name.getName());
 					break;
@@ -41,7 +41,7 @@ public class DtoFactory {
 			conceptProposalDto.setDatatype(conceptDatatype.getName());
 
 			if (conceptDatatype.getUuid().equals(ConceptDatatype.NUMERIC_UUID)) {
-				ProposedConceptResponseNumeric conceptNumeric = conceptProposal.getNumericDetails();
+				ProposedConceptReviewNumeric conceptNumeric = conceptProposal.getNumericDetails();
 				NumericDto numericDto = new NumericDto();
 				numericDto.setUnits(conceptNumeric.getUnits());
 				numericDto.setPrecise(conceptNumeric.getPrecise());
@@ -66,11 +66,11 @@ public class DtoFactory {
 		return conceptProposalDto;
 	}
 
-	private static ArrayList<NameDto> getNameDtos(ProposedConceptResponse concept) {
+	private static ArrayList<NameDto> getNameDtos(ProposedConceptReview concept) {
 		ArrayList<NameDto> nameDtos = new ArrayList<NameDto>();
-		final List<ProposedConceptResponseName> names = concept.getNames();
+		final List<ProposedConceptReviewName> names = concept.getNames();
 		if (names != null) {
-			for (ProposedConceptResponseName name: names) {
+			for (ProposedConceptReviewName name: names) {
 				NameDto nameDto = new NameDto();
 				nameDto.setName(name.getName());
 				nameDto.setType(name.getType());
@@ -81,11 +81,11 @@ public class DtoFactory {
 		return nameDtos;
 	}
 
-	private static ArrayList<DescriptionDto> getDescriptionDtos(ProposedConceptResponse concept) {
+	private static ArrayList<DescriptionDto> getDescriptionDtos(ProposedConceptReview concept) {
 		ArrayList<DescriptionDto> descriptionDtos = new ArrayList<DescriptionDto>();
-		final List<ProposedConceptResponseDescription> descriptions = concept.getDescriptions();
+		final List<ProposedConceptReviewDescription> descriptions = concept.getDescriptions();
 		if (descriptions != null) {
-			for (ProposedConceptResponseDescription description: descriptions) {
+			for (ProposedConceptReviewDescription description: descriptions) {
 				DescriptionDto descriptionDto = new DescriptionDto();
 				descriptionDto.setDescription(description.getDescription());
 				descriptionDto.setLocale(description.getLocale().toString());

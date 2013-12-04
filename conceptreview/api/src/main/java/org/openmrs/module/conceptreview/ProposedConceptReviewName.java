@@ -9,18 +9,18 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Entity
-@Table(name = "cpm_proposed_concept_response_name")
-public class ProposedConceptResponseName extends BaseOpenmrsObject implements Serializable {
+@Table(name = "cpm_proposed_concept_review_name")
+public class ProposedConceptReviewName extends BaseOpenmrsObject implements Serializable {
 
   @Id
   @GeneratedValue(generator = "nativeIfNotAssigned")
   @GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-  @Column(name = "cpm_response_name_id")
-  private Integer proposedConceptResponseNameId;
+  @Column(name = "cpm_review_name_id")
+  private Integer proposedConceptReviewNameId;
 
   @ManyToOne
-  @JoinColumn(name = "proposed_concept_response")
-  private ProposedConceptResponse proposedConceptResponse;
+  @JoinColumn(name = "proposed_concept_review")
+  private ProposedConceptReview proposedConceptReview;
 
   private String name;
 
@@ -29,12 +29,12 @@ public class ProposedConceptResponseName extends BaseOpenmrsObject implements Se
 
   private Locale locale;
 
-  public ProposedConceptResponse getProposedConceptResponse() {
-    return proposedConceptResponse;
+  public ProposedConceptReview getProposedConceptReview() {
+    return proposedConceptReview;
   }
 
-  public void setProposedConceptResponse(ProposedConceptResponse proposedConceptResponse) {
-    this.proposedConceptResponse = proposedConceptResponse;
+  public void setProposedConceptReview(ProposedConceptReview proposedConceptReview) {
+    this.proposedConceptReview = proposedConceptReview;
   }
 
   public String getName() {
@@ -63,11 +63,11 @@ public class ProposedConceptResponseName extends BaseOpenmrsObject implements Se
 
   @Override
   public Integer getId() {
-    return proposedConceptResponseNameId;
+    return proposedConceptReviewNameId;
   }
 
   @Override
   public void setId(Integer id) {
-    proposedConceptResponseNameId = id;
+    proposedConceptReviewNameId = id;
   }
 }

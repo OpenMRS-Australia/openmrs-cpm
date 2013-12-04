@@ -20,26 +20,26 @@ import java.util.List;
  * different, the underlying UUID will be used to test for equality.
  */
 @Entity
-@Table(name = "cpm_proposed_concept_response")
-public class ProposedConceptResponse extends ShareableProposal<ProposedConceptResponsePackage> {
+@Table(name = "cpm_proposed_concept_review")
+public class ProposedConceptReview extends ShareableProposal<ProposedConceptReviewPackage> {
 	
 	@Transient
-	private static Log log = LogFactory.getLog(ProposedConceptResponse.class);
+	private static Log log = LogFactory.getLog(ProposedConceptReview.class);
 	
-	private Integer proposedConceptResponseId;
+	private Integer proposedConceptReviewId;
 	private String proposedConceptUuid;
 	private Integer version;
-	private List<ProposedConceptResponseName> names;
-	private List<ProposedConceptResponseDescription> descriptions;
+	private List<ProposedConceptReviewName> names;
+	private List<ProposedConceptReviewDescription> descriptions;
 
 	private ConceptDatatype datatype;
 	private ConceptClass conceptClass;
-	private ProposedConceptResponseNumeric numericDetails;
+	private ProposedConceptReviewNumeric numericDetails;
 
 	private String reviewComment;
-	private List<ProposedConceptResponseAnswer> codedDetails;
+	private List<ProposedConceptReviewAnswer> codedDetails;
 
-	public ProposedConceptResponse() {
+	public ProposedConceptReview() {
 		super();
 		this.version = 0;
 		setStatus(ProposalStatus.RECEIVED);
@@ -48,13 +48,13 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_response_id")
+	@Column(name = "cpm_proposed_concept_review_id")
  	public Integer getId() {
-		return proposedConceptResponseId;
+		return proposedConceptReviewId;
 	}
 	
 	public void setId(final Integer id) {
-		this.proposedConceptResponseId = id;
+		this.proposedConceptReviewId = id;
 	}
 
 	@Column(name = "cpm_proposed_concept_uuid")
@@ -75,36 +75,36 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "cpm_proposed_concept_response_package_id", nullable = false)
+	@JoinColumn(name = "cpm_proposed_concept_review_package_id", nullable = false)
 	@Override
-	public ProposedConceptResponsePackage getProposedConceptPackage() {
+	public ProposedConceptReviewPackage getProposedConceptPackage() {
 		return proposedConceptPackage;
 	}
 
-	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
-	public List<ProposedConceptResponseName> getNames() {
+	@OneToMany(mappedBy = "proposedConceptReview", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptReviewName> getNames() {
 		return names;
 	}
 
-	public void setNames(final List<ProposedConceptResponseName> names) {
+	public void setNames(final List<ProposedConceptReviewName> names) {
 		this.names = names;
 		if (this.names != null) {
-			for (ProposedConceptResponseName name: this.names) {
-				name.setProposedConceptResponse(this);
+			for (ProposedConceptReviewName name: this.names) {
+				name.setProposedConceptReview(this);
 			}
 		}
 	}
 
-	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
-	public List<ProposedConceptResponseDescription> getDescriptions() {
+	@OneToMany(mappedBy = "proposedConceptReview", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptReviewDescription> getDescriptions() {
 		return descriptions;
 	}
 
-	public void setDescriptions(final List<ProposedConceptResponseDescription> descriptions) {
+	public void setDescriptions(final List<ProposedConceptReviewDescription> descriptions) {
 		this.descriptions = descriptions;
 		if (this.descriptions != null) {
-			for (ProposedConceptResponseDescription name: this.descriptions) {
-				name.setProposedConceptResponse(this);
+			for (ProposedConceptReviewDescription name: this.descriptions) {
+				name.setProposedConceptReview(this);
 			}
 		}
 	}
@@ -135,13 +135,13 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 		return conceptClass;
 	}
 
-	public void setNumericDetails(ProposedConceptResponseNumeric numericDetails) {
+	public void setNumericDetails(ProposedConceptReviewNumeric numericDetails) {
 		this.numericDetails = numericDetails;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cpm_proposed_concept_response_numeric_id")
-	public ProposedConceptResponseNumeric getNumericDetails() {
+	@JoinColumn(name = "cpm_proposed_concept_review_numeric_id")
+	public ProposedConceptReviewNumeric getNumericDetails() {
 		return numericDetails;
 	}
 
@@ -153,12 +153,12 @@ public class ProposedConceptResponse extends ShareableProposal<ProposedConceptRe
 		this.reviewComment = reviewComment;
 	}
 
-	public void setCodedDetails(List<ProposedConceptResponseAnswer> codedDetails) {
+	public void setCodedDetails(List<ProposedConceptReviewAnswer> codedDetails) {
 		this.codedDetails = codedDetails;
 	}
 
-	@OneToMany(mappedBy = "proposedConceptResponse", cascade = CascadeType.ALL, orphanRemoval = true)
-	public List<ProposedConceptResponseAnswer> getCodedDetails() {
+	@OneToMany(mappedBy = "proposedConceptReview", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptReviewAnswer> getCodedDetails() {
 		return codedDetails;
 	}
 }

@@ -15,14 +15,14 @@ import org.openmrs.api.ConceptNameType;
 
 import com.google.common.collect.Iterables;
 import org.openmrs.module.conceptpropose.ProposalStatus;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptResponseDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
-import org.openmrs.module.conceptreview.ProposedConceptResponse;
-import org.openmrs.module.conceptreview.ProposedConceptResponseDescription;
-import org.openmrs.module.conceptreview.ProposedConceptResponseName;
-import org.openmrs.module.conceptreview.ProposedConceptResponseNumeric;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
+import org.openmrs.module.conceptreview.ProposedConceptReviewName;
+import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
 import org.openmrs.module.conceptreview.web.dto.factory.DtoFactory;
 
 import static org.hamcrest.Matchers.is;
@@ -34,176 +34,176 @@ import static org.mockito.Mockito.*;
 public class DtoFactoryTest {
 
 	@Mock
-	private ProposedConceptResponse proposedConceptResponse;
+	private ProposedConceptReview proposedConceptReview;
 
 	@Mock
 	private ConceptClass conceptClass;
 	
-	private ArrayList<ProposedConceptResponseName> proposedConceptResponseNames = new ArrayList<ProposedConceptResponseName>();
+	private ArrayList<ProposedConceptReviewName> proposedConceptReviewNames = new ArrayList<ProposedConceptReviewName>();
 	
-	private ArrayList<ProposedConceptResponseDescription> proposedConceptResponseDescriptions = new ArrayList<ProposedConceptResponseDescription>();
+	private ArrayList<ProposedConceptReviewDescription> proposedConceptReviewDescriptions = new ArrayList<ProposedConceptReviewDescription>();
 	
 	@Mock
 	private ConceptDatatype conceptDatatype;
 	
 	@Mock
-	private ProposedConceptResponseNumeric proposedConceptResponseNumeric;
+	private ProposedConceptReviewNumeric proposedConceptReviewNumeric;
 	
 	@Mock
 	private Concept concept;
 
 	@Test
-	public void createProposedConceptResponseDto_basic() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_basic() {
+		setupProposedConceptReview();
 		addConceptName("test name", ConceptNameType.FULLY_SPECIFIED);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, "test name", null, null, 0);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.FULLY_SPECIFIED);
-		verifyConceptDescriptions(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, "test name", null, null, 0);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
+		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
 	
 	@Test
-	public void createProposedConceptResponseDto_withoutPreferredName() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_withoutPreferredName() {
+		setupProposedConceptReview();
 		addConceptName("test name", ConceptNameType.INDEX_TERM);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, null, null, null, 0);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.INDEX_TERM);
-		verifyConceptDescriptions(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, null, null, null, 0);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.INDEX_TERM);
+		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
 	
 	@Test
-	public void createProposedConceptResponseDto_withDataType() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_withDataType() {
+		setupProposedConceptReview();
 		setupConceptDatatype();
 		addConceptName("test name", ConceptNameType.FULLY_SPECIFIED);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, "test name", "test datatype", null, 0);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.FULLY_SPECIFIED);
-		verifyConceptDescriptions(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, "test name", "test datatype", null, 0);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
+		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
 	
 	@Test
-	public void createProposedConceptResponseDto_withNumericDataType() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_withNumericDataType() {
+		setupProposedConceptReview();
 		setupNumericConceptDatatype();
 		addConceptName("test name", ConceptNameType.FULLY_SPECIFIED);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, "test name", "test datatype", null, 0);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.FULLY_SPECIFIED);
-		verifyConceptDescriptions(proposedConceptResponseDto);
-		verifyNumericDetails(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, "test name", "test datatype", null, 0);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
+		verifyConceptDescriptions(proposedConceptReviewDto);
+		verifyNumericDetails(proposedConceptReviewDto);
 	}
 	
 	@Test
-	public void createProposedConceptResponseDto_withConceptClass() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_withConceptClass() {
+		setupProposedConceptReview();
 		setupConceptClass();
 		addConceptName("test name", ConceptNameType.FULLY_SPECIFIED);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, "test name", null, "test concept class", 0);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.FULLY_SPECIFIED);
-		verifyConceptDescriptions(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, "test name", null, "test concept class", 0);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
+		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
 	
-	public void createProposedConceptResponseDto_withConcept() {
-		setupProposedConceptResponse();
+	public void createProposedConceptReviewDto_withConcept() {
+		setupProposedConceptReview();
 		setupConcept();
 		addConceptName("test name", ConceptNameType.FULLY_SPECIFIED);
 		addConceptDescription("test description");
 		
-		ProposedConceptResponseDto proposedConceptResponseDto = DtoFactory.createProposedConceptResponseDto(proposedConceptResponse);
+		ProposedConceptReviewDto proposedConceptReviewDto = DtoFactory.createProposedConceptReviewDto(proposedConceptReview);
 
-		verifyProposedConceptResponseDto(proposedConceptResponseDto, "test name", null, null, 1);
-		verifyConceptName(proposedConceptResponseDto, ConceptNameType.FULLY_SPECIFIED);
-		verifyConceptDescriptions(proposedConceptResponseDto);
+		verifyProposedConceptReviewDto(proposedConceptReviewDto, "test name", null, null, 1);
+		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
+		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
 	
 	
-	private void setupProposedConceptResponse() {		
-		when(proposedConceptResponse.getId()).thenReturn(1);
-		when(proposedConceptResponse.getNames()).thenReturn(proposedConceptResponseNames);
-		when(proposedConceptResponse.getDescriptions()).thenReturn(proposedConceptResponseDescriptions);
+	private void setupProposedConceptReview() {
+		when(proposedConceptReview.getId()).thenReturn(1);
+		when(proposedConceptReview.getNames()).thenReturn(proposedConceptReviewNames);
+		when(proposedConceptReview.getDescriptions()).thenReturn(proposedConceptReviewDescriptions);
 		
-		when(proposedConceptResponse.getStatus()).thenReturn(ProposalStatus.SUBMITTED);
-		when(proposedConceptResponse.getComment()).thenReturn("test comment");
-		when(proposedConceptResponse.getReviewComment()).thenReturn("test review comment");
+		when(proposedConceptReview.getStatus()).thenReturn(ProposalStatus.SUBMITTED);
+		when(proposedConceptReview.getComment()).thenReturn("test comment");
+		when(proposedConceptReview.getReviewComment()).thenReturn("test review comment");
 	}
 	
 	private void setupConceptDatatype() {
 		when(conceptDatatype.getName()).thenReturn("test datatype");
 		when(conceptDatatype.getUuid()).thenReturn("");
-		when(proposedConceptResponse.getDatatype()).thenReturn(conceptDatatype);
+		when(proposedConceptReview.getDatatype()).thenReturn(conceptDatatype);
 	}
 	
 	private void setupNumericConceptDatatype() {
 		setupConceptDatatype();
 		when(conceptDatatype.getUuid()).thenReturn(ConceptDatatype.NUMERIC_UUID);
-		when(proposedConceptResponseNumeric.getUnits()).thenReturn("test units");
-		when(proposedConceptResponseNumeric.getPrecise()).thenReturn(true);
-		when(proposedConceptResponseNumeric.getHiNormal()).thenReturn(10.0);
-		when(proposedConceptResponseNumeric.getHiCritical()).thenReturn(11.0);
-		when(proposedConceptResponseNumeric.getHiAbsolute()).thenReturn(100.0);
-		when(proposedConceptResponseNumeric.getLowNormal()).thenReturn(2.0);
-		when(proposedConceptResponseNumeric.getLowCritical()).thenReturn(1.0);
-		when(proposedConceptResponseNumeric.getLowAbsolute()).thenReturn(0.0);
-		when(proposedConceptResponse.getNumericDetails()).thenReturn(proposedConceptResponseNumeric);
+		when(proposedConceptReviewNumeric.getUnits()).thenReturn("test units");
+		when(proposedConceptReviewNumeric.getPrecise()).thenReturn(true);
+		when(proposedConceptReviewNumeric.getHiNormal()).thenReturn(10.0);
+		when(proposedConceptReviewNumeric.getHiCritical()).thenReturn(11.0);
+		when(proposedConceptReviewNumeric.getHiAbsolute()).thenReturn(100.0);
+		when(proposedConceptReviewNumeric.getLowNormal()).thenReturn(2.0);
+		when(proposedConceptReviewNumeric.getLowCritical()).thenReturn(1.0);
+		when(proposedConceptReviewNumeric.getLowAbsolute()).thenReturn(0.0);
+		when(proposedConceptReview.getNumericDetails()).thenReturn(proposedConceptReviewNumeric);
 	}
 	
 	private void setupConceptClass() {
-		when(proposedConceptResponse.getConceptClass()).thenReturn(conceptClass);
+		when(proposedConceptReview.getConceptClass()).thenReturn(conceptClass);
 		when(conceptClass.getName()).thenReturn("test concept class");
 	}
 	
 	private void setupConcept() {
 		when(concept.getId()).thenReturn(1);
-		when(proposedConceptResponse.getConcept()).thenReturn(concept);
+		when(proposedConceptReview.getConcept()).thenReturn(concept);
 	}
 	
 	private void addConceptName(String name, ConceptNameType type) {
-		ProposedConceptResponseName proposedConceptResponseName = mock(ProposedConceptResponseName.class);
-		when(proposedConceptResponseName.getName()).thenReturn(name);
-		when(proposedConceptResponseName.getType()).thenReturn(type);
-		when(proposedConceptResponseName.getLocale()).thenReturn(Locale.ENGLISH);
-		proposedConceptResponseNames.add(proposedConceptResponseName);
+		ProposedConceptReviewName proposedConceptReviewName = mock(ProposedConceptReviewName.class);
+		when(proposedConceptReviewName.getName()).thenReturn(name);
+		when(proposedConceptReviewName.getType()).thenReturn(type);
+		when(proposedConceptReviewName.getLocale()).thenReturn(Locale.ENGLISH);
+		proposedConceptReviewNames.add(proposedConceptReviewName);
 	}
 	
 	private void addConceptDescription(String description) {
-		ProposedConceptResponseDescription proposedConceptResponseDescription = mock(ProposedConceptResponseDescription.class);
-		when(proposedConceptResponseDescription.getDescription()).thenReturn("test description");
-		when(proposedConceptResponseDescription.getLocale()).thenReturn(Locale.ENGLISH);
-		proposedConceptResponseDescriptions.add(proposedConceptResponseDescription);
+		ProposedConceptReviewDescription proposedConceptReviewDescription = mock(ProposedConceptReviewDescription.class);
+		when(proposedConceptReviewDescription.getDescription()).thenReturn("test description");
+		when(proposedConceptReviewDescription.getLocale()).thenReturn(Locale.ENGLISH);
+		proposedConceptReviewDescriptions.add(proposedConceptReviewDescription);
 	}
 	
-	private void verifyProposedConceptResponseDto(ProposedConceptResponseDto proposedConceptResponseDto, String preferredName, String dataType, String conceptClass, int conceptId) {
-		assertThat(proposedConceptResponseDto.getId(), is(1));
-		assertThat(proposedConceptResponseDto.getPreferredName(), is(preferredName));
-		assertThat(proposedConceptResponseDto.getDatatype(), is(dataType));
+	private void verifyProposedConceptReviewDto(ProposedConceptReviewDto proposedConceptReviewDto, String preferredName, String dataType, String conceptClass, int conceptId) {
+		assertThat(proposedConceptReviewDto.getId(), is(1));
+		assertThat(proposedConceptReviewDto.getPreferredName(), is(preferredName));
+		assertThat(proposedConceptReviewDto.getDatatype(), is(dataType));
 		
-		assertThat(proposedConceptResponseDto.getStatus(), is(ProposalStatus.SUBMITTED));
-		assertThat(proposedConceptResponseDto.getComment(), is("test comment"));
-		assertThat(proposedConceptResponseDto.getReviewComment(), is("test review comment"));
-		assertThat(proposedConceptResponseDto.getConceptClass(), is(conceptClass));
-		assertThat(proposedConceptResponseDto.getConceptId(), is(conceptId));
+		assertThat(proposedConceptReviewDto.getStatus(), is(ProposalStatus.SUBMITTED));
+		assertThat(proposedConceptReviewDto.getComment(), is("test comment"));
+		assertThat(proposedConceptReviewDto.getReviewComment(), is("test review comment"));
+		assertThat(proposedConceptReviewDto.getConceptClass(), is(conceptClass));
+		assertThat(proposedConceptReviewDto.getConceptId(), is(conceptId));
 	}
 	
-	private void verifyConceptName(ProposedConceptResponseDto proposedConceptResponseDto, ConceptNameType nameType) {
-		Collection<NameDto> names = proposedConceptResponseDto.getNames();
+	private void verifyConceptName(ProposedConceptReviewDto proposedConceptReviewDto, ConceptNameType nameType) {
+		Collection<NameDto> names = proposedConceptReviewDto.getNames();
 		assertThat(names.size(), is(1));
 		NameDto name = Iterables.get(names, 0);
 		assertThat(name.getName(), is("test name"));
@@ -211,16 +211,16 @@ public class DtoFactoryTest {
 		assertThat(name.getLocale(), is("en"));
 	}
 	
-	private void verifyConceptDescriptions(ProposedConceptResponseDto proposedConceptResponseDto) {
-		Collection<DescriptionDto> descriptions = proposedConceptResponseDto.getDescriptions();
+	private void verifyConceptDescriptions(ProposedConceptReviewDto proposedConceptReviewDto) {
+		Collection<DescriptionDto> descriptions = proposedConceptReviewDto.getDescriptions();
 		assertThat(descriptions.size(), is(1));
 		DescriptionDto description = Iterables.get(descriptions, 0);
 		assertThat(description.getDescription(), is("test description"));
 		assertThat(description.getLocale(), is("en"));
 	}
 	
-	private void verifyNumericDetails(ProposedConceptResponseDto proposedConceptResponseDto) {
-		NumericDto numericDto = proposedConceptResponseDto.getNumericDetails();
+	private void verifyNumericDetails(ProposedConceptReviewDto proposedConceptReviewDto) {
+		NumericDto numericDto = proposedConceptReviewDto.getNumericDetails();
 		assertThat(numericDto.getUnits(), is("test units"));
 		assertThat(numericDto.getPrecise(), is(true));
 		assertThat(numericDto.getHiNormal(), is(10.0));

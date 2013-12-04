@@ -9,25 +9,25 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Entity
-@Table(name = "cpm_proposed_concept_response_description")
-public class ProposedConceptResponseDescription implements Serializable {
+@Table(name = "cpm_proposed_concept_review_description")
+public class ProposedConceptReviewDescription implements Serializable {
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "proposed_concept_response")
-	private ProposedConceptResponse proposedConceptResponse;
+	@JoinColumn(name = "proposed_concept_review")
+	private ProposedConceptReview proposedConceptReview;
 
 	@Id
 	private String description;
 
 	private Locale locale;
 
-	public ProposedConceptResponse getProposedConceptResponse() {
-		return proposedConceptResponse;
+	public ProposedConceptReview getProposedConceptReview() {
+		return proposedConceptReview;
 	}
 
-	public void setProposedConceptResponse(ProposedConceptResponse proposedConceptResponse) {
-		this.proposedConceptResponse = proposedConceptResponse;
+	public void setProposedConceptReview(ProposedConceptReview proposedConceptReview) {
+		this.proposedConceptReview = proposedConceptReview;
 	}
 
 	public String getDescription() {
