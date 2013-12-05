@@ -16,7 +16,7 @@ define([
             'text': 'Admin'
           },
           {
-            'link': config.contextPath + '/module/cpm/proposalReview.list',
+            'link': config.contextPath + '/module/conceptreview/proposalReview.list',
             'text': 'Incoming Proposals'
           }
         ];

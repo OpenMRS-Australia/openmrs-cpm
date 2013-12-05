@@ -10,7 +10,7 @@ define([
     angular.module('cpmr.services').factory('ProposalReviewConcepts',
       function($resource) {
         return $resource(
-          config.contextPath + '/ws/cpm/proposalReviews/:proposalId/concepts/:conceptId',
+          config.contextPath + '/ws/conceptreview/proposalReviews/:proposalId/concepts/:conceptId',
           {conceptId: '@id'},
           {update: {method: 'PUT'}});
       }
