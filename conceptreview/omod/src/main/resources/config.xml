@@ -46,6 +46,12 @@
         <defaultValue>Admin123</defaultValue>
     </globalProperty>
 
+    <!-- l18n -->
+    <messages>
+        <lang>en</lang>
+        <file>messages.properties</file>
+    </messages>
+
     <!-- Authorization filter for proposal submission web service -->
     <filter>
         <filter-name>cpm-authorisation</filter-name>
