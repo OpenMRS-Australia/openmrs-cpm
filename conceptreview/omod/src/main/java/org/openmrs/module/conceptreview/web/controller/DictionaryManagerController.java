@@ -4,9 +4,8 @@ import org.directwebremoting.util.Logger;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
-import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.conceptpropose.*;
+import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
@@ -14,7 +13,11 @@ import org.openmrs.module.conceptpropose.web.dto.SubmissionStatusDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
-import org.openmrs.module.conceptreview.*;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
+import org.openmrs.module.conceptreview.ProposedConceptReviewName;
+import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
+import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,7 +50,7 @@ public class DictionaryManagerController {
 	// Proposer-Reviewer webservice endpoints
     //
 
-    @RequestMapping(value = "/conceptpropose/dictionarymanager/proposals", method = RequestMethod.POST)
+    @RequestMapping(value = "/conceptreview/dictionarymanager/proposals", method = RequestMethod.POST)
     public @ResponseBody
 	SubmissionResponseDto submitProposal(@RequestBody final SubmissionDto incomingProposal) throws IOException {
 
@@ -149,7 +152,7 @@ public class DictionaryManagerController {
         return responseDto;
     }
 
-    @RequestMapping(value = "/conceptpropose/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/conceptreview/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
     public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
 
         final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);

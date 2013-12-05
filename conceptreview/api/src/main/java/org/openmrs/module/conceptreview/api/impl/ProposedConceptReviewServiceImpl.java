@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("org.openmrs.module.conceptpropose.api.ProposedConceptService")
+@Service("org.openmrs.module.conceptreview.api.ProposedConceptReviewService")
 public class ProposedConceptReviewServiceImpl extends BaseOpenmrsService implements ProposedConceptReviewService {
 	
 	private static final Log log = LogFactory.getLog(ProposedConceptReviewServiceImpl.class);
