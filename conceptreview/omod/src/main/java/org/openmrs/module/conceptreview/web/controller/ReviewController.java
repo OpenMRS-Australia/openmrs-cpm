@@ -28,16 +28,16 @@ public class ReviewController {
 	// Pages
 	//
 
-	@RequestMapping(value = "module/conceptpropose/proposalReview.list", method = RequestMethod.GET)
+	@RequestMapping(value = "module/conceptreview/proposalReview.list", method = RequestMethod.GET)
 	public String listProposalReview() {
-		return "/module/conceptpropose/proposalReview";
+		return "/module/conceptreview/proposalReview";
 	}
 
 	//
 	// REST endpoints
 	//
 
-	@RequestMapping(value = "/conceptpropose/proposalReviews", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptreview/proposalReviews", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getProposalReviews() {
 
 		final List<ProposedConceptReviewPackage> allConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getAllProposedConceptReviewPackages();
@@ -52,19 +52,19 @@ public class ReviewController {
 		return response;
 	}
 
-	@RequestMapping(value = "/conceptpropose/proposalReviews/{proposalId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
 		return createProposedConceptReviewPackageDto(Context.
 				getService(ProposedConceptReviewService.class).
 				getProposedConceptReviewPackageById(proposalId));
 	}
 
-	@RequestMapping(value = "/conceptpropose/proposalReviews/{proposalId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.DELETE)
 	public @ResponseBody void deleteProposalReview(@PathVariable int proposalId) {
 		Context.getService(ProposedConceptReviewService.class).deleteProposedConceptReviewPackageById(proposalId);
 	}
 
-	@RequestMapping(value = "/conceptpropose/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
 	public @ResponseBody
 	ProposedConceptReviewDto getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
 		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
@@ -72,7 +72,7 @@ public class ReviewController {
 		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
 	}
 
-	@RequestMapping(value = "/conceptpropose/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
 	public @ResponseBody
 	ProposedConceptReviewDto updateConceptReview(@PathVariable int proposalId, @PathVariable int conceptId, @RequestBody ProposedConceptReviewDto updatedProposalReview) {
 		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
