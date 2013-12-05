@@ -16,8 +16,6 @@ public interface CpmConstants {
 
     String AUTH_CHAR_SET = CharEncoding.UTF_8;
 
-    String AUTH_HEADER = "Authorization";
-
     String AUTH_TYPE = "Basic";
 
 }
