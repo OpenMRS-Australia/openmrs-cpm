@@ -11,8 +11,8 @@
  
     <changeSet id="conceptpropose_2013-12-04" author="OpenMRS-Australia">
     	
-        <createTable tableName="cpm_proposed_concept_package">
-            <column autoIncrement="true" name="cpm_proposed_concept_package_id" type="int">
+        <createTable tableName="conceptpropose_proposed_concept_package">
+            <column autoIncrement="true" name="conceptpropose_proposed_concept_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
@@ -45,11 +45,11 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept">
-            <column autoIncrement="true" name="cpm_proposed_concept_id" type="int">
+        <createTable tableName="conceptpropose_proposed_concept">
+            <column autoIncrement="true" name="conceptpropose_proposed_concept_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="cpm_proposed_concept_package_id" type="int">
+            <column name="conceptpropose_proposed_concept_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">

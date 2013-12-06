@@ -23,7 +23,7 @@ import org.openmrs.Concept;
  * @see ConceptProposalReview
  */
 @Entity
-@Table(name = "cpm_proposed_concept")
+@Table(name = "conceptpropose_proposed_concept")
 public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	
 	private static Log log = LogFactory.getLog(ProposedConcept.class);
@@ -41,7 +41,7 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_id")
+	@Column(name = "conceptpropose_proposed_concept_id")
 	public Integer getId() {
 		return proposedConceptId;
 	}
@@ -59,7 +59,7 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "cpm_proposed_concept_package_id", nullable = false)
+	@JoinColumn(name = "conceptpropose_proposed_concept_package_id", nullable = false)
 	@Override
 	public ProposedConceptPackage getProposedConceptPackage() {
 		return proposedConceptPackage;

@@ -29,7 +29,7 @@ import java.util.Set;
  * package and its individual concepts.
  */
 @Entity
-@Table(name = "cpm_proposed_concept_review_package")
+@Table(name = "conceptreview_proposed_concept_review_package")
 public class ProposedConceptReviewPackage extends ShareablePackage<ProposedConceptReview> implements Auditable {
 
 	private static Log log = LogFactory.getLog(ProposedConceptReviewPackage.class);
@@ -58,7 +58,7 @@ public class ProposedConceptReviewPackage extends ShareablePackage<ProposedConce
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_review_package_id", nullable = false)
+	@Column(name = "conceptreview_proposed_concept_review_package_id", nullable = false)
 	@Override
 	public Integer getId() {
 		return proposedConceptReviewPackageId;
@@ -69,7 +69,7 @@ public class ProposedConceptReviewPackage extends ShareablePackage<ProposedConce
 		proposedConceptReviewPackageId = id;
 	}
 
-	@Column(name = "cpm_proposed_concept_package_uuid")
+	@Column(name = "conceptreview_proposed_concept_package_uuid")
     public String getProposedConceptPackageUuid() {
     	return proposedConceptPackageUuid;
     }

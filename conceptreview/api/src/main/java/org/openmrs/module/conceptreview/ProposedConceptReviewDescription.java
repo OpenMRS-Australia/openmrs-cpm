@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Entity
-@Table(name = "cpm_proposed_concept_review_description")
+@Table(name = "conceptreview_proposed_concept_review_description")
 public class ProposedConceptReviewDescription implements Serializable {
 
 	@Id

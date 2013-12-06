@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Entity
-@Table(name = "cpm_proposed_concept_review_name")
+@Table(name = "conceptreview_proposed_concept_review_name")
 public class ProposedConceptReviewName extends BaseOpenmrsObject implements Serializable {
 
   @Id
   @GeneratedValue(generator = "nativeIfNotAssigned")
   @GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-  @Column(name = "cpm_review_name_id")
+  @Column(name = "conceptreview_review_name_id")
   private Integer proposedConceptReviewNameId;
 
   @ManyToOne

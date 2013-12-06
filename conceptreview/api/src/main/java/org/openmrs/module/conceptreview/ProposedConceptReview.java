@@ -1,7 +1,5 @@
 package org.openmrs.module.conceptreview;
 
-import javax.persistence.*;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,6 +9,17 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.ShareableProposal;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -20,7 +29,7 @@ import java.util.List;
  * different, the underlying UUID will be used to test for equality.
  */
 @Entity
-@Table(name = "cpm_proposed_concept_review")
+@Table(name = "conceptreview_proposed_concept_review")
 public class ProposedConceptReview extends ShareableProposal<ProposedConceptReviewPackage> {
 	
 	@Transient
@@ -48,7 +57,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_review_id")
+	@Column(name = "conceptreview_proposed_concept_review_id")
  	public Integer getId() {
 		return proposedConceptReviewId;
 	}
@@ -57,7 +66,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 		this.proposedConceptReviewId = id;
 	}
 
-	@Column(name = "cpm_proposed_concept_uuid")
+	@Column(name = "conceptreview_proposed_concept_uuid")
 	public String getProposedConceptUuid() {
 		return proposedConceptUuid;
 	}
@@ -75,7 +84,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "cpm_proposed_concept_review_package_id", nullable = false)
+	@JoinColumn(name = "conceptreview_proposed_concept_review_package_id", nullable = false)
 	@Override
 	public ProposedConceptReviewPackage getProposedConceptPackage() {
 		return proposedConceptPackage;
@@ -140,7 +149,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cpm_proposed_concept_review_numeric_id")
+	@JoinColumn(name = "conceptreview_proposed_concept_review_numeric_id")
 	public ProposedConceptReviewNumeric getNumericDetails() {
 		return numericDetails;
 	}

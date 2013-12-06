@@ -6,7 +6,7 @@ import org.openmrs.BaseOpenmrsObject;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cpm_proposed_concept_review_numeric")
+@Table(name = "conceptreview_proposed_concept_review_numeric")
 public class ProposedConceptReviewNumeric extends BaseOpenmrsObject {
 
 	private Integer id;
@@ -30,7 +30,7 @@ public class ProposedConceptReviewNumeric extends BaseOpenmrsObject {
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "cpm_proposed_concept_review_numeric_id")
+	@Column(name = "conceptreview_proposed_concept_review_numeric_id")
 	@Override
 	public Integer getId() {
 		return id;

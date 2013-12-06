@@ -11,14 +11,14 @@
 
     <changeSet id="conceptreview_2013-12-04" author="OpenMRS-Australia">
 
-        <createTable tableName="cpm_proposed_concept_review_package">
-            <column autoIncrement="true" name="cpm_proposed_concept_review_package_id" type="int">
+        <createTable tableName="conceptreview_proposed_concept_review_package">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_package_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
-            <column name="cpm_proposed_concept_package_uuid" type="varchar(38)">
+            <column name="conceptreview_proposed_concept_package_uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -48,17 +48,17 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept_review">
-            <column autoIncrement="true" name="cpm_proposed_concept_review_id" type="int">
+        <createTable tableName="conceptreview_proposed_concept_review">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="cpm_proposed_concept_review_package_id" type="int">
+            <column name="conceptreview_proposed_concept_review_package_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
-            <column name="cpm_proposed_concept_uuid" type="varchar(38)">
+            <column name="conceptreview_proposed_concept_uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="int">
@@ -78,12 +78,12 @@
             <column name="concept_class_id" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="cpm_proposed_concept_review_numeric_id" type="int"/>
-            <column name="cpm_proposed_concept_review_answer_id" type="int"/>
+            <column name="conceptreview_proposed_concept_review_numeric_id" type="int"/>
+            <column name="conceptreview_proposed_concept_review_answer_id" type="int"/>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept_review_name">
-            <column autoIncrement="true" name="cpm_review_name_id" type="int">
+        <createTable tableName="conceptreview_proposed_concept_review_name">
+            <column autoIncrement="true" name="conceptreview_review_name_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="proposed_concept_review" type="int">
@@ -98,7 +98,7 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept_review_description">
+        <createTable tableName="conceptreview_proposed_concept_review_description">
             <column name="proposed_concept_review" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -110,8 +110,8 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept_review_numeric">
-            <column autoIncrement="true" name="cpm_proposed_concept_review_numeric_id" type="int">
+        <createTable tableName="conceptreview_proposed_concept_review_numeric">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_numeric_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="hi_absolute" type="double precision"/>
@@ -126,8 +126,8 @@
             </column>
         </createTable>
 
-        <createTable tableName="cpm_proposed_concept_review_answer">
-            <column autoIncrement="true" name="cpm_proposed_concept_review_answer_id" type="int">
+        <createTable tableName="conceptreview_proposed_concept_review_answer">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_answer_id" type="int">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="proposed_concept_review" type="int"/>
