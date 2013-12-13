@@ -2,7 +2,7 @@
 
 <module configVersion="1.2">
 
-    <id>cpm</id>
+    <id>conceptpropose</id>
     <name>Concept Proposal Module</name>
     <version>1.0-SNAPSHOT</version>
     <package>org.openmrs.module.conceptpropose</package>
@@ -29,19 +29,19 @@
 
     <!-- Global Properties -->
     <globalProperty>
-        <property>cpm.url</property>
+        <property>conceptpropose.url</property>
         <description>URL for dictionary manager</description>
         <defaultValue>http://localhost:8080/openmrs</defaultValue>
     </globalProperty>
 
     <globalProperty>
-        <property>cpm.username</property>
+        <property>conceptpropose.username</property>
         <description>Username for dictionary manager</description>
         <defaultValue>admin</defaultValue>
     </globalProperty>
 
     <globalProperty>
-        <property>cpm.password</property>
+        <property>conceptpropose.password</property>
         <description>Password for dictionary manager</description>
         <defaultValue>Admin123</defaultValue>
     </globalProperty>
