@@ -5,6 +5,12 @@ subprojects {
     }
 }
 
+dependencies {
+    releaseJars(project(':common')) {
+        transitive = false
+    }
+}
+
 task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
 
     baseName = 'openmrs-module-' + project.name
@@ -16,10 +22,6 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
                 zipTree(it)
             }
 
-    }
-
-    from project(':common').configurations.archives.allArtifacts.files.collect {
-        zipTree(it)
     }
 
     into('web/module') {

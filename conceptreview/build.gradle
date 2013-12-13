@@ -18,10 +18,6 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
 
     }
 
-    from project(':common').configurations.archives.allArtifacts.files.collect {
-        zipTree(it)
-    }
-
     into('web/module') {
         from fileTree(dir: 'omod/src/main/webapp')
     }
