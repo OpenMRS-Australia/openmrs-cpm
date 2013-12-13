@@ -1,7 +1,6 @@
 
 dependencies {
 
-    compile project(':common')
     compile project(':conceptreview:api')
 
     compile 'org.apache.httpcomponents:httpclient:4.2.3'
