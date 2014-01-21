@@ -1,6 +1,6 @@
 define([
     'angular-mocks',
-    'js/directives/cpmrMenu',
+    'js/directives/conceptreviewMenu',
     'js/services/menu'
   ],
 
@@ -8,7 +8,7 @@ define([
   
     'use strict';
 
-    describe('cpmrMenu directive spec', function() {
+    describe('conceptreviewMenu directive spec', function() {
 
       var $scope, $compile;
 
@@ -39,7 +39,7 @@ define([
           }
         ];
 
-        var menu = compileMenu('<cpmr-menu menu=\'menu\'></cpmr-menu>', $scope);
+        var menu = compileMenu('<conceptreview-menu menu=\'menu\'></conceptreview-menu>', $scope);
 
         var activeLink = menu.find('li.active a');
         expect(activeLink.text()).toBe('Menu Item #2');
