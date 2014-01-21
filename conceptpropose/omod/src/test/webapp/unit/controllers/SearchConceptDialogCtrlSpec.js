@@ -11,7 +11,7 @@ define([
 
     var scope, controller, timeout, searchConcept, httpBackend;
 
-    beforeEach(module('cpm.controllers'));
+    beforeEach(module('conceptpropose.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, $timeout, SearchConcept, $httpBackend) {
 

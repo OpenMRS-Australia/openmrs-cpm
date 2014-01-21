@@ -10,7 +10,7 @@ define([
 
     'use strict';
 
-    angular.module('cpm.controllers').controller('ListProposalsCtrl',
+    angular.module('conceptpropose.controllers').controller('ListProposalsCtrl',
 
       function($scope, $location, Proposals, Menu, Alerts) {
 

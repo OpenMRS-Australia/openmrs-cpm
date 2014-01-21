@@ -9,7 +9,7 @@ define(['angular-mocks', 'js/controllers/SettingsCtrl'], function() {
     var menuService;
 
     beforeEach(function () {
-      module('cpm.controllers');
+      module('conceptpropose.controllers');
       inject(function($rootScope, $controller, $httpBackend, Menu) {
         scope = $rootScope.$new();
         controller = $controller;

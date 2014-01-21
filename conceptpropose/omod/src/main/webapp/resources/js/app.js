@@ -12,11 +12,11 @@ define([
 
     'use strict';
 
-    return angular.module('cpm', [
-      'cpm.services',
-      'cpm.controllers',
-      'cpm.filters',
-      'cpm.directives'
+    return angular.module('conceptpropose', [
+      'conceptpropose.services',
+      'conceptpropose.controllers',
+      'conceptpropose.filters',
+      'conceptpropose.directives'
     ]);
   }
 );

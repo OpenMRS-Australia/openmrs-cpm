@@ -3,6 +3,6 @@ define(['angular'],
 
     'use strict';
 
-    return angular.module('cpm.filters', []);
+    return angular.module('conceptpropose.filters', []);
   }
 );

@@ -12,7 +12,7 @@ define([
 
     'use strict';
 
-    angular.module('cpm.controllers').controller('EditProposalCtrl',
+    angular.module('conceptpropose.controllers').controller('EditProposalCtrl',
       function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts) {
 
         $scope.contextPath = config.contextPath;

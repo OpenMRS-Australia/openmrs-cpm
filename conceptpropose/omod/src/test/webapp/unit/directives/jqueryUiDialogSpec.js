@@ -10,7 +10,7 @@ define([
 
             var $scope, element, dialog;
             var title = 'test title';
-            beforeEach(module('cpm.directives'));
+            beforeEach(module('conceptpropose.directives'));
 
             beforeEach(function() {
               inject(function($rootScope, $compile) {
