@@ -1,5 +1,5 @@
 define([
-    'js/cpmr-app',
+    'js/app',
     'config'
   ],
   function (cpmr, config) {

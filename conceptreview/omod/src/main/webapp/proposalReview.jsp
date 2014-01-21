@@ -5,7 +5,7 @@
 
 <link href="${pageContext.request.contextPath}/moduleResources/conceptreview/css/cpm.css" type="text/css" rel="stylesheet">
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/conceptreview/js/cpmr-main" src="${pageContext.request.contextPath}/moduleResources/conceptreview/components/requirejs/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/conceptreview/js/main" src="${pageContext.request.contextPath}/moduleResources/conceptreview/components/requirejs/require.js"></script>
 
 <div id="conceptreview" ng-view>Loading...</div>
 

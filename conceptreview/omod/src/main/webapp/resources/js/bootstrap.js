@@ -1,9 +1,9 @@
 define([
     'require',
     'angular',
-    'js/cpmr-app',
-    'js/cpmr-routes',
-    'js/cpmr-impl'
+    'js/app',
+    'js/routes',
+    'js/impl'
   ],
 
   function (require, angular) {
