@@ -1,7 +1,6 @@
-include 'conceptpropose',
+include 'common',
         'conceptpropose:api',
         'conceptpropose:omod',
-        'conceptreview',
         'conceptreview:api',
         'conceptreview:omod',
         'functional-tests'

@@ -1,4 +1,10 @@
 
+subprojects {
+    dependencies {
+        compile project(':common')
+    }
+}
+
 task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
 
     baseName = 'openmrs-module-' + project.name

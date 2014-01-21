@@ -5,11 +5,11 @@
 	<session-factory>
 		<mapping class="org.openmrs.module.conceptpropose.ProposedConcept" />
 		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptPackage" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponse" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponseName" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponseDescription" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponsePackage" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponseNumeric" />
-		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptResponseAnswer" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReview" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewName" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewDescription" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewPackage" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewNumeric" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewAnswer" />
 	</session-factory>
 </hibernate-configuration>

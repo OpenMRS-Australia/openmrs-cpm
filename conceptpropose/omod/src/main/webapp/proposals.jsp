@@ -5,7 +5,7 @@
 
 <link href="${pageContext.request.contextPath}/moduleResources/conceptpropose/css/cpm.css" type="text/css" rel="stylesheet"/>
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/cpm-main" src="${pageContext.request.contextPath}/moduleResources/cpm/components/requirejs/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/conceptpropose/js/main" src="${pageContext.request.contextPath}/moduleResources/conceptpropose/components/requirejs/require.js"></script>
 
 <div id="cpmapp" ng-view>Loading...</div>
 

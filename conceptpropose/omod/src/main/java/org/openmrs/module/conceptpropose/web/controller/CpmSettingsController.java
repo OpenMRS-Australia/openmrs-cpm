@@ -60,7 +60,7 @@ public class CpmSettingsController {
                 service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY)
         );
 
-		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/cpm/settings";
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptpropose/settings";
 		try {
 			ResponseEntity<Settings> responseEntity = submissionRestTemplate.getForEntity(url, Settings.class, headers);
 			return responseEntity.getStatusCode() != HttpStatus.OK;

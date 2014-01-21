@@ -39,7 +39,7 @@ public class AdminList extends AdministrationSectionExt {
 	 */
 	@Override
 	public String getTitle() {
-		return "cpm.title";
+		return "conceptpropose.title";
 	}
 
 	/**

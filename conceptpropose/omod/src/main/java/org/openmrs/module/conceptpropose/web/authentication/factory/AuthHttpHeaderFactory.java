@@ -17,7 +17,7 @@ public class AuthHttpHeaderFactory {
         byte[] encodedAuth = Base64.encodeBase64(
                 auth.getBytes(Charset.forName(CpmConstants.AUTH_CHAR_SET)));
         final String authHeader = CpmConstants.AUTH_TYPE + " " + new String( encodedAuth );
-        httpHeaders.set(CpmConstants.AUTH_HEADER, authHeader);
+        httpHeaders.set("Authorization", authHeader);
         return httpHeaders;
     }
 

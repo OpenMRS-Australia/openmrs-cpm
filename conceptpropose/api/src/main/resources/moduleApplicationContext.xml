@@ -18,7 +18,7 @@
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<!-- Add here beans related to the API context -->
-	<context:component-scan base-package="org.openmrs.module.cpm" />
+	<context:component-scan base-package="org.openmrs.module.conceptpropose" />
 
 	<bean parent="serviceContext">
 		<property name="moduleService">

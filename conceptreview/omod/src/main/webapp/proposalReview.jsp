@@ -3,16 +3,16 @@
 
 <openmrs:require privilege="View Concepts" otherwise="/login.htm" redirect="/" />
 
-<link href="${pageContext.request.contextPath}/moduleResources/cpm/css/cpm.css" type="text/css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/moduleResources/conceptreview/css/cpm.css" type="text/css" rel="stylesheet">
 
-<script data-main="${pageContext.request.contextPath}/moduleResources/cpm/js/cpmr-main" src="${pageContext.request.contextPath}/moduleResources/cpm/components/requirejs/require.js"></script>
+<script data-main="${pageContext.request.contextPath}/moduleResources/conceptreview/js/cpmr-main" src="${pageContext.request.contextPath}/moduleResources/conceptreview/components/requirejs/require.js"></script>
 
-<div id="cpm-review" ng-view>Loading...</div>
+<div id="conceptreview" ng-view>Loading...</div>
 
 <script>
     define('config', [], function() {
       return {
-        resourceLocation: '${pageContext.request.contextPath}/moduleResources/cpm',
+        resourceLocation: '${pageContext.request.contextPath}/moduleResources/conceptreview',
         contextPath: '${pageContext.request.contextPath}'
       };
     });
