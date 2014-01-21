@@ -8,7 +8,7 @@ define([
 
     'use strict';
 
-    angular.module('cpmr.controllers').controller('ReviewProposalCtrl',
+    angular.module('conceptreview.controllers').controller('ReviewProposalCtrl',
       function($scope, $routeParams, $location, $window, ProposalReviews, Menu) {
 
         var proposalId = $routeParams.proposalId;

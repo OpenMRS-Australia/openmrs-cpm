@@ -9,7 +9,7 @@ define(['angular-mocks', 'js/controllers/ReviewProposalCtrl'], function() {
     var menuService;
 
     beforeEach(function () {
-      module('cpmr.controllers');
+      module('conceptreview.controllers');
       
       inject(function($rootScope, $controller, $httpBackend, Menu) {
         scope = $rootScope.$new();

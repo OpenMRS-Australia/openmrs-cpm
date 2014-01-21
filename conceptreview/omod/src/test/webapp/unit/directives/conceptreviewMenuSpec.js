@@ -12,7 +12,7 @@ define([
 
       var $scope, $compile;
 
-      beforeEach(module('cpmr.directives'));
+      beforeEach(module('conceptreview.directives'));
 
       beforeEach(inject(function(_$rootScope_, _$compile_) {
         $scope = _$rootScope_;

@@ -6,6 +6,6 @@ define([
 
     'use strict';
     
-    return angular.module('cpmr.controllers', ['cpmr.services']);
+    return angular.module('conceptreview.controllers', ['conceptreview.services']);
   }
 );
