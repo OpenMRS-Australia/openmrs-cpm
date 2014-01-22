@@ -9,7 +9,7 @@ define([
 
     var alerts = [];
 
-    angular.module('cpmr.services').service('Alerts',
+    angular.module('conceptreview.services').service('Alerts',
       function() {
         this.queue = function(alert) {
           alerts.push(alert);

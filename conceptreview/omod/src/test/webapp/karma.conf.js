@@ -14,7 +14,7 @@ module.exports = function(config) {
     ],
     exclude: [
       'main/webapp/resources/components/**/*Spec.js',
-      'main/webapp/resources/js/cpmr-main'
+      'main/webapp/resources/js/main'
     ],
     reporters: ['progress'],
     port: 9876,

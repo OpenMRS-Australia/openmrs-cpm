@@ -2,11 +2,11 @@ define([
     'js/app',
     'config'
   ],
-  function (cpm, config) {
+  function (conceptpropse, config) {
 
     'use strict';
 
-    cpm.config(function($routeProvider) {
+    conceptpropse.config(function($routeProvider) {
       $routeProvider.
         when('/', {
           controller: 'ListProposalsCtrl',

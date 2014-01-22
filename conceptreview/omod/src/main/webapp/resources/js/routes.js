@@ -1,12 +1,12 @@
 define([
-    'js/cpmr-app',
+    'js/app',
     'config'
   ],
-  function (cpmr, config) {
+  function (conceptreview, config) {
 
     'use strict';
 
-    cpmr.config(function($routeProvider){
+      conceptreview.config(function($routeProvider){
       $routeProvider.
         when('/', {
           controller: 'ListIncomingProposalsCtrl',

@@ -8,7 +8,7 @@ define([
 
     'use strict';
 
-    angular.module('cpmr.services').service('Menu',
+    angular.module('conceptreview.services').service('Menu',
       function() {
       this.getMenu = function(activeIndex) {
         var menuItems = [{

@@ -7,6 +7,6 @@ define([
 	
     'use strict';
 
-    return angular.module('cpm.services', ['ngResource']);
+    return angular.module('conceptpropose.services', ['ngResource']);
   }
 );

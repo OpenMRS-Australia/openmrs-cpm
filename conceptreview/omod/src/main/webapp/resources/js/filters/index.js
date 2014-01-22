@@ -3,6 +3,6 @@ define(['angular'],
 
     'use strict';
 
-    return angular.module('cpmr.filters', []);
+    return angular.module('conceptreview.filters', []);
   }
 );

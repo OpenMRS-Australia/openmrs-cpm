@@ -15,7 +15,7 @@ define([
     var alertsService;
     var menuService;
 
-    beforeEach(module('cpm.controllers'));
+    beforeEach(module('conceptpropose.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, $httpBackend, Alerts, Menu) {
       scope = $rootScope.$new();

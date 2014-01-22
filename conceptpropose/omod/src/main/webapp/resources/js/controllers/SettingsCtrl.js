@@ -9,7 +9,7 @@ define([
 
     'use strict';
   
-    angular.module('cpm.controllers').controller('SettingsCtrl',
+    angular.module('conceptpropose.controllers').controller('SettingsCtrl',
       function($scope, Settings, Menu) {
 
         $scope.contextPath = config.contextPath;

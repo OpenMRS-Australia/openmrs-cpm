@@ -17,11 +17,11 @@ define([
 
     'use strict';
 
-    return angular.module('cpm-review', [
-      'cpmr.services',
-      'cpmr.controllers',
-      'cpmr.filters',
-      'cpmr.directives'
+    return angular.module('conceptreview', [
+      'conceptreview.services',
+      'conceptreview.controllers',
+      'conceptreview.filters',
+      'conceptreview.directives'
     ]);
   }
 );

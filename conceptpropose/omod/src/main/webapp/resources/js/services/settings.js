@@ -7,7 +7,7 @@ define([
 
     'use strict';
 
-    angular.module('cpm.services').factory('Settings',
+    angular.module('conceptpropose.services').factory('Settings',
       function($resource) {
         return $resource(config.contextPath + '/ws/conceptpropose/settings');
       }

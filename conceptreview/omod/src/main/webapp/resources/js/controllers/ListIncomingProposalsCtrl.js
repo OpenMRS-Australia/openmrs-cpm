@@ -8,7 +8,7 @@ define([
 
     'use strict';
 
-    angular.module('cpmr.controllers')
+    angular.module('conceptreview.controllers')
       .controller('ListIncomingProposalsCtrl',
         function($scope, $location, ProposalReviews, Menu) {
 

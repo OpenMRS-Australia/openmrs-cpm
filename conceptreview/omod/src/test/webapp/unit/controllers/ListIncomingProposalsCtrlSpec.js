@@ -8,7 +8,7 @@ define(['angular-mocks', 'js/controllers/ListIncomingProposalsCtrl'], function()
     var controller;
     var menuService;
 
-    beforeEach(module('cpmr.controllers'));
+    beforeEach(module('conceptreview.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, $httpBackend, Menu) {
       scope = $rootScope.$new();
