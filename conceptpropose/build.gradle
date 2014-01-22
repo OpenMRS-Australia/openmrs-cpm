@@ -1,4 +1,7 @@
 
+group = 'org.openmrs.module.conceptpropose'
+version = '1.0-SNAPSHOT'
+
 subprojects {
     dependencies {
         compile project(':common')

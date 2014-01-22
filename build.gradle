@@ -3,8 +3,6 @@ allprojects {
 
     apply plugin: 'java'
 
-    group = 'org.openmrs.module'
-    version = '1.0-SNAPSHOT'
     ext.openMrsVersion = '1.9.2'
 
     configurations {
