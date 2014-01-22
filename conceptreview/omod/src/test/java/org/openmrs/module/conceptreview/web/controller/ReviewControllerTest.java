@@ -48,7 +48,7 @@ public class ReviewControllerTest {
 	@Before
 	public void before() throws Exception {
 		mockStatic(Context.class);
-		PowerMockito.when(Context.class, "getService", ProposedConceptService.class).thenReturn(service);
+		PowerMockito.when(Context.class, "getService", ProposedConceptReviewService.class).thenReturn(service);
 
 		when(service.getProposedConceptReviewPackageById(1)).thenReturn(proposedConceptReviewPackage);
 		when(service.getAllProposedConceptReviewPackages()).thenReturn(Lists.newArrayList(proposedConceptReviewPackage));
