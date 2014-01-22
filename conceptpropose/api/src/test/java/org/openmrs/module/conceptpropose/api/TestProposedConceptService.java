@@ -8,20 +8,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Concept;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.conceptpropose.*;
+import org.openmrs.module.conceptpropose.PackageStatus;
+import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptpropose.test.CpmBaseContextSensitive;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class TestProposedConceptService extends CpmBaseContextSensitive {
 
@@ -32,8 +27,6 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
 
     protected ProposedConceptService service = null;
     protected ConceptService conceptService = null;
-    protected SimpleDateFormat formatter = new SimpleDateFormat(TEST_DATE_FORMAT);
-    protected SimpleDateFormat comparator = new SimpleDateFormat(TEST_DATE_DISPLAY_FORMAT);
 
     @Before
     public void before() throws Exception {
@@ -112,7 +105,7 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
         ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
         log.info("Retrieved: " + testPackage);
         Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
-        Assert.assertEquals("proposer@cpm.com", testPackage.getEmail());
+        Assert.assertEquals("proposer@conceptpropose.com", testPackage.getEmail());
         Assert.assertEquals("d0dd9f30-15e7-11e2-892e-0800200c9a66", testPackage.getUuid());
         Assert.assertEquals("Description for concept proposal package 1", testPackage.getDescription());
         Assert.assertEquals(1, testPackage.getVersion().intValue());

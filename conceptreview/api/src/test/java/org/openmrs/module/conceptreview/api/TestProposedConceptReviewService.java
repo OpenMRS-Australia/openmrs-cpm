@@ -13,14 +13,12 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.PackageStatus;
-import org.openmrs.module.conceptpropose.ProposedConcept;
-import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewAnswer;
 import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
+import org.openmrs.test.BaseModuleContextSensitiveTest;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,44 +26,26 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TestProposedConceptReviewService extends CpmBaseContextSensitive {
+public class TestProposedConceptReviewService extends BaseModuleContextSensitiveTest {
 
     private static final Log log = LogFactory.getLog(TestProposedConceptReviewService.class);
-    private static final String CPM_CORE_DATASET = "org/openmrs/module/conceptpropose/coreTestData.xml";
-    private static final String TEST_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
-    private static final String TEST_DATE_DISPLAY_FORMAT = "yyyy-MM-dd HH:mm:ss.S z G";
+    private static final String TEST_DATASET = "org/openmrs/module/conceptreview/testData.xml";
 
     protected ProposedConceptReviewService service = null;
     protected ConceptService conceptService = null;
-    protected SimpleDateFormat formatter = new SimpleDateFormat(TEST_DATE_FORMAT);
-    protected SimpleDateFormat comparator = new SimpleDateFormat(TEST_DATE_DISPLAY_FORMAT);
 
     @Before
     public void before() throws Exception {
         service = Context.getService(ProposedConceptReviewService.class);
         conceptService = Context.getConceptService();
         log.info("Loading the core Concept Proposal Module test data set");
-        executeDataSet(CPM_CORE_DATASET);
+        executeDataSet(TEST_DATASET);
         log.info("Loading of the core Concept Proposal Module test data set complete");
     }
 
     @After
     public void after() throws Exception {
         deleteAllData();
-    }
-
-    /**
-     * Creates and returns new mock concept package
-     *
-     * @return new mock concept package
-     */
-    protected ProposedConceptPackage getMockProposedConceptPackage(Integer id, String name) {
-        ProposedConceptPackage conceptPackage = new ProposedConceptPackage();
-        conceptPackage.setId(id);
-        conceptPackage.setName(name);
-        conceptPackage.setDescription("description");
-        conceptPackage.setEmail("test@test.com");
-        return conceptPackage;
     }
 
     /**
@@ -90,21 +70,8 @@ public class TestProposedConceptReviewService extends CpmBaseContextSensitive {
      *
      * @throws Exception
      */
-    protected ProposedConcept getMockProposedConcept(Integer id, String name, String description, Concept concept) {
-        ProposedConcept proposedConcept = new ProposedConcept();
-        proposedConcept.setId(id);
-        proposedConcept.setConcept(concept);
-        return proposedConcept;
-    }
-
-    /**
-     * Creates and returns a new mock concept
-     *
-     * @throws Exception
-     */
-    protected ProposedConceptReview getMockProposedConceptReview(Integer id, ProposedConcept proposedConcept) {
+    protected ProposedConceptReview getMockProposedConceptReview() {
         ProposedConceptReview proposedConceptReview = new ProposedConceptReview();
-        proposedConcept.setId(id);
         return proposedConceptReview;
     }
 
@@ -147,7 +114,7 @@ public class TestProposedConceptReviewService extends CpmBaseContextSensitive {
         ProposedConceptReviewPackage testPackage = service.getProposedConceptReviewPackageById(1);
         log.info("Retrieved: " + testPackage);
         Assert.assertEquals("Concept Proposal Package Review 1", testPackage.getName());
-        Assert.assertEquals("proposer@cpm.com", testPackage.getEmail());
+        Assert.assertEquals("proposer@conceptreview.com", testPackage.getEmail());
         Assert.assertEquals("d0dd9f3c-15e7-11e2-892e-0800200c9a66", testPackage.getUuid());
         Assert.assertEquals("d0dd9f30-15e7-11e2-892e-0800200c9a66", testPackage.getProposedConceptPackageUuid());
         Assert.assertEquals("Description for concept proposal package 1", testPackage.getDescription());
@@ -208,8 +175,8 @@ public class TestProposedConceptReviewService extends CpmBaseContextSensitive {
         Concept testConcept2 = conceptService.getConcept(4);
         log.warn("Concept 1: " + testConcept1);
         log.warn("Concept 2: " + testConcept2);
-        ProposedConceptReview concept1 = getMockProposedConceptReview(null, getMockProposedConcept(null, "concept 1", "concept 1 description", testConcept1));
-        ProposedConceptReview concept2 = getMockProposedConceptReview(null, getMockProposedConcept(null, "concept 2", "concept 2 description", testConcept2));
+        ProposedConceptReview concept1 = getMockProposedConceptReview();
+        ProposedConceptReview concept2 = getMockProposedConceptReview();
         testPackage.addProposedConcept(concept1);
         testPackage.addProposedConcept(concept2);
 
@@ -239,7 +206,7 @@ public class TestProposedConceptReviewService extends CpmBaseContextSensitive {
     public void saveProposedConceptPackageReview_updateAddChild() throws Exception {
         ProposedConceptReviewPackage testPackage = service.getProposedConceptReviewPackageById(1);
         Concept testConcept = conceptService.getConcept(3);
-        ProposedConceptReview concept1 = getMockProposedConceptReview(null, getMockProposedConcept(null, "concept 1", "concept 1 description", testConcept));
+        ProposedConceptReview concept1 = getMockProposedConceptReview();
         log.info("Retrieved: " + testPackage);
         Assert.assertEquals("Concept Proposal Package Review 1", testPackage.getName());
 
