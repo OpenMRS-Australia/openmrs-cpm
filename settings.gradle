@@ -1,2 +1,6 @@
-include 'api', 'omod'
-rootProject.name = 'cpm'
+include 'common',
+        'conceptpropose:api',
+        'conceptpropose:omod',
+        'conceptreview:api',
+        'conceptreview:omod',
+        'functional-tests'

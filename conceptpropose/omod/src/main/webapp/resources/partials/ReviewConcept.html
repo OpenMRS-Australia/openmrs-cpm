@@ -1,0 +1,91 @@
+<cpm-menu menu="menu"></cpm-menu>
+<div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" />Loading...</div>
+<h2>Proposed Concept: {{concept.preferredName}}</h2>
+<p>Comment from proposer: {{concept.comment}}</p>
+
+<b class="boxHeader">Names</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Locale</th>
+            <th>Type</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody ng-show="concept.names.length == 0">
+        <tr>
+            <td colspan="3" align="center"><em>No names given</em></td>
+        </tr>
+    </tbody>
+    <tbody class="results">
+        <tr ng-repeat="name in concept.names">
+            <td>{{name.locale}}</td>
+            <td>{{name.type}}</td>
+            <td>{{name.name}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<b class="boxHeader" style="margin-top: 1em;">Descriptions</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Locale</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody ng-show="concept.descriptions.length == 0">
+        <tr>
+            <td colspan="2" align="center"><em>No descriptions given</em></td>
+        </tr>
+    </tbody>
+    <tbody class="results">
+        <tr ng-repeat="description in concept.descriptions">
+            <td>{{description.locale}}</td>
+            <td>{{description.description}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<b class="boxHeader" style="margin-top: 1em;">Meta-data</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <tr>
+        <td width="200"><strong>Datatype</strong></td>
+        <td>{{concept.datatype}}</td>
+    </tr>
+    <tr>
+        <td><strong>Class</strong></td>
+        <td>{{concept.conceptClass}}</td>
+    </tr>
+    <tbody ng-show="concept.numericDetails != null">
+        <tr>
+            <td valign="top"><strong>Numeric details</strong></td>
+            <td>
+                <table>
+                    <tr><td>Absolute High</td><td>{{concept.numericDetails.absoluteHigh | dashOnNull}}</td></tr>
+                    <tr><td>Critical High</td><td>{{concept.numericDetails.criticalHigh | dashOnNull}}</td></tr>
+                    <tr><td>Normal High</td><td>{{concept.numericDetails.normalHigh | dashOnNull}}</td></tr>
+                    <tr><td>Normal Low</td><td>{{concept.numericDetails.normalLow | dashOnNull}}</td></tr>
+                    <tr><td>Critical Low</td><td>{{concept.numericDetails.criticalLow | dashOnNull}}</td></tr>
+                    <tr><td>Absolute Low</td><td>{{concept.numericDetails.absoluteLow | dashOnNull}}</td></tr>
+                    <tr><td></td><td><em style="font-size: smaller;">(range values are inclusive)</em></td></tr>
+                    <tr><td>Units</td><td>{{concept.numericDetails.units | dashOnNull}}</td></tr>
+                    <tr><td>Precise?</td><td>{{concept.numericDetails.precise | boolToYesOrNo}}</td></tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
+<p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
+<p><button ng-click="saveReviewComment()">Save comments</button></p>
+<p>Record actions:<br/>
+    <button ng-click="conceptCreated()">I created this concept</button>
+    <button ng-click="conceptExists()">This concept already exists</button>
+    <button ng-click="conceptRejected()">Reject this concept</button>
+</p>
+
+<jquery-ui-dialog title="title" dialog-open="isSearchDialogOpen">
+  <search-concept-dialog is-multiple="false" on-accept-fn="acceptConcept"></search-concept-dialog>
+</jquery-ui-dialog>

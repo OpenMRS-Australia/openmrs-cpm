@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <custom-converters>
+            <converter type="org.openmrs.module.cpm.web.converter.ConceptClassConverter">
+                <class-a>java.lang.String</class-a>
+                <class-b>org.openmrs.ConceptClass</class-b>
+            </converter>
+            <converter type="org.openmrs.module.cpm.web.converter.DatatypeConverter">
+                <class-a>java.lang.String</class-a>
+                <class-b>org.openmrs.ConceptDatatype</class-b>
+            </converter>
+            <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
+                <class-a>org.openmrs.Concept</class-a>
+                <class-b>java.lang.Integer</class-b>
+            </converter>
+            <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
+                <class-a>org.openmrs.Concept</class-a>
+                <class-b>java.lang.String</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.web.dto.SubmissionDto</class-a>
+        <class-b>org.openmrs.module.cpm.ProposedConceptReviewPackage</class-b>
+        <field>
+            <a>concepts</a>
+            <b>proposedConcepts</b>
+            <b-hint>org.openmrs.module.cpm.ProposedConceptReview</b-hint>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptReviewPackage</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptReviewPackageDto</class-b>
+        <field>
+            <a>proposedConcepts</a>
+            <b>concepts</b>
+            <a-hint>org.openmrs.module.cpm.ProposedConceptReview</a-hint>
+            <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptReviewDto</b-hint>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptReview</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptReviewDto</class-b>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.cpm.ProposedConceptReview</class-a>
+        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptDto</class-b>
+        <field>
+            <a>proposedConceptUuid</a>
+            <b>uuid</b>
+        </field>
+    </mapping>
+</mappings>

@@ -1,0 +1,82 @@
+.results tr:nth-child(odd) {
+    background-color: #F3F7FB;
+}
+.results tr:hover {
+    background-color: #F0E68C;
+}
+
+.loading {
+  color: #888;
+}
+
+label {
+	cursor: pointer;
+}
+.conceptTable {
+	border: 1px solid #1AAC9B;
+	min-width: 600px;
+}
+.conceptTable thead {
+	background-color: #1AAC9B;
+	color: white;
+	font-weight: bold;
+}
+.required {
+	color: firebrick;
+	font-size: smaller;
+}
+.accesskey {
+	text-decoration: underline;
+}
+input.ng-invalid.ng-dirty {
+	border-color: firebrick;
+	border-style: solid;
+}
+
+#cpm-edit-proposal-form label {
+	display: block;
+}
+
+.name, .email {
+	width: 600px;
+}
+
+.resultsContainer {
+	border: 1px solid #DAE8F8;
+	height: 400px;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	overflow: auto;
+}
+.searchConceptResults th {
+ 	border-bottom: 1px solid lightgrey;
+	text-align: left;
+}
+.conceptList tr {
+ 	cursor: pointer;
+}
+.dialogFooter {
+ 	text-align: right;
+}
+.dialogFooter button {
+ 	width: 100px;
+}
+.loading {
+ 	color: #888;
+ 	margin-left: 1em;
+}
+
+div.loading { 
+ 	margin-left: -50px;
+ 	position: absolute; 
+ 	left: 50%; 
+	width: 100px; 
+}
+
+.loading img {
+	vertical-align: middle;
+}
+
+#cpm-settings #url { width: 350px; }
+
+#menu li { padding-right: 5px; }

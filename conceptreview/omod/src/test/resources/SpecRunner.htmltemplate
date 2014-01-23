@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=$sourceEncoding$">
+  <title>Jasmine Spec Runner</title>
+  $cssDependencies$
+  $javascriptDependencies$
+  $preloadScriptTags$
+</head>
+<body>
+  <script>
+
+    'use strict';
+
+    if (window.location.href.indexOf("ManualSpecRunner.html") !== -1) {
+      document.body.appendChild(document.createTextNode("Warning: opening this HTML file directly from the file system is deprecated. You should instead try running `mvn jasmine:bdd` from the command line, and then visit `http://localhost:8234` in your browser."));
+    }
+
+    var specs = $specsList$;
+
+    define('config', [], function() {
+      return {
+        resourceLocation: '$sourceDir$',
+        contextPath: '/openmrs'
+      };
+    });
+
+    require([
+        '../../../src/main/webapp/resources/js/requireJS-config'
+      ],
+      function() {
+
+        require.config({
+          paths: {
+            'angular-mocks': 'components/angular-mocks/angular-mocks'
+          },
+          shim: {
+            'angular-mocks': ['angular']
+          }
+          $if(customRunnerConfiguration)$
+            , $customRunnerConfiguration$
+          $endif$
+        });
+
+        require(
+          specs, 
+          function() {
+
+            window.reporter = new jasmine.$reporter$(); 
+            jasmine.getEnv().addReporter(reporter);
+
+            if ('$reporter$' == 'HtmlReporter') {
+              jasmine.getEnv().specFilter = function(spec) {
+                return window.reporter.specFilter(spec);
+              };
+            }
+            
+            //Don't do live updates when running through HTMLUnit
+            if ('$reporter$' == 'JsApiReporter'){
+              jasmine.getEnv().updateInterval = Number.MAX_VALUE;
+            }
+            
+            jasmine.getEnv().execute();
+          }
+        );
+      }
+    );
+  </script>
+</body>
+</html>
