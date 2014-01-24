@@ -188,10 +188,6 @@ public class ProposalControllerTest {
 		Context.getService(ProposedConceptService.class);
 
 		verify(service.getProposedConceptPackageById(proposedConceptPackageId));
-
-		ProposedConceptPackageDto packageDto = controller.getProposalById("1");
-
-		verifyProposalDto(packageDto);
 	}
 	
 	@Test
