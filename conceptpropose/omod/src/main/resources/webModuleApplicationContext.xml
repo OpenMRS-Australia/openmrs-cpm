@@ -38,18 +38,15 @@
         <property name="order" value="1"/>
     </bean>
 
-
     <bean class="org.dozer.spring.DozerBeanMapperFactoryBean">
         <property name="mappingFiles"
                   value="classpath*:/dozer-mappings.xml"/>
         <property name="customConverters">
             <list>
-                <bean class="org.openmrs.module.cpm.web.converter.ConceptClassConverter"/>
-                <bean class="org.openmrs.module.cpm.web.converter.DatatypeConverter"/>
-                <bean class="org.openmrs.module.cpm.web.converter.ConceptConverter"/>
+                <bean class="org.openmrs.module.conceptpropose.web.converter.ConceptClassConverter"/>
+                <bean class="org.openmrs.module.conceptpropose.web.converter.DatatypeConverter"/>
+                <bean class="org.openmrs.module.conceptpropose.web.converter.ConceptConverter"/>
             </list>
         </property>
-
     </bean>
-
 </beans>
