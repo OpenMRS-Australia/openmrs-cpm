@@ -47,6 +47,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @PrepareForTest({Context.class, LocaleUtility.class, ProposalController.class})
 public class ProposalControllerTest {
 
+	@Mock
 	private ProposedConceptService service;
 
     @Mock
