@@ -5,46 +5,46 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
     <configuration>
         <custom-converters>
-            <converter type="org.openmrs.module.cpm.web.converter.ConceptClassConverter">
+            <converter type="org.openmrs.module.conceptpropose.web.converter.ConceptClassConverter">
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptClass</class-b>
             </converter>
-            <converter type="org.openmrs.module.cpm.web.converter.DatatypeConverter">
+            <converter type="org.openmrs.module.conceptpropose.web.converter.DatatypeConverter">
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptDatatype</class-b>
             </converter>
-            <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
+            <converter type="org.openmrs.module.conceptpropose.web.converter.ConceptConverter">
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.Integer</class-b>
             </converter>
-            <converter type="org.openmrs.module.cpm.web.converter.ConceptConverter">
+            <converter type="org.openmrs.module.conceptpropose.web.converter.ConceptConverter">
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.String</class-b>
             </converter>
         </custom-converters>
     </configuration>
     <mapping>
-        <class-a>org.openmrs.module.cpm.ProposedConceptPackage</class-a>
-        <class-b>org.openmrs.module.cpm.web.dto.SubmissionDto</class-b>
+        <class-a>org.openmrs.module.conceptpropose.ProposedConceptPackage</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.SubmissionDto</class-b>
         <field map-id="forSubmission">
             <a>proposedConcepts</a>
             <b>concepts</b>
-            <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptDto</b-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</b-hint>
         </field>
     </mapping>
     <mapping>
-        <class-a>org.openmrs.module.cpm.ProposedConceptPackage</class-a>
-        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptPackageDto</class-b>
+        <class-a>org.openmrs.module.conceptpropose.ProposedConceptPackage</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto</class-b>
         <field>
             <a>proposedConcepts</a>
             <b>concepts</b>
-            <a-hint>org.openmrs.module.cpm.ProposedConcept</a-hint>
-            <b-hint>org.openmrs.module.cpm.web.dto.ProposedConceptDto</b-hint>
+            <a-hint>org.openmrs.module.conceptpropose.ProposedConcept</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</b-hint>
         </field>
     </mapping>
     <mapping>
-        <class-a>org.openmrs.module.cpm.ProposedConcept</class-a>
-        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptDto</class-b>
+        <class-a>org.openmrs.module.conceptpropose.ProposedConcept</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
         <field>
             <a>concept</a>
             <b>id</b>
@@ -61,18 +61,18 @@
             <a>concept.names</a>
             <b>names</b>
             <a-hint>org.openmrs.ConceptName</a-hint>
-            <b-hint>org.openmrs.module.cpm.web.dto.concept.NameDto</b-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</b-hint>
         </field>
         <field>
             <a>concept.descriptions</a>
             <b>descriptions</b>
             <a-hint>org.openmrs.ConceptDescription</a-hint>
-            <b-hint>org.openmrs.module.cpm.web.dto.concept.DescriptionDto</b-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto</b-hint>
         </field>
     </mapping>
     <mapping map-id="forSubmission">
-        <class-a>org.openmrs.module.cpm.ProposedConcept</class-a>
-        <class-b>org.openmrs.module.cpm.web.dto.ProposedConceptDto</class-b>
+        <class-a>org.openmrs.module.conceptpropose.ProposedConcept</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
         <field>
             <a>concept</a>
             <b>id</b>
@@ -93,18 +93,18 @@
             <a>concept.names</a>
             <b>names</b>
             <a-hint>org.openmrs.ConceptName</a-hint>
-            <b-hint>org.openmrs.module.cpm.web.dto.concept.NameDto</b-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</b-hint>
         </field>
         <field>
             <a>concept.descriptions</a>
             <b>descriptions</b>
             <a-hint>org.openmrs.ConceptDescription</a-hint>
-            <b-hint>org.openmrs.module.cpm.web.dto.concept.DescriptionDto</b-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto</b-hint>
         </field>
     </mapping>
     <mapping>
         <class-a>org.openmrs.ConceptName</class-a>
-        <class-b>org.openmrs.module.cpm.web.dto.concept.NameDto</class-b>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</class-b>
         <field>
             <a>conceptNameType</a>
             <b>type</b>
