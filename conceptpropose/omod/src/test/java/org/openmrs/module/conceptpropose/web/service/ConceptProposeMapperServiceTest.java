@@ -1,16 +1,11 @@
 package org.openmrs.module.conceptpropose.web.service;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.dozer.DozerBeanMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.openmrs.Concept;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptDescription;
-import org.openmrs.ConceptName;
+import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -19,7 +14,6 @@ import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.ProposedConcept;
 import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptpropose.api.ProposedConceptService;
-import org.openmrs.module.conceptpropose.web.controller.ProposalController;
 import org.openmrs.module.conceptpropose.web.controller.SubmitProposal;
 import org.openmrs.module.conceptpropose.web.controller.UpdateProposedConceptPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
@@ -32,26 +26,18 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Context.class, LocaleUtility.class, ProposalController.class})
+@PrepareForTest({Context.class, LocaleUtility.class})
 public class ConceptProposeMapperServiceTest {
 
 	@Mock
