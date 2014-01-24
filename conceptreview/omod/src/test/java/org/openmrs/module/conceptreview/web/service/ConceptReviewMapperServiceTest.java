@@ -4,6 +4,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.dozer.DozerBeanMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
@@ -18,6 +19,8 @@ import org.openmrs.module.conceptreview.*;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +37,8 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Context.class, LocaleUtility.class})
 public class ConceptReviewMapperServiceTest {
 
 	@Mock
