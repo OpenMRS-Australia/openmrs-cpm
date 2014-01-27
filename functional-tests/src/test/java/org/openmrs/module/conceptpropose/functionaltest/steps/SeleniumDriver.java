@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.functionaltest.steps;
+package org.openmrs.module.conceptpropose.functionaltest.steps;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
