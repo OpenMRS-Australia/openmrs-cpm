@@ -49,8 +49,8 @@ allprojects {
     }
 }
 
-defaultTasks 'conceptpropose:createOmod', 'conceptreview:createOmod'
+defaultTasks 'conceptpropose:createOmod', 'conceptreview:createOmod', 'functional-tests:test'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.7'
+    gradleVersion = '1.10'
 }
