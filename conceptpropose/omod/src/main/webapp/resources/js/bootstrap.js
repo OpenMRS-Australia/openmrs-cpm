@@ -16,7 +16,7 @@ define([
     require(
       ['domReady!'],
       function (document) {
-        return angular.bootstrap(document, ['cpm']);
+        return angular.bootstrap(document, ['conceptpropose']);
       }
     );
   }
