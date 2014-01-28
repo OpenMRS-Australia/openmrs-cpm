@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.pagemodel;
+package org.openmrs.module.conceptpropose.pagemodel;
 
 import org.openqa.selenium.WebDriver;
 
