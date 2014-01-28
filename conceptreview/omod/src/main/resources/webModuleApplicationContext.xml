@@ -29,7 +29,7 @@
         <property name="order" value="1"/>
     </bean>
 
-    <bean class="org.dozer.spring.DozerBeanMapperFactoryBean">
+    <bean id="conceptreviewmapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
         <property name="mappingFiles"
                   value="classpath*:/dozer-mappings.xml"/>
         <property name="customConverters">
