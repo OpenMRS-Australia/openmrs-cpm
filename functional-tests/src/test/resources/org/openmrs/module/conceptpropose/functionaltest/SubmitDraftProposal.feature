@@ -5,7 +5,7 @@ Feature: Submit Draft Proposal
 
   @Selenium
   Scenario: Submit Draft Proposal
-    Given I have a saved draft proposal
-    When I submit the proposal
-    Then the proposal is sent to the dictionary manager
+#    Given I have a saved draft proposal
+#    When I submit the proposal
+#    Then the proposal is sent to the dictionary manager
 
