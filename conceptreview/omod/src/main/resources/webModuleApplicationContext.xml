@@ -22,14 +22,14 @@
 
     <!-- MVC configuration -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-    <context:component-scan base-package="org.openmrs.module.conceptpropose.web.controller" />
+    <context:component-scan base-package="org.openmrs.module.conceptreview.web.controller" />
 
     <!-- Needed to ensure @ExceptionHandlers are setup -->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
         <property name="order" value="1"/>
     </bean>
 
-    <bean class="org.dozer.spring.DozerBeanMapperFactoryBean">
+    <bean id="conceptreviewmapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
         <property name="mappingFiles"
                   value="classpath*:/dozer-mappings.xml"/>
         <property name="customConverters">

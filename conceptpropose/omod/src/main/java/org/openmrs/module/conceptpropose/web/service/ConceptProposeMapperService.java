@@ -5,6 +5,7 @@ import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +14,7 @@ public class ConceptProposeMapperService {
 	private Mapper dozerBeanMapper;
 
 	@Autowired
-	public ConceptProposeMapperService(Mapper dozerBeanMapper) {
+	public ConceptProposeMapperService(@Qualifier("conceptproposemapper") Mapper dozerBeanMapper) {
 		this.dozerBeanMapper = dozerBeanMapper;
 	}
 

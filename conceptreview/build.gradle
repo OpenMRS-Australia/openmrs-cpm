@@ -25,10 +25,6 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
         from fileTree(dir: 'omod/src/main/webapp')
     }
 
-    into('lib') {
-        from configurations.releaseJars
-    }
-
     metaInf {
         into('maven/org.openmrs.module/' + project.name + '-omod')
         def pomProperties = new File(getTemporaryDir(), 'pom.properties')
