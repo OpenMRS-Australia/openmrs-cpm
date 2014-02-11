@@ -21,7 +21,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
         });
 
         List <WebElement> resultRowsElement = driver.findElements(By.className("ng-scope"));
-        WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-2);
+        WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-1);
         return lastRowOfResults.findElements(By.className("ng-binding")).get(0).getText();
     }
     public String getLastProposalDescription(){
@@ -32,7 +32,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
         });
 
         List <WebElement> resultRowsElement = driver.findElements(By.className("ng-scope"));
-        WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-2);
+        WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-1);
         return lastRowOfResults.findElements(By.className("ng-binding")).get(1).getText();
     }
 }
