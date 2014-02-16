@@ -2,9 +2,8 @@
 allprojects {
 
     apply plugin: 'java'
-
-    group = 'org.openmrs.module'
-    version = '1.0-SNAPSHOT'
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
     ext.openMrsVersion = '1.9.2'
 
     configurations {
@@ -24,6 +23,9 @@ allprojects {
     }
 
     dependencies {
+
+        compile 'net.sf.dozer:dozer:5.4.0'
+
         compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
         compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
 
@@ -31,8 +33,8 @@ allprojects {
         testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
         testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
 
-        testCompile 'junit:junit:4.10'
-        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.4.12"
+        testCompile 'junit:junit:4.11'
+        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.5.1"
 
         releaseJars 'org.apache.httpcomponents:httpclient:4.2.3'
         releaseJars 'com.google.guava:guava:13.0.1'
@@ -40,44 +42,15 @@ allprojects {
         releaseJars 'net.sf.dozer:dozer:5.4.0'
 
     }
-}
 
-task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
-
-    baseName = 'openmrs-cpm'
-    extension = 'omod'
-
-    subprojects.each {
-        subproject ->
-            from subproject.configurations.archives.allArtifacts.files.collect {
-                zipTree(it)
-            }
-
-    }
-
-    into('web/module') {
-        from fileTree(dir: 'omod/src/main/webapp')
-    }
-
-    into('lib') {
-        from configurations.releaseJars
-    }
-
-    metaInf {
-        into('maven/org.openmrs.module/cpm-omod')
-        def pomProperties = new File(getTemporaryDir(), 'pom.properties')
-        pomProperties.write "version=${project.version}\n"
-        pomProperties << "groupId=${project.group}\n"
-        pomProperties << "artifactId=${project.name}\n"
-        from pomProperties
+    // required for testing on Java 7
+    // source: http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm.
+    test {
+        jvmArgs '-XX:-UseSplitVerifier'
     }
 }
 
-artifacts {
-    archives createOmod
-}
-
-defaultTasks 'createOmod'
+defaultTasks 'conceptpropose:createOmod', 'conceptreview:createOmod'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.7'

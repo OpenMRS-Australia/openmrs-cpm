@@ -1,0 +1,70 @@
+<html>
+<head>
+
+  <link rel="shortcut icon" type="image/png" href="../../main/webapp/resources/components/jasmine/images/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine.css">
+  <script type="text/javascript" src="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine.js"></script>
+  <script type="text/javascript" src="../../main/webapp/resources/components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+
+  <script src="../../main/webapp/resources/components/requirejs/require.js"></script>
+
+  <script>
+
+    'use strict';
+
+    define('config', [], function() {
+      return {
+        // in production would be '/openmrs/moduleResources/cpm'
+        resourceLocation: '../../main/webapp/resources',
+        contextPath: '/openmrs'
+      };
+    });
+
+    require([
+        '../../main/webapp/resources/js/requireJS-config'
+      ],
+      
+      function() {
+
+        requirejs.config({
+          paths: {
+            'unit': '../../../test/webapp/unit',
+            'angular-mocks': 'components/angular-mocks/angular-mocks'
+          },
+          shim: {
+            'angular-mocks': ['angular']
+          }
+        });
+
+        require([
+            'domReady!',
+            'unit/filters/proposalStatusSpec',
+            'unit/controllers/ReviewConceptCtrlSpec',
+            'unit/controllers/ReviewProposalCtrlSpec'
+          ],
+          function(document) {
+
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
+
+            var htmlReporter = new jasmine.HtmlReporter();
+
+            jasmineEnv.addReporter(htmlReporter);
+
+            jasmineEnv.specFilter = function(spec) {
+              return htmlReporter.specFilter(spec);
+            };
+
+            jasmineEnv.execute();
+          }
+        );
+      }
+    );
+
+    
+  </script>
+</head>
+<body>
+
+</body>
+</html>

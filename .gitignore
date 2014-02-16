@@ -14,6 +14,11 @@
 # Maven build directories
 target
 
+#Gradle build directories
+.gradle
+build
+out
+
 # IntelliJ project files
 .idea
 *.iml
@@ -30,7 +35,7 @@ openmrs-standalone-*
 # Netbeans
 nbproject
 
-node_modules/*
+node_modules
 
 # Bower components (partial list - all "components" should eventually
 # be excluded, pending better build tools)
