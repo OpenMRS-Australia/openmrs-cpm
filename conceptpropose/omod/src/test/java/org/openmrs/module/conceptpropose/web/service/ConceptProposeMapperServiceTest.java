@@ -75,7 +75,7 @@ public class ConceptProposeMapperServiceTest {
 		DozerBeanMapper mapper = new DozerBeanMapper();
 		mapperService = new ConceptProposeMapperService(mapper);
 		List<String> files = new ArrayList<String>();
-		files.add("dozer-mappings.xml");
+		files.add("conceptpropose-dozer-mappings.xml");
 		mapper.setMappingFiles(files);
 
 		mockStatic(Context.class);
