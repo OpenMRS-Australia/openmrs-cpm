@@ -70,7 +70,7 @@ public class ConceptReviewMapperServiceTest {
 		DozerBeanMapper mapper = new DozerBeanMapper();
 		mapperService = new ConceptReviewMapperService(mapper);
 		List<String> files = new ArrayList<String>();
-		files.add("dozer-mappings.xml");
+		files.add("conceptreview-dozer-mappings.xml");
 		mapper.setMappingFiles(files);
 
 		mockStatic(Context.class);
