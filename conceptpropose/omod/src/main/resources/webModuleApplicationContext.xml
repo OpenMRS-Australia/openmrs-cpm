@@ -40,7 +40,7 @@
 
     <bean id="conceptproposemapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
         <property name="mappingFiles"
-                  value="classpath*:/dozer-mappings.xml"/>
+                  value="classpath*:/conceptpropose-dozer-mappings.xml"/>
         <property name="customConverters">
             <list>
                 <bean class="org.openmrs.module.conceptpropose.web.converter.ConceptClassConverter"/>
