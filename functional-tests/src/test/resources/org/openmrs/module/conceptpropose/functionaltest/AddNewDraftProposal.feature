@@ -1,4 +1,4 @@
-Feature: Save Draft Proposal
+Feature: Add New Draft Proposal
   As an administrator
   I want to save a draft proposal
   So that I can review and edit it

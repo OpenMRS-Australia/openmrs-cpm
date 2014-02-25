@@ -38,7 +38,7 @@ public class CpmSettingsController {
         settings.setUrl(service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY));
         settings.setUsername(service.getGlobalProperty(CpmConstants.SETTINGS_USER_NAME_PROPERTY));
         settings.setPassword(service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
-        settings.setUrlInvalid(checkSettingsUrlInvalid());
+        //settings.setUrlInvalid(checkSettingsUrlInvalid()); // will hang UI and fail functional test if url is invalid
         return settings;
     }
 
@@ -51,7 +51,7 @@ public class CpmSettingsController {
         settings.setUrlInvalid(checkSettingsUrlInvalid());
         return settings;
     }
-    
+
     private boolean checkSettingsUrlInvalid() {
     	AdministrationService service = Context.getAdministrationService();
 
