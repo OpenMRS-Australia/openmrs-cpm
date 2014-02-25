@@ -32,7 +32,7 @@ public class SettingsStepDefs {
 
     @When("^I enter the settings for a dictionary$")
     public void i_enter_the_settings_for_a_dictionary() {
-    	page.enterSettings("http://localhost:8080/some-openmrs-context", "someusername", "somepassword");
+    	page.enterSettings("http://192.168.33.10:8080/openmrs", "admin", "Admin123");
     }
     
     @When("^I refresh the page$")
@@ -45,9 +45,9 @@ public class SettingsStepDefs {
         // weird error
         // java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V
         //     at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:18)
-        assertThat(page.getUrl(), equalTo("http://localhost:8080/some-openmrs-context"));
-		assertThat(page.getUsername(), equalTo("someusername"));
-		assertThat(page.getPassword(), equalTo("somepassword"));
+        assertThat(page.getUrl(), equalTo("http://192.168.33.10:8080/openmrs"));
+		assertThat(page.getUsername(), equalTo("admin"));
+		assertThat(page.getPassword(), equalTo("Admin123"));
     }
     
     

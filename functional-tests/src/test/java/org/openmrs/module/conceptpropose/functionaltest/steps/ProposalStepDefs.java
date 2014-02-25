@@ -38,8 +38,7 @@ public class ProposalStepDefs {
 
     @Then("^the proposal is sent to the dictionary manager$")
     public void check_the_dictionary_manager() throws InterruptedException{
-        // TODO: how to check if proposal sent? Currently fails to submit so can't do checking
-        assertThat(true, equalTo(false));
+        assertThat(monitorProposalsPage.getLastProposalStatus(), equalTo("Submitted"));
     }
 
     @When("^I change the details and save$")
