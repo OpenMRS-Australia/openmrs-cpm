@@ -1,12 +1,12 @@
-package org.openmrs.module.cpm.functionaltest.steps;
+package org.openmrs.module.conceptpropose.functionaltest.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openmrs.module.cpm.pagemodel.AdminPage;
-import org.openmrs.module.cpm.pagemodel.CreateProposalPage;
-import org.openmrs.module.cpm.pagemodel.MonitorProposalsPage;
-import org.openmrs.module.cpm.pagemodel.SettingsPage;
+import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
+import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
+import org.openmrs.module.conceptpropose.pagemodel.MonitorProposalsPage;
+import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.IOException;

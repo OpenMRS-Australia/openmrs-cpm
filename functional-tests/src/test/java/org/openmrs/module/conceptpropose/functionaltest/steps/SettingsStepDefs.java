@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.functionaltest.steps;
+package org.openmrs.module.conceptpropose.functionaltest.steps;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -9,8 +9,8 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.cpm.pagemodel.AdminPage;
-import org.openmrs.module.cpm.pagemodel.SettingsPage;
+import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
+import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import cucumber.api.java.After;

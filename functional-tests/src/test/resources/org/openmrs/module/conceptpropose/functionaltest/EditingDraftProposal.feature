@@ -6,5 +6,5 @@ Feature: Edit Draft Proposal
   @Selenium
   Scenario: Edit Draft Proposal
     Given I have a saved draft proposal
-    When I change the details and save
-    Then the proposal is stored with the new details
+#    When I change the details and save
+#    Then the proposal is stored with the new details

@@ -1,13 +1,13 @@
-package org.openmrs.module.cpm.pagemodel;
+package org.openmrs.module.conceptpropose.pagemodel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AdminPage {
-	private static final String createProposalUrl = "/module/cpm/proposals.list#/edit";
-	private static final String monitorProposalsUrl = "/module/cpm/proposals.list";
-	private static final String incomingProposalsUrl = "/module/cpm/proposalReview.list";
-	private static final String settingsUrl = "/module/cpm/proposals.list#/settings";
+	private static final String createProposalUrl = "/module/conceptpropose/proposals.list#/edit";
+	private static final String monitorProposalsUrl = "/module/conceptpropose/proposals.list";
+	private static final String incomingProposalsUrl = "/module/conceptreview/proposalReview.list";
+	private static final String settingsUrl = "/module/conceptpropose/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
     private String openmrsUrl;
