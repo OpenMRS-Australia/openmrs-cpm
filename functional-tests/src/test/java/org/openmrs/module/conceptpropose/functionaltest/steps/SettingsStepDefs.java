@@ -32,6 +32,8 @@ public class SettingsStepDefs {
 
     @When("^I enter the settings for a dictionary$")
     public void i_enter_the_settings_for_a_dictionary() {
+        // TODO: this needs to be configurable as testing on non-vagrant systems would probably cause failure
+        // uses this URL for submitting proposal, and thus submit proposal step would fail
     	page.enterSettings("http://192.168.33.10:8080/openmrs", "admin", "Admin123");
     }
     
@@ -42,9 +44,6 @@ public class SettingsStepDefs {
 
     @Then("^those settings should still be there$")
     public void those_settings_should_still_be_there() {
-        // weird error
-        // java.lang.NoSuchMethodError: org.hamcrest.Matcher.describeMismatch(Ljava/lang/Object;Lorg/hamcrest/Description;)V
-        //     at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:18)
         assertThat(page.getUrl(), equalTo("http://192.168.33.10:8080/openmrs"));
 		assertThat(page.getUsername(), equalTo("admin"));
 		assertThat(page.getPassword(), equalTo("Admin123"));
