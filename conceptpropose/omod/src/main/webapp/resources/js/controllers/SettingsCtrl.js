@@ -18,6 +18,8 @@ define([
         document.title = 'Manage Concept Proposal Settings';
         $scope.isLoading = true;
         $scope.isTesting = false;
+        $scope.settingsValid = false;
+        $scope.settingsTested = false;
 
         $scope.menu = Menu.getMenu(3);
 
@@ -25,12 +27,13 @@ define([
           $scope.isLoading = false;
         });
 
-        $scope.checkUrl=function(){
+        $scope.testConnection=function(){
             $scope.isTesting = true;
-            $http.post(config.contextPath + '/ws/conceptpropose/settings/url', $scope.settings.url)
+            $http.post(config.contextPath + '/ws/conceptpropose/settings/connectionResult', $scope.settings)
                  .success(
-                    function(isUrlInvalid){
-                       $scope.urlInvalid = isUrlInvalid
+                    function(connectionSucceeded){
+                       $scope.settingsValid = (connectionSucceeded == "true");
+                       $scope.settingsTested = true;
                        $scope.isTesting = false;
                   });
         };
