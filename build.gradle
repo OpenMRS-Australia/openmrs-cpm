@@ -1,0 +1,57 @@
+
+allprojects {
+
+    apply plugin: 'java'
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+    ext.openMrsVersion = '1.9.2'
+
+    configurations {
+
+        releaseJars
+
+        compile.exclude module: 'jms'
+        compile.exclude module: 'jmxtools'
+        compile.exclude module: 'jmxri'
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://mavenrepo.openmrs.org/nexus/content/repositories/public'
+        }
+    }
+
+    dependencies {
+
+        compile 'net.sf.dozer:dozer:5.4.0'
+
+        compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
+        compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
+
+        testCompile "org.openmrs.api:openmrs-api:${openMrsVersion}:tests"
+        testCompile "org.openmrs.web:openmrs-web:${openMrsVersion}:tests"
+        testCompile "org.openmrs.test:openmrs-test:${openMrsVersion}"
+
+        testCompile 'junit:junit:4.11'
+        testCompile "org.powermock:powermock-module-junit4-rule-agent:1.5.1"
+
+        releaseJars 'org.apache.httpcomponents:httpclient:4.2.3'
+        releaseJars 'com.google.guava:guava:13.0.1'
+        releaseJars 'joda-time:joda-time:2.2'
+        releaseJars 'net.sf.dozer:dozer:5.4.0'
+
+    }
+
+    // required for testing on Java 7
+    // source: http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm.
+    test {
+        jvmArgs '-XX:-UseSplitVerifier'
+    }
+}
+
+defaultTasks 'conceptpropose:createOmod', 'conceptreview:createOmod'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+
+	<!-- Setting up core OpenMRS data -->
+	
+	<!-- 
+	<person person_id="10" gender="M" dead="0" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="b40079f2-17d1-11e2-892e-0800200c9a66"/>
+	<person person_id="10" gender="M" dead="0" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="b40079f3-17d1-11e2-892e-0800200c9a66"/>
+	
+	<users user_id="10" person_id="10" system_id="conceptpropose1" username="" password="b40079f0-17d1-11e2-892e-0800200c9a66" salt="c788c6ad82a157b712392ca695dfcf2eed193d7f" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="22a05ac6-144e-102b-8d9c-e44ed545d86c"/>  
+	<users user_id="11" person_id="11" system_id="conceptpropose2" username="" password="b40079f1-17d1-11e2-892e-0800200c9a66" salt="c7k8c6ad82a157b712392ca695dfcf2eed193d7f" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="22a05ac6-144e-102b-8d9c-e44ed545d86c"/>  
+	 -->
+	 
+	<!--  Setting up the Concept Proposal Module data -->
+	
+	<conceptpropose_proposed_concept_package conceptpropose_proposed_concept_package_id="1" uuid="d0dd9f30-15e7-11e2-892e-0800200c9a66" name="Concept Proposal Package 1" email="proposer@conceptpropose.com" description="Description for concept proposal package 1" creator="1" date_created="2005-01-01 00:01:00.0" version="1" status="DRAFT" />
+	<conceptpropose_proposed_concept_package conceptpropose_proposed_concept_package_id="2" uuid="d0dd9f41-15e7-11e2-892e-0800200c9a66" name="Concept Proposal Package 2" email="proposer@conceptpropose.com" description="Description for concept proposal package 2" creator="1" date_created="2005-01-01 00:02:00.0" version="1" status="DRAFT" />
+
+	<conceptpropose_proposed_concept conceptpropose_proposed_concept_package_id="1" concept_id="3" conceptpropose_proposed_concept_id="1" uuid="d0dd9f40-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>
+	<conceptpropose_proposed_concept conceptpropose_proposed_concept_package_id="1" concept_id="4" conceptpropose_proposed_concept_id="2" uuid="d0dd9f3f-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>
+	<conceptpropose_proposed_concept conceptpropose_proposed_concept_package_id="1" concept_id="5" conceptpropose_proposed_concept_id="3" uuid="d0dd9f3e-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>
+	<conceptpropose_proposed_concept conceptpropose_proposed_concept_package_id="2" concept_id="6" conceptpropose_proposed_concept_id="4" uuid="d0dd9f3d-15e7-11e2-892e-0800200c9a66" version="1" status="DRAFT"/>
+	
+</dataset>

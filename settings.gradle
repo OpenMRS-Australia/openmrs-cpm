@@ -1,0 +1,6 @@
+include 'common',
+        'conceptpropose:api',
+        'conceptpropose:omod',
+        'conceptreview:api',
+        'conceptreview:omod',
+        'functional-tests'

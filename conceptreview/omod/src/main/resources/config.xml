@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+    <id>conceptreview</id>
+    <name>Concept Review Module</name>
+    <version>1.0-SNAPSHOT</version>
+    <package>org.openmrs.module.conceptreview</package>
+    <author>OpenMRS Australia</author>
+    <description>
+        Review concept submitted via the conceptpropose module
+    </description>
+    <updateURL>https://modules.openmrs.org/modules/download/conceptreview/update.rdf</updateURL>
+    <require_version>1.9.2</require_version>
+
+    <require_modules>
+        <require_module version="1.0-SNAPSHOT">org.openmrs.module.conceptpropose</require_module>
+    </require_modules>
+
+	
+	<!-- Module Activator -->
+	<activator>org.openmrs.module.conceptreview.ConceptReviewActivator</activator>
+	
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>org.openmrs.module.conceptreview.extension.html.AdminList</class>
+	</extension>
+	
+	<!-- Hibernate config -->
+	<packagesWithMappedClasses>
+		org.openmrs.module.conceptreview
+	</packagesWithMappedClasses>
+
+    <!-- l18n -->
+    <messages>
+        <lang>en</lang>
+        <file>messages.properties</file>
+    </messages>
+
+    <!-- Authorization filter for proposal submission web service -->
+    <filter>
+        <filter-name>cpm-authorisation</filter-name>
+        <filter-class>org.openmrs.module.conceptreview.web.filter.AuthorizationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cpm-authorisation</filter-name>
+        <url-pattern>/ws/conceptreview/dictionarymanager/*</url-pattern>
+    </filter-mapping>
+
+</module>
+
