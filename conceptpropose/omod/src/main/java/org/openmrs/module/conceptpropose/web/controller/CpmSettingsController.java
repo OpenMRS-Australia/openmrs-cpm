@@ -6,6 +6,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -27,8 +28,8 @@ import java.io.IOException;
 public class CpmSettingsController {
     private final Logger log = Logger.getLogger(CpmSettingsController.class);
 
-    private final int httpConnectionTimeout = 10000;
-    private final int httpSocketTimeout = 10000;
+    private final int httpConnectionTimeout = 30000;
+    private final int httpSocketTimeout = 30000;
 
     public CpmSettingsController() {
     }
@@ -55,7 +56,7 @@ public class CpmSettingsController {
     // Using Apache HttpComponents because OpenMRS includes Spring 3.0.5 without
     // Jakarta Commons HttpClient and so cannot set timeout using Spring RestTemplate
     @RequestMapping(value = "/conceptpropose/settings/connectionResult", method = RequestMethod.POST)
-    public @ResponseBody boolean testConnection(@RequestBody Settings settings) {
+    public @ResponseBody String testConnection(@RequestBody Settings settings) {
         Credentials credentials = new UsernamePasswordCredentials(
                 settings.getUsername(),
                 settings.getPassword());
@@ -66,25 +67,23 @@ public class CpmSettingsController {
         HttpConnectionParams.setConnectionTimeout(params, httpConnectionTimeout);
         HttpConnectionParams.setSoTimeout(params, httpSocketTimeout);
 
-        boolean connectionSucceeded = false;
-
         try {
             DefaultHttpClient httpclient = new DefaultHttpClient(params);
             httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY, credentials);
             HttpGet httpget = new HttpGet(url);
             HttpResponse response = httpclient.execute(httpget);
             int statusCode = response.getStatusLine().getStatusCode();
-            connectionSucceeded = (statusCode == HttpStatus.SC_OK);
+            if (statusCode == HttpStatus.SC_OK)
+                return "Success";
 
-            if (!connectionSucceeded) {
-                log.error("Test " + url + " failed with status code " + statusCode);
-            }
-
-            return connectionSucceeded;
-        }
-        catch (IOException ex) {
-            log.error("Test " + url + " failed with exception {" + ex.getMessage() + "}");
-            return connectionSucceeded;
+            log.error("Test " + url + " failed with status code " + statusCode);
+            return ("HTTP status code " + statusCode + " " + response.getStatusLine().getReasonPhrase());
+        } catch (ConnectTimeoutException ex) {
+            log.error("Test " + url + " failed with ConnectTimeoutException {" + ex.getMessage() + "}");
+            return ("Connection timed out");
+        } catch (IOException ex) {
+            log.error("Test " + url + " failed with IOException {" + ex.getMessage() + "}");
+            return ex.getMessage();
         }
     }
 }
