@@ -23,7 +23,8 @@
             </tr>
             <tr>
                 <td></td>
-                <td><span ng-show="!settingsValid && settingsTested" style="font-weight: bold; color: red;">These settings appear to be incorrect; you may not be able to submit proposals.  The URL should point to the root of the OpenMRS installation.</span></td>
+                <td><span ng-show="!settingsValid && settingsTested" style="font-weight: bold; color: red;">These settings appear to be incorrect; you may not be able to submit proposals.  The URL should point to the root of the OpenMRS installation.</span><br/>
+                <span ng-show="!settingsValid && settingsTested" style="font-weight: bold; color: red;">Connection Error: {{connectErrorMessage}}.</span></td>
                 <td><span ng-show="settingsValid" style="font-weight: bold; color: green">These settings appear to be correct.</span></td>
             </tr>
         </table>
