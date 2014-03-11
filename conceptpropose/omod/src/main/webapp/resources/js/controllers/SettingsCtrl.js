@@ -20,6 +20,7 @@ define([
         $scope.isTesting = false;
         $scope.settingsValid = false;
         $scope.settingsTested = false;
+        $scope.connectErrorMessage = "";
 
         $scope.menu = Menu.getMenu(3);
 
@@ -31,8 +32,9 @@ define([
             $scope.isTesting = true;
             $http.post(config.contextPath + '/ws/conceptpropose/settings/connectionResult', $scope.settings)
                  .success(
-                    function(connectionSucceeded){
-                       $scope.settingsValid = (connectionSucceeded == "true");
+                    function(result){
+                       $scope.settingsValid = (result == "Success");
+                       $scope.connectErrorMessage = result;
                        $scope.settingsTested = true;
                        $scope.isTesting = false;
                   });
