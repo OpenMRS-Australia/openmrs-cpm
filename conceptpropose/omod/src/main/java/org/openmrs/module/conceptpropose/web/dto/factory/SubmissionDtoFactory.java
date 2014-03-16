@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SubmissionDtoFactory {
@@ -30,11 +31,12 @@ public class SubmissionDtoFactory {
     public SubmissionDto create(final ProposedConceptPackage conceptPackage){
 
         SubmissionDto submission = new SubmissionDto();
+	    submission.setProposedConceptPackageUuid(conceptPackage.getUuid());
         submission.setName(conceptPackage.getName());
         submission.setEmail(conceptPackage.getEmail());
         submission.setDescription(conceptPackage.getDescription());
 
-        final ArrayList<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
+        final List<ProposedConceptDto> list = new ArrayList<ProposedConceptDto>();
         for (ProposedConcept proposedConcept : conceptPackage.getProposedConcepts()) {
             final Concept concept = proposedConcept.getConcept();
 
