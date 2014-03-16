@@ -149,11 +149,13 @@ public class ProposedConceptReviewPackage extends ShareablePackage<ProposedConce
 
     @Override
     public String toString() {
-    	final StringBuffer appender = new StringBuffer();
-    	appender.append("ConceptReviewPackage(");
-    	appender.append(getId());
-    	appender.append(")");
-    	appender.append(super.toString());
+    	final StringBuilder appender = new StringBuilder();
+    	appender.append("ConceptReviewPackage (proposedConceptReviewPackageId:");
+    	appender.append(proposedConceptReviewPackageId);
+	    appender.append(", proposedConceptPackageUuid:");
+	    appender.append(proposedConceptPackageUuid);
+	    appender.append(")");
+	    appender.append(super.toString());
     	return appender.toString();
     }
 }

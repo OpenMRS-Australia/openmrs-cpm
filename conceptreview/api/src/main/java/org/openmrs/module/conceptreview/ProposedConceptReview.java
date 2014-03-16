@@ -53,7 +53,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 		this.version = 0;
 		setStatus(ProposalStatus.RECEIVED);
 	}
-	
+
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
@@ -169,5 +169,19 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	@OneToMany(mappedBy = "proposedConceptReview", cascade = CascadeType.ALL, orphanRemoval = true)
 	public List<ProposedConceptReviewAnswer> getCodedDetails() {
 		return codedDetails;
+	}
+
+	@Override
+	public String toString() {
+		String proposalStatus = "";
+		if(super.getStatus() != null){
+			proposalStatus = super.getStatus().name();
+		}
+		return "ProposedConceptReview{" +
+				"proposedConceptReviewId=" + proposedConceptReviewId +
+				", proposedConceptUuid='" + proposedConceptUuid + '\'' +
+				", status=" + proposalStatus +
+				", reviewComment='" + reviewComment + '\'' +
+				'}';
 	}
 }
