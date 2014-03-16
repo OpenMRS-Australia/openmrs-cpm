@@ -10,7 +10,19 @@ public class SubmissionDto {
 
 	private String description;
 
+	private String proposedConceptPackageUuid;
+
+
 	private List<ProposedConceptDto> concepts;
+
+
+	public String getProposedConceptPackageUuid() {
+		return proposedConceptPackageUuid;
+	}
+
+	public void setProposedConceptPackageUuid(String proposedConceptPackageUuid) {
+		this.proposedConceptPackageUuid = proposedConceptPackageUuid;
+	}
 
 	public String getName() {
 		return name;
@@ -42,5 +54,14 @@ public class SubmissionDto {
 
 	public void setConcepts(final List<ProposedConceptDto> concepts) {
 		this.concepts = concepts;
+	}
+
+	@Override
+	public String toString() {
+		return "SubmissionDto{" +
+				"description='" + description + '\'' +
+				", email='" + email + '\'' +
+				", name='" + name + '\'' +
+				'}';
 	}
 }

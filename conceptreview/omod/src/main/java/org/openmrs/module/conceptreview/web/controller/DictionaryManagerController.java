@@ -1,39 +1,24 @@
 package org.openmrs.module.conceptreview.web.controller;
 
 import org.directwebremoting.util.Logger;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionStatusDto;
-import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
-import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
-import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
-import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
-import org.openmrs.module.conceptreview.ProposedConceptReviewName;
-import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.openmrs.module.conceptreview.web.service.ConceptReviewMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+
 
 @Controller
 public class DictionaryManagerController {
@@ -63,12 +48,18 @@ public class DictionaryManagerController {
 		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
 		SubmissionResponseDto responseDto = new SubmissionResponseDto();
 
-		try {
+	    for(ProposedConceptReview review : result.getProposedConcepts()) {
+		    //Mark the initial status as received
+		    review.setStatus(ProposalStatus.RECEIVED);
+	    }
+
+	    try {
 			service.saveProposedConceptReviewPackage(result);
 		}
 		catch (Exception ex) {
 			//TODO: update error handling, more specific catch block rather than the generic Exception, add proper logging etc.
 			ex.printStackTrace();
+			log.error("Cant save incoming proposal:" + incomingProposal);
 			responseDto.setStatus(SubmissionResponseStatus.FAILURE);
 			responseDto.setMessage(ex.getMessage());
 			return responseDto;
