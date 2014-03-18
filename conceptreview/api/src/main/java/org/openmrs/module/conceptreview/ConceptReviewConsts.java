@@ -1,6 +1,7 @@
 package org.openmrs.module.conceptreview;
 
 
+// Why is this an exact duplicate of ConceptProposalConsts???
 public class ConceptReviewConsts {
 
 	public static final String MODULE_ID = "conceptproposal";

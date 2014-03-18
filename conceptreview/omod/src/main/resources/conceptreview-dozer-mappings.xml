@@ -53,5 +53,10 @@
             <a>proposedConceptUuid</a>
             <b>uuid</b>
         </field>
+        <field-exclude>
+            <a>proposedConceptReviewId</a>
+            <b>id</b>
+        </field-exclude>
+
     </mapping>
 </mappings>
