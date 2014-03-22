@@ -1,7 +1,7 @@
-package org.openmrs.module.cpm.functionaltest.steps;
+package org.openmrs.module.conceptpropose.functionaltest.steps;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.cpm.pagemodel.AdminPage;
+import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
 
 import java.io.IOException;
 import java.io.InputStream;

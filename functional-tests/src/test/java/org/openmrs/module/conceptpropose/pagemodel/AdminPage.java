@@ -1,21 +1,23 @@
-package org.openmrs.module.cpm.pagemodel;
+package org.openmrs.module.conceptpropose.pagemodel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AdminPage {
-	private static final String createProposalUrl = "/module/cpm/proposals.list#/edit";
-	private static final String monitorProposalsUrl = "/module/cpm/proposals.list";
-	private static final String incomingProposalsUrl = "/module/cpm/proposalReview.list";
-	private static final String settingsUrl = "/module/cpm/proposals.list#/settings";
+	private static final String createProposalUrl = "/module/conceptpropose/proposals.list#/edit";
+	private static final String monitorProposalsUrl = "/module/conceptpropose/proposals.list";
+	private static final String incomingProposalsUrl = "/module/conceptpropose/proposalReview.list";
+	private static final String settingsUrl = "/module/conceptpropose/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
     private String openmrsUrl;
+    private String adminPageUrl;
 
 	public AdminPage(final RemoteWebDriver driver, final String adminPageUrl, String openmrsUrl) {
         this.openmrsUrl = openmrsUrl;
+        this.adminPageUrl = adminPageUrl;
 		this.driver = driver;
-		driver.navigate().to(adminPageUrl);
+        navigateToAdminPage();
 	}
 
 	public WebElement getCreateProposalLink() {
@@ -50,10 +52,14 @@ public class AdminPage {
 		getLogoutLink().click();
 	}
 
-	public CreateProposalPage navigateToCreateProposalPage() {
-		getCreateProposalLink().click();
-		return new CreateProposalPage(driver);
-	}
+    public void navigateToAdminPage() {
+        driver.navigate().to(adminPageUrl);
+    }
+
+    public CreateProposalPage navigateToCreateProposalPage() {
+        getCreateProposalLink().click();
+        return new CreateProposalPage(driver);
+    }
 
 	public MonitorProposalsPage navigateToMonitorProposals() {
 		 getMonitorProposalsLink().click();

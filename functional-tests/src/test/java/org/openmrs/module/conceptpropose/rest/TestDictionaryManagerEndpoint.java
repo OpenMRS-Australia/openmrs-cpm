@@ -1,4 +1,4 @@
-package org.openmrs.module.cpm.rest;
+package org.openmrs.module.conceptpropose.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
