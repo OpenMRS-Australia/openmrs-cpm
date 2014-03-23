@@ -1,5 +1,6 @@
 package org.openmrs.module.conceptpropose.web.controller;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
@@ -14,6 +15,7 @@ import org.apache.http.params.HttpParams;
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.web.authentication.factory.AuthHttpHeaderFactory;
 import org.openmrs.module.conceptpropose.web.common.CpmConstants;
 import org.openmrs.module.conceptpropose.web.dto.Settings;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,8 @@ public class CpmSettingsController {
 
     private final int httpConnectionTimeout = 30000;
     private final int httpSocketTimeout = 30000;
+
+    private static final AuthHttpHeaderFactory httpHeaderFactory = new AuthHttpHeaderFactory();
 
     public CpmSettingsController() {
     }
@@ -57,10 +61,6 @@ public class CpmSettingsController {
     // Jakarta Commons HttpClient and so cannot set timeout using Spring RestTemplate
     @RequestMapping(value = "/conceptpropose/settings/connectionResult", method = RequestMethod.POST)
     public @ResponseBody String testConnection(@RequestBody Settings settings) {
-        Credentials credentials = new UsernamePasswordCredentials(
-                settings.getUsername(),
-                settings.getPassword());
-
         final String url = settings.getUrl() + "/ws/conceptreview/dictionarymanager/status";
 
         HttpParams params = new BasicHttpParams();
@@ -69,8 +69,10 @@ public class CpmSettingsController {
 
         try {
             DefaultHttpClient httpclient = new DefaultHttpClient(params);
-            httpclient.getCredentialsProvider().setCredentials(AuthScope.ANY, credentials);
             HttpGet httpget = new HttpGet(url);
+            Header authHeader =
+                    httpHeaderFactory.createApacheHeader(settings.getUsername(), settings.getPassword());
+            httpget.addHeader(authHeader);
             HttpResponse response = httpclient.execute(httpget);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.SC_OK)
