@@ -30,6 +30,7 @@ public class SubmissionDtoFactory {
     public SubmissionDto create(final ProposedConceptPackage conceptPackage){
 
         SubmissionDto submission = new SubmissionDto();
+	    submission.setProposedConceptPackageUuid(conceptPackage.getUuid());
         submission.setName(conceptPackage.getName());
         submission.setEmail(conceptPackage.getEmail());
         submission.setDescription(conceptPackage.getDescription());

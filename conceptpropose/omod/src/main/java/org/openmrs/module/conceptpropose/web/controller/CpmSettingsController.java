@@ -18,6 +18,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.web.authentication.factory.AuthHttpHeaderFactory;
 import org.openmrs.module.conceptpropose.web.common.CpmConstants;
 import org.openmrs.module.conceptpropose.web.dto.Settings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,11 @@ public class CpmSettingsController {
     private final int httpConnectionTimeout = 30000;
     private final int httpSocketTimeout = 30000;
 
-    private static final AuthHttpHeaderFactory httpHeaderFactory = new AuthHttpHeaderFactory();
+    private final AuthHttpHeaderFactory httpHeaderFactory;
 
-    public CpmSettingsController() {
+    @Autowired
+    public CpmSettingsController(final AuthHttpHeaderFactory httpHeaderFactory) {
+        this.httpHeaderFactory = httpHeaderFactory;
     }
 
     @RequestMapping(value = "/conceptpropose/settings", method = RequestMethod.GET)
