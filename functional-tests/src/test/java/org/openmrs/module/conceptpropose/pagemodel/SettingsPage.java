@@ -35,7 +35,15 @@ public class SettingsPage extends BaseCpmPage {
 		passwordElement.clear();
 		passwordElement.sendKeys(password);
 
-		driver.findElement(By.tagName("button")).click();
+        java.util.List<WebElement> buttonList = driver.findElements(By.tagName("Button"));
+
+        WebElement saveButton = null;
+        for (WebElement button : buttonList) {
+            if(button.getText().equals("Save"))
+                saveButton = button;
+        }
+
+        saveButton.click();
 	}
 
 	public String getUrl() {
