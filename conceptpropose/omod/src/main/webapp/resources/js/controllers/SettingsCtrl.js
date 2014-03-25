@@ -5,7 +5,7 @@ define([
     'js/services/menu',
     './index'
   ],
-  function(angular, config, $http) {
+  function(angular, config) {
 
     'use strict';
   
@@ -20,7 +20,7 @@ define([
         $scope.isTesting = false;
         $scope.settingsValid = false;
         $scope.settingsTested = false;
-        $scope.connectErrorMessage = "";
+        $scope.connectErrorMessage = '';
 
         $scope.menu = Menu.getMenu(3);
 
@@ -33,12 +33,12 @@ define([
             $http.post(config.contextPath + '/ws/conceptpropose/settings/connectionResult', $scope.settings)
                  .success(
                     function(result){
-                       $scope.settingsValid = (result == "Success");
-                       $scope.connectErrorMessage = result;
-                       $scope.settingsTested = true;
-                       $scope.isTesting = false;
-                  });
-        };
+                        $scope.settingsValid = (result === 'Success');
+                        $scope.connectErrorMessage = result;
+                        $scope.settingsTested = true;
+                        $scope.isTesting = false;
+                      });
+          };
 
         $scope.save = function() {
           $scope.isLoading = true;
