@@ -24,7 +24,7 @@ public class ProposalStepDefs {
     // vagrant on OSX seems to be able to do without the sleep (most of the time?)
     // vagrant on Windows 8.1, the sleep seems necessary to pass tests
     // clearly something is inconsistent and is something to look into
-    private int sleep_length = 1000;
+    private int sleep_length = 2000;
 
     @Given("^I have a saved draft proposal$")
     public void navigate_to_page() throws IOException, InterruptedException {
