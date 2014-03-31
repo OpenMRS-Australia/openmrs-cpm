@@ -47,6 +47,17 @@ public class MonitorProposalsPage extends BaseCpmPage {
         WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-1);
         return lastRowOfResults.findElements(By.className("ng-binding")).get(1).getText();
     }
+    public String getConceptCount(){
+        defaultWait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver input) {
+                return input.findElements(resultsSelector).size() > 0;
+            }
+        });
+
+        List <WebElement> resultRowsElement = driver.findElements(By.className("ng-scope"));
+        WebElement lastRowOfResults =  resultRowsElement.get(resultRowsElement.size()-1);
+        return lastRowOfResults.findElements(By.className("ng-binding")).get(2).getText();
+    }
     public String getLastProposalStatus(){
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
