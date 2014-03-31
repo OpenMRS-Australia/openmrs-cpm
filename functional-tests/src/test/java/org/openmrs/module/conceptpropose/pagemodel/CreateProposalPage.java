@@ -37,12 +37,7 @@ public class CreateProposalPage extends BaseCpmPage {
 
     }
     public void submitProposal() {
-        defaultWait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver input) {
-                return input.findElements(buttonSelector).get(2).isEnabled();
-            }
-        });
-        driver.findElements(buttonSelector).get(2).click();
+        getElementByAttribute("button", "ng-click", "submit()").click();
     }
 
 
@@ -70,12 +65,13 @@ public class CreateProposalPage extends BaseCpmPage {
         WebElement commentBox = driver
                 .findElement(By.className("conceptTable"))
                 .findElement(By.tagName("input"));
+        commentBox.clear();
         commentBox.sendKeys(comment);
     }
 
 
     public void editExistingProposal() {
-        driver.findElements(By.tagName("button")).get(1).click();
+        getElementByAttribute("button", "ng-click", "save()").click();
     }
 
     public void saveNewProposal() {

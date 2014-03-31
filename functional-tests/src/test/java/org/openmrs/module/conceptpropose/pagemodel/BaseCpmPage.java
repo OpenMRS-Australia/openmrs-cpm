@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BaseCpmPage {
-    public static final int DEFAULT_TIMEOUT_IN_SECONDS = 30;
+    public static final int DEFAULT_TIMEOUT_IN_SECONDS = 10;
     protected final WebDriver driver;
     protected WebDriverWait defaultWait;
 
