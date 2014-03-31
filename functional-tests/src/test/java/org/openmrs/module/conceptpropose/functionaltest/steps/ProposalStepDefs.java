@@ -72,7 +72,10 @@ public class ProposalStepDefs {
     public void fill_a_new_proposal() throws IOException {
         login();
         loadNewProposalPage();
-        createProposalPage.enterNewProposal("Some Name","email@example.com","Some Comments");
+        createProposalPage.enterNewProposal("Some Name", "email@example.com", "Some Comments");
+        loadAddConceptDialog();
+        createProposalPage.enterNewConcept("ab", 1);
+        createProposalPage.enterNewConceptComment("This is ab");
     }
 
     @When("^I save$")
@@ -83,8 +86,10 @@ public class ProposalStepDefs {
     @Then("^the proposal is stored with the details$")
     public void check_the_details() throws InterruptedException, IOException {
         loadProposalMonitorPage();
+        // TODO: need to verify email, concept added and concept comment
         assertThat(monitorProposalsPage.getLastProposalName(), equalTo("Some Name"));
         assertThat(monitorProposalsPage.getLastProposalDescription(), equalTo("Some Comments"));
+        assertThat(monitorProposalsPage.getConceptCount(), equalTo("1"));
     }
 
     private void loadProposalMonitorPage() throws IOException {
@@ -93,6 +98,9 @@ public class ProposalStepDefs {
 
     private void loadNewProposalPage() throws IOException {
         createProposalPage= adminPage.navigateToCreateProposalPage();
+    }
+    private void loadAddConceptDialog() throws IOException{
+        createProposalPage.navigateToAddConceptDialog();
     }
     private void login()  throws IOException{
         Login login = new Login();

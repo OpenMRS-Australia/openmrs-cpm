@@ -35,7 +35,6 @@ public class CreateProposalPage extends BaseCpmPage {
         commentElement.clear();
         commentElement.sendKeys(someComments);
 
-        addConceptToProposal();
     }
     public void submitProposal() {
         defaultWait.until(new ExpectedCondition<Boolean>() {
@@ -46,57 +45,32 @@ public class CreateProposalPage extends BaseCpmPage {
         driver.findElements(buttonSelector).get(2).click();
     }
 
-    public void addConceptToProposal() {
-        // needs a better way
-        driver.findElements(By.tagName("button")).get(0).click();
-        addNewConceptsToProposalFromAddConceptPage();
-    }
 
-    public void addNewConceptsToProposalFromAddConceptPage() {
-        // .resultsContainer table.searchConceptResults tbody.conceptList.results > tr > td > input
-        defaultWait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver input) {
-                return input.findElements(By.className("searchBox")).size() > 0;
-            }
-        });
-
+    public void enterNewConcept(String conceptToSearch, int numberToAdd) {
+        final WebElement addConceptContainer = driver.findElement(By.className("resultsContainer"));
         final WebElement searchBox = driver.findElement(By.className("searchBox"));
-        searchBox.sendKeys("ab");
-        defaultWait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver input) {
-                return input.findElements(By.className("searchBox")).size() > 0;
-            }
-        });
+        searchBox.sendKeys(conceptToSearch);
 
-        try{ Thread.sleep(2000); } catch(Exception e){}
-        // conceptList results
-        defaultWait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver input) {
-                return input.findElements(By.className("conceptList")).size() > 0;
-            }
-        });
-
-        try{ Thread.sleep(2000); } catch(Exception e){}
-        List<WebElement> parents = driver.findElements(By.className("conceptList"));
-        WebElement parent = parents.get(parents.size()-1); // one in the main page, one in the 'popup'
-
-        List<WebElement> resultRowsElement = parent.findElements(By.tagName("tr"));
+        WebElement conceptListTable = addConceptContainer.findElement(By.className("conceptList"));
+        List<WebElement> resultRowsElement = conceptListTable.findElements(By.tagName("tr"));
         int changed = 0;
-
         for(int i = 0; i < resultRowsElement.size(); i++){
             WebElement row =  resultRowsElement.get(i);
-
-            try{ Thread.sleep(2000); } catch(Exception e){}
             row.findElements(By.tagName("input")).get(0).click();
             changed++;
-            if(changed > 2){
+            if(changed >= numberToAdd){
                 break;
             }
         }
-
-        try{ Thread.sleep(2000); } catch(Exception e){}
-        WebElement footer = driver.findElements(By.className("dialogFooter")).get(0);
-        footer.findElements(By.tagName("button")).get(0).click();
+        WebElement footer = driver.findElement(By.className("dialogFooter"));
+        WebElement addConceptButton = getElementByAttribute(footer, "button", "ng-click", "add()");
+        addConceptButton.click();
+    }
+    public void enterNewConceptComment(String comment) {
+        WebElement commentBox = driver
+                .findElement(By.className("conceptTable"))
+                .findElement(By.tagName("input"));
+        commentBox.sendKeys(comment);
     }
 
 
@@ -105,22 +79,11 @@ public class CreateProposalPage extends BaseCpmPage {
     }
 
     public void saveNewProposal() {
-        // need to look for proper button. adding concepts spoils this
-        try{ Thread.sleep(2000); } catch(Exception e){}
-        for(WebElement e : driver.findElements(By.tagName("button"))){
-            if(e.getAttribute("ng-click").equals("add()")){
-                System.out.println("found add()");
-                e.click();
-                break;
-            }
-        }
-        //driver.findElements(By.tagName("button")).get(1).click();
-
-        // no alert box now??
-        //defaultWait.until(ExpectedConditions.alertIsPresent());
-        // Before you try to switch to the so given alert, he needs to be present.
-
-        //Alert alert = driver.switchTo().alert();
-        //alert.accept();
+        final WebElement saveProposalButton = getElementByAttribute("button", "ng-click", "save()");
+        saveProposalButton.click();
+    }
+    public void navigateToAddConceptDialog(){
+        WebElement addConceptButton = getElementByAttribute("button", "ng-click", "openSearchConceptDialog()");
+        addConceptButton.click();
     }
 }
