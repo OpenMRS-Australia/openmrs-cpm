@@ -96,6 +96,28 @@ public class ProposalStepDefs {
         assertThat(monitorProposalsPage.getConceptCount(), equalTo("1"));
     }
 
+    @Given("^I have a saved draft proposal with at least 1 concept")
+    public void saved_draft_proposal_with_at_least_1_concept() throws IOException, InterruptedException {
+        login();
+        loadNewProposalPage();
+        if(sleep_length != 0) Thread.sleep(sleep_length);
+        adminPage.navigateToAdminPage();
+        if(sleep_length != 0) Thread.sleep(sleep_length);
+        loadProposalMonitorPage();
+    }
+
+    @When("^I delete a concept")
+    public void delete_concept() {
+        monitorProposalsPage.goToEditPageOfLastItem();
+        try{ Thread.sleep(2000); }catch(Exception e){}
+        createProposalPage.deleteExistingConcept();
+        createProposalPage.saveNewProposal();
+    }
+    @Then("^the concept is deleted")
+    public void concept_is_deleted() throws IOException {
+        loadProposalMonitorPage();
+        assertThat(monitorProposalsPage.getConceptCount(), equalTo("2"));
+    }
     private void loadProposalMonitorPage() throws IOException {
         monitorProposalsPage = adminPage.navigateToMonitorProposals();
     }

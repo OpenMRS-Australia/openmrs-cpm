@@ -74,6 +74,11 @@ public class CreateProposalPage extends BaseCpmPage {
         getElementByAttribute("button", "ng-click", "save()").click();
     }
 
+    public void deleteExistingConcept() {
+        getElementByAttribute("button", "ng-click", "removeConcept(concept)").click();
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+    }
     public void saveNewProposal() {
         final WebElement saveProposalButton = getElementByAttribute("button", "ng-click", "save()");
         saveProposalButton.click();
