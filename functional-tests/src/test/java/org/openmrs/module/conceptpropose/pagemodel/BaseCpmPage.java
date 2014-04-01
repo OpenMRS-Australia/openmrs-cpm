@@ -34,7 +34,7 @@ public class BaseCpmPage {
         return driver.findElement(headerText).getText();
     }
     public WebElement getElementByAttribute(String tagName, String attribute, String valueToMatch) {
-        List<WebElement> elements = elements = driver.findElements(By.tagName(tagName));
+        List<WebElement> elements = driver.findElements(By.tagName(tagName));
         return getElementByAttributeFromElementList(elements, attribute, valueToMatch);
     }
     public WebElement getElementByAttribute(WebElement parent, String tagName, String attribute, String valueToMatch) {

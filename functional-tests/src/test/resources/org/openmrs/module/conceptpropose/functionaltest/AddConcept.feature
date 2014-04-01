@@ -1,6 +1,6 @@
-Feature: Edit Draft Proposal
+Feature: Add Concept to Draft Proposal
   As an administrator
-  I want to edit a draft proposal
+  I want to add a concept to a draft proposal
   So that I can change the details
 
   @Selenium
@@ -10,7 +10,7 @@ Feature: Edit Draft Proposal
     Then the proposal is stored with the details
 
   @Selenium
-  Scenario: Edit Draft Proposal
+  Scenario: Add Concept to Draft Proposal
     Given I have a saved draft proposal
-    When I change the details and save
-    Then the proposal is stored with the new details
+    When I add a concept and save
+    Then the proposal is stored with the added concept details

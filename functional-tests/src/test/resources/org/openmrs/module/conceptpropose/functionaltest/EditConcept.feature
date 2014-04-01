@@ -1,7 +1,7 @@
-Feature: Delete Concept
+Feature: Edit Concept
   As an administrator
-  I want to delete concept from a draft proposal
-  So that the concept is no longer there
+  I want to edit a concept comment
+  So that I can change the details
 
   @Selenium
   Scenario: Save Draft Proposal
@@ -16,7 +16,7 @@ Feature: Delete Concept
     Then the proposal is stored with the added concept details
 
   @Selenium
-  Scenario: Delete Concept
+  Scenario: Edit Concept
     Given I have a saved draft proposal with at least 1 concept
-    When I delete a concept
-    Then the concept is deleted
+    When I change the first concept comment
+    Then the concept comment is saved

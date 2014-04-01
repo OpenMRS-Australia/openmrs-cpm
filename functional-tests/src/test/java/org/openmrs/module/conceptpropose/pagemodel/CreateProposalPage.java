@@ -12,11 +12,21 @@ import java.util.List;
 
 public class CreateProposalPage extends BaseCpmPage {
     private By nameSelector = By.name("name");
+    private By emailSelector = By.name("email");
+    private By commentSelector = By.tagName("textarea");
     private By buttonSelector = By.tagName("button");
     public CreateProposalPage(WebDriver driver) {
         super(driver);
     }
-
+    public String getProposalID(){
+        String url = driver.getCurrentUrl();
+        return url.substring(url.lastIndexOf("/") +1 );
+    }
+    public int getNumberOfConcepts(){
+        List <WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='conceptList']/tr"));
+        // return resultRowsElement.size();
+        return driver.findElement(By.className("conceptList")).findElements(By.tagName("tr")).size();
+    }
     public void enterNewProposal(String someName, String email, String someComments) {
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -27,15 +37,25 @@ public class CreateProposalPage extends BaseCpmPage {
         nameElement.clear();
         nameElement.sendKeys(someName);
 
-        final WebElement emailElement = driver.findElement(By.name("email"));
+        final WebElement emailElement = driver.findElement(emailSelector);
         emailElement.clear();
         emailElement.sendKeys(email);
 
-        final WebElement commentElement = driver.findElement(By.tagName("textarea"));
+        final WebElement commentElement = driver.findElement(commentSelector );
         commentElement.clear();
         commentElement.sendKeys(someComments);
-
     }
+
+    public String getName(){
+        return driver.findElement(nameSelector).getAttribute("value");
+    }
+    public String getEmail(){
+        return driver.findElement(emailSelector).getAttribute("value");
+    }
+    public String getComment(){
+        return driver.findElement(commentSelector).getAttribute("value");
+    }
+
     public void submitProposal() {
         getElementByAttribute("button", "ng-click", "submit()").click();
     }
@@ -64,11 +84,19 @@ public class CreateProposalPage extends BaseCpmPage {
     public void enterNewConceptComment(String comment) {
         WebElement commentBox = driver
                 .findElement(By.className("conceptTable"))
-                .findElement(By.tagName("input"));
+                .findElements(By.tagName("input"))
+                .get(0);
         commentBox.clear();
         commentBox.sendKeys(comment);
     }
 
+    public String getConceptComment() {
+        WebElement commentBox = driver
+                .findElement(By.className("conceptTable"))
+                .findElements(By.tagName("input"))
+                .get(0);
+        return commentBox.getAttribute("value");
+    }
 
     public void editExistingProposal() {
         getElementByAttribute("button", "ng-click", "save()").click();
