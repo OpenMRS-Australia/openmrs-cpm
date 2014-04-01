@@ -13,6 +13,10 @@ public class MonitorProposalsPage extends BaseCpmPage {
         super(driver);
     }
 
+    public int getNumberOfConceptProposals(){
+        List <WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='results']/tr"));
+        return resultRowsElement.size();
+    }
     public void goToEditPageOfLastItem(){
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {

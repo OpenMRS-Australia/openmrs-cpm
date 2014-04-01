@@ -118,6 +118,19 @@ public class ProposalStepDefs {
         loadProposalMonitorPage();
         assertThat(monitorProposalsPage.getConceptCount(), equalTo("2"));
     }
+    private int numRows;
+    @When("I delete the proposal")
+    public void delete_proposal(){
+        numRows = monitorProposalsPage.getNumberOfConceptProposals();
+        monitorProposalsPage.goToEditPageOfLastItem();
+        try{ Thread.sleep(2000); }catch(Exception e){}
+        createProposalPage.deleteProposal();
+    }
+    @Then("the proposal is deleted")
+    public void proposal_is_deleted() throws IOException{
+        loadProposalMonitorPage();
+        assertThat(monitorProposalsPage.getNumberOfConceptProposals(), equalTo(numRows-1));
+    }
     private void loadProposalMonitorPage() throws IOException {
         monitorProposalsPage = adminPage.navigateToMonitorProposals();
     }
