@@ -62,7 +62,7 @@ public class AdminPage {
     }
 
 	public MonitorProposalsPage navigateToMonitorProposals(){
-    	 getMonitorProposalsLink().click();
+    	getMonitorProposalsLink().click();
 		return new MonitorProposalsPage(driver);
 	}
 

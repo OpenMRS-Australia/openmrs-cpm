@@ -14,6 +14,13 @@ public class MonitorProposalsPage extends BaseCpmPage {
     }
 
     public void waitUntilFullyLoaded(){
+        // wait for proposal page to load
+        defaultWait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver input) {
+                return input.getCurrentUrl().endsWith("/proposals.list#/");
+            }
+        });
+
         final WebElement loadingIcon = driver.findElement(By.className("loading"));
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -22,7 +29,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
         });
     }
     public void navigateToDraftProposal(String name){
-        findDraftProposal(name, false).click();
+        findDraftProposalByName(name).click();
         final WebElement saveButton = getElementByAttribute("button", "ng-click", "save()");
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -31,7 +38,16 @@ public class MonitorProposalsPage extends BaseCpmPage {
         });
     }
     public void navigateToDraftProposalWithConcepts(String name){
-        findDraftProposal(name, true).click();
+        findDraftProposalWithConcepts(name).click();
+        final WebElement saveButton = getElementByAttribute("button", "ng-click", "save()");
+        defaultWait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver input) {
+                return saveButton.isEnabled();
+            }
+        });
+    }
+    public void navigateToDraftProposalWithNoConcepts(String name){
+        findDraftProposalWithNoConcepts(name).click();
         final WebElement saveButton = getElementByAttribute("button", "ng-click", "save()");
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -40,7 +56,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
         });
     }
     public void navigateToProposal(String name){
-        findDraftProposal(name, false).click();
+        findDraftProposalByName(name).click();
         final WebElement saveButton = getElementByAttribute("button", "ng-click", "save()");
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -48,22 +64,28 @@ public class MonitorProposalsPage extends BaseCpmPage {
             }
         });
     }
-    public WebElement findDraftProposal(String name, boolean mustHaveConcepts){
-        return findProposal("Draft", name, mustHaveConcepts);
+    public WebElement findDraftProposalByName(String name){
+        return findProposal("Draft", name, false, false);
+    }
+    public WebElement findDraftProposalWithConcepts(String name){
+        return findProposal("Draft", name, true, false);
+    }
+    public WebElement findDraftProposalWithNoConcepts(String name){
+        return findProposal("Draft", name, false, true);
     }
     public String findProposalStatus(String name){
-        WebElement proposal = findProposal("", name, false);
+        WebElement proposal = findProposal("", name, false, false);
         return proposal.findElements(By.className("ng-binding")).get(3).getText();
     }
     public int getProposalConceptCount(String name){
-        WebElement proposal = findProposal("", name, false);
+        WebElement proposal = findProposal("", name, false, false);
         try{
             return Integer.parseInt(proposal.findElements(By.className("ng-binding")).get(2).getText());
         }
         catch(Exception e){ return 0; }
 
     }
-    public WebElement findProposal(String status, String name, boolean mustHaveConcepts){
+    public WebElement findProposal(String status, String name, boolean mustHaveConcepts, boolean mustHaveNoConcepts){
         if(name == null) name = "";
         else name = name.trim();
         if(status == null) status = "";
@@ -75,6 +97,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
             boolean foundStatus = false;
             boolean foundName = false;
             boolean foundConcepts = false;
+            boolean foundNoConcepts = false;
             if (row.findElement(By.xpath(".//td[4]")).getText().contains(status))
             {
                 foundStatus = true;
@@ -89,15 +112,17 @@ public class MonitorProposalsPage extends BaseCpmPage {
                 if(!row.findElement(By.xpath(".//td[3]")).getText().equals("0"))
                     foundConcepts = true;
             }
+            if(mustHaveNoConcepts)
+            {
+                if(row.findElement(By.xpath(".//td[3]")).getText().equals("0"))
+                    foundNoConcepts = true;
+            }
 
-            if(!status.equals("") && foundStatus && name.equals("") && !mustHaveConcepts) return row;
-            if(!status.equals("") && foundStatus && name.equals("") && mustHaveConcepts && foundConcepts) return row;
-            if(!status.equals("") && foundStatus && !name.equals("") && foundName && !mustHaveConcepts) return row;
-            if(!status.equals("") && foundStatus && !name.equals("") && foundName && mustHaveConcepts && foundConcepts) return row;
-            if(status.equals("") && name.equals("") && !mustHaveConcepts) return row;
-            if(status.equals("") && name.equals("") && mustHaveConcepts && foundConcepts) return row;
-            if(status.equals("") && !name.equals("") && foundName && !mustHaveConcepts) return row;
-            if(status.equals("")  && !name.equals("") && foundName && mustHaveConcepts && foundConcepts) return row;
+            if(!status.equals("") && !foundStatus) continue;
+            if(!name.equals("") && !foundName) continue;
+            if(mustHaveConcepts && !foundConcepts) continue;
+            if(mustHaveNoConcepts && !foundNoConcepts) continue;
+            return row;
         }
         return null;
     }

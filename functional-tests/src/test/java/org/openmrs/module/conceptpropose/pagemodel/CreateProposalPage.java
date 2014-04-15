@@ -23,9 +23,17 @@ public class CreateProposalPage extends BaseCpmPage {
         return url.substring(url.lastIndexOf("/") +1 );
     }
     public int getNumberOfConcepts(){
-        List <WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='conceptList']/tr"));
-        // return resultRowsElement.size();
-        return driver.findElement(By.className("conceptList")).findElements(By.tagName("tr")).size();
+        final WebElement loadingIcon = driver.findElement(By.cssSelector("#cpmapp .loading"));
+        defaultWait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver input) {
+                return !loadingIcon.isDisplayed();
+            }
+        });
+        final WebElement noConcepts = driver.findElement(By.cssSelector(".conceptTable .noConceptsMsg"));
+        if(noConcepts.isDisplayed()) return 0;
+        // List <WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='conceptList']/tr"));
+        List <WebElement> resultRowsElement = driver.findElements(By.cssSelector(".conceptTable .conceptList tr"));
+        return resultRowsElement.size();
     }
     public void enterNewProposal(String someName, String email, String someComments) {
         defaultWait.until(new ExpectedCondition<Boolean>() {

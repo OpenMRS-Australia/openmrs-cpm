@@ -11,6 +11,6 @@ Feature: Add Concept to Draft Proposal
 
   @Selenium
   Scenario: Add Concept to Draft Proposal
-    Given I have a saved draft proposal
+    Given I have a saved draft proposal with zero concepts
     When I add a concept and save
     Then the proposal is stored with the added concept details

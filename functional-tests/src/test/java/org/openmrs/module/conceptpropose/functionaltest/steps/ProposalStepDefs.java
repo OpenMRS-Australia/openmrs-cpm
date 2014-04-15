@@ -46,6 +46,17 @@ public class ProposalStepDefs {
         loadProposalMonitorPage();
         monitorProposalsPage.navigateToDraftProposal("");
     }
+    @Given("^I have a saved draft proposal with zero concepts")
+    public void saved_draft_proposal_with_zero_concepts() throws IOException, InterruptedException {
+        login();
+        loadNewProposalPage();
+        if(sleep_length != 0) Thread.sleep(sleep_length);
+        adminPage.navigateToAdminPage();
+        if(sleep_length != 0) Thread.sleep(sleep_length);
+        loadProposalMonitorPage();
+        monitorProposalsPage.navigateToDraftProposalWithNoConcepts("");
+    }
+
     @Given("^I have a saved draft proposal with at least 1 concept")
     public void saved_draft_proposal_with_at_least_1_concept() throws IOException, InterruptedException {
         login();
@@ -58,12 +69,8 @@ public class ProposalStepDefs {
 
     @Given("^I have a saved draft proposal for deletion")
     public void navigate_to_proposal_for_deletion() throws IOException, InterruptedException {
-        login();
-        loadNewProposalPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
-        adminPage.navigateToAdminPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         loadProposalMonitorPage();
+        System.out.println("Delete " + generatedName);
         monitorProposalsPage.navigateToDraftProposal(generatedName);
     }
     @When("^I submit the proposal$")
@@ -82,6 +89,7 @@ public class ProposalStepDefs {
     public void edit_existing_proposal() throws IOException, InterruptedException {
         if(sleep_length != 0) Thread.sleep(sleep_length);
         generatedName = newRandomString();
+        System.out.println("Generated email " + generatedName);
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Comments Edit");
         if(sleep_length != 0) Thread.sleep(sleep_length);
         createProposalPage.editExistingProposal();
@@ -89,7 +97,9 @@ public class ProposalStepDefs {
     @When("I add a concept and save")
     public void add_concept_to_draft_proposal(){
         oldConceptCount = createProposalPage.getNumberOfConcepts();
+        System.out.println("Old concept count: " + oldConceptCount);
         generatedName = newRandomString();
+        System.out.println("New name: " + generatedName);
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Comments Edit");
         createProposalPage.navigateToAddConceptDialog();
         // TODO: need to ensure that this hasn't been previously entered
@@ -175,7 +185,7 @@ public class ProposalStepDefs {
     @Then("the proposal is deleted")
     public void proposal_is_deleted() throws IOException{
         loadProposalMonitorPage();
-        assertNull(monitorProposalsPage.findDraftProposal(generatedName, false));
+        assertNull(monitorProposalsPage.findDraftProposalByName(generatedName));
     }
     private void loadProposalMonitorPage() throws IOException {
         monitorProposalsPage = adminPage.navigateToMonitorProposals();
