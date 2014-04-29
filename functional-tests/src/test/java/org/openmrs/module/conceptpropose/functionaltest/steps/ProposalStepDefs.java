@@ -3,14 +3,9 @@ package org.openmrs.module.conceptpropose.functionaltest.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import net.sf.saxon.exslt.Date;
-import net.sf.saxon.exslt.Random;
 import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
 import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
 import org.openmrs.module.conceptpropose.pagemodel.MonitorProposalsPage;
-import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
-import org.openqa.selenium.browserlaunchers.Sleeper;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -27,11 +22,6 @@ public class ProposalStepDefs {
     private AdminPage adminPage;
 
 
-    // TODO: how to make this better instead of waiting 1 second?
-    // vagrant on OSX seems to be able to do without the sleep (most of the time?)
-    // vagrant on Windows 8.1, the sleep seems necessary to pass tests
-    // clearly something is inconsistent and is something to look into
-    private int sleep_length = 000;
     private String generatedName = "";
     private int oldConceptCount = 0;
     private String generatedComment = "";
@@ -40,9 +30,7 @@ public class ProposalStepDefs {
     public void navigate_to_page() throws IOException, InterruptedException {
         login();
         loadNewProposalPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         adminPage.navigateToAdminPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         loadProposalMonitorPage();
         monitorProposalsPage.navigateToDraftProposal("");
     }
@@ -50,9 +38,7 @@ public class ProposalStepDefs {
     public void saved_draft_proposal_with_zero_concepts() throws IOException, InterruptedException {
         login();
         loadNewProposalPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         adminPage.navigateToAdminPage();
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         loadProposalMonitorPage();
         monitorProposalsPage.navigateToDraftProposalWithNoConcepts("");
     }
@@ -75,7 +61,6 @@ public class ProposalStepDefs {
     }
     @When("^I submit the proposal$")
     public void submit_proposal() throws IOException, InterruptedException {
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         createProposalPage.submitProposal();
     }
 
@@ -87,11 +72,9 @@ public class ProposalStepDefs {
 
     @When("^I change the details and save$")
     public void edit_existing_proposal() throws IOException, InterruptedException {
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         generatedName = newRandomString();
         System.out.println("Generated email " + generatedName);
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Comments Edit");
-        if(sleep_length != 0) Thread.sleep(sleep_length);
         createProposalPage.editExistingProposal();
     }
     @When("I add a concept and save")
@@ -127,7 +110,6 @@ public class ProposalStepDefs {
     public void check_edited_concept_details(){
         monitorProposalsPage.navigateToDraftProposal(generatedName);
         assertThat(createProposalPage.getConceptComment(), equalTo(generatedComment));
-
     }
 
     @Then("^the proposal is stored with the new details$")
@@ -179,7 +161,6 @@ public class ProposalStepDefs {
 
     @When("I delete the proposal")
     public void delete_proposal() {
-        try{ Thread.sleep(2000); }catch(Exception e){}
         createProposalPage.deleteProposal();
         monitorProposalsPage.waitUntilFullyLoaded();
     }

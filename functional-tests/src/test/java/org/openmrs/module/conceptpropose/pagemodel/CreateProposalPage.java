@@ -1,12 +1,10 @@
 package org.openmrs.module.conceptpropose.pagemodel;
 
-import com.thoughtworks.selenium.Selenium;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 

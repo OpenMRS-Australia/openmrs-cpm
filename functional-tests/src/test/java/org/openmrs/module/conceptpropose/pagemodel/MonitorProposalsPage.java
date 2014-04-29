@@ -14,13 +14,15 @@ public class MonitorProposalsPage extends BaseCpmPage {
     }
 
     public void waitUntilFullyLoaded(){
-        // wait for proposal page to load
+        // wait for proposal page to load.
+        // needed especially after clicking add/edit/save on create/edit proposal page as after clicking the button
+        // it is still on the create/edit proposal page
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
                 return input.getCurrentUrl().endsWith("/proposals.list#/");
             }
         });
-
+        // the loading icon is the angular template before data is rendered
         final WebElement loadingIcon = driver.findElement(By.className("loading"));
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -28,6 +30,7 @@ public class MonitorProposalsPage extends BaseCpmPage {
             }
         });
     }
+
     public void navigateToDraftProposal(String name){
         findDraftProposalByName(name).click();
         final WebElement saveButton = getElementByAttribute("button", "ng-click", "save()");

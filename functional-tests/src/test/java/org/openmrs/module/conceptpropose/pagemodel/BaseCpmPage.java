@@ -18,8 +18,6 @@ public class BaseCpmPage {
         this.driver = driver;
         this.driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         defaultWait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
-
-
     }
 
     public String getHeaderText() {
