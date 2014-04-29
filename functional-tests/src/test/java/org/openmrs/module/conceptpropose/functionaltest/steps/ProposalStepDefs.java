@@ -173,7 +173,8 @@ public class ProposalStepDefs {
     @Then("^the concept is deleted")
     public void concept_is_deleted() throws IOException {
         loadProposalMonitorPage();
-        assertThat(monitorProposalsPage.getConceptCount(), equalTo(""+(oldConceptCount-1)));
+        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        assertThat(createProposalPage.getNumberOfConcepts(), equalTo((oldConceptCount-1)));
     }
 
     @When("I delete the proposal")
