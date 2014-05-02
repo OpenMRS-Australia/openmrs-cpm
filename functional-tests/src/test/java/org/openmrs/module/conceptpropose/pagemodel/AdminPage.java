@@ -61,8 +61,8 @@ public class AdminPage {
         return new CreateProposalPage(driver);
     }
 
-	public MonitorProposalsPage navigateToMonitorProposals() {
-    	 getMonitorProposalsLink().click();
+	public MonitorProposalsPage navigateToMonitorProposals(){
+    	getMonitorProposalsLink().click();
 		return new MonitorProposalsPage(driver);
 	}
 
