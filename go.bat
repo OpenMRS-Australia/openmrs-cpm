@@ -1,3 +1,2 @@
 @ECHO OFF
-
-buildtools\maven\bin\mvn %1
+gradlew %1
