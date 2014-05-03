@@ -35,15 +35,7 @@ public class SettingsPage extends BaseCpmPage {
 		passwordElement.clear();
 		passwordElement.sendKeys(password);
 
-        java.util.List<WebElement> buttonList = driver.findElements(By.tagName("Button"));
-
-        WebElement saveButton = null;
-        for (WebElement button : buttonList) {
-            if(button.getText().equals("Save"))
-                saveButton = button;
-        }
-
-        saveButton.click();
+        getElementByAttribute("button", "ng-click", "save()").click();
 	}
 
 	public String getUrl() {
