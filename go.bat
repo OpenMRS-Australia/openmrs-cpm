@@ -1,2 +1,2 @@
 @ECHO OFF
-gradlew %1
+gradlew.bat %1
