@@ -17,7 +17,7 @@ define([
           },
           {
             'link': config.contextPath + '/module/conceptreview/proposalReview.list',
-            'text': 'Incoming Proposals'
+            'text': 'Review Proposals'
           }
         ];
 

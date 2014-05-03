@@ -1,27 +1,34 @@
 <div id="cpm-settings">
     <cpm-menu menu="menu"></cpm-menu>
     <div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
+    <div ng-show="isTesting" class="testing"><img ng-src="{{contextPath}}/images/loading.gif" /> Testing...</div>
     <h2 id="headerText">Concept Proposal Settings</h2>
     <h3>Central dictionary</h3>
     <form>
         <table>
             <tr>
                 <td align="right"><label for="url">URL</label></td>
-                <td><input id="url" ng-model="settings.url"/> <span style="font-size: smaller;"><em>(Please include the context name)</em></span></td>
+                <td>
+                    <input id="url" ng-model="settings.url" ng-disabled="isLoading || isTesting"/>
+                    <span style="font-size: smaller;"><em>(Please include the context name)</em></span>
+                </td>
             </tr>
             <tr>
                 <td align="right"><label for="username">Username</label></td>
-                <td><input id="username" ng-model="settings.username" /></td>
+                <td><input id="username" ng-model="settings.username" ng-disabled="isLoading || isTesting"/></td>
             </tr>
             <tr>
                 <td align="right"><label for="password">Password</label></td>
-                <td><input type="password" id="password" ng-model="settings.password" /></td>
+                <td><input type="password" id="password" ng-model="settings.password" ng-disabled="isLoading || isTesting"/></td>
             </tr>
             <tr>
                 <td></td>
-                <td><span ng-show="settings.urlInvalid" style="font-weight: bold; color: red;">These settings appear to be incorrect; you may not be able to submit proposals.  The URL should point to the root of the OpenMRS installation.</span></td>
+                <td><span ng-show="!settingsValid && settingsTested" style="font-weight: bold; color: red;">These settings appear to be incorrect; you may not be able to submit proposals.  The URL should point to the root of the OpenMRS installation.</span><br/>
+                <span ng-show="!settingsValid && settingsTested" style="font-weight: bold; color: red;">Connection Error: {{connectErrorMessage}}.</span></td>
+                <td><span ng-show="settingsValid" style="font-weight: bold; color: green">These settings appear to be correct.</span></td>
             </tr>
         </table>
-        <button ng-click="save()" ng-disabled="isLoading">Save</button>
+        <button ng-click="save()" ng-disabled="isLoading || isTesting">Save</button>
+        <button ng-click="testConnection()" ng-disabled="isLoading || isTesting">Test Connection</button>
     </form>
 </div>

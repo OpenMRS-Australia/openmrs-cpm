@@ -80,6 +80,12 @@ public class DictionaryManagerController {
         return new SubmissionStatusDto(aPackage.getStatus());
     }
 
+    @RequestMapping(value = "/conceptreview/dictionarymanager/status", method = RequestMethod.GET)
+    public @ResponseBody String checkStatus() throws IOException {
+        final String status = "Running";
+        return status;
+    }
+
     @ExceptionHandler(APIAuthenticationException.class)
     public void apiAuthenticationExceptionHandler(Exception e, HttpServletResponse response) {
 
