@@ -1,4 +1,5 @@
 package org.openmrs.module.conceptpropose.pagemodel;
+import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -66,9 +67,9 @@ public class AdminPage {
 		return new MonitorProposalsPage(driver);
 	}
 
-	public IncomingProposalsPage navigateToIncomingProposals() {
+	public ReviewProposalsPage navigateToIncomingProposals() {
 		getIncomingProposalsLink().click();
-		return new IncomingProposalsPage(driver);
+		return new ReviewProposalsPage(driver);
 	}
 
 	public SettingsPage navigateToSettings() {

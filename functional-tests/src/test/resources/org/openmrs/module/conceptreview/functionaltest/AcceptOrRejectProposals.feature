@@ -6,13 +6,15 @@ Feature: Accept or Reject Proposals
   @Selenium
   Scenario:
     Given that I am logged in as Dictionary Manager
-    And that I have not yet reviewed a concept
+    And that a proposal has just been submitted
+    When I review the concept's status on the Review Proposals screen
     Then the concept's status should be 'Pending'
 
   @Selenium
   Scenario:
     Given that I am logged in as Dictionary Manager
-    And that I have navigated to a not-yet-reviewed concept's review page
+    And that a proposal has just been submitted
+    And that I have navigate to the proposal's review page
     When I mark a concept as accepted, rejected or "already exists"
     Then the concept's status should be updated accordingly
 
