@@ -20,6 +20,7 @@ import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -208,8 +209,15 @@ public class ProposalController {
 
 		return updatedPackage;
 	}
+    // for any execptions, return an error.
+    // Any other/better method rather than returning 500 Interal Service Error?
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public void errorResponse(Exception ex) {
 
-	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
+    }
+        @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
 	public void deleteProposal(@PathVariable final String proposalId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));
