@@ -14,6 +14,7 @@ import java.util.Calendar;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class ProposalStepDefs {
@@ -34,6 +35,7 @@ public class ProposalStepDefs {
         loadProposalMonitorPage();
         monitorProposalsPage.navigateToDraftProposal("");
     }
+
     @Given("^I have a saved draft proposal with zero concepts")
     public void saved_draft_proposal_with_zero_concepts() throws IOException, InterruptedException {
         login();
@@ -59,6 +61,7 @@ public class ProposalStepDefs {
         System.out.println("Delete " + generatedName);
         monitorProposalsPage.navigateToDraftProposal(generatedName);
     }
+
     @When("^I submit the proposal$")
     public void submit_proposal() throws IOException, InterruptedException {
         createProposalPage.submitProposal();
@@ -78,6 +81,7 @@ public class ProposalStepDefs {
         monitorProposalsPage = createProposalPage.editExistingProposal();
         monitorProposalsPage.waitUntilFullyLoaded();
     }
+
     @When("I add a concept and save")
     public void add_concept_to_draft_proposal(){
         oldConceptCount = createProposalPage.getNumberOfConcepts();
@@ -98,6 +102,7 @@ public class ProposalStepDefs {
         loadProposalMonitorPage();
         assertThat(monitorProposalsPage.getProposalConceptCount(generatedName), equalTo(oldConceptCount+1));
     }
+
     @When("I change the first concept comment")
     public void edit_concept(){
         generatedName = newRandomString();
@@ -107,6 +112,7 @@ public class ProposalStepDefs {
         createProposalPage.editExistingProposal();
         monitorProposalsPage.waitUntilFullyLoaded();
     }
+
     @Then("the concept comment is saved")
     public void check_edited_concept_details(){
         monitorProposalsPage.navigateToDraftProposal(generatedName);
@@ -157,6 +163,18 @@ public class ProposalStepDefs {
         createProposalPage.saveNewProposal();
         monitorProposalsPage.waitUntilFullyLoaded();
     }
+
+    @When("^I start to delete a concept then cancel")
+    public void start_delete_concept() {
+        oldConceptCount = createProposalPage.getNumberOfConcepts();
+        generatedName = newRandomString();
+        createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Edit Comment");
+        createProposalPage.startDeleteExistingConcept();
+        createProposalPage.cancelAtConfirmationPrompt();
+        createProposalPage.saveNewProposal();
+        monitorProposalsPage.waitUntilFullyLoaded();
+    }
+
     @Then("^the concept is deleted")
     public void concept_is_deleted() throws IOException {
         loadProposalMonitorPage();
@@ -164,16 +182,37 @@ public class ProposalStepDefs {
         assertThat(createProposalPage.getNumberOfConcepts(), equalTo((oldConceptCount-1)));
     }
 
+    @Then("^the concept still exists in the proposal")
+    public void concept_still_exists() throws IOException {
+        loadProposalMonitorPage();
+        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        assertThat(createProposalPage.getNumberOfConcepts(), equalTo((oldConceptCount)));
+    }
+
     @When("I delete the proposal")
     public void delete_proposal() {
         createProposalPage.deleteProposal();
         monitorProposalsPage.waitUntilFullyLoaded();
     }
+
+    @When("I start to delete the proposal then cancel")
+    public void start_delete_proposal_then_cancel() {
+        createProposalPage.startDeleteProposal();
+        createProposalPage.cancelAtConfirmationPrompt();
+    }
+
     @Then("the proposal is deleted")
     public void proposal_is_deleted() throws IOException{
         loadProposalMonitorPage();
         assertNull(monitorProposalsPage.findDraftProposalByName(generatedName));
     }
+
+    @Then("the proposal still exists")
+    public void proposal_still_exists() throws IOException{
+        loadProposalMonitorPage();
+        assertNotNull(monitorProposalsPage.findDraftProposalByName(generatedName));
+    }
+
     private void loadProposalMonitorPage() throws IOException {
         monitorProposalsPage = adminPage.navigateToMonitorProposals();
         monitorProposalsPage.waitUntilFullyLoaded();
