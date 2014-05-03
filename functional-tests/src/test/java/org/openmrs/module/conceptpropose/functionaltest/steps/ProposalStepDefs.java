@@ -75,7 +75,8 @@ public class ProposalStepDefs {
         generatedName = newRandomString();
         System.out.println("Generated email " + generatedName);
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Comments Edit");
-        createProposalPage.editExistingProposal();
+        monitorProposalsPage = createProposalPage.editExistingProposal();
+        monitorProposalsPage.waitUntilFullyLoaded();
     }
     @When("I add a concept and save")
     public void add_concept_to_draft_proposal(){
@@ -131,11 +132,15 @@ public class ProposalStepDefs {
 
     @When("^I save$")
     public void save_new_proposal(){
-        createProposalPage.saveNewProposal();
+        monitorProposalsPage = createProposalPage.saveNewProposal();
+        monitorProposalsPage.waitUntilFullyLoaded();
     }
 
     @Then("^the proposal is stored with the details$")
     public void check_the_details() throws InterruptedException, IOException {
+        // previous step must wait for the page to be 'fully loaded' before calling this step
+        // as loadProposalMonitorPage() looks for 'monitor proposals' link which could be on the 'previous' page
+        // causing a stale element exception will occur (e.g. on the create proposal page and clicking the save button)
         loadProposalMonitorPage();
         // TODO: need to verify email, concept added and concept comment
         assertThat(monitorProposalsPage.getLastProposalName(), equalTo("Some Name"));
