@@ -13,13 +13,16 @@ public class CreateProposalPage extends BaseCpmPage {
     private By emailSelector = By.name("email");
     private By commentSelector = By.tagName("textarea");
     private By buttonSelector = By.tagName("button");
+
     public CreateProposalPage(WebDriver driver) {
         super(driver);
     }
+
     public String getProposalID(){
         String url = driver.getCurrentUrl();
         return url.substring(url.lastIndexOf("/") +1 );
     }
+
     public int getNumberOfConcepts(){
         final WebElement loadingIcon = driver.findElement(By.cssSelector("#cpmapp .loading"));
         defaultWait.until(new ExpectedCondition<Boolean>() {
@@ -33,6 +36,7 @@ public class CreateProposalPage extends BaseCpmPage {
         List <WebElement> resultRowsElement = driver.findElements(By.cssSelector(".conceptTable .conceptList tr"));
         return resultRowsElement.size();
     }
+
     public void enterNewProposal(String someName, String email, String someComments) {
         defaultWait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver input) {
@@ -66,7 +70,6 @@ public class CreateProposalPage extends BaseCpmPage {
         getElementByAttribute("button", "ng-click", "submit()").click();
     }
 
-
     public void enterNewConcept(String conceptToSearch, int numberToAdd) {
         final WebElement addConceptContainer = driver.findElement(By.className("resultsContainer"));
         final WebElement searchBox = driver.findElement(By.className("searchBox"));
@@ -87,6 +90,7 @@ public class CreateProposalPage extends BaseCpmPage {
         WebElement addConceptButton = getElementByAttribute(footer, "button", "ng-click", "add()");
         addConceptButton.click();
     }
+
     public void enterNewConceptComment(String comment) {
         WebElement commentBox = driver
                 .findElement(By.className("conceptTable"))
@@ -114,16 +118,32 @@ public class CreateProposalPage extends BaseCpmPage {
         Alert alert = driver.switchTo().alert();
         alert.accept();
     }
+
+    public void startDeleteExistingConcept() {
+        getElementByAttribute("button", "ng-click", "removeConcept(concept)").click();
+    }
+
+    public void cancelAtConfirmationPrompt() {
+        Alert alert = driver.switchTo().alert();
+        alert.dismiss();
+    }
+
     public MonitorProposalsPage saveNewProposal() {
         final WebElement saveProposalButton = getElementByAttribute("button", "ng-click", "save()");
         saveProposalButton.click();
         return new MonitorProposalsPage(driver);
     }
+
     public void deleteProposal() {
         getElementByAttribute("button", "ng-click", "deleteProposal()").click();
         Alert alert = driver.switchTo().alert();
         alert.accept();
     }
+
+    public void startDeleteProposal() {
+        getElementByAttribute("button", "ng-click", "deleteProposal()").click();
+    }
+
     public void navigateToAddConceptDialog(){
         WebElement addConceptButton = getElementByAttribute("button", "ng-click", "openSearchConceptDialog()");
         addConceptButton.click();

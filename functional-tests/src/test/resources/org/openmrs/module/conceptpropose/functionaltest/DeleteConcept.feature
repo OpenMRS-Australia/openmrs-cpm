@@ -16,6 +16,12 @@ Feature: Delete Concept
     Then the proposal is stored with the added concept details
 
   @Selenium
+  Scenario: Start to Delete Concept and Cancel
+    Given I have a saved draft proposal with at least 1 concept
+    When I start to delete a concept then cancel
+    Then the concept still exists in the proposal
+
+  @Selenium
   Scenario: Delete Concept
     Given I have a saved draft proposal with at least 1 concept
     When I delete a concept
