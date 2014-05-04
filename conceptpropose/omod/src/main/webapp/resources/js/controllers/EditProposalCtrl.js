@@ -84,9 +84,14 @@ define([
             $scope.isLoading = true;
           };
 
-          var cancelInFlight = function() {
+          var cancelInFlight = function(data) {
+            $scope.proposal.status = 'DRAFT';
             $scope.isSubmitting = false;
             $scope.isLoading = false;
+            // any better way to handle exceptions from the web request?
+            if(data.status && data.status == "500"){
+                alert('Error submitting proposal (problem with Dictionary Manager\'s server)');
+            }
           };
 
           var flightLanded = function() {
