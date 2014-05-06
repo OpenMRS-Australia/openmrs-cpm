@@ -16,7 +16,11 @@ import org.openmrs.module.conceptpropose.web.dto.factory.SubmissionDtoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -61,10 +65,26 @@ public class SubmitProposal {
 
 		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/proposals";
 
-        final SubmissionResponseDto result = submissionRestTemplate.postForObject(url, requestEntity, SubmissionResponseDto.class);
-        if (result.getStatus() == SubmissionResponseStatus.FAILURE) {
-            log.error("Failed submitting proposal: " + result.getMessage());
-            throw new DAOException("Error in submitting proposed concept");
+        try {
+            final SubmissionResponseDto result = submissionRestTemplate.postForObject(url, requestEntity, SubmissionResponseDto.class);
+            if (result.getStatus() == SubmissionResponseStatus.FAILURE) {
+                log.error("Failed submitting proposal. Server Responded (200) but with Failure Status.");
+                throw new ProposalController.ProposalSubmissionException("", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
+            log.error("Failed submitting proposal. HttpClientErrorException Exception: " + e.getMessage() + ": " + e.getStatusCode() + "/" + e.getStatusText());
+            throw new ProposalController.ProposalSubmissionException("", e.getStatusCode());
+        }catch(RestClientException e){
+            log.error("Failed submitting proposal. REST Exception: " + e.getMessage());
+            throw new ProposalController.ProposalSubmissionException("", HttpStatus.BAD_GATEWAY);
+        }catch(IllegalArgumentException e){ // 404, due to invalid URL
+            log.error("Failed submitting proposal. Invalid URL: " + e.getMessage());
+            throw new ProposalController.ProposalSubmissionException("", HttpStatus.NOT_FOUND);
+        }catch(ProposalController.ProposalSubmissionException e){
+            throw e;
+        }catch(Exception e){
+            log.error("Failed submitting proposal. Unknown error: " + e.getMessage() + "(" + e.getClass() + ")");
+            throw new ProposalController.ProposalSubmissionException("", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         conceptPackage.setStatus(PackageStatus.SUBMITTED);
         Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);

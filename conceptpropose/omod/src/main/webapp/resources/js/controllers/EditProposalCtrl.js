@@ -88,9 +88,17 @@ define([
             $scope.proposal.status = 'DRAFT';
             $scope.isSubmitting = false;
             $scope.isLoading = false;
-            // any better way to handle exceptions from the web request?
-            if(data.status && data.status == "500"){
-                alert('Error submitting proposal (problem with Dictionary Manager\'s server)');
+
+            if(data.status)
+            {
+                if(data.status == "500")
+                    alert('Error submitting proposal (Problem with Dictionary Manager\'s server)');
+                else if(data.status == "401")
+                    alert('Error submitting proposal (Unauthorized)');
+                else if(data.status == "404")
+                    alert('Error submitting proposal (Could not contact server. Please check server URL in settings)');
+                else
+                    alert('Error submitting proposal (Unknown error: ' + data.status + ')');
             }
           };
 

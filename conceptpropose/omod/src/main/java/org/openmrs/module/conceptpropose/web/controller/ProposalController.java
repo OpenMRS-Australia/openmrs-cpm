@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,18 @@ public class ProposalController {
     private final NameDtoFactory nameDtoFactory;
 
 	private final ConceptProposeMapperService mapperService;
+
+    public static class ProposalSubmissionException extends RuntimeException {
+        private final HttpStatus httpStatus;
+        public ProposalSubmissionException(final String message, final HttpStatus status) {
+            super(message);
+            this.httpStatus = status;
+        }
+
+        public HttpStatus getHttpStatus() {
+            return httpStatus;
+        }
+    }
 
 
     @Autowired
@@ -209,15 +222,13 @@ public class ProposalController {
 
 		return updatedPackage;
 	}
-    // for any execptions, return an error.
-    // Any other/better method rather than returning 500 Interal Service Error?
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ProposalSubmissionException.class)
     @ResponseBody
-    public void errorResponse(Exception ex) {
-
+    public void errorResponse(HttpServletResponse httpRes,ProposalSubmissionException ex) {
+        httpRes.setStatus(ex.getHttpStatus().value());
     }
-        @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
+
+    @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
 	public void deleteProposal(@PathVariable final String proposalId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));
