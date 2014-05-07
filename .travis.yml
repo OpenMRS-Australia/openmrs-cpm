@@ -1,1 +1,2 @@
 language: java
+script: "./gradlew :conceptpropose:check :conceptreview:check"
