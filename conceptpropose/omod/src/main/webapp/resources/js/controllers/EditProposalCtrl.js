@@ -84,9 +84,20 @@ define([
             $scope.isLoading = true;
           };
 
-          var cancelInFlight = function() {
+          var cancelInFlight = function(data) {
+            $scope.proposal.status = 'DRAFT';
             $scope.isSubmitting = false;
             $scope.isLoading = false;
+
+            if(data.status)
+            {
+                if(data.status == "500")
+                    alert('Error submitting proposal (Problem with submitting Proposal)');
+                else if(data.status == "401")
+                    alert('Error submitting proposal (Unauthorized - you need to log in)');
+                else
+                    alert('Error submitting proposal (Unknown error: ' + data.status + ')');
+            }
           };
 
           var flightLanded = function() {

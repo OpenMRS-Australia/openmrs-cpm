@@ -20,12 +20,14 @@ import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,18 @@ public class ProposalController {
     private final NameDtoFactory nameDtoFactory;
 
 	private final ConceptProposeMapperService mapperService;
+
+    public static class ProposalSubmissionException extends RuntimeException {
+        private final HttpStatus httpStatus;
+        public ProposalSubmissionException(final String message, final HttpStatus status) {
+            super(message);
+            this.httpStatus = status;
+        }
+
+        public HttpStatus getHttpStatus() {
+            return httpStatus;
+        }
+    }
 
 
     @Autowired
@@ -208,8 +222,19 @@ public class ProposalController {
 
 		return updatedPackage;
 	}
+    @ExceptionHandler(ProposalSubmissionException.class)
 
-	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void errorResponse(HttpServletResponse httpRes,ProposalSubmissionException ex) {
+        try {
+            httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getHttpStatus()+"");
+        }
+        catch(Exception e){
+            httpRes.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
 	public void deleteProposal(@PathVariable final String proposalId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));
