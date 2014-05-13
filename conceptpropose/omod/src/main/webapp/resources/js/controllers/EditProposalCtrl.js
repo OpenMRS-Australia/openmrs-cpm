@@ -92,11 +92,9 @@ define([
             if(data.status)
             {
                 if(data.status == "500")
-                    alert('Error submitting proposal (Problem with Dictionary Manager\'s server)');
+                    alert('Error submitting proposal (Problem with submitting Proposal)');
                 else if(data.status == "401")
-                    alert('Error submitting proposal (Unauthorized)');
-                else if(data.status == "404")
-                    alert('Error submitting proposal (Could not contact server. Please check server URL in settings)');
+                    alert('Error submitting proposal (Unauthorized - you need to log in)');
                 else
                     alert('Error submitting proposal (Unknown error: ' + data.status + ')');
             }

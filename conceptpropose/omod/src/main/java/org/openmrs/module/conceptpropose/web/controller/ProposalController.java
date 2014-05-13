@@ -223,9 +223,15 @@ public class ProposalController {
 		return updatedPackage;
 	}
     @ExceptionHandler(ProposalSubmissionException.class)
+
     @ResponseBody
     public void errorResponse(HttpServletResponse httpRes,ProposalSubmissionException ex) {
-        httpRes.setStatus(ex.getHttpStatus().value());
+        try {
+            httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getHttpStatus()+"");
+        }
+        catch(Exception e){
+            httpRes.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
