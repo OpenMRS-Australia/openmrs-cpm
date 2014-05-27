@@ -1,6 +1,9 @@
 package org.openmrs.module.conceptpropose.web.service;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.dozer.DozerBeanMapper;
+import org.dozer.MappingProcessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +22,7 @@ import org.openmrs.module.conceptpropose.web.controller.UpdateProposedConceptPac
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
 import org.openmrs.util.LocaleUtility;
@@ -71,6 +75,9 @@ public class ConceptProposeMapperServiceTest {
 
 	@Before
 	public void before() throws Exception {
+		// uncomment to enable debug logging for Dozer
+		LogManager.getLogger(DozerBeanMapper.class).setLevel(Level.DEBUG);
+		LogManager.getLogger(MappingProcessor.class).setLevel(Level.DEBUG);
 
 		DozerBeanMapper mapper = new DozerBeanMapper();
 		mapperService = new ConceptProposeMapperService(mapper);
@@ -98,7 +105,7 @@ public class ConceptProposeMapperServiceTest {
 	//
 
 	@Test
-	public void convertProposedConceptPackageToSubmissionDto_shouldBindToDomain() throws Exception {
+	public void convertProposedConceptPackageToSubmissionDto_regularProposal_shouldBindToDto() throws Exception {
 
 		// Some things to note here:
 		//  * Locales will be serialised with toString()
@@ -152,6 +159,54 @@ public class ConceptProposeMapperServiceTest {
 		assertThat(newConcept.getDatatype(), is("datatype-uuid"));
 		assertThat(newConcept.getConceptClass(), is("concept-class-uuid"));
 
+	}
+
+	@Test
+	public void convertProposedConceptPackageToSubmissionDto_codedConcept_shouldBindToDto() {
+
+		final ProposedConceptPackage aPackage = new ProposedConceptPackage();
+		aPackage.setDescription("A description about the related concepts");
+		aPackage.setEmail("The proposer's email");
+		aPackage.setName("Name of proposal");
+
+		final Concept concept = new Concept();
+		concept.setUuid("concept-uuid");
+		final Collection<ConceptName> names = new ArrayList<ConceptName>();
+		final ConceptName mainName = new ConceptName();
+		mainName.setName("A newly created concept");
+		mainName.setLocale(Locale.ENGLISH);
+		names.add(mainName);
+		concept.setNames(names);
+		final ConceptDatatype conceptDatatype = new ConceptDatatype();
+		conceptDatatype.setUuid(ConceptDatatype.CODED_UUID); //           <-- here's the distinguishing factor
+		concept.setDatatype(conceptDatatype);
+		final ConceptClass conceptClass = new ConceptClass();
+		conceptClass.setUuid("concept-class-uuid");
+		concept.setConceptClass(conceptClass);
+		ConceptAnswer answer = new ConceptAnswer();//                     <-- then add the answer relationship
+		Concept answerConcept = new Concept();
+		answerConcept.setUuid("answer-concept-uuid");
+		answer.setAnswerConcept(answerConcept);
+		Drug drug = new Drug();
+		drug.setUuid("answer-drug-uuid");
+		answer.setAnswerDrug(drug);
+		concept.addAnswer(answer);
+		ProposedConcept proposedConcept = new ProposedConcept();
+		proposedConcept.setConcept(concept);
+		aPackage.addProposedConcept(proposedConcept);
+
+
+		final SubmissionDto dto = mapperService.convertProposedConceptPackageToSubmissionDto(aPackage);
+
+
+		final ProposedConceptDto conceptDto = dto.getConcepts().get(0);
+		assertThat(conceptDto.getDatatype(), is(ConceptDatatype.CODED_UUID));
+		final List<AnswerDto> answers = new ArrayList<AnswerDto>(conceptDto.getAnswers());
+		assertThat(answers.size(), is(1));
+		final AnswerDto answerDto = answers.get(0);
+		assertThat(answerDto.getConceptUuid(), is("concept-uuid"));
+		assertThat(answerDto.getAnswerConceptUuid(), is("answer-concept-uuid"));
+		assertThat(answerDto.getAnswerDrugUuid(), is("answer-drug-uuid"));
 	}
 
 
