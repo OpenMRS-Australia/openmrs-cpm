@@ -92,7 +92,7 @@ public class ConceptReviewMapperServiceTest {
 	//
 
 	@Test
-	public void convertSubmissionDtoToProposedConceptReviewPackage_shouldBindToDomain() throws Exception {
+	public void convertSubmissionDtoToProposedConceptReviewPackage_regularProposal_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptReviewPackage.class).withNoArguments().thenReturn(conceptReviewPackage);
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
@@ -122,7 +122,7 @@ public class ConceptReviewMapperServiceTest {
 	}
 
 	@Test
-	public void convertSubmissionDtoToProposedConceptReviewPackage_numericProposal() throws Exception {
+	public void convertSubmissionDtoToProposedConceptReviewPackage_numericProposal_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptReviewPackage.class).withNoArguments().thenReturn(conceptReviewPackage);
 		final SubmissionDto dto = setupNumericProposalFixture();
