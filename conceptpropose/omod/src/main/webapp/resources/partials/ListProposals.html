@@ -14,7 +14,7 @@
   <tr><td colspan="4" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif"/> Loading...</td></tr>
  </tbody>
  <tbody ng-show="responseReceived && proposals.length == 0">
-  <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
+  <tr><td colspan="4" align="center"><em>No proposals have been created</em></td></tr>
  </tbody>
  <tbody class="results">
   <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;">

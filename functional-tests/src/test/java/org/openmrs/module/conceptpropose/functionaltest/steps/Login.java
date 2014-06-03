@@ -39,7 +39,7 @@ public class Login {
             p.load(new InputStreamReader(is));
             username = p.getProperty("username");
             password = p.getProperty("password");
-            adminPageUrl = p.getProperty("adminPageUrl");
+            adminPageUrl = p.getProperty("openmrsUrl") + "/admin";
         }
 
 
