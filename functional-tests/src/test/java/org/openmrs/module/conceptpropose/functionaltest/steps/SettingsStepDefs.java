@@ -12,11 +12,22 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class SettingsStepDefs {
-	
 
 	private SettingsPage page;
+	private String originalUrl;
+	private String originalUsername;
+	private String originalPassword;
 
-	
+	private void retrieveOriginalSettings() {
+		originalUrl = page.getUrl();
+		originalUsername = page.getUsername();
+		originalPassword = page.getPassword();
+	}
+
+	private void restoreOriginalSettings() throws IOException {
+		page.enterSettings(originalUrl, originalUsername, originalPassword);
+	}
+
     @Given("^I'm on the Concept Proposal Settings page$")
     public void navigate_to_page() throws IOException {
     	loadPage();
@@ -24,28 +35,25 @@ public class SettingsStepDefs {
 
     @When("^I enter the settings for a dictionary$")
     public void i_enter_the_settings_for_a_dictionary() {
-        // TODO: this needs to be configurable as testing on non-vagrant systems would probably cause failure
-        // uses this URL for submitting proposal, and thus submit proposal step would fail
-    	page.enterSettings("http://192.168.33.10:8080/openmrs", "admin", "Admin123");
-    }
-    
+		retrieveOriginalSettings();
+		page.enterSettings("http://random.url:8080/openmrs", "some-username", "some-password");
+	}
+
     @When("^I refresh the page$")
     public void i_refresh_the_page() {
     	SeleniumDriver.getDriver().navigate().refresh();
     }
 
     @Then("^those settings should still be there$")
-    public void those_settings_should_still_be_there() {
-        assertThat(page.getUrl(), equalTo("http://192.168.33.10:8080/openmrs"));
-		assertThat(page.getUsername(), equalTo("admin"));
-		assertThat(page.getPassword(), equalTo("Admin123"));
-    }
-    
-    
+    public void those_settings_should_still_be_there() throws IOException {
+        assertThat(page.getUrl(), equalTo("http://random.url:8080/openmrs"));
+		assertThat(page.getUsername(), equalTo("some-username"));
+		assertThat(page.getPassword(), equalTo("some-password"));
+		restoreOriginalSettings();
+	}
 
-	public void loadPage() throws IOException {
+	private void loadPage() throws IOException {
         Login login = new Login();
 		page = login.login().navigateToSettings();
 	}
-    
 }
