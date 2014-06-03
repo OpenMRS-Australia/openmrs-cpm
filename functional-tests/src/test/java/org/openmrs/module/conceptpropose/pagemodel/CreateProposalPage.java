@@ -108,9 +108,9 @@ public class CreateProposalPage extends BaseCpmPage {
         return commentBox.getAttribute("value");
     }
 
-    public MonitorProposalsPage editExistingProposal() {
+    public ManageProposalsPage editExistingProposal() {
         getElementByAttribute("button", "ng-click", "save()").click();
-        return new MonitorProposalsPage(driver);
+        return new ManageProposalsPage(driver);
     }
 
     public void deleteExistingConcept() {
@@ -128,10 +128,10 @@ public class CreateProposalPage extends BaseCpmPage {
         alert.dismiss();
     }
 
-    public MonitorProposalsPage saveNewProposal() {
+    public ManageProposalsPage saveNewProposal() {
         final WebElement saveProposalButton = getElementByAttribute("button", "ng-click", "save()");
         saveProposalButton.click();
-        return new MonitorProposalsPage(driver);
+        return new ManageProposalsPage(driver);
     }
 
     public void deleteProposal() {

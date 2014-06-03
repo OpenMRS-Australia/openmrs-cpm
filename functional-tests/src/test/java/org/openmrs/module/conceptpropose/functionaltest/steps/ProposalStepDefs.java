@@ -5,7 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
 import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
-import org.openmrs.module.conceptpropose.pagemodel.MonitorProposalsPage;
+import org.openmrs.module.conceptpropose.pagemodel.ManageProposalsPage;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThat;
 
 public class ProposalStepDefs {
     private CreateProposalPage createProposalPage;
-    private MonitorProposalsPage monitorProposalsPage;
+    private ManageProposalsPage manageProposalsPage;
     private AdminPage adminPage;
 
 
@@ -32,8 +32,8 @@ public class ProposalStepDefs {
         login();
         loadNewProposalPage();
         adminPage.navigateToAdminPage();
-        loadProposalMonitorPage();
-        monitorProposalsPage.navigateToDraftProposal("");
+        loadManageProposalsPage();
+        manageProposalsPage.navigateToDraftProposal("");
     }
 
     @Given("^I have a saved draft proposal with zero concepts")
@@ -41,8 +41,8 @@ public class ProposalStepDefs {
         login();
         loadNewProposalPage();
         adminPage.navigateToAdminPage();
-        loadProposalMonitorPage();
-        monitorProposalsPage.navigateToDraftProposalWithNoConcepts("");
+        loadManageProposalsPage();
+        manageProposalsPage.navigateToDraftProposalWithNoConcepts("");
     }
 
     @Given("^I have a saved draft proposal with at least 1 concept")
@@ -50,16 +50,16 @@ public class ProposalStepDefs {
         login();
         loadNewProposalPage();
         adminPage.navigateToAdminPage();
-        loadProposalMonitorPage();
+        loadManageProposalsPage();
         // find proposal with more than 1
-        monitorProposalsPage.navigateToDraftProposalWithConcepts("");
+        manageProposalsPage.navigateToDraftProposalWithConcepts("");
     }
 
     @Given("^I have a saved draft proposal for deletion")
     public void navigate_to_proposal_for_deletion() throws IOException, InterruptedException {
-        loadProposalMonitorPage();
+        loadManageProposalsPage();
         System.out.println("Delete " + generatedName);
-        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        manageProposalsPage.navigateToDraftProposal(generatedName);
     }
 
     @When("^I submit the proposal$")
@@ -69,8 +69,8 @@ public class ProposalStepDefs {
 
     @Then("^the proposal is sent to the dictionary manager$")
     public void check_the_dictionary_manager() throws IOException, InterruptedException{
-        loadProposalMonitorPage();
-        assertThat(monitorProposalsPage.findProposalStatus(generatedName), equalTo("Submitted"));
+        loadManageProposalsPage();
+        assertThat(manageProposalsPage.findProposalStatus(generatedName), equalTo("Submitted"));
     }
 
     @When("^I change the details and save$")
@@ -78,8 +78,8 @@ public class ProposalStepDefs {
         generatedName = newRandomString();
         System.out.println("Generated email " + generatedName);
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Comments Edit");
-        monitorProposalsPage = createProposalPage.editExistingProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage = createProposalPage.editExistingProposal();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @When("I add a concept and save")
@@ -94,13 +94,13 @@ public class ProposalStepDefs {
         createProposalPage.enterNewConcept("ba", 1);
         createProposalPage.enterNewConceptComment("This is ab");
         createProposalPage.editExistingProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @Then("the proposal is stored with the added concept details")
     public void check_added_concept_details() throws IOException{
-        loadProposalMonitorPage();
-        assertThat(monitorProposalsPage.getProposalConceptCount(generatedName), equalTo(oldConceptCount+1));
+        loadManageProposalsPage();
+        assertThat(manageProposalsPage.getProposalConceptCount(generatedName), equalTo(oldConceptCount+1));
     }
 
     @When("I change the first concept comment")
@@ -110,19 +110,19 @@ public class ProposalStepDefs {
         generatedComment = newRandomString();
         createProposalPage.enterNewConceptComment(generatedComment);
         createProposalPage.editExistingProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @Then("the concept comment is saved")
     public void check_edited_concept_details(){
-        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        manageProposalsPage.navigateToDraftProposal(generatedName);
         assertThat(createProposalPage.getConceptComment(), equalTo(generatedComment));
     }
 
     @Then("^the proposal is stored with the new details$")
     public void check_the_edited_details() throws InterruptedException, IOException {
-        loadProposalMonitorPage();
-        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        loadManageProposalsPage();
+        manageProposalsPage.navigateToDraftProposal(generatedName);
         // TODO details of concepts added?
         assertThat(createProposalPage.getName(), equalTo(generatedName));
         assertThat(createProposalPage.getComment(), equalTo("Some Comments Edit"));
@@ -138,8 +138,8 @@ public class ProposalStepDefs {
 
     @When("^I save$")
     public void save_new_proposal(){
-        monitorProposalsPage = createProposalPage.saveNewProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage = createProposalPage.saveNewProposal();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @Then("^the proposal is stored with the details$")
@@ -147,11 +147,11 @@ public class ProposalStepDefs {
         // previous step must wait for the page to be 'fully loaded' before calling this step
         // as loadProposalMonitorPage() looks for 'monitor proposals' link which could be on the 'previous' page
         // causing a stale element exception will occur (e.g. on the create proposal page and clicking the save button)
-        loadProposalMonitorPage();
+        loadManageProposalsPage();
         // TODO: need to verify email, concept added and concept comment
-        assertThat(monitorProposalsPage.getLastProposalName(), equalTo("Some Name"));
-        assertThat(monitorProposalsPage.getLastProposalDescription(), equalTo("Some Comments"));
-        // assertThat(monitorProposalsPage.getConceptCount(), equalTo("1"));
+        assertThat(manageProposalsPage.getLastProposalName(), equalTo("Some Name"));
+        assertThat(manageProposalsPage.getLastProposalDescription(), equalTo("Some Comments"));
+        // assertThat(manageProposalsPage.getConceptCount(), equalTo("1"));
     }
 
     @When("^I delete a concept")
@@ -161,7 +161,7 @@ public class ProposalStepDefs {
         createProposalPage.enterNewProposal(generatedName, "email_edit@example.com", "Some Edit Comment");
         createProposalPage.deleteExistingConcept();
         createProposalPage.saveNewProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @When("^I start to delete a concept then cancel")
@@ -172,27 +172,27 @@ public class ProposalStepDefs {
         createProposalPage.startDeleteExistingConcept();
         createProposalPage.cancelAtConfirmationPrompt();
         createProposalPage.saveNewProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @Then("^the concept is deleted")
     public void concept_is_deleted() throws IOException {
-        loadProposalMonitorPage();
-        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        loadManageProposalsPage();
+        manageProposalsPage.navigateToDraftProposal(generatedName);
         assertThat(createProposalPage.getNumberOfConcepts(), equalTo((oldConceptCount-1)));
     }
 
     @Then("^the concept still exists in the proposal")
     public void concept_still_exists() throws IOException {
-        loadProposalMonitorPage();
-        monitorProposalsPage.navigateToDraftProposal(generatedName);
+        loadManageProposalsPage();
+        manageProposalsPage.navigateToDraftProposal(generatedName);
         assertThat(createProposalPage.getNumberOfConcepts(), equalTo((oldConceptCount)));
     }
 
     @When("I delete the proposal")
     public void delete_proposal() {
         createProposalPage.deleteProposal();
-        monitorProposalsPage.waitUntilFullyLoaded();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     @When("I start to delete the proposal then cancel")
@@ -203,19 +203,19 @@ public class ProposalStepDefs {
 
     @Then("the proposal is deleted")
     public void proposal_is_deleted() throws IOException{
-        loadProposalMonitorPage();
-        assertNull(monitorProposalsPage.findDraftProposalByName(generatedName));
+        loadManageProposalsPage();
+        assertNull(manageProposalsPage.findDraftProposalByName(generatedName));
     }
 
     @Then("the proposal still exists")
     public void proposal_still_exists() throws IOException{
-        loadProposalMonitorPage();
-        assertNotNull(monitorProposalsPage.findDraftProposalByName(generatedName));
+        loadManageProposalsPage();
+        assertNotNull(manageProposalsPage.findDraftProposalByName(generatedName));
     }
 
-    private void loadProposalMonitorPage() throws IOException {
-        monitorProposalsPage = adminPage.navigateToMonitorProposals();
-        monitorProposalsPage.waitUntilFullyLoaded();
+    private void loadManageProposalsPage() throws IOException {
+        manageProposalsPage = adminPage.navigateToManageProposals();
+        manageProposalsPage.waitUntilFullyLoaded();
     }
 
     private void loadNewProposalPage() throws IOException {
