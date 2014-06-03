@@ -7,9 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.util.List;
 
-public class MonitorProposalsPage extends BaseCpmPage {
+public class ManageProposalsPage extends BaseCpmPage {
     private By resultsSelector = By.className("results");
-    public MonitorProposalsPage(WebDriver driver) {
+    public ManageProposalsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -186,4 +186,19 @@ public class MonitorProposalsPage extends BaseCpmPage {
         return lastRowOfResults.findElements(By.className("ng-binding")).get(3).getText();
     }
 
+	public boolean checkIfProposalIsSubmitted(String proposalName) {
+		return findProposalStatus(proposalName).equals("Submitted");
+	}
+
+	public boolean checkIfProposalIsSaved(String proposalName) {
+		return findProposalStatus(proposalName).equals("Draft");
+	}
+
+	public int getProposalCount() {
+		return driver.findElements(By.cssSelector(".results tr")).size();
+	}
+
+	public boolean checkNoProposalsMessageIs(String msg) {
+		return driver.findElements(By.xpath("//*[contains(text(),'" + msg + "')]")).size() == 1;
+	}
 }

@@ -25,7 +25,7 @@ public class AdminPage {
 		return driver.findElement(By.cssSelector("a[href=\"/" + openmrsUrl + createProposalUrl  + "\"]"));
 	}
 
-	public WebElement getMonitorProposalsLink() {
+	public WebElement getManageProposalsLink() {
 		return driver.findElement(By.cssSelector("a[href=\"/"  + openmrsUrl + monitorProposalsUrl + "\"]"));
 	}
 
@@ -62,9 +62,9 @@ public class AdminPage {
         return new CreateProposalPage(driver);
     }
 
-	public MonitorProposalsPage navigateToMonitorProposals(){
-    	getMonitorProposalsLink().click();
-		return new MonitorProposalsPage(driver);
+	public ManageProposalsPage navigateToManageProposals(){
+    	getManageProposalsLink().click();
+		return new ManageProposalsPage(driver);
 	}
 
 	public ReviewProposalsPage navigateToIncomingProposals() {
