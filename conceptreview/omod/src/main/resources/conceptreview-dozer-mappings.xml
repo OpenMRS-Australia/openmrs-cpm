@@ -23,6 +23,8 @@
             </converter>
         </custom-converters>
     </configuration>
+
+    <!-- Mappings from the proposal server to the review server -->
     <mapping>
         <class-a>org.openmrs.module.conceptpropose.web.dto.SubmissionDto</class-a>
         <class-b>org.openmrs.module.conceptreview.ProposedConceptReviewPackage</class-b>
@@ -32,6 +34,26 @@
             <b-hint>org.openmrs.module.conceptreview.ProposedConceptReview</b-hint>
         </field>
     </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.conceptreview.ProposedConceptReview</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
+        <field>
+            <a>proposedConceptUuid</a>
+            <b>uuid</b>
+        </field>
+        <field-exclude>
+            <a>proposedConceptReviewId</a>
+            <b>id</b>
+        </field-exclude>
+        <field>
+            <a>codedDetails</a>
+            <b>answers</b>
+            <a-hint>org.openmrs.module.conceptreview.ProposedConceptReviewAnswer</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</b-hint>
+        </field>
+    </mapping>
+
+    <!-- browser mappings -->
     <mapping>
         <class-a>org.openmrs.module.conceptreview.ProposedConceptReviewPackage</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto</class-b>
@@ -45,18 +67,5 @@
     <mapping>
         <class-a>org.openmrs.module.conceptreview.ProposedConceptReview</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto</class-b>
-    </mapping>
-    <mapping>
-        <class-a>org.openmrs.module.conceptreview.ProposedConceptReview</class-a>
-        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
-        <field>
-            <a>proposedConceptUuid</a>
-            <b>uuid</b>
-        </field>
-        <field-exclude>
-            <a>proposedConceptReviewId</a>
-            <b>id</b>
-        </field-exclude>
-
     </mapping>
 </mappings>

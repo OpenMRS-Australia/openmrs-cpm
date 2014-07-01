@@ -1,8 +1,13 @@
 package org.openmrs.module.conceptreview.web.service;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.dozer.DozerBeanMapper;
+import org.dozer.MappingProcessor;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,6 +26,8 @@ import org.openmrs.util.LocaleUtility;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,9 +70,11 @@ public class ConceptReviewMapperServiceTest {
 
 	private ConceptReviewMapperService mapperService;
 
-
 	@Before
 	public void before() throws Exception {
+		// uncomment to enable debug logging for Dozer
+//		LogManager.getLogger(DozerBeanMapper.class).setLevel(Level.DEBUG);
+//		LogManager.getLogger(MappingProcessor.class).setLevel(Level.DEBUG);
 
 		DozerBeanMapper mapper = new DozerBeanMapper();
 		mapperService = new ConceptReviewMapperService(mapper);
@@ -92,7 +101,7 @@ public class ConceptReviewMapperServiceTest {
 	//
 
 	@Test
-	public void convertSubmissionDtoToProposedConceptReviewPackage_shouldBindToDomain() throws Exception {
+	public void convertSubmissionDtoToProposedConceptReviewPackage_regularProposal_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptReviewPackage.class).withNoArguments().thenReturn(conceptReviewPackage);
 		final SubmissionDto dto = setupRegularProposalFixtureWithJson();
@@ -122,7 +131,7 @@ public class ConceptReviewMapperServiceTest {
 	}
 
 	@Test
-	public void convertSubmissionDtoToProposedConceptReviewPackage_numericProposal() throws Exception {
+	public void convertSubmissionDtoToProposedConceptReviewPackage_numericProposal_shouldBindToDomain() throws Exception {
 
 		whenNew(ProposedConceptReviewPackage.class).withNoArguments().thenReturn(conceptReviewPackage);
 		final SubmissionDto dto = setupNumericProposalFixture();
@@ -140,6 +149,60 @@ public class ConceptReviewMapperServiceTest {
 		assertThat(numericDetails.getLowNormal(), is(20.3));
 		assertThat(numericDetails.getLowCritical(), is(15.0));
 		assertThat(numericDetails.getLowAbsolute(), is(0.0));
+	}
+
+	@Test
+	public void convertSubmissionDtoToProposedConceptReviewPackage_codedProposal_shouldBindToDomain() throws IOException {
+
+		SubmissionDto dto = setupCodedProposalFixture();
+
+
+		final ProposedConceptReviewPackage aPackage = mapperService.convertSubmissionDtoToProposedConceptReviewPackage(dto);
+
+
+		ArrayList<ProposedConceptReview> proposedConceptReviews = new ArrayList<ProposedConceptReview>(aPackage.getProposedConcepts());
+		assertThat(proposedConceptReviews.size(), is(1));
+		final ProposedConceptReview proposedConceptReview = proposedConceptReviews.get(0);
+		assertThat(proposedConceptReview.getCodedDetails().size(), is(1));
+	}
+
+	private SubmissionDto setupCodedProposalFixture() throws IOException {
+		final String fixture =
+				"{" +
+						"  'name': 'A proposal'," +
+						"  'email': 'asdf@asdf.com'," +
+						"  'description': 'A description'," +
+						"  'concepts': [" +
+						"    {" +
+						"      'uuid': 'concept-uuid'," +
+						"      'conceptClass': 'concept-class-uuid'," +
+						"      'datatype': '8d4a4488-c2cc-11de-8d13-0010c6dffd0f'," +
+						"      'comment': 'some comment'," +
+						"      'names': [" +
+						"        {" +
+						"          'name': 'Concept name'," +
+						"          'locale': 'en'" +
+						"        }" +
+						"      ]," +
+						"      'descriptions': [" +
+						"        {" +
+						"          'description': 'Concept description'," +
+						"          'locale': 'en'" +
+						"        }" +
+						"      ]," +
+						"      'answers': [" +
+						"        {" +
+						"          'conceptUuid': 'some-concept-uuid'," +
+						"          'answerConceptUuid': 'some-answer-concept-uuid'," +
+						"          'answerDrugUuid': 'some-answer-drug-uuid'," +
+						"          'sortWeight': '1'" +
+						"        }" +
+						"      ]" +
+						"    }" +
+						"  ]" +
+						"}";
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(fixture.replace("'", "\""), SubmissionDto.class);
 	}
 
 	private SubmissionDto setupNumericProposalFixture() throws IOException {
