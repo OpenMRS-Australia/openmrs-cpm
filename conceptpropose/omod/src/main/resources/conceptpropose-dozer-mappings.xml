@@ -23,6 +23,8 @@
             </converter>
         </custom-converters>
     </configuration>
+
+    <!-- Submission mappings -->
     <mapping>
         <class-a>org.openmrs.module.conceptpropose.ProposedConceptPackage</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.SubmissionDto</class-b>
@@ -32,6 +34,62 @@
             <b-hint>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</b-hint>
         </field>
     </mapping>
+    <mapping map-id="forSubmission">
+        <class-a>org.openmrs.module.conceptpropose.ProposedConcept</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
+        <field>
+            <a>concept</a>
+            <b>id</b>
+        </field>
+        <field type="one-way">
+            <a>concept.name.name</a>
+            <b>preferredName</b>
+        </field>
+        <field type="one-way">
+            <a>concept.datatype.uuid</a>
+            <b>datatype</b>
+        </field>
+        <field type="one-way">
+            <a>concept.conceptClass.uuid</a>
+            <b>conceptClass</b>
+        </field>
+        <field>
+            <a>concept.names</a>
+            <b>names</b>
+            <a-hint>org.openmrs.ConceptName</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</b-hint>
+        </field>
+        <field>
+            <a>concept.descriptions</a>
+            <b>descriptions</b>
+            <a-hint>org.openmrs.ConceptDescription</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto</b-hint>
+        </field>
+        <field>
+            <a>concept.answers</a>
+            <b>answers</b>
+            <a-hint>org.openmrs.ConceptAnswer</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</b-hint>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.openmrs.ConceptAnswer</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</class-b>
+        <field>
+            <a>concept.uuid</a>
+            <b>conceptUuid</b>
+        </field>
+        <field>
+            <a>answerConcept.uuid</a>
+            <b>answerConceptUuid</b>
+        </field>
+        <field>
+            <a>answerDrug.uuid</a>
+            <b>answerDrugUuid</b>
+        </field>
+    </mapping>
+
+    <!-- browser mappings -->
     <mapping>
         <class-a>org.openmrs.module.conceptpropose.ProposedConceptPackage</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptPackageDto</class-b>
@@ -70,38 +128,8 @@
             <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto</b-hint>
         </field>
     </mapping>
-    <mapping map-id="forSubmission">
-        <class-a>org.openmrs.module.conceptpropose.ProposedConcept</class-a>
-        <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
-        <field>
-            <a>concept</a>
-            <b>id</b>
-        </field>
-        <field type="one-way">
-            <a>concept.name.name</a>
-            <b>preferredName</b>
-        </field>
-        <field type="one-way">
-            <a>concept.datatype.uuid</a>
-            <b>datatype</b>
-        </field>
-        <field type="one-way">
-            <a>concept.conceptClass.uuid</a>
-            <b>conceptClass</b>
-        </field>
-        <field>
-            <a>concept.names</a>
-            <b>names</b>
-            <a-hint>org.openmrs.ConceptName</a-hint>
-            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</b-hint>
-        </field>
-        <field>
-            <a>concept.descriptions</a>
-            <b>descriptions</b>
-            <a-hint>org.openmrs.ConceptDescription</a-hint>
-            <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto</b-hint>
-        </field>
-    </mapping>
+
+    <!-- common -->
     <mapping>
         <class-a>org.openmrs.ConceptName</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.concept.NameDto</class-b>
