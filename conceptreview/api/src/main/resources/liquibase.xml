@@ -143,5 +143,10 @@
     <changeSet id="conceptreview_20140513" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptreview_proposed_concept_review_package" columnName="description" newDataType="TEXT"/>
     </changeSet>
+    <changeSet id="conceptreview_20140709" author="OpenMRS-Australia">
+        <dropPrimaryKey tableName="conceptreview_proposed_concept_review_description"/>
+        <modifyDataType tableName="conceptreview_proposed_concept_review_description" columnName="description" newDataType="TEXT"/>
+        <addPrimaryKey  tableName="conceptreview_proposed_concept_review_description" columnNames="proposed_concept_review" />
+    </changeSet>
 
 </databaseChangeLog>
