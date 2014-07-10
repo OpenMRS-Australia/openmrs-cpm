@@ -17,7 +17,6 @@ public class ProposedConceptReviewDescription implements Serializable {
 	@JoinColumn(name = "proposed_concept_review")
 	private ProposedConceptReview proposedConceptReview;
 
-	@Id
 	private String description;
 
 	private Locale locale;
