@@ -35,7 +35,11 @@ define([
         };
 
         $scope.saveReviewComment = function() {
-          $scope.concept.$update({proposalId: proposalId});
+          $scope.concept.$update({proposalId: proposalId}, function(){
+            alert("Comment Saved");
+          }, function(){
+            alert("Error saving comment");
+          });
         };
 
         $scope.conceptCreated = function() {
