@@ -39,13 +39,34 @@ public class QueryBrowserPage {
 			queryBrowserPageUrl = p.getProperty("openmrsUrl") + "/module/querybrowser/manage.form";
 		}
 	}
+    public void removeAllProposals() {
+        driver.get(queryBrowserPageUrl);
 
-	public void removeAllProposals() {
-		driver.get(queryBrowserPageUrl);
+        final WebElement queryEl = driver.findElement(By.cssSelector("textarea[ng-model=\"query\"]"));
+        queryEl.sendKeys("delete from conceptpropose_proposed_concept_package");
+        driver.findElement(By.xpath("//button[contains(text(),'Submit Query')]")).click();
+    }
+    private void runSQLCommand(String command){
+        driver.get(queryBrowserPageUrl);
 
-		final WebElement queryEl = driver.findElement(By.cssSelector("textarea[ng-model=\"query\"]"));
-		queryEl.sendKeys("delete from conceptpropose_proposed_concept_package");
-		driver.findElement(By.xpath("//button[contains(text(),'Submit Query')]")).click();
-	}
+        final WebElement queryEl = driver.findElement(By.cssSelector("textarea[ng-model=\"query\"]"));
+        queryEl.sendKeys(command);
+        driver.findElement(By.xpath("//button[contains(text(),'Submit Query')]")).click();
+    }
+    public void removeAllProposalsOnReviewModule() {
+        runSQLCommand("delete from conceptreview_proposed_concept_review_package ");
+        runSQLCommand("delete from conceptreview_proposed_concept_review ");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_answer");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_description ");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_name ");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_numeric");
+    }
 
+    public void createSubmittedProposalOnReviewModule(String description){
+        String sql = "insert into  conceptreview_proposed_concept_review_package " +
+            " (uuid, conceptreview_proposed_concept_package_uuid, name, email, description, creator, date_created, changedBy, date_changed, version, status) " +
+            " values " +
+            " ('123', '456', 'submitter', 'test@email.com', '" + description + "', 1, '2014-01-01', NULL, '2014-01-01', 0, 'RECEIVED')";
+        runSQLCommand(sql);
+    }
 }

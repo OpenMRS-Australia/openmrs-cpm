@@ -29,4 +29,16 @@ public class ReviewProposalsPage extends BaseCpmPage {
 		driver.findElement(By.cssSelector("#proposalReviewList .proposal:nth-of-type(" + String.valueOf(proposalNumber) + ")")).click();
 		return new ReviewProposalPage(driver);
 	}
+    public boolean checkIfProposalIsSubmitted(String proposalDescription){
+        return findProposal(proposalDescription) != null;
+    }
+    public WebElement findProposal(String proposalDescription){
+        List<WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='results']/tr"));
+        for (WebElement row : resultRowsElement)
+        {
+            if(row.findElement(By.xpath(".//td[3]")).getText().equals(proposalDescription))
+                return row;
+        }
+        return null;
+    }
 }

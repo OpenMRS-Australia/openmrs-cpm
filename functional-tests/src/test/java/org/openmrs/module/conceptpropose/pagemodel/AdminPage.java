@@ -7,7 +7,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class AdminPage {
 	private static final String createProposalUrl = "/module/conceptpropose/proposals.list#/edit";
 	private static final String monitorProposalsUrl = "/module/conceptpropose/proposals.list";
-	private static final String incomingProposalsUrl = "/module/conceptpropose/proposalReview.list";
+	private static final String incomingProposalsUrl = "/module/conceptreview/proposalReview.list";
 	private static final String settingsUrl = "/module/conceptpropose/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
