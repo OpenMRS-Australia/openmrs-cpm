@@ -46,6 +46,7 @@ public class QueryBrowserPage {
         queryEl.sendKeys("delete from conceptpropose_proposed_concept_package");
         driver.findElement(By.xpath("//button[contains(text(),'Submit Query')]")).click();
     }
+
     private void runSQLCommand(String command){
         driver.get(queryBrowserPageUrl);
 
@@ -53,6 +54,7 @@ public class QueryBrowserPage {
         queryEl.sendKeys(command);
         driver.findElement(By.xpath("//button[contains(text(),'Submit Query')]")).click();
     }
+
     public void removeAllProposalsOnReviewModule() {
         runSQLCommand("delete from conceptreview_proposed_concept_review_package ");
         runSQLCommand("delete from conceptreview_proposed_concept_review ");
@@ -64,9 +66,30 @@ public class QueryBrowserPage {
 
     public void createSubmittedProposalOnReviewModule(String description){
         String sql = "insert into  conceptreview_proposed_concept_review_package " +
-            " (uuid, conceptreview_proposed_concept_package_uuid, name, email, description, creator, date_created, changedBy, date_changed, version, status) " +
+            " (conceptreview_proposed_concept_review_package_id, uuid, conceptreview_proposed_concept_package_uuid, name, email, description, creator, date_created, changedBy, date_changed, version, status) " +
             " values " +
-            " ('123', '456', 'submitter', 'test@email.com', '" + description + "', 1, '2014-01-01', NULL, '2014-01-01', 0, 'RECEIVED')";
+            " (1, '123', '456', 'submitter', 'test@email.com', '" + description + "', 1, '2014-01-01', NULL, '2014-01-01', 0, 'RECEIVED')";
+        runSQLCommand(sql);
+        sql = "insert into  conceptreview_proposed_concept_review_description" +
+                " (proposed_concept_review, description, locale) " +
+                " values " +
+                " (1, 'A test description', 'en')";
+        runSQLCommand(sql);
+        sql = "insert into  conceptreview_proposed_concept_review_name" +
+                " (conceptreview_review_name_id, proposed_concept_review, name, type, locale) " +
+                " values " +
+                "  (5,1, 'A test name1', 'FULLY SPECIFIED', 'en') " +
+                " ,(6,1, 'A test name2', 'FULLY SPECIFIED', 'en') " +
+                " ,(7,1, 'A test name3', 'FULLY SPECIFIED', 'en') " +
+                "";
+        runSQLCommand(sql);
+        sql = "insert into  conceptreview_proposed_concept_review" +
+                " (conceptreview_proposed_concept_review_id, conceptreview_proposed_concept_review_package_id, uuid, conceptreview_proposed_concept_uuid, version, status, datatype_id, concept_class_id) " +
+                " values " +
+                "  (5,1, 'UUID1', 'UUID_1', 0, 'RECEIVED', 4,3) " +
+                " ,(6,1, 'UUID2', 'UUID_2', 0, 'RECEIVED', 4,3) " +
+                " ,(7,1, 'UUID3', 'UUID_3', 0, 'RECEIVED', 4,3) " +
+                "";
         runSQLCommand(sql);
     }
 }

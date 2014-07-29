@@ -26,7 +26,7 @@ public class ReviewProposalsPage extends BaseCpmPage {
 	}
 
 	public ReviewProposalPage navigateTo(int proposalNumber) {
-		driver.findElement(By.cssSelector("#proposalReviewList .proposal:nth-of-type(" + String.valueOf(proposalNumber) + ")")).click();
+		driver.findElement(By.cssSelector("#conceptreview .results tr:nth-of-type(" + String.valueOf(proposalNumber) + ")")).click();
 		return new ReviewProposalPage(driver);
 	}
     public boolean checkIfProposalIsSubmitted(String proposalDescription){

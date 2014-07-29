@@ -10,16 +10,14 @@ Feature: Accept or Reject Proposals
     When I open the Review Proposals page
     Then all proposals that have been submitted for review are displayed
 
-#  @Selenium
-#  Scenario:
-#    Given that I am logged in as Dictionary Manager
-#    And that a proposal has just been submitted
-#    When I open the Review Proposals page
-#    And I click on a proposal to be reviewed
-#    And I click on a concept
-#    And I mark a concept as accepted, rejected or "already exists"
-#    Then the concept's status should be updated accordingly
-
+  @Selenium
+  Scenario:
+    Given that I am logged in as Dictionary Manager
+    And that a proposal has just been submitted
+    When I open the Review Proposals page
+    And I click on a proposal to be reviewed
+    And I mark a concept as accepted, rejected or "already exists"
+    Then the concept's status should be updated accordingly
 
 #  Feature: Accept or Reject Proposals
 #  As Dictionary Manager
