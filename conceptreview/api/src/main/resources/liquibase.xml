@@ -146,7 +146,10 @@
     <changeSet id="conceptreview_20140709" author="OpenMRS-Australia">
         <dropPrimaryKey tableName="conceptreview_proposed_concept_review_description"/>
         <modifyDataType tableName="conceptreview_proposed_concept_review_description" columnName="description" newDataType="TEXT"/>
-        <addPrimaryKey  tableName="conceptreview_proposed_concept_review_description" columnNames="proposed_concept_review" />
+        <addColumn tableName="conceptreview_proposed_concept_review_description">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_description_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
     </changeSet>
-
 </databaseChangeLog>
