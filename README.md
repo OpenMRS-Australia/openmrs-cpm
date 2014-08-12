@@ -28,6 +28,34 @@ As of now, you will need to come to the meetup in order to have access to the US
 
 The [notes on setting up a dev environment](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/How-To-Set-Up-A-Development-Environment) and the [list of gotchas](https://github.com/OpenMRS-Australia/openmrs-cpm/wiki/Gotchas) may also be useful.
 
+**Developing Tools & Project Setup Instructions**
+---------------------
+Java development is best done with an IDE:
+
+We recommend using IntelliJ IDE IDEA (Please download the free edition) for this project 
+
+To start developing and contributing to this project (this is assuming that you have completed all the instructions in the [**openmrs-vagrant**](https://github.com/OpenMRS-Australia/openmrs-vagrant) page. If you haven't, please do that before continuing):
+
+Download and install IntelliJ: [http://www.jetbrains.com/idea/download/](http://www.jetbrains.com/idea/download/)
+
+1. Once installed, go to **Import Project**, go to the **openmrs-cpm folder**, find the **build.gradle** file and press **Ok** (please refer to the images below for further information).
+	
+	* Import Project (image 1): [http://i.imgur.com/AckdgLd.png](http://i.imgur.com/AckdgLd.png)
+	* Import Project (image 2): [http://i.imgur.com/KKui4Y8.png](http://i.imgur.com/KKui4Y8.png)
+	* Import Project (image 3): [https://i.imgur.com/u8Bf09h.png](https://i.imgur.com/u8Bf09h.png)
+
+	Allow a few minutes for IntelliJ to import the project
+
+2. Once the project has been successfully imported, go to **Files** and click **Settings**. Once you're in the **Settings** page, go to **Plugins** and click the **Browse Repositories** button.
+	
+	*	Plugins (image): [http://i.imgur.com/2xe8JQ7.png](http://i.imgur.com/2xe8JQ7.png)	
+
+3. Once you're in the **Browse Repositories** page, search for and install these plugins
+	1. Gherkin  [http://i.imgur.com/Jamr3tF.png](http://i.imgur.com/Jamr3tF.png)
+	2. Cucumber for Java [http://i.imgur.com/drtccbg.png](http://i.imgur.com/drtccbg.png)
+
+**Congratulations! You can now start coding and contribute to this project!!**
+
 Sample workflow
 ---------------
 
