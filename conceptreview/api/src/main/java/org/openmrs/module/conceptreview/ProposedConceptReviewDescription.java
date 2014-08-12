@@ -13,7 +13,7 @@ public class ProposedConceptReviewDescription implements Serializable {
 	@Id
 	@GeneratedValue(generator = "nativeIfNotAssigned")
 	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
-	@Column(name = "conceptreview_review_description_id")
+	@Column(name = "conceptreview_proposed_concept_review_description_id")
 	private Integer proposedConceptReviewDescriptionId;
 
 	@ManyToOne
