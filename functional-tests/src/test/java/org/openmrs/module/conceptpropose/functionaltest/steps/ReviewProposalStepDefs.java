@@ -5,6 +5,7 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
 import org.openmrs.module.conceptpropose.pagemodel.QueryBrowserPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewConceptPage;
@@ -78,4 +79,19 @@ public class ReviewProposalStepDefs {
         final String conceptStatusExisting = reviewProposalPage.getConceptStatus(3);
         assertThat(conceptStatusExisting, containsString("Existing"));
     }
+
+	@When("^I click on a concept to be reviewed$")
+	public void I_click_on_a_concept_to_be_reviewed(){
+		reviewConceptPage = reviewProposalPage.navigateTo(1);
+	}
+
+	@And("^I submit a comment$")
+	public void I_submit_a_comment() {
+		reviewConceptPage = reviewConceptPage.addComment("A new comment");
+	}
+
+	@Then("^my comment is displayed$")
+	public void my_comment_is_displayed()  {
+		assertThat(reviewConceptPage.getComment(), is("A new comment"));
+	}
 }
