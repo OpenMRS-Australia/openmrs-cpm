@@ -9,10 +9,10 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
-// TODO: fix this. was getting import errors
-//import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
-//import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
+
+import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
@@ -30,16 +30,16 @@ import java.util.Set;
 public class ReviewController {
 
 // TODO: fix this. was getting import errors
-//    private final NameDtoFactory nameDtoFactory;
-//
-//    private final DescriptionDtoFactory descriptionDtoFactory;
-//    @Autowired
-//    public ReviewController (
-//            final DescriptionDtoFactory descriptionDtoFactory,
-//            final NameDtoFactory nameDtoFactory) {
-//        this.descriptionDtoFactory = descriptionDtoFactory;
-//        this.nameDtoFactory = nameDtoFactory;
-//    }
+    private final NameDtoFactory nameDtoFactory;
+
+    private final DescriptionDtoFactory descriptionDtoFactory;
+    @Autowired
+    public ReviewController (
+            final DescriptionDtoFactory descriptionDtoFactory,
+            final NameDtoFactory nameDtoFactory) {
+        this.descriptionDtoFactory = descriptionDtoFactory;
+        this.nameDtoFactory = nameDtoFactory;
+    }
 	//
 	// Pages
 	//
@@ -164,11 +164,11 @@ public class ReviewController {
         final ConceptDto dto = new ConceptDto();
         dto.setId(concept.getConceptId());
 // TODO: fix this. was getting import errors
-//        dto.setNames(nameDtoFactory.create(concept));
+        dto.setNames(nameDtoFactory.create(concept));
         dto.setPreferredName(concept.getName().getName());
         dto.setDatatype(concept.getDatatype().getName());
 // TODO: fix this. was getting import errors
-//        dto.setDescriptions(descriptionDtoFactory.create(concept));
+        dto.setDescriptions(descriptionDtoFactory.create(concept));
         if(concept.getDescription()!=null)  {
             dto.setCurrLocaleDescription(concept.getDescription().getDescription());
         }
