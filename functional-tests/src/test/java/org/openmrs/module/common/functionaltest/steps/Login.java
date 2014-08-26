@@ -1,4 +1,4 @@
-package org.openmrs.module.conceptpropose.functionaltest.steps;
+package org.openmrs.module.common.functionaltest.steps;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.module.conceptpropose.pagemodel.AdminPage;

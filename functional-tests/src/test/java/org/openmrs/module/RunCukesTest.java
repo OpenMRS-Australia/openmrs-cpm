@@ -1,4 +1,4 @@
-package org.openmrs.module.conceptpropose.functionaltest;
+package org.openmrs.module;
 
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
