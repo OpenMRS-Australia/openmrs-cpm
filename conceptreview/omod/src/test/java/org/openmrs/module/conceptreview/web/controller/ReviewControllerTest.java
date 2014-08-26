@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
+import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
@@ -42,7 +44,7 @@ public class ReviewControllerTest {
 	ProposedConceptReview proposedConceptReview;
 
 	@InjectMocks
-	ReviewController controller = new ReviewController();
+	ReviewController controller = new ReviewController(new DescriptionDtoFactory(), new NameDtoFactory());
 
 	@Before
 	public void before() throws Exception {

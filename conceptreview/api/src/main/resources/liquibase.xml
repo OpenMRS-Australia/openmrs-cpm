@@ -152,4 +152,8 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="conceptreview_20140715" author="OpenMRS-Australia">
+        <modifyDataType tableName="conceptreview_proposed_concept_review" columnName="reviewComment" newDataType="TEXT"/>
+    </changeSet>
+
 </databaseChangeLog>
