@@ -24,7 +24,7 @@ allprojects {
 
     dependencies {
 
-        compile 'net.sf.dozer:dozer:5.4.0'
+        compile 'net.sf.dozer:dozer:5.5.1'
 
         compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
         compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
