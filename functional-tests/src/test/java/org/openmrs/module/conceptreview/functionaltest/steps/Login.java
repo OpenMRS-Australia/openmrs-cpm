@@ -1,7 +1,7 @@
-package org.openmrs.module.common.functionaltest.steps;
+package org.openmrs.module.conceptreview.functionaltest.steps;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
+import org.openmrs.module.common.pagemodel.AdminPage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +15,8 @@ import java.util.Properties;
  * Time: 8:56 PM
  * To change this template use File | Settings | File Templates.
  */
+
+// TODO - refactor Login , SeleniumDriver and QueryBrowserPage to common package? tried to do so but IntelliJ wasn't able to run the review functional tests correctly
 public class Login {
     public AdminPage login() throws IOException {
         String username;

@@ -1,4 +1,7 @@
-package org.openmrs.module.conceptpropose.pagemodel;
+package org.openmrs.module.common.pagemodel;
+import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
+import org.openmrs.module.conceptpropose.pagemodel.ManageProposalsPage;
+import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

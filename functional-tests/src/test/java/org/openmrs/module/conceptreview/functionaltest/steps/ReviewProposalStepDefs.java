@@ -1,14 +1,11 @@
 package org.openmrs.module.conceptreview.functionaltest.steps;
 
-import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openmrs.module.common.functionaltest.steps.Login;
-import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
-import org.openmrs.module.conceptpropose.pagemodel.QueryBrowserPage;
+import org.openmrs.module.common.pagemodel.AdminPage;
+import org.openmrs.module.conceptreview.pagemodel.QueryBrowserPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewConceptPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;

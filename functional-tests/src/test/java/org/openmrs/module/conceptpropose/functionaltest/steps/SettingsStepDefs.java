@@ -5,8 +5,6 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
-import org.openmrs.module.common.functionaltest.steps.Login;
-import org.openmrs.module.common.functionaltest.steps.SeleniumDriver;
 import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
 
 import cucumber.api.java.en.Given;
