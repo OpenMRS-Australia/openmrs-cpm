@@ -3,6 +3,9 @@ define([
     'config',
     'js/services/proposalReviewConcepts',
     'js/services/menu',
+    'js/services/searchConcept',
+    'js/directives/searchConceptDialog',
+    'js/directives/jqueryUiDialog',
     './index'
   ], function(angular, config) {
 
@@ -22,7 +25,11 @@ define([
           if (concepts.length > 0) {
             $scope.concept.conceptId = concepts[0].id;
           }
-          $scope.concept.$update({proposalId: proposalId});
+          $scope.concept.$update({proposalId: proposalId}, function(){
+            $scope.showProposal();
+          }, function(){
+            alert("Error saving. Please try again");
+          });
           $scope.isSearchDialogOpen = false;
         };
 
@@ -34,11 +41,15 @@ define([
           $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
         };
 
+        $scope.showProposal = function() {
+          $location.path('/edit/' + proposalId);
+        };
+
         $scope.saveReviewComment = function() {
           $scope.concept.$update({proposalId: proposalId}, function(){
-            alert("Comment Saved");
+            alert('Comment Saved');
           }, function(){
-            alert("Error saving comment");
+            alert('Error saving comment');
           });
         };
 
@@ -54,7 +65,11 @@ define([
 
         $scope.conceptRejected = function() {
           $scope.concept.status = 'CLOSED_REJECTED';
-          $scope.concept.$update({proposalId: proposalId});
+          $scope.concept.$update({proposalId: proposalId}, function(){
+            $scope.showProposal();
+          }, function(){
+            alert("Error saving. Please try again");
+          });
         };
       });
   });

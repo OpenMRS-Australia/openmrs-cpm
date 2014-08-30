@@ -120,7 +120,8 @@ public class DtoFactoryTest {
 		verifyConceptName(proposedConceptReviewDto, ConceptNameType.FULLY_SPECIFIED);
 		verifyConceptDescriptions(proposedConceptReviewDto);
 	}
-	
+
+	@Test
 	public void createProposedConceptReviewDto_withConcept() {
 		setupProposedConceptReview();
 		setupConcept();
