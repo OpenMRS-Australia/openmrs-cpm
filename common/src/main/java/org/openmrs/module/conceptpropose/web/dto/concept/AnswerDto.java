@@ -6,17 +6,13 @@ public class AnswerDto {
 
 	public String answerConceptUuid;
 
+	public String answerConceptPreferredName; // for review UI
+
 	public String answerDrugUuid;
 
+	public String answerDrugPreferredName; // for review UI
+
 	private Double sortWeight;
-
-	public String getAnswerConceptUuid() {
-		return answerConceptUuid;
-	}
-
-	public void setAnswerConceptUuid(String answerConceptUuid) {
-		this.answerConceptUuid = answerConceptUuid;
-	}
 
 	public String getConceptUuid() {
 		return conceptUuid;
@@ -26,12 +22,36 @@ public class AnswerDto {
 		this.conceptUuid = conceptUuid;
 	}
 
+	public String getAnswerConceptUuid() {
+		return answerConceptUuid;
+	}
+
+	public void setAnswerConceptUuid(String answerConceptUuid) {
+		this.answerConceptUuid = answerConceptUuid;
+	}
+
+	public String getAnswerConceptPreferredName() {
+		return answerConceptPreferredName;
+	}
+
+	public void setAnswerConceptPreferredName(String answerConceptPreferredName) {
+		this.answerConceptPreferredName = answerConceptPreferredName;
+	}
+
 	public String getAnswerDrugUuid() {
 		return answerDrugUuid;
 	}
 
 	public void setAnswerDrugUuid(String answerDrugUuid) {
 		this.answerDrugUuid = answerDrugUuid;
+	}
+
+	public String getAnswerDrugPreferredName() {
+		return answerDrugPreferredName;
+	}
+
+	public void setAnswerDrugPreferredName(String answerDrugPreferredName) {
+		this.answerDrugPreferredName = answerDrugPreferredName;
 	}
 
 	public Double getSortWeight() {

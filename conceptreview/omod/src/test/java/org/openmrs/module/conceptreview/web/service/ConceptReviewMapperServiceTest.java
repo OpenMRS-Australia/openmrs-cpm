@@ -14,12 +14,18 @@ import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptName;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
+import org.openmrs.module.conceptpropose.web.dto.concept.NumericDto;
 import org.openmrs.module.conceptreview.*;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.openmrs.util.LocaleUtility;
@@ -30,10 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.is;
@@ -69,6 +72,8 @@ public class ConceptReviewMapperServiceTest {
 	private Integer proposedConceptReviewPackageId = 1;
 
 	private ConceptReviewMapperService mapperService;
+
+	private Locale english = new Locale("en");
 
 	@Before
 	public void before() throws Exception {
@@ -277,6 +282,149 @@ public class ConceptReviewMapperServiceTest {
 
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(regularFixture.replace("'", "\""), SubmissionDto.class);
+	}
+
+
+	//
+	// RESTful requests from ReviewController to browser
+	//
+
+	@Test
+	public void convertProposedConceptReviewPackageToProposedConceptReviewDto_regularProposal_shouldBind() {
+
+		// "LOWER EXTREMITIES" / "Legs" concept, "N/A" datatype, "Anatomy" class
+
+		ProposedConceptReviewPackage reviewPackage = new ProposedConceptReviewPackage();
+		reviewPackage.setId(1);
+		reviewPackage.setName("Some name");
+		reviewPackage.setDescription("Some description");
+		reviewPackage.setEmail("asdf@asdf.com");
+		reviewPackage.setDateCreated(new Date());
+		ProposedConceptReview proposedConcept = new ProposedConceptReview();
+		proposedConcept.setId(2);
+		ProposedConceptReviewName preferredName = new ProposedConceptReviewName();
+		preferredName.setName("LOWER EXTREMITIES");
+		preferredName.setType(ConceptNameType.FULLY_SPECIFIED);
+		final ArrayList<ProposedConceptReviewName> names = newArrayList();
+		proposedConcept.setNames(names);
+		names.add(preferredName);
+		ProposedConceptReviewName synonym = new ProposedConceptReviewName();
+		synonym.setName("Legs");
+		names.add(synonym);
+		ProposedConceptReviewDescription description = new ProposedConceptReviewDescription();
+		description.setDescription("Anatomic location.");
+		ArrayList<ProposedConceptReviewDescription> descriptions = newArrayList();
+		descriptions.add(description);
+		proposedConcept.setDescriptions(descriptions);
+		ConceptClass aClass = new ConceptClass();
+		aClass.setName("Anatomy");
+		proposedConcept.setConceptClass(aClass);
+		ConceptDatatype aDatatype = new ConceptDatatype();
+		aDatatype.setName("N/A");
+		proposedConcept.setDatatype(aDatatype);
+		proposedConcept.setStatus(ProposalStatus.CLOSED_EXISTING);
+		proposedConcept.setComment("The proposer's comment");
+		proposedConcept.setReviewComment("The reviewer's comment");
+		Concept existingConcept = new Concept();
+		existingConcept.setId(123);
+		proposedConcept.setConcept(existingConcept);
+		reviewPackage.addProposedConcept(proposedConcept);
+
+
+		final ProposedConceptReviewPackageDto dto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(reviewPackage);
+
+
+		assertThat(dto.getId(), is(1));
+		assertThat(dto.getName(), is("Some name"));
+		assertThat(dto.getDescription(), is("Some description"));
+		assertThat(dto.getEmail(), is("asdf@asdf.com"));
+		assertThat(dto.getAge(), is("0"));
+		final ArrayList<ProposedConceptReviewDto> concepts = newArrayList(dto.getConcepts());
+		assertThat(concepts.size(), is(1));
+		final ProposedConceptReviewDto conceptReviewDto = concepts.get(0);
+		assertThat(conceptReviewDto.getId(), is(2));
+		assertThat(conceptReviewDto.getConceptId(), is(123));
+		assertThat(conceptReviewDto.getPreferredName(), is("LOWER EXTREMITIES"));
+		final ArrayList<NameDto> nameDtos = newArrayList(conceptReviewDto.getNames());
+		assertThat(nameDtos.size(), is(2));
+		assertThat(nameDtos.get(0).getName(), is("LOWER EXTREMITIES"));
+		assertThat(nameDtos.get(1).getName(), is("Legs"));
+		final ArrayList<DescriptionDto> descriptionDtos = newArrayList(conceptReviewDto.getDescriptions());
+		assertThat(descriptionDtos.size(), is(1));
+		assertThat(descriptionDtos.get(0).getDescription(), is("Anatomic location."));
+		assertThat(conceptReviewDto.getDatatype(), is("N/A"));
+		assertThat(conceptReviewDto.getConceptClass(), is("Anatomy"));
+		assertThat(conceptReviewDto.getStatus(), is(ProposalStatus.CLOSED_EXISTING));
+		assertThat(conceptReviewDto.getComment(), is("The proposer's comment"));
+		assertThat(conceptReviewDto.getReviewComment(), is("The reviewer's comment"));
+	}
+
+	@Test
+	public void convertProposedConceptReviewPackageToProposedConceptReviewDto_numericProposal_shouldBind() {
+
+		ProposedConceptReviewPackage reviewPackage = new ProposedConceptReviewPackage();
+		ProposedConceptReview proposedConcept = new ProposedConceptReview();
+		ProposedConceptReviewNumeric numericDetails = new ProposedConceptReviewNumeric();
+		numericDetails.setHiNormal(10.0);
+		numericDetails.setHiAbsolute(11.0);
+		numericDetails.setHiCritical(12.0);
+		numericDetails.setLowNormal(5.0);
+		numericDetails.setLowAbsolute(4.0);
+		numericDetails.setLowCritical(3.0);
+		numericDetails.setPrecise(true);
+		numericDetails.setUnits("ml");
+		proposedConcept.setNumericDetails(numericDetails);
+		ConceptDatatype numericDatatype = new ConceptDatatype();
+		numericDatatype.setName("Numeric");
+		proposedConcept.setDatatype(numericDatatype);
+		reviewPackage.addProposedConcept(proposedConcept);
+
+
+		final ProposedConceptReviewPackageDto dto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(reviewPackage);
+
+
+		final ProposedConceptReviewDto conceptReviewDto = dto.getConcepts().get(0);
+		assertThat(conceptReviewDto.getDatatype(), is("Numeric"));
+		final NumericDto numericDto = conceptReviewDto.getNumericDetails();
+		assertThat(numericDto.getHiNormal(), is(10.0));
+		assertThat(numericDto.getHiAbsolute(), is(11.0));
+		assertThat(numericDto.getHiCritical(), is(12.0));
+		assertThat(numericDto.getLowNormal(), is(5.0));
+		assertThat(numericDto.getLowAbsolute(), is(4.0));
+		assertThat(numericDto.getLowCritical(), is(3.0));
+		assertThat(numericDto.getPrecise(), is(true));
+		assertThat(numericDto.getUnits(), is("ml"));
+	}
+
+	@Test
+	public void convertProposedConceptReviewPackageToProposedConceptReviewDto_codedProposal_shouldBind() {
+
+		Concept answerConcept = new Concept();
+		ConceptName name = new ConceptName("Some answer", english);
+		answerConcept.setPreferredName(name);
+		when(conceptService.getConceptByUuid("answer-uuid")).thenReturn(answerConcept);
+		ProposedConceptReviewPackage reviewPackage = new ProposedConceptReviewPackage();
+		reviewPackage.setId(1);
+		ProposedConceptReview proposedConcept = new ProposedConceptReview();
+		ConceptDatatype codedDatatype = new ConceptDatatype();
+		codedDatatype.setName("Coded");
+		proposedConcept.setDatatype(codedDatatype);
+		List<ProposedConceptReviewAnswer> codedDetails = newArrayList();
+		ProposedConceptReviewAnswer answer = new ProposedConceptReviewAnswer();
+		answer.setAnswerConceptUuid("answer-uuid");
+		codedDetails.add(answer);
+		proposedConcept.setCodedDetails(codedDetails);
+		reviewPackage.addProposedConcept(proposedConcept);
+
+		final ProposedConceptReviewPackageDto dto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(reviewPackage);
+
+		final List<ProposedConceptReviewDto> concepts = dto.getConcepts();
+		assertThat(concepts.get(0).getDatatype(), is("Coded"));
+		final Collection<AnswerDto> answerDtos = concepts.get(0).getAnswers();
+		assertThat(answerDtos.size(), is(1));
+		final ArrayList<AnswerDto> answers = newArrayList(answerDtos);
+		assertThat(answers.size(), is(1));
+		assertThat(answers.get(0).getAnswerConceptPreferredName(), is("Some answer"));
 	}
 
 
