@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +25,19 @@ public class ReviewProposalsPage extends BaseCpmPage {
 	}
 
 	public ReviewProposalPage navigateTo(int proposalNumber) {
-		driver.findElement(By.cssSelector("#proposalReviewList .proposal:nth-of-type(" + String.valueOf(proposalNumber) + ")")).click();
+		driver.findElement(By.cssSelector("#conceptreview .results tr:nth-of-type(" + String.valueOf(proposalNumber) + ")")).click();
 		return new ReviewProposalPage(driver);
 	}
+    public boolean checkIfProposalIsSubmitted(String proposalDescription){
+        return findProposal(proposalDescription) != null;
+    }
+    public WebElement findProposal(String proposalDescription){
+        List<WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='results']/tr"));
+        for (WebElement row : resultRowsElement)
+        {
+            if(row.findElement(By.xpath(".//td[3]")).getText().equals(proposalDescription))
+                return row;
+        }
+        return null;
+    }
 }

@@ -25,4 +25,13 @@ public class ReviewProposalPage extends BaseCpmPage {
 
 		return concepts;
 	}
+    public ReviewConceptPage navigateTo(int conceptNumber) {
+        driver.findElement(By.cssSelector("#conceptreview .results tr:nth-of-type(" + String.valueOf(conceptNumber) + ")")).click();
+        return new ReviewConceptPage(driver);
+    }
+
+    public String getConceptStatus(int conceptNumber)
+    {
+        return driver.findElement(By.cssSelector("#conceptreview .results tr:nth-child(" + conceptNumber + ") td:nth-child(4)")).getText();
+    }
 }

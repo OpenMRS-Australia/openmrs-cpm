@@ -1,4 +1,7 @@
-package org.openmrs.module.conceptpropose.pagemodel;
+package org.openmrs.module.common.pagemodel;
+import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
+import org.openmrs.module.conceptpropose.pagemodel.ManageProposalsPage;
+import org.openmrs.module.conceptpropose.pagemodel.SettingsPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -7,7 +10,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class AdminPage {
 	private static final String createProposalUrl = "/module/conceptpropose/proposals.list#/edit";
 	private static final String monitorProposalsUrl = "/module/conceptpropose/proposals.list";
-	private static final String incomingProposalsUrl = "/module/conceptpropose/proposalReview.list";
+	private static final String incomingProposalsUrl = "/module/conceptreview/proposalReview.list";
 	private static final String settingsUrl = "/module/conceptpropose/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
