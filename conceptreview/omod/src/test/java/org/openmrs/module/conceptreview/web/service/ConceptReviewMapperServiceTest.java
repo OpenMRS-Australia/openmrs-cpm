@@ -78,8 +78,8 @@ public class ConceptReviewMapperServiceTest {
 	@Before
 	public void before() throws Exception {
 		// uncomment to enable debug logging for Dozer
-		LogManager.getLogger(DozerBeanMapper.class).setLevel(Level.DEBUG);
-		LogManager.getLogger(MappingProcessor.class).setLevel(Level.DEBUG);
+//		LogManager.getLogger(DozerBeanMapper.class).setLevel(Level.DEBUG);
+//		LogManager.getLogger(MappingProcessor.class).setLevel(Level.DEBUG);
 
 		DozerBeanMapper mapper = new DozerBeanMapper();
 		mapperService = new ConceptReviewMapperService(mapper);
