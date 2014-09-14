@@ -1,7 +1,5 @@
 package org.openmrs.module.conceptreview.web.controller;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.api.ConceptService;
@@ -12,27 +10,27 @@ import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
 
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.conceptreview.web.service.ConceptReviewMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
-import org.openmrs.module.conceptreview.web.dto.factory.DtoFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class ReviewController {
 
-// TODO: fix this. was getting import errors
-    private final NameDtoFactory nameDtoFactory;
+	@Autowired
+	private ConceptReviewMapperService mapperService;
 
+	private final NameDtoFactory nameDtoFactory;
     private final DescriptionDtoFactory descriptionDtoFactory;
+
     @Autowired
     public ReviewController (
             final DescriptionDtoFactory descriptionDtoFactory,
@@ -60,8 +58,8 @@ public class ReviewController {
 		final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
 
 		for (final ProposedConceptReviewPackage conceptProposalReviewPackage : allConceptProposalReviewPackages) {
+			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(conceptProposalReviewPackage);
 
-			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
 			response.add(conceptProposalReviewPackageDto);
 		}
 
@@ -70,9 +68,8 @@ public class ReviewController {
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
-		return createProposedConceptReviewPackageDto(Context.
-				getService(ProposedConceptReviewService.class).
-				getProposedConceptReviewPackageById(proposalId));
+		final ProposedConceptReviewPackage entity = Context.getService(ProposedConceptReviewService.class).getProposedConceptReviewPackageById(proposalId);
+		return mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(entity);
 	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.DELETE)
@@ -85,7 +82,7 @@ public class ReviewController {
 	ProposedConceptReviewDto getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
 		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
 		final ProposedConceptReview proposedConcept = service.getProposedConceptReviewPackageById(proposalId).getProposedConcept(conceptId);
-		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
+		return mapperService.createProposedConceptReviewDto(proposedConcept);
 	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
@@ -104,33 +101,7 @@ public class ReviewController {
 
 			service.saveProposedConceptReviewPackage(aPackage);
 		}
-		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
-	}
-
-	private ProposedConceptReviewPackageDto createProposedConceptReviewPackageDto(final ProposedConceptReviewPackage responsePackage) {
-
-		final ProposedConceptReviewPackageDto dto = new ProposedConceptReviewPackageDto();
-		dto.setId(responsePackage.getId());
-		dto.setName(responsePackage.getName());
-		dto.setEmail(responsePackage.getEmail());
-		dto.setDescription(responsePackage.getDescription());
-
-		if (responsePackage.getDateCreated() == null) {
-			throw new NullPointerException("Date created is null");
-		}
-		Days d = Days.daysBetween(new DateTime(responsePackage.getDateCreated()), new DateTime(new Date()));
-		dto.setAge(String.valueOf(d.getDays()));
-
-		final Set<ProposedConceptReview> proposedConcepts = responsePackage.getProposedConcepts();
-		final List<ProposedConceptReviewDto> list = new ArrayList<ProposedConceptReviewDto>();
-		if (proposedConcepts != null) {
-			for (final ProposedConceptReview conceptProposal : proposedConcepts) {
-				list.add(DtoFactory.createProposedConceptReviewDto(conceptProposal));
-			}
-		}
-
-		dto.setConcepts(list);
-		return dto;
+		return mapperService.createProposedConceptReviewDto(proposedConcept);
 	}
 
     @RequestMapping(value = "/conceptreview/concepts", method = RequestMethod.GET)

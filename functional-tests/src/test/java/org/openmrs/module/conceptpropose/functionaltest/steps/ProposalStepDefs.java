@@ -3,7 +3,7 @@ package org.openmrs.module.conceptpropose.functionaltest.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openmrs.module.conceptpropose.pagemodel.AdminPage;
+import org.openmrs.module.common.pagemodel.AdminPage;
 import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
 import org.openmrs.module.conceptpropose.pagemodel.ManageProposalsPage;
 

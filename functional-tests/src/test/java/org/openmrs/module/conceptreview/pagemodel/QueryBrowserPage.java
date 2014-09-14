@@ -1,7 +1,7 @@
-package org.openmrs.module.conceptpropose.pagemodel;
+package org.openmrs.module.conceptreview.pagemodel;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.conceptpropose.functionaltest.steps.SeleniumDriver;
+import org.openmrs.module.conceptreview.functionaltest.steps.SeleniumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+// TODO - refactor Login , SeleniumDriver and QueryBrowserPage to common package? tried to do so but IntelliJ wasn't able to run the review functional tests correctly
 public class QueryBrowserPage {
 
 	private final String queryBrowserPageUrl;
