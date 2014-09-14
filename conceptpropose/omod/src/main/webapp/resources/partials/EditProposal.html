@@ -56,7 +56,7 @@
 
   <div>
     <button ng-click="save()" ng-disabled="isReadOnly || !proposal.name || !proposal.email" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
-    <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly" accesskey="e" ng-switch="isSubmitting">
+    <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly || !isSubmissible" accesskey="e" ng-switch="isSubmitting">
       <span ng-switch-when="true">Sending...</span>
       <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
     </button>
