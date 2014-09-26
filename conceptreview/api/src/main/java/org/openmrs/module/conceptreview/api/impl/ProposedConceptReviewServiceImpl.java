@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.openmrs.module.conceptreview.api.db.ProposedConceptPackageReviewDAO;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
@@ -49,5 +50,10 @@ public class ProposedConceptReviewServiceImpl extends BaseOpenmrsService impleme
 	@Override
 	public void deleteProposedConceptReviewPackageById(final int proposalId) throws APIException {
 		proposalReviewDao.deleteConceptProposalReviewPackageById(proposalId);
+	}
+
+	@Override
+	public ProposedConceptReview getProposedConceptReviewByProposalUuidAndConceptUuid(String packageUuid, String conceptUuid) throws APIException {
+		return proposalReviewDao.getConceptProposalReviewBySourceProposalUuidAndSourceConceptUuid(packageUuid, conceptUuid);
 	}
 }

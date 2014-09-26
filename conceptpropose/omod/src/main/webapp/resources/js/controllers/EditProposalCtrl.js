@@ -13,7 +13,7 @@ define([
     'use strict';
 
     angular.module('conceptpropose.controllers').controller('EditProposalCtrl',
-      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts) {
+      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts, $http) {
 
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
@@ -123,7 +123,37 @@ define([
             });
           }
         };
-
+        $scope.addComment = function(concept){
+          var url = '/openmrs/ws/conceptpropose/proposals/' + $scope.proposal.id + '/' + concept.id + '/comment';
+          var data = {
+            'name' : $scope.proposal.name,
+            'email' : $scope.proposal.email,
+            'comment' : concept.newComment
+          };
+          $http.post(url, data)
+            .success(function(data) {
+              concept.discussion = data.reviewDiscussion;
+              alert('Success');
+              console.log(data);
+            })
+            .error(function(data,status){
+              alert('Failed: ' + status);
+              console.log(data);
+            });
+        }
+        $scope.refreshDiscussion = function(concept){
+          var url = '/openmrs/ws/conceptpropose/proposals/' + $scope.proposal.id + '/' + concept.id + '/discussion';
+          $http.get(url, {})
+            .success(function(data) {
+              concept.discussion = data.reviewDiscussion;
+              alert('Refreshed');
+              console.log(data);
+            })
+            .error(function(data,status){
+              alert('Failed: ' + status);
+              console.log(data);
+            });
+        }
         $scope.removeConcept = function(concept) {
           if ($window.confirm('Are you sure?')) {
             for (var i in $scope.proposal.concepts) {

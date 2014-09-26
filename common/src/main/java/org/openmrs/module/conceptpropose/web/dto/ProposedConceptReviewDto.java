@@ -4,6 +4,8 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 
 	private String reviewComment;
 
+	private String reviewDiscussion;
+
 	private int conceptId;
 
 	public String getReviewComment() {
@@ -13,6 +15,10 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 	public void setReviewComment(final String reviewComment) {
 		this.reviewComment = reviewComment;
 	}
+
+	public String getReviewDiscussion() { return reviewDiscussion; }
+
+	public void setReviewDiscussion(final String reviewDiscussion) { this.reviewDiscussion= reviewDiscussion; }
 
 	public int getConceptId() {
 		return conceptId;

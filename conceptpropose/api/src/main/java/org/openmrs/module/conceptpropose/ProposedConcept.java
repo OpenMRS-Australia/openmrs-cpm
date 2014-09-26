@@ -30,6 +30,7 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	
 	private Integer proposedConceptId;
 	private Integer version;
+	private String discussion;
 
 	public ProposedConcept() {
 		super();
@@ -70,4 +71,14 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	public Concept getConcept() {
 		return concept;
 	}
+
+	@Column(name = "discussion", nullable = true)
+	public String getDiscussion() {
+		return discussion;
+	}
+
+	public void setDiscussion(String discussion) {
+		this.discussion = discussion;
+	}
+
 }

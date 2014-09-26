@@ -78,7 +78,12 @@
 </table>
 
 <p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
-<p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
+
+<b class="boxHeader" style="margin-top: 1em;">Current Discussion:</b>
+<pre>{{concept.reviewDiscussion}}</pre>
+<p>Name: <br/><input style="width: 100%" rows="5" ng-model="newReviewCommentName" /></p>
+<p>Email<br/><input style="width: 100%" rows="5" ng-model="newReviewCommentEmail" /></p>
+<p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="newReviewComment" /></p>
 <p><button ng-click="saveReviewComment()">Save comments</button></p>
 <p>Record actions:<br/>
     <button ng-click="conceptCreated()">I created this concept</button>

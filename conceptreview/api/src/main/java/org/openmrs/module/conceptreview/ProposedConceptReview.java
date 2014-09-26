@@ -46,6 +46,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	private ProposedConceptReviewNumeric numericDetails;
 
 	private String reviewComment;
+	private String reviewDiscussion;
 	private List<ProposedConceptReviewAnswer> codedDetails;
 
 	public ProposedConceptReview() {
@@ -161,6 +162,12 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	public void setReviewComment(String reviewComment) {
 		this.reviewComment = reviewComment;
 	}
+
+	public String getReviewDiscussion() {
+		return reviewDiscussion;
+	}
+
+	public void setReviewDiscussion(String reviewDiscussion) { this.reviewDiscussion = reviewDiscussion; }
 
 	public void setCodedDetails(List<ProposedConceptReviewAnswer> codedDetails) {
 		this.codedDetails = codedDetails;

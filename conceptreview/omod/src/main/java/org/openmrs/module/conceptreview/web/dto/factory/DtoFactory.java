@@ -35,6 +35,7 @@ public class DtoFactory {
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
+		conceptProposalDto.setReviewDiscussion(conceptProposal.getReviewDiscussion());
 
 		final ConceptDatatype conceptDatatype = conceptProposal.getDatatype();
 		if (conceptDatatype != null) {

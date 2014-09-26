@@ -30,7 +30,8 @@ public class ProposedConceptDtoFactory {
         conceptDto.setDescriptions(descriptionDtoFactory.create(concept));
 		conceptDto.setAnswers(answerDtoFactory.create(concept));
         conceptDto.setUuid(concept.getUuid());
-        conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
+		conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
+		conceptDto.setDiscussion(proposedConcept.getDiscussion());
 
         return conceptDto;
     }

@@ -68,9 +68,17 @@
         </createTable>
 
 	</changeSet>
-    
+
     <changeSet id="conceptpropose_20140513" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptpropose_proposed_concept_package" columnName="description" newDataType="TEXT"/>
+    </changeSet>
+    <changeSet id="conceptpropose_20140913" author="OpenMRS-Australia">
+        <modifyDataType tableName="conceptpropose_proposed_concept" columnName="comment" newDataType="TEXT"/>
+    </changeSet>
+    <changeSet id="conceptpropose_20140914" author="OpenMRS-Australia">
+        <addColumn tableName="conceptpropose_proposed_concept">
+            <column name="discussion" type="text"></column>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

@@ -96,6 +96,7 @@ public class ReviewController {
 		final ProposedConceptReview proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
 			proposedConcept.setReviewComment(updatedProposalReview.getReviewComment());
+			proposedConcept.setReviewDiscussion(updatedProposalReview.getReviewDiscussion());
 			proposedConcept.setStatus(updatedProposalReview.getStatus());
 
 			if (updatedProposalReview.getConceptId() != 0) {

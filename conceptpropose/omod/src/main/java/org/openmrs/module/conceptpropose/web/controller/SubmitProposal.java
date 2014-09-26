@@ -10,6 +10,8 @@ import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
 import org.openmrs.module.conceptpropose.api.ProposedConceptService;
 import org.openmrs.module.conceptpropose.web.authentication.factory.AuthHttpHeaderFactory;
 import org.openmrs.module.conceptpropose.web.common.CpmConstants;
+import org.openmrs.module.conceptpropose.web.dto.CommentDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
 import org.openmrs.module.conceptpropose.web.dto.factory.SubmissionDtoFactory;
@@ -45,7 +47,52 @@ public class SubmitProposal {
         this.httpHeaderFactory = httpHeaderFactory;
         this.submissionDtoFactory = submissionDtoFactory;
     }
+	public ProposedConceptReviewDto getDiscussion(final CommentDto comment) {
+		checkNotNull(submissionRestTemplate);
 
+		AdministrationService service = Context.getAdministrationService();
+		HttpHeaders headers = httpHeaderFactory.create(service.getGlobalProperty(CpmConstants.SETTINGS_USER_NAME_PROPERTY),
+				service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
+		final HttpEntity requestEntity = new HttpEntity<CommentDto>(comment, headers);
+
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "/discussion";
+
+		try {
+			// can't use headers w/ a getForObject? haven't tried
+			// http://stackoverflow.com/questions/25667842/not-getting-headers-passed-with-resttemplate-getforobject
+			final ProposedConceptReviewDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewDto.class);
+			log.error("Result: " + result);
+			return result;
+		}catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
+		}catch(RestClientException e){
+		}catch(IllegalArgumentException e){ // 404, due to invalid URL
+		}catch(Exception e){
+			log.error("Failed adding comment. Unknown error: " + e.getMessage() + "(" + e.getClass() + ")");
+		}
+		return null;
+	}
+	public ProposedConceptReviewDto addComment(final CommentDto comment) {
+		checkNotNull(submissionRestTemplate);
+
+		AdministrationService service = Context.getAdministrationService();
+		HttpHeaders headers = httpHeaderFactory.create(service.getGlobalProperty(CpmConstants.SETTINGS_USER_NAME_PROPERTY),
+				service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
+		final HttpEntity requestEntity = new HttpEntity<CommentDto>(comment, headers);
+
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "/comment";
+
+		try {
+			final ProposedConceptReviewDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewDto.class);
+			log.error("Result: " + result);
+			return result;
+		}catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
+		}catch(RestClientException e){
+		}catch(IllegalArgumentException e){ // 404, due to invalid URL
+		}catch(Exception e){
+			log.error("Failed adding comment. Unknown error: " + e.getMessage() + "(" + e.getClass() + ")");
+		}
+		return null;
+	}
 
 	void submitProposedConcept(final ProposedConceptPackage conceptPackage) {
 
