@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.openmrs.api.APIException;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptreview.api.db.ProposedConceptPackageReviewDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,16 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 		}
 		return result;
 	}
-	
-	@Override
+
+    @Override
+    public List<ProposedConceptReviewPackage> getCompletedConceptProposalReviewPackages(){
+        List<ProposedConceptReviewPackage> result = (List<ProposedConceptReviewPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.status = 'CLOSED'").list();
+        if (log.isDebugEnabled()) { log.info("getCompletedConceptProposalReviewPackages returned: " + result.size() + " results");
+        }
+        return result;
+    }
+
+    @Override
 	public ProposedConceptReviewPackage getConceptProposalReviewPackageById(Integer id) {
 		if (id != null) {
 			Query query = sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.id = :id");

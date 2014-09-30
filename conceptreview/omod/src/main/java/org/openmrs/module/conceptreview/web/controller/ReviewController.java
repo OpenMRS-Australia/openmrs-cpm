@@ -51,20 +51,35 @@ public class ReviewController {
 	// REST endpoints
 	//
 
-	@RequestMapping(value = "/conceptreview/proposalReviews", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getProposalReviews() {
+    @RequestMapping(value = "/conceptreview/proposalReviews", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getProposalReviews() {
 
-		final List<ProposedConceptReviewPackage> allConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getAllProposedConceptReviewPackages();
-		final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
+        final List<ProposedConceptReviewPackage> allConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getAllProposedConceptReviewPackages();
+        final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
 
-		for (final ProposedConceptReviewPackage conceptProposalReviewPackage : allConceptProposalReviewPackages) {
-			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(conceptProposalReviewPackage);
+		    for (final ProposedConceptReviewPackage conceptProposalReviewPackage : allConceptProposalReviewPackages) {
+			      final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(conceptProposalReviewPackage);
 
-			response.add(conceptProposalReviewPackageDto);
-		}
+			      response.add(conceptProposalReviewPackageDto);
+        }
 
-		return response;
-	}
+        return response;
+    }
+
+    @RequestMapping(value = "/conceptreview/completedProposalReviews", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getCompletedProposalReviews() {
+
+        final List<ProposedConceptReviewPackage> completedConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getCompletedProposedConceptReviewPackages();
+        final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
+
+        for (final ProposedConceptReviewPackage conceptProposalReviewPackage : completedConceptProposalReviewPackages) {
+
+            final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
+            response.add(conceptProposalReviewPackageDto);
+        }
+
+        return response;
+    }
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
