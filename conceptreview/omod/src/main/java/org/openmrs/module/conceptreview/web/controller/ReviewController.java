@@ -73,9 +73,9 @@ public class ReviewController {
         final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
 
         for (final ProposedConceptReviewPackage conceptProposalReviewPackage : completedConceptProposalReviewPackages) {
+			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = mapperService.convertProposedConceptReviewPackageToProposedConceptReviewDto(conceptProposalReviewPackage);
 
-            final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
-            response.add(conceptProposalReviewPackageDto);
+			response.add(conceptProposalReviewPackageDto);
         }
 
         return response;
