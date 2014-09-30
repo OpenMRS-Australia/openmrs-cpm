@@ -5,7 +5,6 @@ define([
     'js/directives/conceptreviewMenu',
     'js/filters/proposalReviewStatus',
     'js/filters/dashOnNull',
-    'js/filters/remainingConcepts',
     'js/filters/boolToYesOrNo'
   ],
   function () {
