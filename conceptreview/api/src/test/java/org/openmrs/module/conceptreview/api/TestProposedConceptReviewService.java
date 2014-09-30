@@ -297,7 +297,7 @@ public class TestProposedConceptReviewService extends BaseModuleContextSensitive
         service.saveProposedConceptReviewPackage(testPackage);
     }
 	@Test
-	public void saveProposedConceptPackageReview_anUnprocessedConceptsShouldLeavePackageAsIncompleted() {
+	public void saveProposedConceptPackageReview_anUnprocessedConceptShouldLeavePackageAsIncompleted() {
 		ProposedConceptReviewPackage testPackage = getMockProposedConceptPackageReview(null, "new package");
 
 		ProposedConceptReview conceptReview = getMockProposedConceptReview();
@@ -313,7 +313,7 @@ public class TestProposedConceptReviewService extends BaseModuleContextSensitive
 		assertThat(retrievedPackage.getStatus(), is(equalTo(PackageStatus.RECEIVED)));
 	}
 	@Test
-	public void saveProposedConceptPackageReview_unprocessedConceptsWithNoRejectionsShouldLeavePackageAsIncompleted() {
+	public void saveProposedConceptPackageReview_unprocessedConceptsShouldLeavePackageAsIncompleted() {
 		ProposedConceptReviewPackage testPackage = getMockProposedConceptPackageReview(null, "new package");
 
 		ProposedConceptReview conceptReview = getMockProposedConceptReview();
@@ -333,27 +333,7 @@ public class TestProposedConceptReviewService extends BaseModuleContextSensitive
 		assertThat(retrievedPackage.getStatus(), is(equalTo(PackageStatus.RECEIVED)));
 	}
 	@Test
-	public void saveProposedConceptPackageReview_aRejectedConceptsShouldMarkPackageAsCompleted() {
-		ProposedConceptReviewPackage testPackage = getMockProposedConceptPackageReview(null, "new package");
-
-		ProposedConceptReview conceptReview = getMockProposedConceptReview();
-		conceptReview.setStatus(ProposalStatus.RECEIVED);
-		testPackage.addProposedConcept(conceptReview);
-
-		ProposedConceptReview conceptReview2 = getMockProposedConceptReview();
-		conceptReview2.setStatus(ProposalStatus.CLOSED_REJECTED);
-		testPackage.addProposedConcept(conceptReview2);
-
-		testPackage.setStatus(PackageStatus.RECEIVED);
-		log.info("Before: " + testPackage);
-
-		service.saveProposedConceptReviewPackage(testPackage);
-		final ProposedConceptReviewPackage retrievedPackage = service.getProposedConceptReviewPackageById(testPackage.getId());
-
-		assertThat(retrievedPackage.getStatus(), is(equalTo(PackageStatus.CLOSED)));
-	}
-	@Test
-	public void saveProposedConceptPackageReview_aProcessedConceptsShouldMarkPackageAsCompleted() {
+	public void saveProposedConceptPackageReview_aProcessedConceptShouldMarkPackageAsCompleted() {
 		ProposedConceptReviewPackage testPackage = getMockProposedConceptPackageReview(null, "new package");
 
 		ProposedConceptReview conceptReview = getMockProposedConceptReview();

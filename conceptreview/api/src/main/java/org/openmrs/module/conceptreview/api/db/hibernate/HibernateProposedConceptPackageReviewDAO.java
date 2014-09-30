@@ -66,27 +66,15 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 	public ProposedConceptReviewPackage saveConceptProposalReviewPackage(ProposedConceptReviewPackage conceptPackageReview) {
 		if (conceptPackageReview != null) {
 			boolean hasUnprocessedConcepted = false;
-			boolean hasRejectedConcepted = false;
 			if(conceptPackageReview.getProposedConcepts() != null && conceptPackageReview.getStatus() != null)
 			{
 				for (final ProposedConceptReview conceptProposal : conceptPackageReview.getProposedConcepts()) {
-					if(conceptProposal.getStatus() == ProposalStatus.CLOSED_REJECTED)
-						hasRejectedConcepted = true;
-					else if(conceptProposal.getStatus() == ProposalStatus.RECEIVED)
+					if(conceptProposal.getStatus() == ProposalStatus.RECEIVED) {
 						hasUnprocessedConcepted = true;
+					}
 				}
-				if(hasUnprocessedConcepted)
-				{
-					if(hasRejectedConcepted)
-						conceptPackageReview.setStatus(PackageStatus.CLOSED);
-					else
-						conceptPackageReview.setStatus(PackageStatus.RECEIVED);
-				}
-				else
-					conceptPackageReview.setStatus(PackageStatus.CLOSED);
+				conceptPackageReview.setStatus(hasUnprocessedConcepted ? PackageStatus.RECEIVED : PackageStatus.CLOSED);
 			}
-
-
 			sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageReview);
 			return conceptPackageReview;
 		} else {
