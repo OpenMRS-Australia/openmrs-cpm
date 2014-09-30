@@ -40,6 +40,7 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	private Integer version;
 	private List<ProposedConceptReviewName> names;
 	private List<ProposedConceptReviewDescription> descriptions;
+	private List<ProposedConceptReviewComment> comments;
 
 	private ConceptDatatype datatype;
 	private ConceptClass conceptClass;
@@ -82,6 +83,20 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	
 	public void setVersion(final Integer version) {
 		this.version = version;
+	}
+
+	@OneToMany(mappedBy = "proposedConceptReview", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<ProposedConceptReviewComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<ProposedConceptReviewComment> comments) {
+		this.comments= comments;
+		if (this.comments != null) {
+			for (ProposedConceptReviewComment comment : this.comments) {
+				comment.setProposedConceptReview(this);
+			}
+		}
 	}
 
 	@ManyToOne
@@ -162,12 +177,6 @@ public class ProposedConceptReview extends ShareableProposal<ProposedConceptRevi
 	public void setReviewComment(String reviewComment) {
 		this.reviewComment = reviewComment;
 	}
-
-	public String getReviewDiscussion() {
-		return reviewDiscussion;
-	}
-
-	public void setReviewDiscussion(String reviewDiscussion) { this.reviewDiscussion = reviewDiscussion; }
 
 	public void setCodedDetails(List<ProposedConceptReviewAnswer> codedDetails) {
 		this.codedDetails = codedDetails;

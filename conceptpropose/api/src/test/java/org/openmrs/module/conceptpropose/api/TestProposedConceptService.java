@@ -12,10 +12,12 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.ProposedConcept;
+import org.openmrs.module.conceptpropose.ProposedConceptComment;
 import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptpropose.test.CpmBaseContextSensitive;
 
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
 
 public class TestProposedConceptService extends CpmBaseContextSensitive {
@@ -213,27 +215,50 @@ public class TestProposedConceptService extends CpmBaseContextSensitive {
         Assert.assertEquals(4, testPackage.getProposedConcepts().size());
     }
 
-    @Test
-    public void saveProposedConceptPackage_updateRemoveChild() throws Exception {
-        ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
-        log.info("Retrieved: " + testPackage);
-        Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
-        Assert.assertEquals(3, testPackage.getProposedConcepts().size());
+	@Test
+	public void saveProposedConceptPackage_updateRemoveChild() throws Exception {
+		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
+		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
 
-        String newName = "New Name";
-        testPackage.setName(newName);
-        ProposedConcept proposedConcept = (ProposedConcept) testPackage.getProposedConcepts().iterator().next();
-        log.debug("Removing proposed concept: " + proposedConcept);
-        testPackage.removeProposedConcept(proposedConcept);
-        service.saveProposedConceptPackage(testPackage);
+		String newName = "New Name";
+		testPackage.setName(newName);
+		ProposedConcept proposedConcept = (ProposedConcept) testPackage.getProposedConcepts().iterator().next();
+		log.debug("Removing proposed concept: " + proposedConcept);
+		testPackage.removeProposedConcept(proposedConcept);
+		service.saveProposedConceptPackage(testPackage);
 
-        testPackage = service.getProposedConceptPackageById(1);
-        log.info("Retrieved: " + testPackage);
-        Assert.assertEquals(newName, testPackage.getName());
-        Assert.assertEquals(2, testPackage.getProposedConcepts().size());
-    }
+		testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals(newName, testPackage.getName());
+		Assert.assertEquals(2, testPackage.getProposedConcepts().size());
+	}
 
-    @Test
+	@Test
+	public void saveProposedConceptPackage_saveComments() throws Exception {
+		ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
+		log.info("Retrieved: " + testPackage);
+		Assert.assertEquals("Concept Proposal Package 1", testPackage.getName());
+		Assert.assertEquals(3, testPackage.getProposedConcepts().size());
+
+		String newName = "New Name";
+		testPackage.setName(newName);
+		ProposedConcept proposedConcept = (ProposedConcept) testPackage.getProposedConcepts().iterator().next();
+		HashSet<ProposedConceptComment> comments = new HashSet<ProposedConceptComment>();
+		ProposedConceptComment comment = new ProposedConceptComment("name", "email", "the comment");
+		comments.add(comment);
+		proposedConcept.getComments().clear();
+		proposedConcept.getComments().addAll(comments);
+		service.saveProposedConceptPackage(testPackage);
+
+//		testPackage = service.getProposedConceptPackageById(1);
+//		log.info("Retrieved: " + testPackage);
+//		Assert.assertEquals(newName, testPackage.getName());
+//		Assert.assertEquals(1, testPackage.getProposedConcepts().iterator().next());
+	}
+
+	@Test
     public void deleteProposedConceptPackage_basicDelete() throws Exception {
         ProposedConceptPackage testPackage = service.getProposedConceptPackageById(1);
         log.info("Retrieved: " + testPackage);

@@ -52,6 +52,14 @@
             <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</b-hint>
         </field>
     </mapping>
+    <mapping>
+        <class-a>org.openmrs.module.conceptreview.ProposedConceptReviewComment</class-a>
+        <class-b>org.openmrs.module.conceptpropose.web.dto.CommentDto</class-b>
+        <field-exclude>
+            <a>proposedConceptReviewCommentId</a>
+            <b>proposedConceptPackageUuid</b>
+        </field-exclude>
+    </mapping>
 
     <!-- browser mappings -->
     <mapping>
@@ -67,5 +75,11 @@
     <mapping>
         <class-a>org.openmrs.module.conceptreview.ProposedConceptReview</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto</class-b>
+        <field>
+            <a>comments</a>
+            <b>comments</b>
+            <a-hint>org.openmrs.module.conceptreview.ProposedConceptReview</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.CommentDto</b-hint>
+        </field>
     </mapping>
 </mappings>

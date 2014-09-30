@@ -1,5 +1,7 @@
 package org.openmrs.module.conceptpropose.web.dto;
 
+import java.util.Date;
+
 public class CommentDto {
 
 	private String name;
@@ -11,6 +13,7 @@ public class CommentDto {
 	private String proposedConceptPackageUuid;
 
 	private String proposedConceptUuid;
+	private Date dateCreated;
 
 	public String getProposedConceptPackageUuid() {
 		return proposedConceptPackageUuid;
@@ -50,6 +53,15 @@ public class CommentDto {
 	public void setComment(final String comment) {
 		this.comment = comment;
 	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(final Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
 	@Override
 	public String toString() {
 		return "SubmissionDto{" +

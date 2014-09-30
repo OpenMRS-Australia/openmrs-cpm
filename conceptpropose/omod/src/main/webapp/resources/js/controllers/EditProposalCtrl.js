@@ -124,7 +124,7 @@ define([
           }
         };
         $scope.addComment = function(concept){
-          var url = '/openmrs/ws/conceptpropose/proposals/' + $scope.proposal.id + '/' + concept.id + '/comment';
+          var url = '/openmrs/ws/conceptpropose/proposals/comment/' + $scope.proposal.id + '/' + concept.id + '';
           var data = {
             'name' : $scope.proposal.name,
             'email' : $scope.proposal.email,
@@ -132,26 +132,24 @@ define([
           };
           $http.post(url, data)
             .success(function(data) {
-              concept.discussion = data.reviewDiscussion;
+              concept.comments = data.comments;
+              concept.newComment = '';
               alert('Success');
-              console.log(data);
             })
             .error(function(data,status){
               alert('Failed: ' + status);
-              console.log(data);
             });
         }
         $scope.refreshDiscussion = function(concept){
-          var url = '/openmrs/ws/conceptpropose/proposals/' + $scope.proposal.id + '/' + concept.id + '/discussion';
+          var url = '/openmrs/ws/conceptpropose/proposals/discussion/' + $scope.proposal.id + '/' + concept.id + '';
           $http.get(url, {})
             .success(function(data) {
-              concept.discussion = data.reviewDiscussion;
+              concept.comments = data.comments;
+              concept.newComment = '';
               alert('Refreshed');
-              console.log(data);
             })
             .error(function(data,status){
               alert('Failed: ' + status);
-              console.log(data);
             });
         }
         $scope.removeConcept = function(concept) {

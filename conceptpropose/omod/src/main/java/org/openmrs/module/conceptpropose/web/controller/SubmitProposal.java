@@ -55,7 +55,7 @@ public class SubmitProposal {
 				service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
 		final HttpEntity requestEntity = new HttpEntity<CommentDto>(comment, headers);
 
-		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "/discussion";
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/discussion/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "";
 
 		try {
 			// can't use headers w/ a getForObject? haven't tried
@@ -74,15 +74,19 @@ public class SubmitProposal {
 	public ProposedConceptReviewDto addComment(final CommentDto comment) {
 		checkNotNull(submissionRestTemplate);
 
+		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		AdministrationService service = Context.getAdministrationService();
 		HttpHeaders headers = httpHeaderFactory.create(service.getGlobalProperty(CpmConstants.SETTINGS_USER_NAME_PROPERTY),
 				service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
 		final HttpEntity requestEntity = new HttpEntity<CommentDto>(comment, headers);
 
-		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "/comment";
+		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/comment/" + comment.getProposedConceptPackageUuid() + "/" + comment.getProposedConceptUuid() + "";
 
 		try {
 			final ProposedConceptReviewDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewDto.class);
+			// TODO: get current proposed concept and save new comments
+			proposedConceptService.getProposedConceptPackageByUuid(comment.getProposedConceptPackageUuid());
+
 			log.error("Result: " + result);
 			return result;
 		}catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request

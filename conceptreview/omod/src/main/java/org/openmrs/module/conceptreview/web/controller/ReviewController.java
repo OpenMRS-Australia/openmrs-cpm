@@ -1,5 +1,6 @@
 package org.openmrs.module.conceptreview.web.controller;
 
+import org.directwebremoting.util.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.Concept;
@@ -12,6 +13,7 @@ import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
 
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
@@ -31,6 +33,7 @@ public class ReviewController {
 
 // TODO: fix this. was getting import errors
     private final NameDtoFactory nameDtoFactory;
+	protected final Logger log = Logger.getLogger(getClass());
 
     private final DescriptionDtoFactory descriptionDtoFactory;
     @Autowired
@@ -96,7 +99,11 @@ public class ReviewController {
 		final ProposedConceptReview proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
 			proposedConcept.setReviewComment(updatedProposalReview.getReviewComment());
-			proposedConcept.setReviewDiscussion(updatedProposalReview.getReviewDiscussion());
+			if(updatedProposalReview.getNewCommentText() != null && updatedProposalReview.getNewCommentText() != "") {
+				final ProposedConceptReviewComment newComment = new ProposedConceptReviewComment(updatedProposalReview.getNewCommentName(), updatedProposalReview.getNewCommentEmail(), updatedProposalReview.getNewCommentText());
+				newComment.setProposedConceptReview(proposedConcept);
+				proposedConcept.getComments().add(newComment);
+			}
 			proposedConcept.setStatus(updatedProposalReview.getStatus());
 
 			if (updatedProposalReview.getConceptId() != 0) {
@@ -104,8 +111,19 @@ public class ReviewController {
 			}
 
 			service.saveProposedConceptReviewPackage(aPackage);
+			if(proposedConcept.getComments() != null)
+			{
+				log.error("is not null: " + proposedConcept.getComments().size());
+				for(ProposedConceptReviewComment comment : proposedConcept.getComments()){
+					log.error(comment.getDateCreated().toString());
+				}
+			}
+			else
+				log.error("is null");
 		}
-		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
+		final ProposedConceptReviewPackage aPackage2 = service.getProposedConceptReviewPackageById(proposalId);
+		//return DtoFactory.createProposedConceptReviewDto(proposedConcept);
+		return DtoFactory.createProposedConceptReviewDto(aPackage2.getProposedConcept(conceptId));
 	}
 
 	private ProposedConceptReviewPackageDto createProposedConceptReviewPackageDto(final ProposedConceptReviewPackage responsePackage) {

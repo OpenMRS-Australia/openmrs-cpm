@@ -1,17 +1,15 @@
 package org.openmrs.module.conceptpropose;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Concept;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This extends the SharedProposal to represent a persisted Concept Proposal on the proposers side
@@ -30,7 +28,6 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 	
 	private Integer proposedConceptId;
 	private Integer version;
-	private String discussion;
 
 	public ProposedConcept() {
 		super();
@@ -72,13 +69,20 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 		return concept;
 	}
 
-	@Column(name = "discussion", nullable = true)
-	public String getDiscussion() {
-		return discussion;
+	protected Set<ProposedConceptComment> comments = new HashSet<ProposedConceptComment>();
+	@OneToMany(mappedBy = "proposedConcept", cascade = CascadeType.ALL, orphanRemoval = true)
+	public Set<ProposedConceptComment> getComments() {
+		return comments;
 	}
 
-	public void setDiscussion(String discussion) {
-		this.discussion = discussion;
+	public void setComments(Set<ProposedConceptComment> comments) {
+		this.comments = comments;
+		if (this.comments != null) {
+			for (ProposedConceptComment comment : this.comments) {
+				comment.setProposedConcept(this);
+			}
+		}
 	}
+
 
 }

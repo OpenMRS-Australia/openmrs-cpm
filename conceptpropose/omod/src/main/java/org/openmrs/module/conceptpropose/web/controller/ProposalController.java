@@ -7,6 +7,7 @@ import org.openmrs.PersonName;
 import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.ProposedConceptComment;
 import org.openmrs.module.conceptpropose.web.dto.CommentDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.service.ConceptProposeMapperService;
@@ -31,10 +32,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import org.directwebremoting.util.Logger;
 
 
@@ -230,23 +229,32 @@ public class ProposalController {
 	}
 
 	// get latest discussions from dictionary manager
-	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}/{conceptId}/discussion", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptpropose/proposals/discussion/{proposalId}/{conceptId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewDto getLatestDiscussion(@PathVariable int proposalId, @PathVariable int  conceptId) {
+		log.error("proposal id: " + proposalId);
+		log.error("concept  id: " + conceptId);
 		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(proposalId);
 		final ConceptService conceptService = Context.getConceptService();
 		final Concept sourceConcept = conceptService.getConcept(conceptId);
+
 		CommentDto comment = new CommentDto();
 		comment.setProposedConceptPackageUuid(conceptPackage.getUuid());
 		comment.setProposedConceptUuid(sourceConcept.getUuid());
 		ProposedConceptReviewDto newConceptReviewDto = submitProposal.getDiscussion(comment);
 
 		if(newConceptReviewDto != null) {
-			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
-			for (ProposedConcept proposedConcept : conceptPackage.getProposedConcepts()) {
-				if(proposedConcept.getConcept().getId().equals(sourceConcept.getId())) {
-					proposedConcept.setDiscussion(newConceptReviewDto.getReviewDiscussion());
-					break;
+
+			for(ProposedConcept concept : conceptPackage.getProposedConcepts())
+			{
+				if(concept.getConcept().getId().equals(conceptId))
+				{
+					if(concept.getComments() != null) {
+						concept.getComments().clear();
+						concept.getComments().addAll(createComments(newConceptReviewDto.getComments(),concept));
+					}
+					else
+						concept.setComments(createComments(newConceptReviewDto.getComments(), concept));
 				}
 			}
 		}
@@ -255,6 +263,7 @@ public class ProposalController {
 			log.error("Error retrieving discussions from external server");
 			return null;
 		}
+
 		if(proposedConceptService.saveProposedConceptPackage(conceptPackage) == null)
 		{
 			log.error("Error saving discussions locally");
@@ -262,9 +271,43 @@ public class ProposalController {
 		}
 		return newConceptReviewDto;
 	}
+	public static CommentDto createCommentDto(final ProposedConceptComment reviewComment) {
+		CommentDto commentDto = new CommentDto();
+		commentDto.setEmail(reviewComment.getEmail());
+		commentDto.setName(reviewComment.getName());
+		commentDto.setComment(reviewComment.getComment());
+		commentDto.setDateCreated(reviewComment.getDateCreated());
+		return commentDto;
+	}
+	public static List<CommentDto> createCommentDtos(final List<ProposedConceptComment> reviewComments) {
+		List<CommentDto> commentDtos = new ArrayList<CommentDto>();
+		for(ProposedConceptComment comment : reviewComments)
+		{
+			commentDtos.add(createCommentDto(comment));
+		}
+		return commentDtos;
+	}
+	public static ProposedConceptComment createComment(final CommentDto commentDto, ProposedConcept concept) {
+		ProposedConceptComment comment = new ProposedConceptComment(
+				commentDto.getName(),
+				commentDto.getEmail(),
+				commentDto.getComment(),
+				commentDto.getDateCreated()
+		);
+		comment.setProposedConcept(concept);
+		return comment;
+	}
+	public static Set<ProposedConceptComment> createComments(final List<CommentDto> reviewComments, ProposedConcept concept) {
+		Set<ProposedConceptComment> comments = new HashSet<ProposedConceptComment>();
+		for(CommentDto comment : reviewComments)
+		{
+			comments.add(createComment(comment, concept));
+		}
+		return comments;
+	}
 
 	// proposer adds comments to local concept, send to dictionary manager
-	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}/{conceptId}/comment", method = RequestMethod.POST)
+	@RequestMapping(value = "/conceptpropose/proposals/comment/{proposalId}/{conceptId}", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptReviewDto addCommentByIds(@PathVariable int proposalId, @PathVariable int  conceptId, @RequestBody final CommentDto incomingComment) {
 		// TODO - throw exception on error?
 
@@ -277,24 +320,44 @@ public class ProposalController {
 		log.error("Concept N: " + sourceConcept);
 		if(conceptPackage!= null)
 			log.error("Package: " + conceptPackage.getUuid());
-		if(sourceConcept!= null)
-			log.error("Concept: " + sourceConcept.getUuid());
+		if(sourceConcept!= null) {
+			log.error("Concept uuid: " + sourceConcept.getUuid());
+			log.error("Concept   id: " + sourceConcept.getId());
+			log.error("Concept  cid: " + sourceConcept.getConceptId());
+		}
+
+
 		if(conceptPackage != null) {
 			for (ProposedConcept proposedConcept : conceptPackage.getProposedConcepts()) {
+				log.error("pConcept uuid: " + proposedConcept.getUuid());
+				log.error("pConcept   id: " + proposedConcept.getId());
+				log.error("pConceptc   cid: " + proposedConcept.getConcept().getConceptId());
+				log.error("pConceptc    id: " + proposedConcept.getConcept().getId());
+				log.error("pConceptc  uuid: " + proposedConcept.getConcept().getUuid());
 				if(proposedConcept.getConcept().getId().equals(sourceConcept.getId())) {
+					log.error("FOUND!!!!");
+
 					incomingComment.setProposedConceptPackageUuid(conceptPackage.getUuid());
 					incomingComment.setProposedConceptUuid(sourceConcept.getUuid());
 					ProposedConceptReviewDto newConceptReviewDto = submitProposal.addComment(incomingComment);
 					if(newConceptReviewDto != null)
 					{
-						proposedConcept.setDiscussion(newConceptReviewDto.getReviewDiscussion());
-
+						proposedConcept.getComments().clear();
+						proposedConcept.getComments().addAll(createComments(newConceptReviewDto.getComments(),proposedConcept));
 						if(proposedConceptService.saveProposedConceptPackage(conceptPackage) == null)
 						{
 							log.error("Error saving comment locally"); // should give different response to above error? should only need to refresh and not resubmit
 						}
-						else
+						else {
+							log.error("success : ");
+							log.error(newConceptReviewDto.toString());
+							if(newConceptReviewDto.getComments() != null)         {
+								log.error("no comments");
+							}
+							else
+								log.error(newConceptReviewDto.getComments().size() + "");
 							return newConceptReviewDto;
+						}
 					}
 					else {
 						log.error("Error submitting comment");

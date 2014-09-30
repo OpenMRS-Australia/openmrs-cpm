@@ -80,5 +80,23 @@
             <column name="discussion" type="text"></column>
         </addColumn>
     </changeSet>
+    <changeSet id="conceptpropose_20141005" author="OpenMRS-Australia">
+        <createTable tableName="conceptpropose_proposed_concept_comment">
+            <column autoIncrement="true" name="conceptpropose_proposed_concept_comment_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="conceptpropose_proposed_concept_id" type="int"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="text"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

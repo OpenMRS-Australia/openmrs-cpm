@@ -151,5 +151,23 @@
             <column name="reviewDiscussion" type="TEXT"></column>
         </addColumn>
     </changeSet>
+    <changeSet id="conceptreview_20140930" author="OpenMRS-Australia">
+        <createTable tableName="conceptreview_proposed_concept_review_comment">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_comment_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="proposed_concept_review" type="int"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="text"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

@@ -47,7 +47,20 @@
           <td>{{concept.preferredName}}</td>
           <td>{{concept.datatype}}</td>
           <td><span ng-show="isReadOnly">
-                <pre>{{concept.discussion}}</pre>
+                <table class="box" cellpadding="2" cellspacing="0">
+                    <thead>
+                    <tr><th>Date</th><th>Commenter</th><th>Comment</th></tr>
+                    </thead>
+                    <tbody ng-show="isLoading">
+                    <tr><td colspan="3" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+                    </tbody>
+                    <tbody ng-show="!isLoading && concept.comments.length == 0">
+                    <tr><td colspan="3" align="center"><em>No comments made</em></td></tr>
+                    </tbody>
+                    <tbody class="results">
+                    <tr ng-repeat="comment in concept.comments" style="cursor: pointer;"><td>{{comment.dateCreated}}</td><td>{{comment.name}} ({{comment.email}})</td><td><pre>{{comment.comment}}</pre></td></tr>
+                    </tbody>
+                </table>
                 <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment"></textarea>
                 <button ng-click="addComment(concept)">Add Comment</button>
                 <button ng-click="refreshDiscussion(concept)">Refresh</button>
