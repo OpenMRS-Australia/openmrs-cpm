@@ -10,7 +10,6 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 	private String newCommentEmail;
 	private String newCommentText;
 
-//	private List<CommentDto> comments;
 	private int conceptId;
 
 	public String getReviewComment() {
@@ -52,9 +51,5 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 	public void setNewCommentText(String newCommentText) {
 		this.newCommentText = newCommentText;
 	}
-
-//	public List<CommentDto> getComments() { return comments; }
-//
-//	public void setComments(List<CommentDto> comments) { this.comments = comments; }
 
 }

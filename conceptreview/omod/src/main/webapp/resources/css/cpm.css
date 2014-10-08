@@ -16,7 +16,7 @@ label {
 	border: 1px solid #1AAC9B;
 	min-width: 600px;
 }
-.conceptTable thead {
+.conceptTable thead, .results tr.commentHeader {
 	background-color: #1AAC9B;
 	color: white;
 	font-weight: bold;

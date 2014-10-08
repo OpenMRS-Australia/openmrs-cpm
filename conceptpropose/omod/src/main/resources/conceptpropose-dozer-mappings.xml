@@ -71,6 +71,12 @@
             <a-hint>org.openmrs.ConceptAnswer</a-hint>
             <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</b-hint>
         </field>
+        <field>
+            <a>comments</a>
+            <b>comments</b>
+            <a-hint>org.openmrs.module.conceptpropose.ProposedConceptComment</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.CommentDto</b-hint>
+        </field>
     </mapping>
     <mapping>
         <class-a>org.openmrs.ConceptAnswer</class-a>
@@ -138,4 +144,5 @@
             <b>type</b>
         </field>
     </mapping>
+
 </mappings>

@@ -58,7 +58,7 @@ public class ProposedConceptReviewComment extends BaseOpenmrsObject {
 
 
 	@Column(name = "date_created", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateCreated() {
 		return dateCreated;
 	}

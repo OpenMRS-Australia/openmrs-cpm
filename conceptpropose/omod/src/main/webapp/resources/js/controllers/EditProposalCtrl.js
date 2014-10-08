@@ -23,6 +23,8 @@ define([
         $scope.isSubmitting = false;
         $scope.isLoading = true;
         $scope.isReadOnly = true;
+        $scope.isAddingComment = false;
+        $scope.isRefreshingComments = false;
 
         $scope.menu = Menu.getMenu(1);
 
@@ -91,12 +93,15 @@ define([
 
             if(data.status)
             {
-                if(data.status == "500")
-                    alert('Error submitting proposal (Problem with submitting Proposal)');
-                else if(data.status == "401")
-                    alert('Error submitting proposal (Unauthorized - you need to log in)');
-                else
-                    alert('Error submitting proposal (Unknown error: ' + data.status + ')');
+              if(data.status === '500'){
+                alert('Error submitting proposal (Problem with submitting Proposal)');
+              }
+              else if(data.status === '401'){
+                alert('Error submitting proposal (Unauthorized - you need to log in)');
+              }
+              else{
+                alert('Error submitting proposal (Unknown error: ' + data.status + ')');
+              }
             }
           };
 
@@ -124,6 +129,12 @@ define([
           }
         };
         $scope.addComment = function(concept){
+          $scope.isAddingComment = true;
+          $scope.isLoading = true;
+          var loadComplete = function(){
+            $scope.isAddingComment = false;
+            $scope.isLoading = false;
+          };
           var url = '/openmrs/ws/conceptpropose/proposals/comment/' + $scope.proposal.id + '/' + concept.id + '';
           var data = {
             'name' : $scope.proposal.name,
@@ -132,26 +143,67 @@ define([
           };
           $http.post(url, data)
             .success(function(data) {
-              concept.comments = data.comments;
-              concept.newComment = '';
-              alert('Success');
+              if(data && data.comments && data.comments.length > 0){
+                concept.comments = data.comments;
+                concept.newComment = '';
+                alert('Comment Added!');
+              }
+              else{
+                alert('No comments retrieved. Please try again');
+              }
+              loadComplete();
             })
-            .error(function(data,status){
-              alert('Failed: ' + status);
+            .error(function(data){
+              var text = '';
+              if(data.status === '500'){
+                text = '';
+              }
+              else if(data.status === '401'){
+                text = 'Unauthorized - you need to log in';
+              }
+              else{
+                text = 'Unknown error: ' + data.status;
+              }
+              alert('Error adding comment ('+ text + ')');
+              loadComplete();
             });
-        }
+        };
         $scope.refreshDiscussion = function(concept){
+          $scope.isRefreshingComments = true;
+          $scope.isLoading = true;
+          var loadComplete = function(){
+            $scope.isRefreshingComments  = false;
+            $scope.isLoading = false;
+          };
+
           var url = '/openmrs/ws/conceptpropose/proposals/discussion/' + $scope.proposal.id + '/' + concept.id + '';
-          $http.get(url, {})
+          $http.post(url, {})
             .success(function(data) {
-              concept.comments = data.comments;
-              concept.newComment = '';
-              alert('Refreshed');
+              if(data && data.comments && data.comments.length > 0){
+                concept.comments = data.comments;
+                concept.newComment = '';
+                alert('Comment Refreshed');
+              }
+              else{
+                alert('No comments retrieved. Please try again');
+              }
+              loadComplete();
             })
-            .error(function(data,status){
-              alert('Failed: ' + status);
+            .error(function(data){
+              var text = '';
+              if(data.status === '500'){
+                text = '';
+              }
+              else if(data.status === '401'){
+                text = 'Unauthorized - you need to log in';
+              }
+              else{
+                text = 'Unknown error: ' + data.status;
+              }
+              alert('Error refreshing comments ('+ text + ')');
+              loadComplete();
             });
-        }
+        };
         $scope.removeConcept = function(concept) {
           if ($window.confirm('Are you sure?')) {
             for (var i in $scope.proposal.concepts) {

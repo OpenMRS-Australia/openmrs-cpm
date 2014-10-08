@@ -13,14 +13,10 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.PackageStatus;
-import org.openmrs.module.conceptreview.ProposedConceptReview;
-import org.openmrs.module.conceptreview.ProposedConceptReviewAnswer;
-import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
-import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
+import org.openmrs.module.conceptreview.*;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -189,6 +185,21 @@ public class TestProposedConceptReviewService extends BaseModuleContextSensitive
 
     @Test
     public void saveProposedConceptPackageReview_basicUpdate() throws Exception {
+        ProposedConceptReviewPackage testPackage = service.getProposedConceptReviewPackageById(1);
+        log.info("Retrieved: " + testPackage);
+        Assert.assertEquals("Concept Proposal Package Review 1", testPackage.getName());
+
+        String newName = "New Name";
+        testPackage.setName(newName);
+        service.saveProposedConceptReviewPackage(testPackage);
+
+        testPackage = service.getProposedConceptReviewPackageById(1);
+        log.info("Retrieved: " + testPackage);
+        Assert.assertEquals(newName, testPackage.getName());
+    }
+
+    @Test
+    public void saveProposedConceptPackageReview_basicCommentUpdate() throws Exception {
         ProposedConceptReviewPackage testPackage = service.getProposedConceptReviewPackageById(1);
         log.info("Retrieved: " + testPackage);
         Assert.assertEquals("Concept Proposal Package Review 1", testPackage.getName());
@@ -395,5 +406,51 @@ public class TestProposedConceptReviewService extends BaseModuleContextSensitive
         assertThat(reviews.get(0).getCodedDetails().get(0).getSortWeight(), is(1.0));
 
     }
+    @Test
+    public void saveAndFetchProposedConceptWithComments_shouldMatchComment() {
 
+        ProposedConceptReviewPackage testPackage = new ProposedConceptReviewPackage();
+        testPackage.setName("name");
+        testPackage.setEmail("asdf@asdf.com");
+        ProposedConceptReview conceptReview = new ProposedConceptReview();
+        conceptReview.setComment("This is a proposer's comment");
+
+        ArrayList<ProposedConceptReviewComment> comments = new ArrayList<ProposedConceptReviewComment>();
+        ProposedConceptReviewComment comment = new ProposedConceptReviewComment();
+        Calendar cal1 = GregorianCalendar.getInstance();
+        cal1.set(2014, Calendar.JANUARY, 2);
+        Date date1 = cal1.getTime();
+        comment.setName("name");
+        comment.setEmail("email");
+        comment.setComment("comment");
+        comment.setDateCreated(date1);
+        comments.add(comment);
+
+        Calendar cal2 = GregorianCalendar.getInstance();
+        cal2.set(2014, Calendar.FEBRUARY, 3);
+        Date date2 = cal2.getTime();
+        date2.setTime(1000000);
+        ProposedConceptReviewComment comment2 = new ProposedConceptReviewComment();
+        comment2.setName("name 2");
+        comment2.setEmail("email 2");
+        comment2.setComment("comment 2");
+        comment2.setDateCreated(date2);
+        comments.add(comment2);
+
+        conceptReview.setComments(comments);
+        testPackage.addProposedConcept(conceptReview);
+        service.saveProposedConceptReviewPackage(testPackage);
+
+        final ProposedConceptReviewPackage retrievedPackage = service.getProposedConceptReviewPackageById(testPackage.getId());
+        ArrayList<ProposedConceptReview> reviews = new ArrayList<ProposedConceptReview>(retrievedPackage.getProposedConcepts());
+        assertThat(reviews.get(0).getComments().size(), is(2));
+        assertThat(reviews.get(0).getComments().get(0).getName(), is("name"));
+        assertThat(reviews.get(0).getComments().get(0).getEmail(), is("email"));
+        assertThat(reviews.get(0).getComments().get(0).getComment(), is("comment"));
+        assertThat(reviews.get(0).getComments().get(0).getDateCreated(), is(date1));
+        assertThat(reviews.get(0).getComments().get(1).getName(), is("name 2"));
+        assertThat(reviews.get(0).getComments().get(1).getEmail(), is("email 2"));
+        assertThat(reviews.get(0).getComments().get(1).getComment(), is("comment 2"));
+        assertThat(reviews.get(0).getComments().get(1).getDateCreated(), is(date2));
+    }
 }

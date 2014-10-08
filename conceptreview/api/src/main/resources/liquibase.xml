@@ -146,11 +146,6 @@
     <changeSet id="conceptreview_20140715" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptreview_proposed_concept_review" columnName="reviewComment" newDataType="TEXT"/>
     </changeSet>
-    <changeSet id="conceptreview_20140915" author="OpenMRS-Australia">
-        <addColumn tableName="conceptreview_proposed_concept_review">
-            <column name="reviewDiscussion" type="TEXT"></column>
-        </addColumn>
-    </changeSet>
     <changeSet id="conceptreview_20140930" author="OpenMRS-Australia">
         <createTable tableName="conceptreview_proposed_concept_review_comment">
             <column autoIncrement="true" name="conceptreview_proposed_concept_review_comment_id" type="int">

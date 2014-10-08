@@ -1,19 +1,25 @@
 package org.openmrs.module.conceptreview.web.controller;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import org.directwebremoting.util.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
+import org.openmrs.PersonName;
+import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
+import org.openmrs.module.conceptpropose.web.dto.UserDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
 
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
 import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
+import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
@@ -23,17 +29,13 @@ import org.openmrs.module.conceptreview.web.dto.factory.DtoFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ReviewController {
-
+    private final Logger log = Logger.getLogger(ReviewController.class);
 // TODO: fix this. was getting import errors
     private final NameDtoFactory nameDtoFactory;
-	protected final Logger log = Logger.getLogger(getClass());
 
     private final DescriptionDtoFactory descriptionDtoFactory;
     @Autowired
@@ -83,6 +85,27 @@ public class ReviewController {
 		Context.getService(ProposedConceptReviewService.class).deleteProposedConceptReviewPackageById(proposalId);
 	}
 
+	@RequestMapping(value = "/conceptreview/userDetails", method = RequestMethod.GET)
+	public @ResponseBody UserDto getUserDetails() {
+		User user = Context.getAuthenticatedUser();
+		return new UserDto(getDisplayName(user), getNotificationEmail(user));
+	}
+	private String getDisplayName(User user) {
+		PersonName name = user.getPersonName();
+		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
+		String displayName = "";
+		for (String component : components) {
+			if (!Strings.isNullOrEmpty(component)) {
+				displayName += String.format("%s ", component);
+			}
+		}
+		return displayName.trim();
+	}
+	private String getNotificationEmail(User user) {
+		Map<String, String> userProperties = user.getUserProperties();
+		return userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS);
+	}
+
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
 	public @ResponseBody
 	ProposedConceptReviewDto getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
@@ -111,19 +134,9 @@ public class ReviewController {
 			}
 
 			service.saveProposedConceptReviewPackage(aPackage);
-			if(proposedConcept.getComments() != null)
-			{
-				log.error("is not null: " + proposedConcept.getComments().size());
-				for(ProposedConceptReviewComment comment : proposedConcept.getComments()){
-					log.error(comment.getDateCreated().toString());
-				}
-			}
-			else
-				log.error("is null");
 		}
-		final ProposedConceptReviewPackage aPackage2 = service.getProposedConceptReviewPackageById(proposalId);
-		//return DtoFactory.createProposedConceptReviewDto(proposedConcept);
-		return DtoFactory.createProposedConceptReviewDto(aPackage2.getProposedConcept(conceptId));
+
+		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
 	}
 
 	private ProposedConceptReviewPackageDto createProposedConceptReviewPackageDto(final ProposedConceptReviewPackage responsePackage) {

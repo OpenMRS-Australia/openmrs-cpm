@@ -11,7 +11,7 @@ define([
 
     'use strict';
     angular.module('conceptreview.controllers').controller('ReviewConceptCtrl',
-      function($scope, $routeParams, $location, ProposalReviewConcepts, Menu) {
+      function($scope, $routeParams, $location, ProposalReviewConcepts, Menu, $http) {
 
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
@@ -28,12 +28,18 @@ define([
           $scope.concept.$update({proposalId: proposalId}, function(){
             $scope.showProposal();
           }, function(){
-            alert("Error saving. Please try again");
+            alert('Error saving. Please try again');
           });
           $scope.isSearchDialogOpen = false;
         };
 
         $scope.concept = ProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
+ 	      $http.get('/openmrs/ws/conceptreview/userDetails', {})
+            .success(function(data) {
+              data = data || {};
+			  $scope.concept.newCommentName = data.name;
+			  $scope.concept.newCommentEmail = data.email;
+            });
           $scope.isLoading = false;
         });
 
@@ -68,7 +74,7 @@ define([
           $scope.concept.$update({proposalId: proposalId}, function(){
             $scope.showProposal();
           }, function(){
-            alert("Error saving. Please try again");
+            alert('Error saving. Please try again');
           });
         };
       });

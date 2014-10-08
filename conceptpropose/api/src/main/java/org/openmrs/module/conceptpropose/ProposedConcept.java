@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.GenericGenerator;
 import org.openmrs.Concept;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,14 +70,15 @@ public class ProposedConcept extends ShareableProposal<ProposedConceptPackage> {
 		return concept;
 	}
 
-	protected Set<ProposedConceptComment> comments = new HashSet<ProposedConceptComment>();
+	protected List<ProposedConceptComment> comments = new ArrayList<ProposedConceptComment>();
 	@OneToMany(mappedBy = "proposedConcept", cascade = CascadeType.ALL, orphanRemoval = true)
-	public Set<ProposedConceptComment> getComments() {
+	@OrderBy("dateCreated asc")
+	public List<ProposedConceptComment> getComments() {
 		return comments;
 	}
 
-	public void setComments(Set<ProposedConceptComment> comments) {
-		this.comments = comments;
+	public void setComments(List<ProposedConceptComment> comments) {
+        this.comments = comments;
 		if (this.comments != null) {
 			for (ProposedConceptComment comment : this.comments) {
 				comment.setProposedConcept(this);

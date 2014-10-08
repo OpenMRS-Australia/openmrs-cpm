@@ -46,25 +46,28 @@
         <tr ng-repeat="concept in proposal.concepts">
           <td>{{concept.preferredName}}</td>
           <td>{{concept.datatype}}</td>
-          <td><span ng-show="isReadOnly">
-                <table class="box" cellpadding="2" cellspacing="0">
-                    <thead>
-                    <tr><th>Date</th><th>Commenter</th><th>Comment</th></tr>
-                    </thead>
-                    <tbody ng-show="isLoading">
-                    <tr><td colspan="3" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
-                    </tbody>
-                    <tbody ng-show="!isLoading && concept.comments.length == 0">
-                    <tr><td colspan="3" align="center"><em>No comments made</em></td></tr>
-                    </tbody>
-                    <tbody class="results">
-                    <tr ng-repeat="comment in concept.comments" style="cursor: pointer;"><td>{{comment.dateCreated}}</td><td>{{comment.name}} ({{comment.email}})</td><td><pre>{{comment.comment}}</pre></td></tr>
-                    </tbody>
-                </table>
-                <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment"></textarea>
-                <button ng-click="addComment(concept)">Add Comment</button>
-                <button ng-click="refreshDiscussion(concept)">Refresh</button>
-              </span>
+          <td><input ng-model="concept.comment" ng-disabled="isReadOnly"/>
+            <span ng-show="isReadOnly">
+              <table class="box" cellpadding="2" cellspacing="0">
+                <thead>
+                  <tr class="commentHeader"><th>Date</th><th>Commenter</th><th>Comment</th></tr>
+                </thead>
+                <tbody ng-show="isLoading">
+                  <tr><td colspan="3" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+                </tbody>
+                <tbody ng-show="!isLoading && concept.comments.length == 0">
+                  <tr><td colspan="3" align="center"><em>No comments made</em></td></tr>
+                </tbody>
+                <tbody class="results">
+                  <tr ng-repeat="comment in concept.comments" style="cursor: pointer;"><td>{{comment.dateCreated | date:'yyyy-MM-dd HH:mm:ss Z'}}</td><td>{{comment.name}} ({{comment.email}})</td><td><pre>{{comment.comment}}</pre></td></tr>
+                </tbody>
+              </table>
+              <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment"></textarea>
+              <div>
+                <button ng-disabled="isAddingComment" ng-click="addComment(concept)">Add Comment</button>
+                <button ng-disabled="isRefreshingComments" ng-click="refreshDiscussion(concept)">Refresh</button>
+              </div>
+            </span>
           </td>
           <td><button ng-click="removeConcept(concept)" ng-disabled="isReadOnly">Remove</button></td>
         </tr>

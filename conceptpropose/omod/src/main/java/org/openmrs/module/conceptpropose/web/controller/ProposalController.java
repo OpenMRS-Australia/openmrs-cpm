@@ -229,7 +229,7 @@ public class ProposalController {
 	}
 
 	// get latest discussions from dictionary manager
-	@RequestMapping(value = "/conceptpropose/proposals/discussion/{proposalId}/{conceptId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/conceptpropose/proposals/discussion/{proposalId}/{conceptId}", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptReviewDto getLatestDiscussion(@PathVariable int proposalId, @PathVariable int  conceptId) {
 		log.error("proposal id: " + proposalId);
 		log.error("concept  id: " + conceptId);
@@ -297,8 +297,8 @@ public class ProposalController {
 		comment.setProposedConcept(concept);
 		return comment;
 	}
-	public static Set<ProposedConceptComment> createComments(final List<CommentDto> reviewComments, ProposedConcept concept) {
-		Set<ProposedConceptComment> comments = new HashSet<ProposedConceptComment>();
+	public static List<ProposedConceptComment> createComments(final List<CommentDto> reviewComments, ProposedConcept concept) {
+		List<ProposedConceptComment> comments = new ArrayList<ProposedConceptComment>();
 		for(CommentDto comment : reviewComments)
 		{
 			comments.add(createComment(comment, concept));
@@ -316,27 +316,10 @@ public class ProposalController {
 		final ConceptService conceptService = Context.getConceptService();
 		final Concept sourceConcept = conceptService.getConcept(conceptId);
 
-		log.error("Package N: " + conceptPackage);
-		log.error("Concept N: " + sourceConcept);
-		if(conceptPackage!= null)
-			log.error("Package: " + conceptPackage.getUuid());
-		if(sourceConcept!= null) {
-			log.error("Concept uuid: " + sourceConcept.getUuid());
-			log.error("Concept   id: " + sourceConcept.getId());
-			log.error("Concept  cid: " + sourceConcept.getConceptId());
-		}
-
 
 		if(conceptPackage != null) {
 			for (ProposedConcept proposedConcept : conceptPackage.getProposedConcepts()) {
-				log.error("pConcept uuid: " + proposedConcept.getUuid());
-				log.error("pConcept   id: " + proposedConcept.getId());
-				log.error("pConceptc   cid: " + proposedConcept.getConcept().getConceptId());
-				log.error("pConceptc    id: " + proposedConcept.getConcept().getId());
-				log.error("pConceptc  uuid: " + proposedConcept.getConcept().getUuid());
 				if(proposedConcept.getConcept().getId().equals(sourceConcept.getId())) {
-					log.error("FOUND!!!!");
-
 					incomingComment.setProposedConceptPackageUuid(conceptPackage.getUuid());
 					incomingComment.setProposedConceptUuid(sourceConcept.getUuid());
 					ProposedConceptReviewDto newConceptReviewDto = submitProposal.addComment(incomingComment);

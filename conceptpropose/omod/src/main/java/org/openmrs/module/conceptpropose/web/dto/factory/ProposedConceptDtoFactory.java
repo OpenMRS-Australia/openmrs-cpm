@@ -35,18 +35,18 @@ public class ProposedConceptDtoFactory {
         conceptDto.setDescriptions(descriptionDtoFactory.create(concept));
 		conceptDto.setAnswers(answerDtoFactory.create(concept));
         conceptDto.setUuid(concept.getUuid());
-		conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
-		List<CommentDto> comments = new ArrayList<CommentDto>();
-		for(ProposedConceptComment comment : proposedConcept.getComments())
-		{
-			CommentDto commentDto = new CommentDto();
-			commentDto.setName(comment.getName());
-			commentDto.setEmail(comment.getEmail());
-			commentDto.setComment(comment.getComment());
-			commentDto.setDateCreated(comment.getDateCreated());
-			comments.add(commentDto);
-		}
-		conceptDto.setComments(comments);
+        conceptDto.setComment(proposedConcept.getComment()); // proposer's comment
+        List<CommentDto> comments = new ArrayList<CommentDto>();
+        for(ProposedConceptComment comment : proposedConcept.getComments())
+        {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setName(comment.getName());
+            commentDto.setEmail(comment.getEmail());
+            commentDto.setComment(comment.getComment());
+            commentDto.setDateCreated(comment.getDateCreated());
+            comments.add(commentDto);
+        }
+        conceptDto.setComments(comments);
 
         return conceptDto;
     }

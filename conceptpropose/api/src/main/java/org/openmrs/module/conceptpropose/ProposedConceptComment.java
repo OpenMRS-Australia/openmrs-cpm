@@ -6,15 +6,6 @@ import org.openmrs.BaseOpenmrsObject;
 
 import javax.persistence.*;
 import java.util.Date;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.annotations.GenericGenerator;
-import org.openmrs.Concept;
-
-import javax.persistence.*;
-import java.util.List;
-
-//public class ProposedConceptComment extends ShareableProposal<ProposedConceptPackage> {
 
 
 @Entity
@@ -68,14 +59,12 @@ public class ProposedConceptComment extends BaseOpenmrsObject {
 	public ProposedConcept getProposedConcept() {
 		return proposedConcept;
 	}
-
 	public void setProposedConcept(ProposedConcept proposedConcept) {
 		this.proposedConcept = proposedConcept;
 	}
 
-
 	@Column(name = "date_created", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateCreated() {
 		return dateCreated;
 	}

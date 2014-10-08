@@ -75,11 +75,6 @@
     <changeSet id="conceptpropose_20140913" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptpropose_proposed_concept" columnName="comment" newDataType="TEXT"/>
     </changeSet>
-    <changeSet id="conceptpropose_20140914" author="OpenMRS-Australia">
-        <addColumn tableName="conceptpropose_proposed_concept">
-            <column name="discussion" type="text"></column>
-        </addColumn>
-    </changeSet>
     <changeSet id="conceptpropose_20141005" author="OpenMRS-Australia">
         <createTable tableName="conceptpropose_proposed_concept_comment">
             <column autoIncrement="true" name="conceptpropose_proposed_concept_comment_id" type="int">
