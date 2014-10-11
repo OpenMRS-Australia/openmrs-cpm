@@ -98,7 +98,7 @@
 <p>Name: <br/><input style="width: 100%" rows="5" ng-model="concept.newCommentName" /></p>
 <p>Email<br/><input style="width: 100%" rows="5" ng-model="concept.newCommentEmail" /></p>
 <p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.newCommentText" /></p>
-<p><button ng-click="saveReviewComment()">Save comments</button></p>
+<p><button ng-click="addComment()" ng-disabled="!concept.newCommentName || !concept.newCommentEmail || !concept.newCommentText" accesskey="s">Save comment</button></p>
 <p>Record actions:<br/>
     <button ng-click="conceptCreated()">I created this concept</button>
     <button ng-click="conceptExists()">This concept already exists</button>

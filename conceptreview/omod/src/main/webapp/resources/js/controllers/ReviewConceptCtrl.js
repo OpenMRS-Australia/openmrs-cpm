@@ -51,7 +51,7 @@ define([
           $location.path('/edit/' + proposalId);
         };
 
-        $scope.saveReviewComment = function() {
+        $scope.addComment = function() {
           $scope.concept.$update({proposalId: proposalId}, function(){
             alert('Comment Saved');
           }, function(){
