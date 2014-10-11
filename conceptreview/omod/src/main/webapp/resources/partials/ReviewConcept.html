@@ -1,6 +1,10 @@
 <conceptreview-menu menu="menu"></conceptreview-menu>
 <div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" />Loading...</div>
 <h2>Proposed Concept: {{concept.preferredName}}</h2>
+<b class="boxHeader" ng-show="decisionMade">
+    <span ng-bind-html-unsafe="concept | proposalReviewStatus"></span>
+    <button ng-click="resetStatus()" ng-show="decisionMade">Reset status</button>
+</b>
 <p>Comment from proposer: {{concept.comment}}</p>
 
 <b class="boxHeader">Names</b>
@@ -81,9 +85,13 @@
 <p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
 <p><button ng-click="saveReviewComment()">Save comments</button></p>
 <p>Record actions:<br/>
-    <button ng-click="conceptCreated()">I created this concept</button>
-    <button ng-click="conceptExists()">This concept already exists</button>
-    <button ng-click="conceptRejected()">Reject this concept</button>
+    <b class="boxHeader" ng-show="decisionMade">
+        <span ng-bind-html-unsafe="concept | proposalReviewStatus"></span>
+        <button ng-click="resetStatus()" ng-show="decisionMade">Reset status</button>
+    </b>
+    <button ng-click="conceptCreated()" ng-disabled="decisionMade || isDeciding">I created this concept</button>
+    <button ng-click="conceptExists()" ng-disabled="decisionMade || isDeciding">This concept already exists</button>
+    <button ng-click="conceptRejected()" ng-disabled="decisionMade || isDeciding">Reject this concept</button>
 </p>
 
 <jquery-ui-dialog title="title" dialog-open="isSearchDialogOpen">
