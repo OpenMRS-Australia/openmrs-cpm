@@ -25,13 +25,8 @@ public class ProposedConceptReviewServiceImpl extends BaseOpenmrsService impleme
 	public List<ProposedConceptReviewPackage> getAllProposedConceptReviewPackages() throws APIException {
 		return proposalReviewDao.getAllConceptProposalReviewPackages();
 	}
-
-    @Override
-    public List<ProposedConceptReviewPackage> getCompletedProposedConceptReviewPackages() throws APIException {
-        return proposalReviewDao.getCompletedConceptProposalReviewPackages();
-    }
-
-    @Override
+	
+	@Override
 	public ProposedConceptReviewPackage getProposedConceptReviewPackageById(Integer id) throws APIException {
 		return proposalReviewDao.getConceptProposalReviewPackageById(id);
 	}

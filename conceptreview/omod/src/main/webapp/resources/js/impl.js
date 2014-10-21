@@ -1,6 +1,5 @@
 define([
     'js/controllers/ListIncomingProposalsCtrl',
-    'js/controllers/ListCompletedProposalsCtrl',
     'js/controllers/ReviewProposalCtrl',
     'js/controllers/ReviewConceptCtrl',
     'js/directives/conceptreviewMenu',

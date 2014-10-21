@@ -12,14 +12,6 @@ define([
           controller: 'ListIncomingProposalsCtrl',
           templateUrl: config.resourceLocation + '/partials/ListIncomingProposals.html'
         }).
-        when('/completed', {
-          controller: 'ListCompletedProposalsCtrl',
-          templateUrl: config.resourceLocation + '/partials/ListCompletedProposals.html'
-        }).
-        /*when('/view/:proposalId', {
-          controller: 'ViewProposalCtrl',
-          templateUrl: config.resourceLocation + '/partials/ViewProposal.html'
-        }).*/
         when('/edit/:proposalId', {
           controller: 'ReviewProposalCtrl',
           templateUrl: config.resourceLocation + '/partials/ReviewProposal.html'
