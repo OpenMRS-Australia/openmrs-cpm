@@ -9,6 +9,10 @@
                 <class-a>java.lang.String</class-a>
                 <class-b>org.openmrs.ConceptClass</class-b>
             </converter>
+            <converter type="org.openmrs.module.conceptpropose.web.converter.DatatypeConverter">
+                <class-a>java.lang.String</class-a>
+                <class-b>org.openmrs.ConceptDatatype</class-b>
+            </converter>
             <converter type="org.openmrs.module.conceptpropose.web.converter.ConceptConverter">
                 <class-a>org.openmrs.Concept</class-a>
                 <class-b>java.lang.Integer</class-b>
@@ -24,13 +28,13 @@
     <mapping>
         <class-a>org.openmrs.module.conceptpropose.web.dto.SubmissionDto</class-a>
         <class-b>org.openmrs.module.conceptreview.ProposedConceptReviewPackage</class-b>
-        <field map-id="submission">
+        <field>
             <a>concepts</a>
             <b>proposedConcepts</b>
             <b-hint>org.openmrs.module.conceptreview.ProposedConceptReview</b-hint>
         </field>
     </mapping>
-    <mapping map-id="submission">
+    <mapping>
         <class-a>org.openmrs.module.conceptreview.ProposedConceptReview</class-a>
         <class-b>org.openmrs.module.conceptpropose.web.dto.ProposedConceptDto</class-b>
         <field>
@@ -46,10 +50,6 @@
             <b>answers</b>
             <a-hint>org.openmrs.module.conceptreview.ProposedConceptReviewAnswer</a-hint>
             <b-hint>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</b-hint>
-        </field>
-        <field custom-converter="org.openmrs.module.conceptpropose.web.converter.DatatypeConverter">
-            <a>datatype</a>
-            <b>datatype</b>
         </field>
     </mapping>
     <mapping>
@@ -68,10 +68,8 @@
         <field>
             <a>proposedConcepts</a>
             <b>concepts</b>
-        </field>
-        <field type="one-way" custom-converter="org.openmrs.module.conceptreview.web.converter.ConceptAgeConverter">
-            <a>dateCreated</a>
-            <b>age</b>
+            <a-hint>org.openmrs.module.conceptreview.ProposedConceptReview</a-hint>
+            <b-hint>org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto</b-hint>
         </field>
     </mapping>
     <mapping>
@@ -82,38 +80,6 @@
             <b>comments</b>
             <a-hint>org.openmrs.module.conceptreview.ProposedConceptReview</a-hint>
             <b-hint>org.openmrs.module.conceptpropose.web.dto.CommentDto</b-hint>
-		</field>
-        <field type="one-way">
-            <a>concept.conceptId</a>
-            <b>conceptId</b>
-        </field>
-        <field type="one-way" custom-converter="org.openmrs.module.conceptreview.web.converter.PreferredNameConverter">
-            <a>names</a>
-            <b>preferredName</b>
-        </field>
-        <field>
-            <a>names</a>
-            <b>names</b>
-        </field>
-        <field type="one-way">
-            <a>datatype.name</a>
-            <b>datatype</b>
-        </field>
-        <field type="one-way">
-            <a>conceptClass.name</a>
-            <b>conceptClass</b>
-        </field>
-        <field>
-            <a>codedDetails</a>
-            <b>answers</b>
-        </field>
-    </mapping>
-    <mapping>
-        <class-a>org.openmrs.module.conceptreview.ProposedConceptReviewAnswer</class-a>
-        <class-b>org.openmrs.module.conceptpropose.web.dto.concept.AnswerDto</class-b>
-        <field custom-converter="org.openmrs.module.conceptreview.web.converter.ConceptUuidToPreferredNameConverter">
-            <a>answerConceptUuid</a>
-            <b>answerConceptPreferredName</b>
         </field>
     </mapping>
 </mappings>

@@ -25,7 +25,6 @@ define([
         $scope.isReadOnly = true;
         $scope.isAddingComment = false;
         $scope.isRefreshingComments = false;
-        $scope.isSubmissible = false;
 
         $scope.menu = Menu.getMenu(1);
 
@@ -45,7 +44,6 @@ define([
         $scope.acceptConcepts = function(concepts) {
           $scope.proposal.concepts = $scope.getConceptUnion(concepts, $scope.proposal.concepts);
           $scope.isSearchDialogOpen = false;
-          $scope.isSubmissible = $scope.proposal.concepts.length > 0;
         };
 
         if ($scope.isEdit) {
@@ -60,7 +58,6 @@ define([
         $scope.proposal = Proposals.get(proposalsParams, function() {
           $scope.isLoading = false;
           $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
-          $scope.isSubmissible = $scope.proposal.concepts.length > 0;
         });
 
         $scope.save = function() {
@@ -96,14 +93,14 @@ define([
 
             if(data.status)
             {
-              if(data.status === '500') {
-                $window.alert('Error submitting proposal (Problem with submitting Proposal)');
+              if(data.status === '500'){
+                alert('Error submitting proposal (Problem with submitting Proposal)');
               }
-              else if(data.status === '401') {
-                $window.alert('Error submitting proposal (Unauthorized - you need to log in)');
+              else if(data.status === '401'){
+                alert('Error submitting proposal (Unauthorized - you need to log in)');
               }
-              else {
-                $window.alert('Error submitting proposal (Unknown error: ' + data.status + ')');
+              else{
+                alert('Error submitting proposal (Unknown error: ' + data.status + ')');
               }
             }
           };
@@ -213,7 +210,6 @@ define([
               if ($scope.proposal.concepts[i] === concept) {
                 delete $scope.proposal.concepts[i];
                 $scope.proposal.concepts.splice(i, 1);
-                $scope.isSubmissible = $scope.proposal.concepts.length > 0;
               }
             }
           }
