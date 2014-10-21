@@ -5,5 +5,6 @@
 	<session-factory>
 		<mapping class="org.openmrs.module.conceptpropose.ProposedConcept" />
 		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptPackage" />
+		<mapping class="org.openmrs.module.conceptpropose.ProposedConceptComment" />
 	</session-factory>
 </hibernate-configuration>

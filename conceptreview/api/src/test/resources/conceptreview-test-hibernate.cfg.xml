@@ -9,5 +9,6 @@
 		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewPackage" />
 		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewNumeric" />
 		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewAnswer" />
+		<mapping class="org.openmrs.module.conceptreview.ProposedConceptReviewComment" />
 	</session-factory>
 </hibernate-configuration>

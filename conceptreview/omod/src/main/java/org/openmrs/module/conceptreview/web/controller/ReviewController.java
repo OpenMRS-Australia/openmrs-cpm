@@ -1,17 +1,25 @@
 package org.openmrs.module.conceptreview.web.controller;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import org.directwebremoting.util.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
+import org.openmrs.PersonName;
+import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
+import org.openmrs.module.conceptpropose.web.dto.UserDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
 
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
+import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
+import org.openmrs.util.OpenmrsConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
@@ -23,13 +31,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.List;
 import java.util.Set;
 
 @Controller
 public class ReviewController {
+    private final Logger log = Logger.getLogger(ReviewController.class);
 
-// TODO: fix this. was getting import errors
     private final NameDtoFactory nameDtoFactory;
 
     private final DescriptionDtoFactory descriptionDtoFactory;
@@ -80,6 +89,27 @@ public class ReviewController {
 		Context.getService(ProposedConceptReviewService.class).deleteProposedConceptReviewPackageById(proposalId);
 	}
 
+	@RequestMapping(value = "/conceptreview/userDetails", method = RequestMethod.GET)
+	public @ResponseBody UserDto getUserDetails() {
+		User user = Context.getAuthenticatedUser();
+		return new UserDto(getDisplayName(user), getNotificationEmail(user));
+	}
+	private String getDisplayName(User user) {
+		PersonName name = user.getPersonName();
+		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
+		String displayName = "";
+		for (String component : components) {
+			if (!Strings.isNullOrEmpty(component)) {
+				displayName += String.format("%s ", component);
+			}
+		}
+		return displayName.trim();
+	}
+	private String getNotificationEmail(User user) {
+		Map<String, String> userProperties = user.getUserProperties();
+		return userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS);
+	}
+
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
 	public @ResponseBody
 	ProposedConceptReviewDto getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
@@ -96,6 +126,11 @@ public class ReviewController {
 		final ProposedConceptReview proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
 			proposedConcept.setReviewComment(updatedProposalReview.getReviewComment());
+			if(updatedProposalReview.getNewCommentText() != null && updatedProposalReview.getNewCommentText() != "") {
+				final ProposedConceptReviewComment newComment = new ProposedConceptReviewComment(updatedProposalReview.getNewCommentName(), updatedProposalReview.getNewCommentEmail(), updatedProposalReview.getNewCommentText());
+				newComment.setProposedConceptReview(proposedConcept);
+				proposedConcept.getComments().add(newComment);
+			}
 			proposedConcept.setStatus(updatedProposalReview.getStatus());
 
 			if (updatedProposalReview.getConceptId() != 0) {
@@ -104,6 +139,7 @@ public class ReviewController {
 
 			service.saveProposedConceptReviewPackage(aPackage);
 		}
+
 		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
 	}
 
@@ -163,11 +199,9 @@ public class ReviewController {
 
         final ConceptDto dto = new ConceptDto();
         dto.setId(concept.getConceptId());
-// TODO: fix this. was getting import errors
         dto.setNames(nameDtoFactory.create(concept));
         dto.setPreferredName(concept.getName().getName());
         dto.setDatatype(concept.getDatatype().getName());
-// TODO: fix this. was getting import errors
         dto.setDescriptions(descriptionDtoFactory.create(concept));
         if(concept.getDescription()!=null)  {
             dto.setCurrLocaleDescription(concept.getDescription().getDescription());

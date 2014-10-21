@@ -11,7 +11,7 @@ define([
 
     'use strict';
     angular.module('conceptreview.controllers').controller('ReviewConceptCtrl',
-      function($scope, $routeParams, $location, ProposalReviewConcepts, Menu) {
+      function($scope, $routeParams, $location, ProposalReviewConcepts, Menu, $http) {
 
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
@@ -31,13 +31,19 @@ define([
             $scope.showProposal();
           }, function(){
             $scope.isDeciding = false;
-            alert("Error saving. Please try again");
+            alert('Error saving. Please try again');
           });
           $scope.isSearchDialogOpen = false;
         };
 
         $scope.loadConcept = function(){
           $scope.concept = ProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
+ 	        $http.get('/openmrs/ws/conceptreview/userDetails', {})
+              .success(function(data) {
+                data = data || {};
+			    $scope.concept.newCommentName = data.name;
+			    $scope.concept.newCommentEmail = data.email;
+              });
             $scope.decisionMade = ($scope.concept.status !== 'RECEIVED');
             $scope.isLoading = false;
           });
@@ -48,7 +54,7 @@ define([
           $location.path('/edit/' + proposalId);
         };
 
-        $scope.saveReviewComment = function() {
+        $scope.addComment = function() {
           $scope.concept.$update({proposalId: proposalId}, function(){
             alert('Comment Saved');
           }, function(){
@@ -73,7 +79,7 @@ define([
             $scope.showProposal();
           }, function(){
             $scope.isDeciding = false;
-            alert("Error saving. Please try again");
+            alert('Error saving. Please try again');
           });
         };
         $scope.resetStatus = function() {

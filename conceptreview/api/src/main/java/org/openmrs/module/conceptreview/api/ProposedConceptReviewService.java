@@ -4,6 +4,7 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.conceptreview.ConceptReviewConsts;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,4 +95,21 @@ public interface ProposedConceptReviewService extends OpenmrsService {
 	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
 	void deleteProposedConceptReviewPackageById(int proposalId) throws APIException;
+
+	/**
+	 * Gets a specific ProposedConceptPackage by the
+	 * proposer's review package uuid ()
+	 * and the
+	 * proposer's concept uuid ()
+	 *
+	 * @return The ConceptProposalPackages corresponding to the id parameter if it is available,
+	 *         otherwise a null result
+	 * @throws org.openmrs.api.APIException
+	 * @since 1.0
+	 */
+	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+	@Transactional
+	ProposedConceptReview getProposedConceptReviewByProposalUuidAndConceptUuid(String packageUuid, String conceptUuid) throws APIException;
+
+
 }

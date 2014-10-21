@@ -1,6 +1,7 @@
 package org.openmrs.module.conceptreview.api.db;
 
 import org.openmrs.api.APIException;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ProposedConceptPackageReviewDAO {
 	void deleteConceptProposalReviewPackage(ProposedConceptReviewPackage conceptPackage) throws APIException;
 
 	void deleteConceptProposalReviewPackageById(int proposalId);
+
+	ProposedConceptReview getConceptProposalReviewBySourceProposalUuidAndSourceConceptUuid(String packageUuid, String conceptUuid) throws APIException;
 }

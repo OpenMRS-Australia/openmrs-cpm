@@ -2,10 +2,12 @@ package org.openmrs.module.conceptreview.web.dto.factory;
 
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.module.conceptpropose.web.dto.CommentDto;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
 import org.openmrs.module.conceptreview.ProposedConceptReviewName;
 import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
+import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
@@ -15,6 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DtoFactory {
+
+	public static CommentDto createCommentDto(final ProposedConceptReviewComment reviewComment) {
+		CommentDto commentDto = new CommentDto();
+		commentDto.setEmail(reviewComment.getEmail());
+		commentDto.setName(reviewComment.getName());
+		commentDto.setComment(reviewComment.getComment());
+		commentDto.setDateCreated(reviewComment.getDateCreated());
+		return commentDto;
+	}
+	public static List<CommentDto> createCommentDtos(final List<ProposedConceptReviewComment> reviewComments) {
+		List<CommentDto> commentDtos = new ArrayList<CommentDto>();
+		for(ProposedConceptReviewComment comment : reviewComments)
+		{
+			commentDtos.add(createCommentDto(comment));
+		}
+		return commentDtos;
+	}
 
 	public static ProposedConceptReviewDto createProposedConceptReviewDto(final ProposedConceptReview conceptProposal) {
 		final ProposedConceptReviewDto conceptProposalDto = new ProposedConceptReviewDto();
@@ -35,6 +54,7 @@ public class DtoFactory {
 		conceptProposalDto.setStatus(conceptProposal.getStatus());
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
+		conceptProposalDto.setComments(createCommentDtos(conceptProposal.getComments()));
 
 		final ConceptDatatype conceptDatatype = conceptProposal.getDatatype();
 		if (conceptDatatype != null) {

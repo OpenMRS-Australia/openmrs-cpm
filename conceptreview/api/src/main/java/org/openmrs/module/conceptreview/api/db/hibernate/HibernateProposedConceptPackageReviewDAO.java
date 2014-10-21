@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.openmrs.api.APIException;
 import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
@@ -100,6 +101,26 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 			createQuery("delete from ProposedConceptReviewPackage where id = ?").
 			setParameter(0, proposalId).
 			executeUpdate();
+	}
+
+	@Override
+	public ProposedConceptReview getConceptProposalReviewBySourceProposalUuidAndSourceConceptUuid(String packageUuid, String conceptUuid) throws APIException {
+		if (packageUuid!= null && conceptUuid != null) {
+			ProposedConceptReviewPackage conceptReviewPackage = getConceptProposalReviewPackageByProposalUuid(packageUuid);
+			ProposedConceptReview result = null;
+			for(ProposedConceptReview review : conceptReviewPackage.getProposedConcepts())
+			{
+				if(review.getProposedConceptUuid().equals(conceptUuid)){
+					result = review;
+					break;
+				}
+			}
+			if (log.isDebugEnabled()) { log.debug("getConceptProposalReviewBySourceProposalUuidAndSourceConceptUuid returned: " + result); }
+			return result;
+		} else {
+			log.warn("Attempting to get concept with null source package uuid and null source concept uuid");
+			return null;
+		}
 	}
 
 

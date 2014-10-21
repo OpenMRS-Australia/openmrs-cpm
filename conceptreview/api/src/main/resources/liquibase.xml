@@ -143,17 +143,26 @@
     <changeSet id="conceptreview_20140513" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptreview_proposed_concept_review_package" columnName="description" newDataType="TEXT"/>
     </changeSet>
-    <changeSet id="conceptreview_20140709" author="OpenMRS-Australia">
-        <dropPrimaryKey tableName="conceptreview_proposed_concept_review_description"/>
-        <modifyDataType tableName="conceptreview_proposed_concept_review_description" columnName="description" newDataType="TEXT"/>
-        <addColumn tableName="conceptreview_proposed_concept_review_description">
-            <column autoIncrement="true" name="conceptreview_proposed_concept_review_description_id" type="int">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </addColumn>
-    </changeSet>
     <changeSet id="conceptreview_20140715" author="OpenMRS-Australia">
         <modifyDataType tableName="conceptreview_proposed_concept_review" columnName="reviewComment" newDataType="TEXT"/>
+    </changeSet>
+    <changeSet id="conceptreview_20140930" author="OpenMRS-Australia">
+        <createTable tableName="conceptreview_proposed_concept_review_comment">
+            <column autoIncrement="true" name="conceptreview_proposed_concept_review_comment_id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="proposed_concept_review" type="int"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="text"/>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

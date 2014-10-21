@@ -82,8 +82,27 @@
 </table>
 
 <p>Also include Mappings, Class, Answers, Set Members, Numeric range, etc</p>
-<p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.reviewComment" /></p>
-<p><button ng-click="saveReviewComment()">Save comments</button></p>
+
+<b class="boxHeader" style="margin-top: 1em;">Current Discussion:</b>
+<table class="box" cellpadding="2" cellspacing="0">
+    <thead>
+    <tr><th>Date</th><th>Commenter</th><th>Comment</th></tr>
+    </thead>
+    <tbody ng-show="isLoading">
+    <tr><td colspan="3" align="center" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" style="vertical-align: middle;"/> Loading...</td></tr>
+    </tbody>
+    <tbody ng-show="!isLoading && concept.comments.length == 0">
+    <tr><td colspan="3" align="center"><em>No comments made</em></td></tr>
+    </tbody>
+    <tbody class="results">
+    <tr ng-repeat="comment in concept.comments" style="cursor: pointer;"><td>{{comment.dateCreated | date:'yyyy-MM-dd HH:mm:ss Z'}}</td><td>{{comment.name}} ({{comment.email}})</td><td><pre>{{comment.comment}}</pre></td></tr>
+    </tbody>
+</table>
+
+<p>Name: <br/><input style="width: 100%" rows="5" ng-model="concept.newCommentName" /></p>
+<p>Email<br/><input style="width: 100%" rows="5" ng-model="concept.newCommentEmail" /></p>
+<p>My comments<br/><textarea style="width: 100%" rows="5" ng-model="concept.newCommentText" /></p>
+<p><button ng-click="addComment()" ng-disabled="!concept.newCommentName || !concept.newCommentEmail || !concept.newCommentText" accesskey="s">Save comment</button></p>
 <p>Record actions:<br/>
     <b class="boxHeader" ng-show="decisionMade">
         <span ng-bind-html-unsafe="concept | proposalReviewStatus"></span>
