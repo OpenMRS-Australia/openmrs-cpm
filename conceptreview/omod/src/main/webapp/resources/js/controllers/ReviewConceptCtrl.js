@@ -18,28 +18,31 @@ define([
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
-
+        $scope.decisionMade = false;
+        $scope.isDeciding = false;
         $scope.menu = Menu.getMenu();
 
         $scope.acceptConcept = function(concepts) {
           if (concepts.length > 0) {
             $scope.concept.conceptId = concepts[0].id;
           }
+          $scope.isDeciding = true;
           $scope.concept.$update({proposalId: proposalId}, function(){
             $scope.showProposal();
           }, function(){
+            $scope.isDeciding = false;
             alert("Error saving. Please try again");
           });
           $scope.isSearchDialogOpen = false;
         };
 
-        $scope.concept = ProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
-          $scope.isLoading = false;
-        });
-
-        $scope.showConcept = function(conceptId) {
-          $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
+        $scope.loadConcept = function(){
+          $scope.concept = ProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
+            $scope.decisionMade = ($scope.concept.status !== 'RECEIVED');
+            $scope.isLoading = false;
+          });
         };
+        $scope.loadConcept();
 
         $scope.showProposal = function() {
           $location.path('/edit/' + proposalId);
@@ -65,10 +68,25 @@ define([
 
         $scope.conceptRejected = function() {
           $scope.concept.status = 'CLOSED_REJECTED';
+          $scope.isDeciding = true;
           $scope.concept.$update({proposalId: proposalId}, function(){
             $scope.showProposal();
           }, function(){
+            $scope.isDeciding = false;
             alert("Error saving. Please try again");
+          });
+        };
+        $scope.resetStatus = function() {
+          $scope.concept.status = 'RECEIVED';
+          $scope.concept.conceptId = 0;
+          $scope.isDeciding = true;
+          $scope.concept.$update({proposalId: proposalId}, function(){
+            $scope.loadConcept();
+            $scope.isDeciding = false;
+            alert('Status cleared');
+          }, function(){
+            $scope.isDeciding = false;
+            alert('Error saving. Please try again');
           });
         };
       });
