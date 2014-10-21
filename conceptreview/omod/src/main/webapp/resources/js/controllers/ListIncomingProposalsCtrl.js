@@ -20,6 +20,9 @@ define([
           $scope.menu = Menu.getMenu(1);
 
           $scope.proposals = ProposalReviews.query(function() {
+            _.each($scope.proposals, function(proposal){
+              proposal.remainingConcepts = _.filter(proposal.concepts, function(i){ return i.status === 'RECEIVED'; }).length;
+            });
             $scope.responseReceived = true;
           });
 

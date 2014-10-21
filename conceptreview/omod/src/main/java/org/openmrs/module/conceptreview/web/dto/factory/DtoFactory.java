@@ -3,7 +3,11 @@ package org.openmrs.module.conceptreview.web.dto.factory;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.conceptpropose.web.dto.CommentDto;
-import org.openmrs.module.conceptreview.*;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
+import org.openmrs.module.conceptreview.ProposedConceptReviewName;
+import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
+import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
@@ -51,7 +55,6 @@ public class DtoFactory {
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
 		conceptProposalDto.setComments(createCommentDtos(conceptProposal.getComments()));
-
 
 		final ConceptDatatype conceptDatatype = conceptProposal.getDatatype();
 		if (conceptDatatype != null) {

@@ -29,12 +29,16 @@ import org.openmrs.module.conceptreview.web.dto.factory.DtoFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ReviewController {
     private final Logger log = Logger.getLogger(ReviewController.class);
-// TODO: fix this. was getting import errors
+
     private final NameDtoFactory nameDtoFactory;
 
     private final DescriptionDtoFactory descriptionDtoFactory;
@@ -195,11 +199,9 @@ public class ReviewController {
 
         final ConceptDto dto = new ConceptDto();
         dto.setId(concept.getConceptId());
-// TODO: fix this. was getting import errors
         dto.setNames(nameDtoFactory.create(concept));
         dto.setPreferredName(concept.getName().getName());
         dto.setDatatype(concept.getDatatype().getName());
-// TODO: fix this. was getting import errors
         dto.setDescriptions(descriptionDtoFactory.create(concept));
         if(concept.getDescription()!=null)  {
             dto.setCurrLocaleDescription(concept.getDescription().getDescription());
