@@ -6,6 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.openmrs.module.conceptpropose.PackageStatus;
+import org.openmrs.module.conceptpropose.ProposalStatus;
+import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptreview.api.db.ProposedConceptPackageReviewDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +65,16 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 	@Override
 	public ProposedConceptReviewPackage saveConceptProposalReviewPackage(ProposedConceptReviewPackage conceptPackageReview) {
 		if (conceptPackageReview != null) {
+			boolean hasUnprocessedConcepted = false;
+			if(conceptPackageReview.getProposedConcepts() != null && conceptPackageReview.getStatus() != null)
+			{
+				for (final ProposedConceptReview conceptProposal : conceptPackageReview.getProposedConcepts()) {
+					if(conceptProposal.getStatus() == ProposalStatus.RECEIVED) {
+						hasUnprocessedConcepted = true;
+					}
+				}
+				conceptPackageReview.setStatus(hasUnprocessedConcepted ? PackageStatus.RECEIVED : PackageStatus.CLOSED);
+			}
 			sessionFactory.getCurrentSession().saveOrUpdate(conceptPackageReview);
 			return conceptPackageReview;
 		} else {
