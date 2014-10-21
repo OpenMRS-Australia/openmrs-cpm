@@ -1,10 +1,8 @@
 package org.openmrs.module.conceptreview.web.service;
 
 import org.dozer.Mapper;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
-import org.openmrs.module.conceptreview.ProposedConceptReview;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,15 +22,12 @@ public class ConceptReviewMapperService {
 		return dozerBeanMapper.map(incomingProposal, ProposedConceptReviewPackage.class);
 	}
 
-	public ProposedConceptReviewPackageDto convertProposedConceptReviewPackageToProposedConceptReviewDto(ProposedConceptReviewPackage proposedConceptReviewPackage){
-		return dozerBeanMapper.map(proposedConceptReviewPackage, ProposedConceptReviewPackageDto.class);
+	public ProposedConceptReviewPackageDto convertProposedConceptReviewPackageToProposedConceptReviewDto(ProposedConceptReviewPackage proposedConceptPackage){
+		return dozerBeanMapper.map(proposedConceptPackage, ProposedConceptReviewPackageDto.class);
 	}
 
 	public ProposedConceptReviewPackage convertProposedConceptReviewDtoToProposedConceptReviewPackage(ProposedConceptReviewPackageDto dto) {
 		return dozerBeanMapper.map(dto, ProposedConceptReviewPackage.class);
 	}
 
-	public ProposedConceptReviewDto createProposedConceptReviewDto(ProposedConceptReview proposedConceptReview) {
-		return dozerBeanMapper.map(proposedConceptReview, ProposedConceptReviewDto.class);
-	}
 }

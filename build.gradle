@@ -25,8 +25,7 @@ allprojects {
 
     dependencies {
 
-        compile 'net.sf.dozer:dozer:5.5.1'
-        compile 'net.sf.dozer:dozer-spring:5.5.1'
+        compile 'net.sf.dozer:dozer:5.4.0'
 
         compile "org.openmrs.api:openmrs-api:${openMrsVersion}"
         compile "org.openmrs.web:openmrs-web:${openMrsVersion}"
@@ -41,8 +40,7 @@ allprojects {
         releaseJars 'org.apache.httpcomponents:httpclient:4.2.3'
         releaseJars 'com.google.guava:guava:13.0.1'
         releaseJars 'joda-time:joda-time:2.2'
-        releaseJars 'net.sf.dozer:dozer:5.5.1'
-        releaseJars 'net.sf.dozer:dozer-spring:5.5.1'
+        releaseJars 'net.sf.dozer:dozer:5.4.0'
 
     }
 

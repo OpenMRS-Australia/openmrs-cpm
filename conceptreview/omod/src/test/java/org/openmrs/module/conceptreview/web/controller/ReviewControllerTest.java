@@ -2,8 +2,6 @@ package org.openmrs.module.conceptreview.web.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,6 @@ import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
-import org.openmrs.module.conceptreview.web.service.ConceptReviewMapperService;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -45,9 +42,6 @@ public class ReviewControllerTest {
 
 	@Mock
 	ProposedConceptReview proposedConceptReview;
-
-	@Mock
-	private ConceptReviewMapperService mapperServiceMock;
 
 	@InjectMocks
 	ReviewController controller = new ReviewController(new DescriptionDtoFactory(), new NameDtoFactory());
@@ -76,4 +70,41 @@ public class ReviewControllerTest {
 		verify(service, times(1)).saveProposedConceptReviewPackage(proposedConceptReviewPackage);
 	}
 	
+	@Test
+	public void getProposalReview_shouldRetrieveProposalReview() {
+		setupProposalMock();
+		
+		ProposedConceptReviewPackageDto proposalDto = controller.getProposalReview(1);
+		
+		verifyProposalDto(proposalDto);
+	}
+	
+	@Test
+	public void getProposalReviews_shouldRetrieveProposalReviews() {
+		setupProposalMock();
+		
+		ArrayList<ProposedConceptReviewPackageDto> proposals = controller.getProposalReviews();
+		
+		assertThat(proposals.size(), is(1));
+		verifyProposalDto(proposals.get(0));
+	}
+	
+	private void setupProposalMock() {
+		when(proposedConceptReviewPackage.getId()).thenReturn(1);
+		when(proposedConceptReviewPackage.getName()).thenReturn("test proposal");
+		when(proposedConceptReviewPackage.getEmail()).thenReturn("test@test.com");
+		when(proposedConceptReviewPackage.getDescription()).thenReturn("test proposal description");
+		DateTime dateCreated = new DateTime(new Date()).minusDays(5);
+		when(proposedConceptReviewPackage.getDateCreated()).thenReturn(dateCreated.toDate());
+		when(proposedConceptReviewPackage.getProposedConcepts()).thenReturn(Sets.newHashSet(proposedConceptReview));
+	}
+	
+	private void verifyProposalDto(ProposedConceptReviewPackageDto proposalDto) {
+		assertThat(proposalDto.getId(), is(1));
+		assertThat(proposalDto.getName(), is("test proposal"));
+		assertThat(proposalDto.getEmail(), is("test@test.com"));
+		assertThat(proposalDto.getDescription(), is("test proposal description"));
+		assertThat(proposalDto.getAge(), is("5"));
+		assertThat(proposalDto.getConcepts().size(), is(1));
+	}
 }
