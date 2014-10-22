@@ -12,7 +12,7 @@ define([
         return $resource(
          config.contextPath + '/ws/conceptpropose/proposals/:proposalId',
           { proposalId:'@id' },
-          { update: {method: 'PUT'}, cache: true }
+          { update: {method: 'PUT'} }
         );
       }
     );
