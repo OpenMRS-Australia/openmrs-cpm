@@ -72,13 +72,11 @@ public class DictionaryManagerController {
 		return responseDto;
 	}
 
-    @RequestMapping(value = "/conceptreview/dictionarymanager/proposalstatus/{proposalId}", method = RequestMethod.GET)
-    public @ResponseBody SubmissionStatusDto getSubmissionStatus(@PathVariable int proposalId) {
-
+    @RequestMapping(value = "/conceptreview/dictionarymanager/proposalstatus/{sourceUUID}", method = RequestMethod.POST)
+    public @ResponseBody ProposedConceptReviewPackageDto getSubmissionStatus(@PathVariable String sourceUUID) {
         final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
-        final ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageById(proposalId);
-
-        return new SubmissionStatusDto(aPackage.getStatus());
+        final ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageByProposalUuid(sourceUUID);
+        return DtoFactory.createProposedConceptReviewDto(aPackage);
     }
 
     @RequestMapping(value = "/conceptreview/dictionarymanager/status", method = RequestMethod.GET)
@@ -118,4 +116,5 @@ public class DictionaryManagerController {
             response.addHeader("WWW-Authenticate", "Basic realm=\"OpenMRS\"");
         }
     }
+
 }

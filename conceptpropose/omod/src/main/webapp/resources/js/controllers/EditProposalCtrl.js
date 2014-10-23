@@ -5,6 +5,7 @@ define([
     'js/services/menu',
     'js/directives/searchConceptDialog',
     'js/directives/jqueryUiDialog',
+    'js/filters/proposalReviewStatus',
     'js/services/alerts',
     './index'
   ],
@@ -13,7 +14,7 @@ define([
     'use strict';
 
     angular.module('conceptpropose.controllers').controller('EditProposalCtrl',
-      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts, $http) {
+      function($scope, $routeParams, $location, $window, Proposals, Menu, Alerts, $http, $route) {
 
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
@@ -77,10 +78,39 @@ define([
             });
           }
         };
-
+        $scope.getStatus = function(){
+          var url = '/openmrs/ws/conceptpropose/proposalstatus/' + proposalId;
+          $scope.isLoading = true;
+          $http.get(url, {})
+            .success(function(data) {
+              console.log(data);
+              if(data){
+                alert('Update retrieved. Refreshing page...');
+                $route.reload();
+              }
+              else{
+                alert('No data retrieved. Please try again');
+              }
+              $scope.isLoading = false;
+            })
+            .error(function(data){
+              var text = '';
+              if(data.status === '500'){
+                text = '';
+              }
+              else if(data.status === '401'){
+                text = 'Unauthorized - you need to log in';
+              }
+              else{
+                text = 'Unknown error: ' + data.status;
+              }
+              alert('Error refreshing comments ('+ text + ')');
+              $scope.isLoading = false;
+            });
+        }
         $scope.submit = function() {
           $scope.proposal.status = 'TBS';
-          
+
           var setInFlight = function() {
             $scope.isSubmitting = true;
             $scope.isLoading = true;

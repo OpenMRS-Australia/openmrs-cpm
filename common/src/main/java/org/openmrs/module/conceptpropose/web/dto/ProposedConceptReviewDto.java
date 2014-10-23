@@ -12,6 +12,8 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 
 	private int conceptId;
 
+	private String sourceUuid;
+
 	public String getReviewComment() {
 		return reviewComment;
 	}
@@ -52,4 +54,11 @@ public class ProposedConceptReviewDto extends ProposedConceptDto {
 		this.newCommentText = newCommentText;
 	}
 
+	public String getSourceUuid() {
+		return sourceUuid;
+	}
+
+	public void setSourceUuid(String sourceUuid) {
+		this.sourceUuid = sourceUuid;
+	}
 }

@@ -12,6 +12,7 @@ import org.openmrs.module.conceptpropose.web.authentication.factory.AuthHttpHead
 import org.openmrs.module.conceptpropose.web.common.CpmConstants;
 import org.openmrs.module.conceptpropose.web.dto.CommentDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionDto;
 import org.openmrs.module.conceptpropose.web.dto.SubmissionResponseDto;
 import org.openmrs.module.conceptpropose.web.dto.factory.SubmissionDtoFactory;
@@ -141,7 +142,32 @@ public class SubmitProposal {
         Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
 	}
+    public ProposedConceptReviewPackageDto getProposalStatus(final ProposedConceptPackage conceptPackage) {
+        checkNotNull(submissionRestTemplate);
 
+        AdministrationService service = Context.getAdministrationService();
+        HttpHeaders headers = httpHeaderFactory.create(service.getGlobalProperty(CpmConstants.SETTINGS_USER_NAME_PROPERTY),
+                service.getGlobalProperty(CpmConstants.SETTINGS_PASSWORD_PROPERTY));
+        final HttpEntity requestEntity = new HttpEntity(headers);
+
+        final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/proposalstatus/" + conceptPackage.getUuid();
+
+        try {
+            // can't use headers w/ a getForObject? haven't tried
+            // http://stackoverflow.com/questions/25667842/not-getting-headers-passed-with-resttemplate-getforobject
+            final ProposedConceptReviewPackageDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewPackageDto.class);
+            return result;
+        }catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
+            log.error("1: " + e.getMessage() + "\n" + e.getStackTrace());
+        }catch(RestClientException e){
+            log.error("2: " + e.getMessage() + "\n" + e.getStackTrace());
+        }catch(IllegalArgumentException e){ // 404, due to invalid URL
+            log.error("3: " + e.getMessage() + "\n" + e.getStackTrace());
+        }catch(Exception e){
+            log.error("4: " + e.getMessage() + "\n" + e.getStackTrace());
+        }
+        return null;
+    }
 
 
 
