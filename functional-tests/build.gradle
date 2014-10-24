@@ -1,7 +1,7 @@
 
 dependencies {
 
-    compile 'org.seleniumhq.selenium:selenium-java:2.39.0'
+    compile 'org.seleniumhq.selenium:selenium-java:2.43.1'
     compile 'junit:junit:4.10'
 
     testCompile 'info.cukes:cucumber-junit:1.1.5'
