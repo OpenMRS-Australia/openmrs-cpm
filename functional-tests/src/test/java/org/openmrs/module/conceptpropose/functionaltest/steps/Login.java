@@ -17,12 +17,19 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class Login {
-    public AdminPage login() throws IOException {
+    public static class Credentials{
+        String username;
+        String password;
+        String openmrsUrl;
+        String adminPageUrl;
+        String settingsPageUrl;
+    }
+    public static Credentials getCredentials(Class<?> theClass) throws IOException{
         String username;
         String password;
         String adminPageUrl;
         String openmrsUrl = "openmrs";
-        AdminPage adminPage;
+        String settingsPageUrl;
 
         if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
             username = System.getenv("openmrs_username");
@@ -33,19 +40,33 @@ public class Login {
             }
 
             adminPageUrl = String.format("http://%s/%s/admin", System.getenv("openmrs_server"), openmrsUrl);
+            settingsPageUrl = String.format("http://%s/%s", System.getenv("openmrs_server"), openmrsUrl);
         } else {
             final Properties p = new Properties();
-            final InputStream is = getClass().getResourceAsStream("/config.properties");
+            final InputStream is = theClass.getResourceAsStream("/config.properties");
 
             p.load(new InputStreamReader(is));
             username = p.getProperty("username");
             password = p.getProperty("password");
             adminPageUrl = p.getProperty("openmrsUrl") + "/admin";
+            settingsPageUrl = p.getProperty("openmrsUrl") + "";
         }
+        Credentials credentials = new Credentials();
+        credentials.username = username;
+        credentials.password = password;
+        credentials.openmrsUrl = openmrsUrl;
+        credentials.adminPageUrl = adminPageUrl;
+        credentials.settingsPageUrl = settingsPageUrl;
+        return credentials;
+    }
+    public AdminPage login() throws IOException{
+        Credentials credentials = Login.getCredentials(getClass());
+        AdminPage adminPage;
 
 
-        adminPage = new AdminPage(SeleniumDriver.getDriver(), adminPageUrl, openmrsUrl);
-        adminPage.login(username, password);
+
+        adminPage = new AdminPage(SeleniumDriver.getDriver(), credentials.adminPageUrl, credentials.openmrsUrl);
+        adminPage.login(credentials.username, credentials.password);
         return adminPage;
     }
 }
