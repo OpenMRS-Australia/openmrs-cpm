@@ -5,7 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openmrs.module.common.pagemodel.AdminPage;
-import org.openmrs.module.conceptreview.pagemodel.QueryBrowserPage;
+import org.openmrs.module.common.pagemodel.QueryBrowserPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewConceptPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
