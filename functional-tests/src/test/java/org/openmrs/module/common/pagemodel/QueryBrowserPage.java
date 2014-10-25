@@ -25,7 +25,7 @@ public class QueryBrowserPage {
 		this.driver = SeleniumDriver.getDriver(); // request current driver every time new page constructed
 		this.driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
 		defaultWait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
-
+		openmrsUrl = "openmrs";
 		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
 //			username = System.getenv("openmrs_username");
 //			password = System.getenv("openmrs_password");
@@ -69,6 +69,7 @@ public class QueryBrowserPage {
         runSQLCommand("delete from conceptreview_proposed_concept_review_description ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_name ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_numeric");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_comment");
     }
 
     public void createSubmittedProposalOnReviewModule(String description){
