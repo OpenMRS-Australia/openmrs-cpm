@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
+import java.util.List;
+
 public class ReviewConceptPage extends BaseCpmPage {
 
     public ReviewConceptPage(WebDriver driver) {
@@ -14,6 +16,7 @@ public class ReviewConceptPage extends BaseCpmPage {
 
     public ReviewProposalPage acceptConcept(){
         getElementByAttribute("button","ng-click", "conceptCreated()").click();
+        enterNewConcept("ba",1);
         return new ReviewProposalPage(driver);
     }
     public ReviewProposalPage rejectConcept(){
@@ -22,7 +25,39 @@ public class ReviewConceptPage extends BaseCpmPage {
     }
     public ReviewProposalPage markConceptAsExisted(){
         getElementByAttribute("button","ng-click", "conceptExists()").click();
+        enterNewConcept("ba", 1);
         return new ReviewProposalPage(driver);
+    }
+    public WebElement findVisibleElement(WebDriver driver, By by)
+    {
+        List<WebElement> elements = driver.findElements(by);
+        for(WebElement element :elements) {
+            if(element.isDisplayed())
+                return element;
+        }
+        return null;
+    }
+    public void enterNewConcept(String conceptToSearch, int numberToAdd) {
+        // if multiple concepts are processed at one go, there will be multiple concept search boxes
+        // so just use the visible one
+        final WebElement addConceptContainer = findVisibleElement(driver, By.cssSelector(".resultsContainer"));
+        final WebElement searchBox = findVisibleElement(driver, By.className("searchBox"));
+        searchBox.sendKeys(conceptToSearch);
+
+        WebElement conceptListTable = addConceptContainer.findElement(By.className("conceptList"));
+        List<WebElement> resultRowsElement = conceptListTable.findElements(By.tagName("tr"));
+        int changed = 0;
+        for(int i = 0; i < resultRowsElement.size(); i++){
+            WebElement row =  resultRowsElement.get(i);
+            row.findElements(By.tagName("input")).get(0).click();
+            changed++;
+            if(changed >= numberToAdd){
+                break;
+            }
+        }
+        WebElement footer = findVisibleElement(driver, (By.className("dialogFooter")));
+        WebElement addConceptButton = getElementByAttribute(footer, "button", "ng-click", "add()");
+        addConceptButton.click();
     }
 	private WebElement getAddCommentButton()
 	{

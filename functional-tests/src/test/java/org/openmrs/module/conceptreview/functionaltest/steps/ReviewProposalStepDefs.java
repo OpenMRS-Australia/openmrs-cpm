@@ -62,6 +62,8 @@ public class ReviewProposalStepDefs {
     public void I_mark_a_concept_as_accepted_rejected_or(String arg1) {
         reviewConceptPage = reviewProposalPage.navigateTo(1);
         reviewConceptPage.rejectConcept();
+
+        // was getting weird errors? can't save WARN - DispatcherServlet.noHandlerFound(947) |2014-10-25 03:42:45,918| No mapping found for HTTP request with URI [/openmrs/ws/conceptreview/proposalReviews/1/concepts] in DispatcherServlet with name 'openmrs'
         reviewConceptPage = reviewProposalPage.navigateTo(2);
         reviewConceptPage.acceptConcept();
         reviewConceptPage = reviewProposalPage.navigateTo(3);
