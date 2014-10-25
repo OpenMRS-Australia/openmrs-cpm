@@ -1,7 +1,7 @@
-package org.openmrs.module.conceptreview.pagemodel;
+package org.openmrs.module.common.pagemodel;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.conceptreview.functionaltest.steps.SeleniumDriver;
+import org.openmrs.module.conceptpropose.functionaltest.steps.SeleniumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-// TODO - refactor Login , SeleniumDriver and QueryBrowserPage to common package? tried to do so but IntelliJ wasn't able to run the review functional tests correctly
 public class QueryBrowserPage {
 
 	private final String queryBrowserPageUrl;
@@ -22,10 +21,11 @@ public class QueryBrowserPage {
 	public static final int DEFAULT_TIMEOUT_IN_SECONDS = 10;
 	protected WebDriverWait defaultWait;
 
-    public QueryBrowserPage() throws IOException {
+	public QueryBrowserPage() throws IOException {
 		this.driver = SeleniumDriver.getDriver(); // request current driver every time new page constructed
 		this.driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
 		defaultWait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
+
 		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
 //			username = System.getenv("openmrs_username");
 //			password = System.getenv("openmrs_password");
@@ -44,6 +44,7 @@ public class QueryBrowserPage {
 //			password = p.getProperty("password");
 			queryBrowserPageUrl = p.getProperty("openmrsUrl") + "/module/querybrowser/manage.form";
 		}
+        System.out.println(" p queryBrowserPageUrl: " + queryBrowserPageUrl);
 	}
     public void removeAllProposals() {
         driver.get(queryBrowserPageUrl);
@@ -68,7 +69,6 @@ public class QueryBrowserPage {
         runSQLCommand("delete from conceptreview_proposed_concept_review_description ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_name ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_numeric");
-        runSQLCommand("delete from conceptreview_proposed_concept_review_comment");
     }
 
     public void createSubmittedProposalOnReviewModule(String description){
