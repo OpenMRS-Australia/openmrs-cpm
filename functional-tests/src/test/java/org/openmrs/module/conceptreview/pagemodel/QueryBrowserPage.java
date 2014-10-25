@@ -63,6 +63,7 @@ public class QueryBrowserPage {
         runSQLCommand("delete from conceptreview_proposed_concept_review_description ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_name ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_numeric");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_comment");
     }
 
     public void createSubmittedProposalOnReviewModule(String description){

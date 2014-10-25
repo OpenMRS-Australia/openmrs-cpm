@@ -85,11 +85,18 @@ public class ReviewProposalStepDefs {
 
 	@And("^I submit a comment$")
 	public void I_submit_a_comment() {
-		reviewConceptPage = reviewConceptPage.addComment("A new comment");
+		reviewConceptPage = reviewConceptPage.addComment("my name", "my@email.com", "my comment");
+		reviewConceptPage = reviewConceptPage.addComment("my other name", "my@email2.com", "my other comment");
 	}
 
 	@Then("^my comment is displayed$")
 	public void my_comment_is_displayed()  {
-		assertThat(reviewConceptPage.getComment(), is("A new comment"));
+		assertThat(reviewConceptPage.getNumberOfComments(), is(2));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(0), containsString("my name"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(0), containsString("my@email.com"));
+		assertThat(reviewConceptPage.getCommentBody(0), is("my comment"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(1), containsString("my other name"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(1), containsString("my@email2.com"));
+		assertThat(reviewConceptPage.getCommentBody(1), is("my other comment"));
 	}
 }
