@@ -14,6 +14,8 @@ public class ProposedConceptReviewPackageDto {
 
 	private String description;
 
+    private String status;
+
 	private List<ProposedConceptReviewDto> concepts;
 
 	public int getId() {
@@ -48,13 +50,21 @@ public class ProposedConceptReviewPackageDto {
 		this.email = email;
 	}
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(final String status) {
+        this.status = status;
+    }
 
 	public List<ProposedConceptReviewDto> getConcepts() {
 		return concepts;

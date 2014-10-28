@@ -28,6 +28,14 @@ define([
           $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
         };
 
+        $scope.getProposalStatus = function() {
+          if ($scope.proposal.status == 'RECEIVED') {
+            return 'Open';
+          } else if ($scope.proposal.status == 'CLOSED') {
+            return 'Closed';
+          }
+        };
+
         $scope.delete = function() {
           if ($window.confirm('Are you sure?')) {
             $scope.isLoading = true;

@@ -28,6 +28,8 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 
 	private String description;
 
+
+
 	protected Set<P> proposedConcepts = new HashSet<P>();
 
 	private PackageStatus status;
