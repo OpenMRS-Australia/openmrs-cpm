@@ -11,6 +11,8 @@ define([
     angular.module('conceptreview.controllers').controller('ReviewProposalCtrl',
       function($scope, $routeParams, $location, $window, ProposalReviews, Menu) {
 
+/* We need to add a status tag in this */
+
         var proposalId = $routeParams.proposalId;
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;

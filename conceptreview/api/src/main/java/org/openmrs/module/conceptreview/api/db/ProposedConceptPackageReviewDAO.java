@@ -13,6 +13,10 @@ import java.util.List;
 public interface ProposedConceptPackageReviewDAO {
 	
 	List<ProposedConceptReviewPackage> getAllConceptProposalReviewPackages() throws APIException;
+
+    List<ProposedConceptReviewPackage> getCompletedConceptProposalReviewPackages() throws APIException;
+
+    List<ProposedConceptReviewPackage> getOpenConceptProposalReviewPackages() throws APIException;
 	
 	ProposedConceptReviewPackage getConceptProposalReviewPackageById(Integer id) throws APIException;
 	

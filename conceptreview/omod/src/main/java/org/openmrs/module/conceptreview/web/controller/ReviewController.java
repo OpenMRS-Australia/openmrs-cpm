@@ -65,10 +65,10 @@ public class ReviewController {
 	@RequestMapping(value = "/conceptreview/proposalReviews", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getProposalReviews() {
 
-		final List<ProposedConceptReviewPackage> allConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getAllProposedConceptReviewPackages();
+		final List<ProposedConceptReviewPackage> openConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getOpenProposedConceptReviewPackages();
 		final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
 
-		for (final ProposedConceptReviewPackage conceptProposalReviewPackage : allConceptProposalReviewPackages) {
+		for (final ProposedConceptReviewPackage conceptProposalReviewPackage : openConceptProposalReviewPackages) {
 
 			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
 			response.add(conceptProposalReviewPackageDto);
@@ -76,6 +76,21 @@ public class ReviewController {
 
 		return response;
 	}
+
+    @RequestMapping(value = "/conceptreview/completedProposalReviews", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getCompletedProposalReviews() {
+
+        final List<ProposedConceptReviewPackage> completedConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getCompletedProposedConceptReviewPackages();
+        final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
+
+        for (final ProposedConceptReviewPackage conceptProposalReviewPackage : completedConceptProposalReviewPackages) {
+
+            final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
+            response.add(conceptProposalReviewPackageDto);
+        }
+
+        return response;
+    }
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
