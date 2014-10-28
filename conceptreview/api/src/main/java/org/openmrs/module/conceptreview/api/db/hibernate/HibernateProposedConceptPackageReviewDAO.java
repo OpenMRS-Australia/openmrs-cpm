@@ -25,7 +25,27 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
+    @Override
+    public List<ProposedConceptReviewPackage> getCompletedConceptProposalReviewPackages(){
+        List<ProposedConceptReviewPackage> result = (List<ProposedConceptReviewPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.status = 'CLOSED'").list();
+        if (log.isDebugEnabled()) {
+            log.info("getCompletedConceptProposalReviewPackages returned: " + result.size() + " results");
+        }
+        return result;
+
+    }
+
+    @Override
+    public List<ProposedConceptReviewPackage> getOpenConceptProposalReviewPackages(){
+        List<ProposedConceptReviewPackage> result = (List<ProposedConceptReviewPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.status = 'RECEIVED'").list();
+        if (log.isDebugEnabled()) {
+            log.info("getOpenConceptProposalReviewPackages returned: " + result.size() + " results");
+        }
+        return result;
+
+    }
+
 	@Override
 	public List<ProposedConceptReviewPackage> getAllConceptProposalReviewPackages() {
 		@SuppressWarnings("unchecked")

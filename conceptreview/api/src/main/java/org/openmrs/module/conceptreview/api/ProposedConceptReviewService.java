@@ -35,9 +35,37 @@ public interface ProposedConceptReviewService extends OpenmrsService {
 	 * @throws org.openmrs.api.APIException
 	 * @since 1.0
 	 */
-	@Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+    @Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
 	@Transactional
 	List<ProposedConceptReviewPackage> getAllProposedConceptReviewPackages() throws APIException;
+
+    /**
+     * Gets a list of all of the proposals that have been completed on this OpenMRS instance. For
+     * instances acting in the role of clients this will return all of the packages that have been
+     * created for submissions. For instances acting in the role of servers this will return all of
+     * the packages that have been received via the REST services
+     *
+     * @return A list of ConceptProposalPackages that may be in a variety of states
+     * @throws org.openmrs.api.APIException
+     * @since 1.0
+     */
+    @Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+    @Transactional
+    List<ProposedConceptReviewPackage> getCompletedProposedConceptReviewPackages() throws APIException;
+
+    /**
+     * Gets a list of all of the proposals that are open on this OpenMRS instance. For
+     * instances acting in the role of clients this will return all of the packages that have been
+     * created for submissions. For instances acting in the role of servers this will return all of
+     * the packages that have been received via the REST services
+     *
+     * @return A list of ConceptProposalPackages that may be in a variety of states
+     * @throws org.openmrs.api.APIException
+     * @since 1.0
+     */
+    @Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+    @Transactional
+    List<ProposedConceptReviewPackage> getOpenProposedConceptReviewPackages() throws APIException;
 
 	/**
 	 * Gets a specific ProposedConceptPackage by its id (id field in the class,
