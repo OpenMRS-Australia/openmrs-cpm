@@ -7,7 +7,7 @@ import cucumber.api.java.en.When;
 import org.openmrs.module.common.pagemodel.AdminPage;
 import org.openmrs.module.conceptpropose.pagemodel.CreateProposalPage;
 import org.openmrs.module.conceptpropose.pagemodel.ManageProposalsPage;
-import org.openmrs.module.common.pagemodel.QueryBrowserPage;
+import org.openmrs.module.conceptpropose.pagemodel.QueryBrowserPage;
 
 import java.io.IOException;
 import java.util.UUID;
