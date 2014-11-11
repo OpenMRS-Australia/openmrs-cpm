@@ -212,7 +212,7 @@ define([
           var url = '/openmrs/ws/conceptpropose/proposals/discussion/' + $scope.proposal.id + '/' + concept.id + '';
           $http.post(url, {})
             .success(function(data) {
-              if(data && data.comments && data.comments.length > 0){
+              if(data && data.comments && data.comments.length >= 0){
                 concept.comments = data.comments;
                 concept.newComment = '';
                 alert('Comment Refreshed');
