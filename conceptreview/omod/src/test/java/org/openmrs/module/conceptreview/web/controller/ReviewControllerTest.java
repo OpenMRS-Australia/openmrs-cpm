@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
@@ -52,7 +53,8 @@ public class ReviewControllerTest {
 		PowerMockito.when(Context.class, "getService", ProposedConceptReviewService.class).thenReturn(service);
 
 		when(service.getProposedConceptReviewPackageById(1)).thenReturn(proposedConceptReviewPackage);
-		when(service.getAllProposedConceptReviewPackages()).thenReturn(Lists.newArrayList(proposedConceptReviewPackage));
+        when(service.getAllProposedConceptReviewPackages()).thenReturn(Lists.newArrayList(proposedConceptReviewPackage));
+        when(service.getOpenProposedConceptReviewPackages()).thenReturn(Lists.newArrayList(proposedConceptReviewPackage));
 		when(proposedConceptReviewPackage.getProposedConcept(1)).thenReturn(proposedConceptReview);
 	}
 
@@ -80,7 +82,7 @@ public class ReviewControllerTest {
 	}
 	
 	@Test
-	public void getProposalReviews_shouldRetrieveProposalReviews() {
+	public void getProposalReviews_shouldRetrieveOpenProposalReviews() {
 		setupProposalMock();
 		
 		ArrayList<ProposedConceptReviewPackageDto> proposals = controller.getProposalReviews();
@@ -88,16 +90,17 @@ public class ReviewControllerTest {
 		assertThat(proposals.size(), is(1));
 		verifyProposalDto(proposals.get(0));
 	}
-	
-	private void setupProposalMock() {
-		when(proposedConceptReviewPackage.getId()).thenReturn(1);
-		when(proposedConceptReviewPackage.getName()).thenReturn("test proposal");
-		when(proposedConceptReviewPackage.getEmail()).thenReturn("test@test.com");
-		when(proposedConceptReviewPackage.getDescription()).thenReturn("test proposal description");
-		DateTime dateCreated = new DateTime(new Date()).minusDays(5);
-		when(proposedConceptReviewPackage.getDateCreated()).thenReturn(dateCreated.toDate());
-		when(proposedConceptReviewPackage.getProposedConcepts()).thenReturn(Sets.newHashSet(proposedConceptReview));
-	}
+
+    private void setupProposalMock() {
+        when(proposedConceptReviewPackage.getId()).thenReturn(1);
+        when(proposedConceptReviewPackage.getName()).thenReturn("test proposal");
+        when(proposedConceptReviewPackage.getEmail()).thenReturn("test@test.com");
+        when(proposedConceptReviewPackage.getDescription()).thenReturn("test proposal description");
+        when(proposedConceptReviewPackage.getStatus()).thenReturn(PackageStatus.RECEIVED);
+        DateTime dateCreated = new DateTime(new Date()).minusDays(5);
+        when(proposedConceptReviewPackage.getDateCreated()).thenReturn(dateCreated.toDate());
+        when(proposedConceptReviewPackage.getProposedConcepts()).thenReturn(Sets.newHashSet(proposedConceptReview));
+    }
 	
 	private void verifyProposalDto(ProposedConceptReviewPackageDto proposalDto) {
 		assertThat(proposalDto.getId(), is(1));

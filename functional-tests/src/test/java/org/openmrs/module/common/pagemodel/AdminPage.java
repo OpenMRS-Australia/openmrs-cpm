@@ -11,6 +11,7 @@ public class AdminPage {
 	private static final String createProposalUrl = "/module/conceptpropose/proposals.list#/edit";
 	private static final String monitorProposalsUrl = "/module/conceptpropose/proposals.list";
 	private static final String incomingProposalsUrl = "/module/conceptreview/proposalReview.list";
+    private static final String reviewProposalsUrl = "/module/conceptreview/proposalReview.list";
 	private static final String settingsUrl = "/module/conceptpropose/proposals.list#/settings";
 
 	private final RemoteWebDriver driver;
@@ -35,6 +36,10 @@ public class AdminPage {
 	public WebElement getIncomingProposalsLink() {
 		return driver.findElement(By.cssSelector("a[href=\"/"  + openmrsUrl + incomingProposalsUrl + "\"]"));
 	}
+
+    public WebElement getReviewProposalsLink() {
+        return driver.findElement(By.cssSelector("a[href=\"/" + openmrsUrl + reviewProposalsUrl + "\"]"));
+    }
 
 	public WebElement getSettingsLink() {
 		return driver.findElement(By.cssSelector("a[href=\"/"  + openmrsUrl + settingsUrl + "\"]"));

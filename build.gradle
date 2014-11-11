@@ -9,6 +9,7 @@ allprojects {
     configurations {
 
         releaseJars
+        releaseJars.exclude group: 'org.slf4j'
 
         compile.exclude module: 'jms'
         compile.exclude module: 'jmxtools'

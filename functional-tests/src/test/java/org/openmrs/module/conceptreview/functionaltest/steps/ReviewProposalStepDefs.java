@@ -13,9 +13,10 @@ import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
 import java.io.IOException;
 import java.util.UUID;
 
-
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class ReviewProposalStepDefs {
@@ -62,6 +63,8 @@ public class ReviewProposalStepDefs {
     public void I_mark_a_concept_as_accepted_rejected_or(String arg1) {
         reviewConceptPage = reviewProposalPage.navigateTo(1);
         reviewConceptPage.rejectConcept();
+
+        // was getting weird errors? can't save WARN - DispatcherServlet.noHandlerFound(947) |2014-10-25 03:42:45,918| No mapping found for HTTP request with URI [/openmrs/ws/conceptreview/proposalReviews/1/concepts] in DispatcherServlet with name 'openmrs'
         reviewConceptPage = reviewProposalPage.navigateTo(2);
         reviewConceptPage.acceptConcept();
         reviewConceptPage = reviewProposalPage.navigateTo(3);
@@ -85,11 +88,28 @@ public class ReviewProposalStepDefs {
 
 	@And("^I submit a comment$")
 	public void I_submit_a_comment() {
-		reviewConceptPage = reviewConceptPage.addComment("A new comment");
+		reviewConceptPage = reviewConceptPage.addComment("my name", "my@email.com", "my comment");
+		reviewConceptPage = reviewConceptPage.addComment("my other name", "my@email2.com", "my other comment");
 	}
 
 	@Then("^my comment is displayed$")
 	public void my_comment_is_displayed()  {
-		assertThat(reviewConceptPage.getComment(), is("A new comment"));
+		assertThat(reviewConceptPage.getNumberOfComments(), is(2));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(0), containsString("my name"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(0), containsString("my@email.com"));
+		assertThat(reviewConceptPage.getCommentBody(0), is("my comment"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(1), containsString("my other name"));
+		assertThat(reviewConceptPage.getCommentNameAndEmail(1), containsString("my@email2.com"));
+		assertThat(reviewConceptPage.getCommentBody(1), is("my other comment"));
 	}
+
+    @When("^I am viewing the Admin page")
+    public void I_am_viewing_the_Admin_page() throws Throwable {
+        adminPage.navigateToAdminPage();
+    }
+
+    @Then("^I see an option for Review Proposals to access incoming proposals$")
+    public void I_see_an_option_for_Review_Proposals_to_access_incoming_proposals() throws Throwable {
+        assertThat(adminPage.getReviewProposalsLink(), not(nullValue()));
+    }
 }

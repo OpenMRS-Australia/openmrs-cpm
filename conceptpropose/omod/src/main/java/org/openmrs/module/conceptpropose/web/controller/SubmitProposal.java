@@ -3,7 +3,6 @@ package org.openmrs.module.conceptpropose.web.controller;
 import org.directwebremoting.util.Logger;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
-import org.openmrs.api.db.DAOException;
 import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.ProposedConceptPackage;
 import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
@@ -22,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 
@@ -103,10 +101,15 @@ public class SubmitProposal {
 
 		checkNotNull(submissionRestTemplate);
 
-		//
 		// Could not figure out how to get Spring to send a basic authentication request using the "proper" object approach
 		// see: https://github.com/johnsyweb/openmrs-cpm/wiki/Gotchas
 		//
+
+        if (conceptPackage.getProposedConcepts().isEmpty())  {
+            log.error("Failed submitting proposal. Cannot submit proposal with no concepts.");
+            conceptPackage.setStatus(PackageStatus.DRAFT);
+            throw new ProposalController.ProposalSubmissionException("", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
 		AdministrationService service = Context.getAdministrationService();
         SubmissionDto submission = submissionDtoFactory.create(conceptPackage);

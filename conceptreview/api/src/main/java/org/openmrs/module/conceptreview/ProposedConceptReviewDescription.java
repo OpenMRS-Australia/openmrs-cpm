@@ -1,10 +1,8 @@
 package org.openmrs.module.conceptreview;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -13,11 +11,15 @@ import java.util.Locale;
 public class ProposedConceptReviewDescription implements Serializable {
 
 	@Id
+	@GeneratedValue(generator = "nativeIfNotAssigned")
+	@GenericGenerator(name = "nativeIfNotAssigned", strategy = "org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator")
+	@Column(name = "conceptreview_proposed_concept_review_description_id")
+	private Integer proposedConceptReviewDescriptionId;
+
 	@ManyToOne
 	@JoinColumn(name = "proposed_concept_review")
 	private ProposedConceptReview proposedConceptReview;
 
-	@Id
 	private String description;
 
 	private Locale locale;

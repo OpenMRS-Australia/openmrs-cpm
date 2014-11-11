@@ -49,7 +49,7 @@
 		<td>{{concept.datatype}}</td>
           <td><input ng-model="concept.comment" ng-disabled="isReadOnly"/>
             <span ng-show="isReadOnly">
-              <table class="box" cellpadding="2" cellspacing="0">
+              <table class="box comments" cellpadding="2" cellspacing="0">
                 <thead>
                   <tr class="commentHeader"><th>Date</th><th>Commenter</th><th>Comment</th></tr>
                 </thead>
@@ -80,7 +80,7 @@
 
   <div>
     <button ng-click="save()" ng-disabled="isReadOnly || !proposal.name || !proposal.email" accesskey="s"><span class="accesskey">S</span>ave Draft</button>
-    <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly" accesskey="e" ng-switch="isSubmitting">
+    <button ng-click="submit()" ng-show="proposal.status == 'DRAFT'" ng-disabled="form.$invalid || isReadOnly || !isSubmissible" accesskey="e" ng-switch="isSubmitting">
       <span ng-switch-when="true">Sending...</span>
       <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
     </button>

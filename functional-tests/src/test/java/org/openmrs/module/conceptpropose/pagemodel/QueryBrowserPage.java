@@ -5,21 +5,27 @@ import org.openmrs.module.conceptpropose.functionaltest.steps.SeleniumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class QueryBrowserPage {
 
 	private final String queryBrowserPageUrl;
 	private WebDriver driver;
 	private String openmrsUrl;
+	public static final int DEFAULT_TIMEOUT_IN_SECONDS = 10;
+	protected WebDriverWait defaultWait;
 
 	public QueryBrowserPage() throws IOException {
 		this.driver = SeleniumDriver.getDriver(); // request current driver every time new page constructed
-
+		this.driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+		defaultWait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
+		openmrsUrl = "openmrs";
 		if (StringUtils.isNotBlank(System.getenv("openmrs_username"))) {
 //			username = System.getenv("openmrs_username");
 //			password = System.getenv("openmrs_password");
@@ -38,6 +44,7 @@ public class QueryBrowserPage {
 //			password = p.getProperty("password");
 			queryBrowserPageUrl = p.getProperty("openmrsUrl") + "/module/querybrowser/manage.form";
 		}
+        System.out.println(" p queryBrowserPageUrl: " + queryBrowserPageUrl);
 	}
     public void removeAllProposals() {
         driver.get(queryBrowserPageUrl);
@@ -62,6 +69,7 @@ public class QueryBrowserPage {
         runSQLCommand("delete from conceptreview_proposed_concept_review_description ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_name ");
         runSQLCommand("delete from conceptreview_proposed_concept_review_numeric");
+        runSQLCommand("delete from conceptreview_proposed_concept_review_comment");
     }
 
     public void createSubmittedProposalOnReviewModule(String description){

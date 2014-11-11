@@ -6,11 +6,14 @@ Feature: Review page heading
   @Selenium
   Scenario:
     Given that I am logged in as Dictionary Manager
-    When I am viewing the Concept Proposal module menu
+    When I am viewing the Admin page
     Then I see an option for Review Proposals to access incoming proposals
 
-  @Selenium
-  Scenario:
-    Given that I am logged in as Dictionary Manager
-    When I view the page that is currently named Incoming Proposals
-    Then I see the page labelled as Review Proposals
+#  This functionality tests page labelling and is not resistant to localisation (the page label is
+#  localisation-dependent). Furthermore, the functionality associated with this scenario is tested in
+#  AcceptOrRejectProposals.feature.
+#  @Selenium
+#  Scenario:
+#    Given that I am logged in as Dictionary Manager
+#    When I view the page that is currently named Incoming Proposals
+#    Then I see the page labelled as Review Proposals

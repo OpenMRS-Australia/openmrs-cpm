@@ -33,7 +33,7 @@ public class CreateProposalPage extends BaseCpmPage {
         final WebElement noConcepts = driver.findElement(By.cssSelector(".conceptTable .noConceptsMsg"));
         if(noConcepts.isDisplayed()) return 0;
         // List <WebElement> resultRowsElement = driver.findElements(By.xpath("//tbody[@class='conceptList']/tr"));
-        List <WebElement> resultRowsElement = driver.findElements(By.cssSelector(".conceptTable .conceptList tr"));
+        List <WebElement> resultRowsElement = driver.findElements(By.cssSelector(".conceptTable .conceptList > tr"));
         return resultRowsElement.size();
     }
 
