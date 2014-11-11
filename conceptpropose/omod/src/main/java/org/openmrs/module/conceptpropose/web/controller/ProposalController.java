@@ -136,34 +136,34 @@ public class ProposalController {
 		return response;
 	}
 
-    @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.GET)
-    public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
-        final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.GET)
+	public @ResponseBody ProposedConceptPackageDto getProposalById(@PathVariable final String proposalId) {
+		final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
 //		return createProposedConceptPackageDto(proposedConceptPackageById);
-        return mapperService.convertProposedConceptPackageToProposedConceptDto(proposedConceptPackage);
-    }
-    @RequestMapping(value = "/conceptpropose/proposalstatus/{proposalId}", method = RequestMethod.GET)
-    public @ResponseBody
-    ProposedConceptReviewPackageDto getProposalStatusById(@PathVariable final String proposalId) {
-        final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
-        final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
-        for(ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()){
-            for(ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
-                if(proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
-                    proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
-                    break;
-                }
-            }
-        }
-        if(proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED)
-            proposedConceptPackage.setStatus(PackageStatus.CLOSED);
-        else
-            proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+		return mapperService.convertProposedConceptPackageToProposedConceptDto(proposedConceptPackage);
+	}
+	@RequestMapping(value = "/conceptpropose/proposalstatus/{proposalId}", method = RequestMethod.GET)
+	public @ResponseBody
+	ProposedConceptReviewPackageDto getProposalStatusById(@PathVariable final String proposalId) {
+		final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
+		final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
+		for(ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()){
+			for(ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+				if(proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+					proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+					break;
+				}
+			}
+		}
+		if(proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED)
+			proposedConceptPackage.setStatus(PackageStatus.CLOSED);
+		else
+			proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
 
-        if(Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage) == null)
-            return null;
-        return proposedConceptReviewPackageDto;
-    }
+		if(Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage) == null)
+			return null;
+		return proposedConceptReviewPackageDto;
+	}
 
 	@RequestMapping(value = "/conceptpropose/proposals/empty", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {

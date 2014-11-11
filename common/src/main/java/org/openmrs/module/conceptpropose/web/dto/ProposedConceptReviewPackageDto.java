@@ -16,7 +16,7 @@ public class ProposedConceptReviewPackageDto {
 
 	private String description;
 
-    private PackageStatus status;
+	private PackageStatus status;
 
 	private List<ProposedConceptReviewDto> concepts;
 
@@ -68,11 +68,11 @@ public class ProposedConceptReviewPackageDto {
 		this.concepts = concepts;
 	}
 
-    public PackageStatus getStatus() {
+	public PackageStatus getStatus() {
         return status;
     }
 
-    public void setStatus(PackageStatus status) {
+	public void setStatus(PackageStatus status) {
         this.status = status;
     }
 }
