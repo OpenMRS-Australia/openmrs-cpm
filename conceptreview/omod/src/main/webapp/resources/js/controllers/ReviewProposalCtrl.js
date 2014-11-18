@@ -2,6 +2,7 @@ define([
     'angular',
     'config',
     'js/services/proposalReviews',
+    'js/filters/proposalStatus',
     './index'
   ],
   function(angular, config) {
@@ -26,14 +27,6 @@ define([
 
         $scope.showConcept = function(conceptId) {
           $location.path('/edit/' + $scope.proposal.id + '/concept/' + conceptId);
-        };
-
-        $scope.getProposalStatus = function() {
-          if ($scope.proposal.status == 'RECEIVED') {
-            return 'Open';
-          } else if ($scope.proposal.status == 'CLOSED') {
-            return 'Closed';
-          }
         };
 
         $scope.delete = function() {
