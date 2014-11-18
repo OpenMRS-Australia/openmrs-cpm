@@ -52,11 +52,11 @@ public class ProposedConceptReviewPackageDto {
 		this.email = email;
 	}
 
-    public String getDescription() {
+	public String getDescription() {
         return description;
     }
 
-    public void setDescription(final String description) {
+	public void setDescription(final String description) {
         this.description = description;
     }
 
