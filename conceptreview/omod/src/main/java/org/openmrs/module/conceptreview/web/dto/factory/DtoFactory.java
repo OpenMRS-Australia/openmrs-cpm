@@ -4,10 +4,12 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptNameType;
 import org.openmrs.module.conceptpropose.web.dto.CommentDto;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
 import org.openmrs.module.conceptreview.ProposedConceptReviewDescription;
 import org.openmrs.module.conceptreview.ProposedConceptReviewName;
 import org.openmrs.module.conceptreview.ProposedConceptReviewNumeric;
 import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.DescriptionDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.NameDto;
@@ -17,6 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DtoFactory {
+
+	public static ProposedConceptReviewPackageDto createProposedConceptReviewDto(final ProposedConceptReviewPackage conceptReviewPackage) {
+		final ProposedConceptReviewPackageDto conceptProposalPackageDto = new ProposedConceptReviewPackageDto();
+		final List<ProposedConceptReviewDto> concepts = new ArrayList<ProposedConceptReviewDto>();
+		for (ProposedConceptReview conceptReview : conceptReviewPackage.getProposedConcepts()) {
+			concepts.add(createProposedConceptReviewDto(conceptReview));
+		}
+		conceptProposalPackageDto.setConcepts(concepts);
+		conceptProposalPackageDto.setStatus(conceptReviewPackage.getStatus());
+		return conceptProposalPackageDto;
+	}
 
 	public static CommentDto createCommentDto(final ProposedConceptReviewComment reviewComment) {
 		CommentDto commentDto = new CommentDto();
@@ -55,6 +68,7 @@ public class DtoFactory {
 		conceptProposalDto.setComment(conceptProposal.getComment());
 		conceptProposalDto.setReviewComment(conceptProposal.getReviewComment());
 		conceptProposalDto.setComments(createCommentDtos(conceptProposal.getComments()));
+		conceptProposalDto.setSourceUuid(conceptProposal.getProposedConceptUuid());
 
 		final ConceptDatatype conceptDatatype = conceptProposal.getDatatype();
 		if (conceptDatatype != null) {

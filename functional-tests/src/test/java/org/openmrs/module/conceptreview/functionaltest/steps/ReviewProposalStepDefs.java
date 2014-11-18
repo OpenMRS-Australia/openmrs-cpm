@@ -5,7 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openmrs.module.common.pagemodel.AdminPage;
-import org.openmrs.module.common.pagemodel.QueryBrowserPage;
+import org.openmrs.module.conceptreview.pagemodel.QueryBrowserPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewConceptPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalPage;
 import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
@@ -13,9 +13,10 @@ import org.openmrs.module.conceptreview.pagemodel.ReviewProposalsPage;
 import java.io.IOException;
 import java.util.UUID;
 
-
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class ReviewProposalStepDefs {
@@ -101,4 +102,14 @@ public class ReviewProposalStepDefs {
 		assertThat(reviewConceptPage.getCommentNameAndEmail(1), containsString("my@email2.com"));
 		assertThat(reviewConceptPage.getCommentBody(1), is("my other comment"));
 	}
+
+    @When("^I am viewing the Admin page")
+    public void I_am_viewing_the_Admin_page() throws Throwable {
+        adminPage.navigateToAdminPage();
+    }
+
+    @Then("^I see an option for Review Proposals to access incoming proposals$")
+    public void I_see_an_option_for_Review_Proposals_to_access_incoming_proposals() throws Throwable {
+        assertThat(adminPage.getReviewProposalsLink(), not(nullValue()));
+    }
 }

@@ -1,5 +1,7 @@
 package org.openmrs.module.conceptpropose.web.dto;
 
+import org.openmrs.module.conceptpropose.PackageStatus;
+
 import java.util.List;
 
 public class ProposedConceptReviewPackageDto {
@@ -14,7 +16,7 @@ public class ProposedConceptReviewPackageDto {
 
 	private String description;
 
-    private String status;
+	private PackageStatus status;
 
 	private List<ProposedConceptReviewDto> concepts;
 
@@ -58,14 +60,6 @@ public class ProposedConceptReviewPackageDto {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
-    }
-
 	public List<ProposedConceptReviewDto> getConcepts() {
 		return concepts;
 	}
@@ -73,4 +67,12 @@ public class ProposedConceptReviewPackageDto {
 	public void setConcepts(final List<ProposedConceptReviewDto> concepts) {
 		this.concepts = concepts;
 	}
+
+	public PackageStatus getStatus() {
+        return status;
+    }
+
+	public void setStatus(PackageStatus status) {
+        this.status = status;
+    }
 }

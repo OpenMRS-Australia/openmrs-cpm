@@ -1,7 +1,7 @@
-package org.openmrs.module.common.pagemodel;
+package org.openmrs.module.conceptreview.pagemodel;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.conceptpropose.functionaltest.steps.SeleniumDriver;
+import org.openmrs.module.conceptreview.functionaltest.steps.SeleniumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

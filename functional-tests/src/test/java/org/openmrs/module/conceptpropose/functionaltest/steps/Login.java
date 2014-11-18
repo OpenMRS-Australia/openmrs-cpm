@@ -1,7 +1,6 @@
 package org.openmrs.module.conceptpropose.functionaltest.steps;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.module.conceptpropose.functionaltest.steps.SeleniumDriver;
 import org.openmrs.module.common.pagemodel.AdminPage;
 
 import java.io.IOException;
@@ -18,11 +17,11 @@ import java.util.Properties;
  */
 public class Login {
     public static class Credentials{
-        String username;
-        String password;
-        String openmrsUrl;
-        String adminPageUrl;
-        String settingsPageUrl;
+        public String username;
+        public String password;
+        public String openmrsUrl;
+        public String adminPageUrl;
+        public String settingsPageUrl;
     }
     public static Credentials getCredentials(Class<?> theClass) throws IOException{
         String username;
