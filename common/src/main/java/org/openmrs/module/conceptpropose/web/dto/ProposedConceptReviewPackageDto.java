@@ -53,12 +53,12 @@ public class ProposedConceptReviewPackageDto {
 	}
 
 	public String getDescription() {
-        return description;
-    }
+		return description;
+	}
 
 	public void setDescription(final String description) {
-        this.description = description;
-    }
+		this.description = description;
+	}
 
 	public List<ProposedConceptReviewDto> getConcepts() {
 		return concepts;
