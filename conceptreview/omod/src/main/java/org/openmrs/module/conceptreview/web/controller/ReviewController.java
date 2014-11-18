@@ -165,6 +165,7 @@ public class ReviewController {
 		dto.setName(responsePackage.getName());
 		dto.setEmail(responsePackage.getEmail());
 		dto.setDescription(responsePackage.getDescription());
+		dto.setStatus(responsePackage.getStatus());
 
 		if (responsePackage.getDateCreated() == null) {
 			throw new NullPointerException("Date created is null");

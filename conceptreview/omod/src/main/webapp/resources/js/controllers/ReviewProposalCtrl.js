@@ -2,6 +2,7 @@ define([
     'angular',
     'config',
     'js/services/proposalReviews',
+    'js/filters/proposalStatus',
     './index'
   ],
   function(angular, config) {

@@ -20,5 +20,13 @@ define(['angular-mocks', 'js/filters/proposalStatus'], function() {
       expect(filter('SUBMITTED')).toBe('Submitted');
     });
 
+    it('should convert RECEIVED to Open', function() {
+      expect(filter('RECEIVED')).toBe('Open');
+    });
+
+    it('should convert CLOSED to Closed', function() {
+      expect(filter('CLOSED')).toBe('Closed');
+    });
+
   });
 });
