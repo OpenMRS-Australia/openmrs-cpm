@@ -11,7 +11,7 @@ define([
 
     'use strict';
     angular.module('conceptreview.controllers').controller('ReviewConceptCtrl',
-      function($scope, $routeParams, $location, ProposalReviewConcepts, Menu, $http) {
+      function($scope, $routeParams, $location, $window, ProposalReviewConcepts, Menu, $http) {
 
         var proposalId = $routeParams.proposalId;
         var conceptId = $routeParams.conceptId;
@@ -31,7 +31,7 @@ define([
             $scope.showProposal();
           }, function(){
             $scope.isDeciding = false;
-            window.alert('Error saving. Please try again');
+            $window.alert('Error saving. Please try again');
           });
           $scope.isSearchDialogOpen = false;
         };
@@ -56,9 +56,9 @@ define([
 
         $scope.addComment = function() {
           $scope.concept.$update({proposalId: proposalId}, function(){
-            window.alert('Comment Saved');
+            $window.alert('Comment Saved');
           }, function(){
-            window.alert('Error saving comment');
+            $window.alert('Error saving comment');
           });
         };
 
@@ -79,7 +79,7 @@ define([
             $scope.showProposal();
           }, function(){
             $scope.isDeciding = false;
-            window.alert('Error saving. Please try again');
+            $window.alert('Error saving. Please try again');
           });
         };
         $scope.resetStatus = function() {
@@ -89,10 +89,10 @@ define([
           $scope.concept.$update({proposalId: proposalId}, function(){
             $scope.loadConcept();
             $scope.isDeciding = false;
-            window.alert('Status cleared');
+            $window.alert('Status cleared');
           }, function(){
             $scope.isDeciding = false;
-            window.alert('Error saving. Please try again');
+            $window.alert('Error saving. Please try again');
           });
         };
       });
