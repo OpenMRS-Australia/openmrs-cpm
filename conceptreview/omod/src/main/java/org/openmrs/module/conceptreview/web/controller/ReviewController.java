@@ -37,18 +37,18 @@ import java.util.Set;
 
 @Controller
 public class ReviewController {
-    private final Logger log = Logger.getLogger(ReviewController.class);
+	private final Logger log = Logger.getLogger(ReviewController.class);
 
-    private final NameDtoFactory nameDtoFactory;
+	private final NameDtoFactory nameDtoFactory;
 
-    private final DescriptionDtoFactory descriptionDtoFactory;
-    @Autowired
-    public ReviewController (
-            final DescriptionDtoFactory descriptionDtoFactory,
-            final NameDtoFactory nameDtoFactory) {
-        this.descriptionDtoFactory = descriptionDtoFactory;
-        this.nameDtoFactory = nameDtoFactory;
-    }
+	private final DescriptionDtoFactory descriptionDtoFactory;
+	@Autowired
+	public ReviewController (
+			final DescriptionDtoFactory descriptionDtoFactory,
+			final NameDtoFactory nameDtoFactory) {
+		this.descriptionDtoFactory = descriptionDtoFactory;
+		this.nameDtoFactory = nameDtoFactory;
+	}
 	//
 	// Pages
 	//
@@ -77,20 +77,20 @@ public class ReviewController {
 		return response;
 	}
 
-    @RequestMapping(value = "/conceptreview/completedProposalReviews", method = RequestMethod.GET)
-    public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getCompletedProposalReviews() {
+	@RequestMapping(value = "/conceptreview/completedProposalReviews", method = RequestMethod.GET)
+	public @ResponseBody ArrayList<ProposedConceptReviewPackageDto> getCompletedProposalReviews() {
 
-        final List<ProposedConceptReviewPackage> completedConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getCompletedProposedConceptReviewPackages();
-        final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
+		final List<ProposedConceptReviewPackage> completedConceptProposalReviewPackages = Context.getService(ProposedConceptReviewService.class).getCompletedProposedConceptReviewPackages();
+		final ArrayList<ProposedConceptReviewPackageDto> response = new ArrayList<ProposedConceptReviewPackageDto>();
 
-        for (final ProposedConceptReviewPackage conceptProposalReviewPackage : completedConceptProposalReviewPackages) {
+		for (final ProposedConceptReviewPackage conceptProposalReviewPackage : completedConceptProposalReviewPackages) {
 
-            final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
-            response.add(conceptProposalReviewPackageDto);
-        }
+			final ProposedConceptReviewPackageDto conceptProposalReviewPackageDto = createProposedConceptReviewPackageDto(conceptProposalReviewPackage);
+			response.add(conceptProposalReviewPackageDto);
+		}
 
-        return response;
-    }
+		return response;
+	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
@@ -185,45 +185,45 @@ public class ReviewController {
 		return dto;
 	}
 
-    @RequestMapping(value = "/conceptreview/concepts", method = RequestMethod.GET)
-    public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
-                                                             @RequestParam final String requestNum) {
-        final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
-        final ConceptService conceptService = Context.getConceptService();
+	@RequestMapping(value = "/conceptreview/concepts", method = RequestMethod.GET)
+	public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
+															 @RequestParam final String requestNum) {
+		final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
+		final ConceptService conceptService = Context.getConceptService();
 
-        if (query.equals("")) {
-            final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
-            for (final Concept concept : allConcepts) {
-                ConceptDto conceptDto = createConceptDto(concept);
-                results.add(conceptDto);
-            }
-        } else {
-            final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
-            for (final ConceptSearchResult conceptSearchResult : concepts) {
-                ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
-                results.add(conceptDto);
+		if (query.equals("")) {
+			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
+			for (final Concept concept : allConcepts) {
+				ConceptDto conceptDto = createConceptDto(concept);
+				results.add(conceptDto);
+			}
+		} else {
+			final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
+			for (final ConceptSearchResult conceptSearchResult : concepts) {
+				ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
+				results.add(conceptDto);
 
-            }
+			}
 
-        }
-        SearchConceptResultDto resultDto = new SearchConceptResultDto();
-        resultDto.setConcepts(results);
-        resultDto.setRequestNum(requestNum);
-        return resultDto;
-    }
-    private ConceptDto createConceptDto(final Concept concept) {
+		}
+		SearchConceptResultDto resultDto = new SearchConceptResultDto();
+		resultDto.setConcepts(results);
+		resultDto.setRequestNum(requestNum);
+		return resultDto;
+	}
+	private ConceptDto createConceptDto(final Concept concept) {
 
-        final ConceptDto dto = new ConceptDto();
-        dto.setId(concept.getConceptId());
-        dto.setNames(nameDtoFactory.create(concept));
-        dto.setPreferredName(concept.getName().getName());
-        dto.setDatatype(concept.getDatatype().getName());
-        dto.setDescriptions(descriptionDtoFactory.create(concept));
-        if(concept.getDescription()!=null)  {
-            dto.setCurrLocaleDescription(concept.getDescription().getDescription());
-        }
+		final ConceptDto dto = new ConceptDto();
+		dto.setId(concept.getConceptId());
+		dto.setNames(nameDtoFactory.create(concept));
+		dto.setPreferredName(concept.getName().getName());
+		dto.setDatatype(concept.getDatatype().getName());
+		dto.setDescriptions(descriptionDtoFactory.create(concept));
+		if(concept.getDescription()!=null)  {
+			dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+		}
 
-        return dto;
-    }
+		return dto;
+	}
 
 }

@@ -15,10 +15,11 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
       httpBackend = $httpBackend;
       controller = $controller;
       menuService = Menu;
+      httpBackend.whenGET('/openmrs/ws/conceptreview/userDetails').respond({});
     }));
 
     it('should get menu', function () {
-      httpBackend.whenGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({});
+      httpBackend.whenGET('/openmrs/ws/conceptreview/proposalReviews/1/concepts/1').respond({});
       var menuResponse = 'something';
       spyOn(menuService, 'getMenu').andCallFake(function (index) {
         expect(index).not.toBeDefined();
@@ -31,7 +32,7 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
     });
 
     it('should fetch a comment from a supplied concept review', function() {
-      httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({
+      httpBackend.expectGET('/openmrs/ws/conceptreview/proposalReviews/1/concepts/1').respond({
         id: 1,
         reviewComment: 'some comment'
       });
@@ -42,7 +43,7 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
     });
 
     it('should persist a comment', function() {
-      httpBackend.expectGET('/openmrs/ws/cpm/proposalReviews/1/concepts/1').respond({
+      httpBackend.expectGET('/openmrs/ws/conceptreview/proposalReviews/1/concepts/1').respond({
         id: 1,
         reviewComment: 'some comment'
       });
@@ -51,12 +52,12 @@ define(['angular-mocks', 'js/controllers/ReviewConceptCtrl'], function() {
 
       httpBackend
         .expectPUT(
-          '/openmrs/ws/cpm/proposalReviews/1/concepts/1',
+          '/openmrs/ws/conceptreview/proposalReviews/1/concepts/1',
           '{\"id\":1,\"reviewComment\":\"A comment to persist\"}')
         .respond({});
 
       scope.concept.reviewComment = 'A comment to persist';
-      scope.saveReviewComment();
+      scope.addComment();
 
     });
 

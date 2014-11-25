@@ -6,7 +6,7 @@ define([
 
     'use strict';
 
-      conceptreview.config(function($routeProvider){
+    conceptreview.config(function($routeProvider) {
       $routeProvider.
         when('/', {
           controller: 'ListIncomingProposalsCtrl',
