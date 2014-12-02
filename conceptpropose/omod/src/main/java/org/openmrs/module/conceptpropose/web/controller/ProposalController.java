@@ -151,6 +151,13 @@ public class ProposalController {
 			for(ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
 				if(proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
 					proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+					if(proposedConcept.getComments() != null) {
+					    proposedConcept.getComments().clear();
+					    proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(),proposedConcept));
+					}
+					else{
+					    proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+					}
 					break;
 				}
 			}
