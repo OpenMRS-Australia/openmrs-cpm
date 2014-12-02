@@ -17,7 +17,7 @@ define(['angular-mocks', 'js/controllers/ReviewProposalCtrl'], function() {
         httpBackend = $httpBackend;
         menuService = Menu;
       });
-      httpBackend.whenGET('/openmrs/ws/cpm/proposalReviews').respond({});
+      httpBackend.whenGET('/openmrs/ws/conceptreview/proposalReviews').respond({});
     });
 
     it('should get menu', function () {

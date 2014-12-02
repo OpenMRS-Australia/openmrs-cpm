@@ -61,7 +61,11 @@ define([
         $scope.proposal = Proposals.get(proposalsParams, function() {
           $scope.isLoading = false;
           $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
-          $scope.isSubmissible = $scope.proposal.concepts.length > 0;
+          if ($scope.proposal.concepts) {
+            $scope.isSubmissible = $scope.proposal.concepts.length > 0;
+          } else {
+            $scope.isSubmissible = false;
+          }
         });
 
         $scope.save = function() {
@@ -88,11 +92,11 @@ define([
             .success(function(data) {
               console.log(data);
               if(data){
-                alert('Update retrieved. Refreshing page...');
+                $window.alert('Update retrieved. Refreshing page...');
                 $route.reload();
               }
               else{
-                alert('No data retrieved. Please try again');
+                $window.alert('No data retrieved. Please try again');
               }
               $scope.isLoading = false;
             })
@@ -107,10 +111,10 @@ define([
               else{
                 text = 'Unknown error: ' + data.status;
               }
-              alert('Error refreshing comments ('+ text + ')');
+              $window.alert('Error refreshing comments ('+ text + ')');
               $scope.isLoading = false;
             });
-        }
+        };
         $scope.submit = function() {
           $scope.proposal.status = 'TBS';
 
@@ -124,9 +128,8 @@ define([
             $scope.isSubmitting = false;
             $scope.isLoading = false;
 
-            if(data.status)
-            {
-             if(data.status === '500') {
+            if(data.status) {
+              if(data.status === '500') {
                 $window.alert('Error submitting proposal (Problem with submitting Proposal)');
               }
               else if(data.status === '401') {
@@ -179,10 +182,10 @@ define([
               if(data && data.comments && data.comments.length > 0){
                 concept.comments = data.comments;
                 concept.newComment = '';
-                alert('Comment Added!');
+                $window.alert('Comment Added!');
               }
               else{
-                alert('No comments retrieved. Please try again');
+                $window.alert('No comments retrieved. Please try again');
               }
               loadComplete();
             })
@@ -197,7 +200,7 @@ define([
               else{
                 text = 'Unknown error: ' + data.status;
               }
-              alert('Error adding comment ('+ text + ')');
+              $window.alert('Error adding comment ('+ text + ')');
               loadComplete();
             });
         };
@@ -215,10 +218,10 @@ define([
               if(data && data.comments && data.comments.length >= 0){
                 concept.comments = data.comments;
                 concept.newComment = '';
-                alert('Comment Refreshed');
+                $window.alert('Comment Refreshed');
               }
               else{
-                alert('No comments retrieved. Please try again');
+                $window.alert('No comments retrieved. Please try again');
               }
               loadComplete();
             })
@@ -233,7 +236,7 @@ define([
               else{
                 text = 'Unknown error: ' + data.status;
               }
-              alert('Error refreshing comments ('+ text + ')');
+              $window.alert('Error refreshing comments ('+ text + ')');
               loadComplete();
             });
         };
