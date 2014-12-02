@@ -203,42 +203,7 @@ define([
               loadComplete();
             });
         };
-        $scope.refreshDiscussion = function(concept){
-          $scope.isRefreshingComments = true;
-          $scope.isLoading = true;
-          var loadComplete = function(){
-            $scope.isRefreshingComments  = false;
-            $scope.isLoading = false;
-          };
 
-          var url = '/openmrs/ws/conceptpropose/proposals/discussion/' + $scope.proposal.id + '/' + concept.id + '';
-          $http.post(url, {})
-            .success(function(data) {
-              if(data && data.comments && data.comments.length >= 0){
-                concept.comments = data.comments;
-                concept.newComment = '';
-                $window.alert('Comment Refreshed');
-              }
-              else{
-                $window.alert('No comments retrieved. Please try again');
-              }
-              loadComplete();
-            })
-            .error(function(data){
-              var text = '';
-              if(data.status === '500'){
-                text = '';
-              }
-              else if(data.status === '401'){
-                text = 'Unauthorized - you need to log in';
-              }
-              else{
-                text = 'Unknown error: ' + data.status;
-              }
-              $window.alert('Error refreshing comments ('+ text + ')');
-              loadComplete();
-            });
-        };
         $scope.removeConcept = function(concept) {
           if ($window.confirm('Are you sure?')) {
             for (var i in $scope.proposal.concepts) {

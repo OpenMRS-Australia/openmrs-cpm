@@ -6,8 +6,7 @@
  <span style="color: firebrick; margin-left: 2em; font-weight: bold;">{{errorMessage}}</span>
 </p>
 <p>
-  Status: {{proposal.status | proposalStatus}} <button ng-click="getStatus()" ng-show="isReadOnly" ng-disabled="!isReadOnly" accesskey="g"><span class="accesskey">R</span>efresh Status</button>
-
+  Status: {{proposal.status | proposalStatus}}
 </p>
 <form name="form" id="cpm-edit-proposal-form" novalidate >
 <div>
@@ -69,7 +68,6 @@
               <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment"></textarea>
               <div>
                 <button ng-disabled="isAddingComment || !concept.newComment || concept.newComment.length == 0" ng-click="addComment(concept)">Add Comment</button>
-                <button ng-disabled="isRefreshingComments" ng-click="refreshDiscussion(concept)">Refresh</button>
               </div>
             </span>
           </td>
@@ -88,6 +86,7 @@
       <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
     </button>
     <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
+    <button ng-click="getStatus()" ng-show="isReadOnly" ng-disabled="!isReadOnly" accesskey="g"><span class="accesskey">R</span>efresh Proposal</button>
   </div>
 </form>
 
