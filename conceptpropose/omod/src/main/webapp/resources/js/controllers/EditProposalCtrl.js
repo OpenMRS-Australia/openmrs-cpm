@@ -182,10 +182,9 @@ define([
               if(data && data.comments && data.comments.length > 0){
                 concept.comments = data.comments;
                 concept.newComment = '';
-                $window.alert('Comment Added!');
               }
               else{
-                $window.alert('No comments retrieved. Please try again');
+                $window.alert('Unknown error. Please try refreshing.');
               }
               loadComplete();
             })
