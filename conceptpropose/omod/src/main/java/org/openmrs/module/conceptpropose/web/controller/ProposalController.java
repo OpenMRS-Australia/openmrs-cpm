@@ -171,6 +171,44 @@ public class ProposalController {
 			return null;
 		return proposedConceptReviewPackageDto;
 	}
+	@RequestMapping(value = "/conceptpropose/proposalstatuses", method = RequestMethod.GET)
+	public @ResponseBody ArrayList<ProposedConceptPackageDto> getAllProposalStatuses() {
+		final List<ProposedConceptPackage> allProposedConceptPackages = Context.getService(ProposedConceptService.class).getAllProposedConceptPackages();
+		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
+
+		for (final ProposedConceptPackage proposedConceptPackage : allProposedConceptPackages) {
+			final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
+			if (proposedConceptReviewPackageDto == null) {
+				proposedConceptPackage.setStatus(PackageStatus.DELETED);
+			} else {
+				for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
+					for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+						if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+							proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+							if (proposedConcept.getComments() != null) {
+								proposedConcept.getComments().clear();
+								proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+							} else {
+								proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+							}
+							break;
+						}
+					}
+				}
+				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED) {
+					proposedConceptPackage.setStatus(PackageStatus.CLOSED);
+				} else {
+					proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+				}
+			}
+			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage); // Should we throw an error here if we get null?
+
+			final ProposedConceptPackageDto proposedConceptPackageDto = createProposedConceptPackageDto(proposedConceptPackage);
+			response.add(proposedConceptPackageDto);
+		}
+
+		return response;
+	}
 
 	@RequestMapping(value = "/conceptpropose/proposals/empty", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {
@@ -180,17 +218,17 @@ public class ProposalController {
 		proposal.setConcepts(new ArrayList<ProposedConceptDto>());
 		proposal.setName(getDisplayName(user));
 		proposal.setEmail(getNotificationEmail(user));
-		
+
 		if (Strings.isNullOrEmpty(proposal.getEmail())) {
 			ProposedConceptPackage mostRecentProposal = Context.getService(ProposedConceptService.class).getMostRecentConceptProposalPackage();
 			if (mostRecentProposal != null) {
 				proposal.setEmail(mostRecentProposal.getEmail());
 			}
 		}
-		
+
 		return proposal;
 	}
-	
+
 	private String getDisplayName(User user) {
 		PersonName name = user.getPersonName();
 		ArrayList<String> components = Lists.newArrayList(name.getGivenName(), name.getMiddleName(), name.getFamilyName());
@@ -202,12 +240,12 @@ public class ProposalController {
 		}
 		return displayName.trim();
 	}
-	
+
 	private String getNotificationEmail(User user) {
 		Map<String, String> userProperties = user.getUserProperties();
 		return userProperties.get(OpenmrsConstants.USER_PROPERTY_NOTIFICATION_ADDRESS);
 	}
-	
+
 	@RequestMapping(value = "/conceptpropose/proposals/", method = RequestMethod.POST)
 	public @ResponseBody ProposedConceptPackageDto addProposal(@RequestBody final ProposedConceptPackageDto newPackage) {
 		return addProposal(String.valueOf(newPackage.getId()), newPackage);

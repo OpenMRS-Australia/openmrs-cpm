@@ -24,6 +24,7 @@ define([
         $scope.isSubmitting = false;
         $scope.isLoading = true;
         $scope.isReadOnly = true;
+        $scope.isDeleted = true;
         $scope.isAddingComment = false;
         $scope.isRefreshingComments = false;
         $scope.isSubmissible = false;
@@ -61,6 +62,7 @@ define([
         $scope.proposal = Proposals.get(proposalsParams, function() {
           $scope.isLoading = false;
           $scope.isReadOnly = $scope.proposal.status !== 'DRAFT';
+          $scope.isDeleted = $scope.proposal.status == 'DELETED';
           if ($scope.proposal.concepts) {
             $scope.isSubmissible = $scope.proposal.concepts.length > 0;
           } else {
