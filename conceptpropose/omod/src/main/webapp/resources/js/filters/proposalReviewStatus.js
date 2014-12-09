@@ -18,10 +18,10 @@ define([
           return 'Open';
 
         case 'CLOSED_NEW':
-          return 'New' + (proposal.conceptId ? ': ' + getConceptLink(proposal.conceptId) : '');
+          return 'New' + (proposal.id ? ': ' + getConceptLink(proposal.id) : '');
 
         case 'CLOSED_EXISTING':
-          return 'Existing' + (proposal.conceptId ? ': ' + getConceptLink(proposal.conceptId) : '');
+          return 'Existing' + (proposal.id ? ': ' + getConceptLink(proposal.id) : '');
 
         case 'CLOSED_REJECTED':
           return 'Rejected';
