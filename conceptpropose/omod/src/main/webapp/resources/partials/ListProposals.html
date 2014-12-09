@@ -1,3 +1,4 @@
+<div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
 <div id="openmrs_msg" class="alerts" ng-show="alerts.length > 0">
     <div ng-repeat="alert in alerts">
         {{alert.message}}
@@ -5,6 +6,7 @@
 </div>
 <cpm-menu menu="menu"></cpm-menu>
 <h2 id="headerText">Manage Proposals</h2>
+<button ng-click="getStatuses()" accesskey="r"><span class="accesskey">R</span>efresh Proposals</button>
 <table class="box" cellpadding="2" cellspacing="0">
  <thead>
   <tr><th>Name</th><th>Description</th><th># Concepts</th><th colspan="2">Status</th>

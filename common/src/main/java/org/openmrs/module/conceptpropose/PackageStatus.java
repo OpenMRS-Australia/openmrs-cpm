@@ -7,5 +7,6 @@ public enum PackageStatus {
 	PENDING,
 	SUBMITTED,
 	RECEIVED,
-	CLOSED
+	CLOSED,
+	DELETED
 }

@@ -65,7 +65,7 @@
                   <tr ng-repeat="comment in concept.comments" style="cursor: pointer;"><td>{{comment.dateCreated | date:'yyyy-MM-dd HH:mm:ss Z'}}</td><td>{{comment.name}} ({{comment.email}})</td><td><pre>{{comment.comment}}</pre></td></tr>
                 </tbody>
               </table>
-              <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment"></textarea>
+              <textarea cols="80" rows="6" ng-model="concept.newComment" name="newComment" ng-disabled="isDeleted"></textarea>
               <div>
                 <button ng-disabled="isAddingComment || !concept.newComment || concept.newComment.length == 0" ng-click="addComment(concept)">Add Comment</button>
               </div>
@@ -86,7 +86,7 @@
       <span ng-switch-default>S<span class="accesskey">e</span>nd Proposal</span>
     </button>
     <button ng-click="deleteProposal()" ng-disabled="!isEdit || isReadOnly" accesskey="d"><span class="accesskey">D</span>elete Proposal</button>
-    <button ng-click="getStatus()" ng-show="isReadOnly" ng-disabled="!isReadOnly" accesskey="g"><span class="accesskey">R</span>efresh Proposal</button>
+    <button ng-click="getStatus()" ng-show="isReadOnly" ng-disabled="!isReadOnly || isDeleted" accesskey="r"><span class="accesskey">R</span>efresh Proposal</button>
   </div>
 </form>
 

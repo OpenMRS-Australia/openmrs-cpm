@@ -19,6 +19,9 @@ define([
         case 'CLOSED':
           return 'Closed';
 
+        case 'DELETED':
+          return 'Deleted';
+
         default:
           return '';
         }
