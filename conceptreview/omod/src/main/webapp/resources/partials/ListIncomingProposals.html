@@ -12,7 +12,7 @@
         <tr><td colspan="4" align="center"><em>No proposals found</em></td></tr>
     </tbody>
     <tbody class="results">
-        <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;"><td>{{proposal.email}}</td><td>{{proposal.age}}</td><td>{{proposal.description}}</td><td>{{proposal.remainingConcepts}}</td></tr>
+        <tr ng-repeat="proposal in proposals" ng-click="editProposal(proposal.id)" style="cursor: pointer;"><td>{{proposal.name}} ({{proposal.email}})</td><td>{{proposal.age}}</td><td>{{proposal.description}}</td><td>{{proposal.remainingConcepts}}</td></tr>
     </tbody>
 </table>
 <p><a href="#/completed">View completed proposals</a></p>

@@ -1,7 +1,7 @@
 <conceptreview-menu menu="menu"></conceptreview-menu>
 <div ng-show="isLoading" class="loading"><img ng-src="{{contextPath}}/images/loading.gif" /> Loading...</div>
-<h2>Concept Proposal from {{proposal.email}}</h2>
-<p>From: {{proposal.email}}</p>
+<h2>Concept Proposal from {{proposal.name}}</h2>
+<p>Email: {{proposal.email}}</p>
 <p>Description: <strong>{{proposal.description}}</strong></p>
 <p>Status: <strong>{{proposal.status | proposalStatus}}</strong></p>
 <b class="boxHeader">Concepts</b>
