@@ -177,28 +177,38 @@ public class ProposalController {
 		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
 
 		for (final ProposedConceptPackage proposedConceptPackage : allProposedConceptPackages) {
+            // do not update these proposals as they are not sent to proposer yet
+			if(proposedConceptPackage.getStatus() == PackageStatus.DRAFT
+			    || proposedConceptPackage.getStatus() == PackageStatus.TBS){
+				continue;
+			}
 			final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
-			if (proposedConceptReviewPackageDto == null) {
-				proposedConceptPackage.setStatus(PackageStatus.DELETED);
-			} else {
-				for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
-					for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
-						if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
-							proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
-							if (proposedConcept.getComments() != null) {
-								proposedConcept.getComments().clear();
-								proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							} else {
-								proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							}
-							break;
-						}
-					}
-				}
-				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED) {
-					proposedConceptPackage.setStatus(PackageStatus.CLOSED);
+
+			if (proposedConceptReviewPackageDto != null) { // null means no server connection
+				// not all review status should be saved as-is to proposal side
+				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED
+				        || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DELETED
+				        || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DOESNOTEXIST
+				) {
+					proposedConceptPackage.setStatus(proposedConceptReviewPackageDto.getStatus());
 				} else {
 					proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+                }
+				if(proposedConceptReviewPackageDto.getStatus() != PackageStatus.DOESNOTEXIST){
+					for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
+						for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+							if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+								proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+								if (proposedConcept.getComments() != null) {
+									proposedConcept.getComments().clear();
+									proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+								} else {
+									proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+								}
+								break;
+							}
+						}
+					}
 				}
 			}
 			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage); // Should we throw an error here if we get null?
