@@ -31,5 +31,54 @@ define(['angular-mocks', 'js/controllers/SettingsCtrl'], function() {
       expect(scope.menu).toBe(menuResponse);
     });
 
+    describe('testConnection', function () {
+
+      it('should not show message before request completes', function () {
+        httpBackend.expectPOST('/openmrs/ws/conceptpropose/settings/connectionResult').respond(200, 'Success');
+
+        controller('SettingsCtrl', {$scope: scope, $routeParams: {}});
+        scope.testConnection();
+
+        expect(scope.connectErrorMessage).toEqual('');
+      });
+
+      it('should show message when test succeded', function () {
+        httpBackend.whenPOST('/openmrs/ws/conceptpropose/settings/connectionResult').respond(200, 'Success');
+
+        controller('SettingsCtrl', {$scope: scope, $routeParams: {}});
+        scope.testConnection();
+        httpBackend.flush();
+
+        expect(scope.settingsValid).toEqual(true);
+        expect(scope.connectErrorMessage).toEqual('Success');
+        expect(scope.isLoading).toEqual(false);
+      });
+
+      it('should show error when error returned', function () {
+        httpBackend.whenPOST('/openmrs/ws/conceptpropose/settings/connectionResult').respond(200, 'error');
+
+        controller('SettingsCtrl', {$scope: scope, $routeParams: {}});
+        scope.testConnection();
+        httpBackend.flush();
+
+        expect(scope.settingsValid).toEqual(false);
+        expect(scope.connectErrorMessage).toEqual('error');
+        expect(scope.isLoading).toEqual(false);
+      });
+
+      it('should show Unknown Error when empty error returned', function () {
+        httpBackend.whenPOST('/openmrs/ws/conceptpropose/settings/connectionResult').respond(500, {});
+
+        controller('SettingsCtrl', {$scope: scope, $routeParams: {}});
+        scope.testConnection();
+        httpBackend.flush();
+
+        expect(scope.settingsValid).toEqual(false);
+        expect(scope.connectErrorMessage).toEqual('Unknown Error');
+        expect(scope.isLoading).toEqual(false);
+      });
+
+    });
+
   });
 });
