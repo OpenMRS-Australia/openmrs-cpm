@@ -1,6 +1,5 @@
 package org.openmrs.module.conceptpropose.web.controller;
 
-import org.joda.time.DateTime;
 import org.openmrs.Concept;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.PersonName;
@@ -45,39 +44,39 @@ public class ProposalController {
 
 	private final UpdateProposedConceptPackage updateProposedConceptPackage;
 
-    private final DescriptionDtoFactory descriptionDtoFactory;
+	private final DescriptionDtoFactory descriptionDtoFactory;
 
-    private final NameDtoFactory nameDtoFactory;
+	private final NameDtoFactory nameDtoFactory;
 
 	private final ConceptProposeMapperService mapperService;
 
 	protected final Logger log = Logger.getLogger(getClass());
 
-    public static class ProposalSubmissionException extends RuntimeException {
-        private final HttpStatus httpStatus;
-        public ProposalSubmissionException(final String message, final HttpStatus status) {
-            super(message);
-            this.httpStatus = status;
-        }
+	public static class ProposalSubmissionException extends RuntimeException {
+		private final HttpStatus httpStatus;
+		public ProposalSubmissionException(final String message, final HttpStatus status) {
+			super(message);
+			this.httpStatus = status;
+		}
 
-        public HttpStatus getHttpStatus() {
-            return httpStatus;
-        }
-    }
+		public HttpStatus getHttpStatus() {
+			return httpStatus;
+		}
+	}
 
 
-    @Autowired
-    public ProposalController (final SubmitProposal submitProposal,
-                               final UpdateProposedConceptPackage updateProposedConceptPackage,
-                               final DescriptionDtoFactory descriptionDtoFactory,
-                               final NameDtoFactory nameDtoFactory,
-                               final ConceptProposeMapperService mapperService) {
-        this.submitProposal = submitProposal;
-        this.updateProposedConceptPackage = updateProposedConceptPackage;
-        this.descriptionDtoFactory = descriptionDtoFactory;
-        this.nameDtoFactory = nameDtoFactory;
-	    this.mapperService = mapperService;
-    }
+	@Autowired
+	public ProposalController (final SubmitProposal submitProposal,
+	                           final UpdateProposedConceptPackage updateProposedConceptPackage,
+	                           final DescriptionDtoFactory descriptionDtoFactory,
+	                           final NameDtoFactory nameDtoFactory,
+	                           final ConceptProposeMapperService mapperService) {
+		this.submitProposal = submitProposal;
+		this.updateProposedConceptPackage = updateProposedConceptPackage;
+		this.descriptionDtoFactory = descriptionDtoFactory;
+		this.nameDtoFactory = nameDtoFactory;
+		this.mapperService = mapperService;
+	}
 
 	//
 	// Pages
@@ -93,32 +92,32 @@ public class ProposalController {
 	//
 
 
-    @RequestMapping(value = "/conceptpropose/concepts", method = RequestMethod.GET)
-    public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
-                                                             @RequestParam final String requestNum) {
-        final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
-        final ConceptService conceptService = Context.getConceptService();
+	@RequestMapping(value = "/conceptpropose/concepts", method = RequestMethod.GET)
+	public @ResponseBody SearchConceptResultDto findConcepts(@RequestParam final String query,
+	                                                         @RequestParam final String requestNum) {
+		final ArrayList<ConceptDto> results = new ArrayList<ConceptDto>();
+		final ConceptService conceptService = Context.getConceptService();
 
-        if (query.equals("")) {
-            final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
-            for (final Concept concept : allConcepts) {
-                ConceptDto conceptDto = createConceptDto(concept);
-                    results.add(conceptDto);
-            }
-        } else {
-            final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
-            for (final ConceptSearchResult conceptSearchResult : concepts) {
-                ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
-                results.add(conceptDto);
+		if (query.equals("")) {
+			final List<Concept> allConcepts = conceptService.getAllConcepts("name", true, false);
+			for (final Concept concept : allConcepts) {
+				ConceptDto conceptDto = createConceptDto(concept);
+					results.add(conceptDto);
+			}
+		} else {
+			final List<ConceptSearchResult> concepts = conceptService.getConcepts(query, Context.getLocale(), false);
+			for (final ConceptSearchResult conceptSearchResult : concepts) {
+				ConceptDto conceptDto = createConceptDto(conceptSearchResult.getConcept());
+				results.add(conceptDto);
 
-                }
+				}
 
-        }
-        SearchConceptResultDto resultDto = new SearchConceptResultDto();
-        resultDto.setConcepts(results);
-        resultDto.setRequestNum(requestNum);
-        return resultDto;
-    }
+		}
+		SearchConceptResultDto resultDto = new SearchConceptResultDto();
+		resultDto.setConcepts(results);
+		resultDto.setRequestNum(requestNum);
+		return resultDto;
+	}
 
 
 	@RequestMapping(value = "/conceptpropose/proposals", method = RequestMethod.GET)
@@ -152,11 +151,11 @@ public class ProposalController {
 				if(proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
 					proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
 					if(proposedConcept.getComments() != null) {
-					    proposedConcept.getComments().clear();
-					    proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(),proposedConcept));
+						proposedConcept.getComments().clear();
+						proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(),proposedConcept));
 					}
 					else{
-					    proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+						proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
 					}
 					break;
 				}
@@ -177,28 +176,38 @@ public class ProposalController {
 		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
 
 		for (final ProposedConceptPackage proposedConceptPackage : allProposedConceptPackages) {
+			// do not update these proposals as they are not sent to proposer yet
+			if(  proposedConceptPackage.getStatus() == PackageStatus.DRAFT
+			  || proposedConceptPackage.getStatus() == PackageStatus.TBS){
+				continue;
+			}
 			final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
-			if (proposedConceptReviewPackageDto == null) {
-				proposedConceptPackage.setStatus(PackageStatus.DELETED);
-			} else {
-				for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
-					for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
-						if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
-							proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
-							if (proposedConcept.getComments() != null) {
-								proposedConcept.getComments().clear();
-								proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							} else {
-								proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							}
-							break;
-						}
-					}
-				}
-				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED) {
-					proposedConceptPackage.setStatus(PackageStatus.CLOSED);
+
+			if (proposedConceptReviewPackageDto != null) { // null means no server connection
+				// not all review status should be saved as-is to proposal side
+				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED
+				        || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DELETED
+				        || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DOESNOTEXIST
+				) {
+					proposedConceptPackage.setStatus(proposedConceptReviewPackageDto.getStatus());
 				} else {
 					proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+				}
+				if(proposedConceptReviewPackageDto.getStatus() != PackageStatus.DOESNOTEXIST){
+					for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
+						for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+							if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+								proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+								if (proposedConcept.getComments() != null) {
+									proposedConcept.getComments().clear();
+									proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+								} else {
+									proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+								}
+								break;
+							}
+						}
+					}
 				}
 			}
 			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage); // Should we throw an error here if we get null?
@@ -277,7 +286,7 @@ public class ProposalController {
 
 	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.PUT)
 	public @ResponseBody ProposedConceptPackageDto updateProposal(@PathVariable final String proposalId,
-                                                                  @RequestBody final ProposedConceptPackageDto updatedPackage) {
+	                                                              @RequestBody final ProposedConceptPackageDto updatedPackage) {
 
 		final ProposedConceptService proposedConceptService = Context.getService(ProposedConceptService.class);
 		final ProposedConceptPackage conceptPackage = proposedConceptService.getProposedConceptPackageById(Integer.valueOf(proposalId));
@@ -288,7 +297,7 @@ public class ProposalController {
 		conceptPackage.setEmail(updatedPackage.getEmail());
 		conceptPackage.setDescription(updatedPackage.getDescription());
 		updateProposedConceptPackage.updateProposedConcepts(conceptPackage, updatedPackage);
-        proposedConceptService.saveProposedConceptPackage(conceptPackage);
+		proposedConceptService.saveProposedConceptPackage(conceptPackage);
 
 		if (conceptPackage.getStatus() == PackageStatus.DRAFT && updatedPackage.getStatus() == PackageStatus.TBS) {
 			submitProposal.submitProposedConcept(conceptPackage);
@@ -403,7 +412,7 @@ public class ProposalController {
 						else {
 							log.error("success : ");
 							log.error(newConceptReviewDto.toString());
-							if(newConceptReviewDto.getComments() != null)         {
+							if(newConceptReviewDto.getComments() != null) {
 								log.error("no comments");
 							}
 							else
@@ -422,19 +431,19 @@ public class ProposalController {
 		}
 		return null;
 	}
-    @ExceptionHandler(ProposalSubmissionException.class)
+	@ExceptionHandler(ProposalSubmissionException.class)
 
-    @ResponseBody
-    public void errorResponse(HttpServletResponse httpRes,ProposalSubmissionException ex) {
-        try {
-            httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getHttpStatus()+"");
-        }
-        catch(Exception e){
-            httpRes.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
+	@ResponseBody
+	public void errorResponse(HttpServletResponse httpRes,ProposalSubmissionException ex) {
+		try {
+			httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getHttpStatus()+"");
+		}
+		catch(Exception e){
+			httpRes.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
+	}
 
-    @RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/conceptpropose/proposals/{proposalId}", method = RequestMethod.DELETE)
 	public void deleteProposal(@PathVariable final String proposalId) {
 		final ProposedConceptService service = Context.getService(ProposedConceptService.class);
 		service.deleteProposedConceptPackage(service.getProposedConceptPackageById(Integer.valueOf(proposalId)));
@@ -460,12 +469,12 @@ public class ProposalController {
 			conceptProposalDto.setNames(nameDtoFactory.create(concept));
 			conceptProposalDto.setPreferredName(concept.getName().getName());
 			conceptProposalDto.setDescriptions(descriptionDtoFactory.create(concept));
-            if(concept.getDescription() != null) {
-                conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
-            }
+			if(concept.getDescription() != null) {
+				conceptProposalDto.setCurrLocaleDescription(concept.getDescription().getDescription());
+			}
 			conceptProposalDto.setDatatype(concept.getDatatype().getName());
 			conceptProposalDto.setStatus(conceptProposal.getStatus());
-            conceptProposalDto.setComment(conceptProposal.getComment());
+			conceptProposalDto.setComment(conceptProposal.getComment());
 			list.add(conceptProposalDto);
 		}
 
@@ -478,20 +487,20 @@ public class ProposalController {
 	}
 
 
-    private ConceptDto createConceptDto(final Concept concept) {
+	private ConceptDto createConceptDto(final Concept concept) {
 
-        final ConceptDto dto = new ConceptDto();
-        dto.setId(concept.getConceptId());
-        dto.setNames(nameDtoFactory.create(concept));
-        dto.setPreferredName(concept.getName().getName());
-        dto.setDatatype(concept.getDatatype().getName());
-        dto.setDescriptions(descriptionDtoFactory.create(concept));
-        if(concept.getDescription()!=null)  {
-            dto.setCurrLocaleDescription(concept.getDescription().getDescription());
-        }
+		final ConceptDto dto = new ConceptDto();
+		dto.setId(concept.getConceptId());
+		dto.setNames(nameDtoFactory.create(concept));
+		dto.setPreferredName(concept.getName().getName());
+		dto.setDatatype(concept.getDatatype().getName());
+		dto.setDescriptions(descriptionDtoFactory.create(concept));
+		if(concept.getDescription()!=null)  {
+			dto.setCurrLocaleDescription(concept.getDescription().getDescription());
+		}
 
-        return dto;
-    }
+		return dto;
+	}
 
 
 

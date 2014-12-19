@@ -4,6 +4,7 @@ import org.directwebremoting.util.Logger;
 import org.joda.time.DateTime;
 import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.ProposalStatus;
 import org.openmrs.module.conceptpropose.SubmissionResponseStatus;
 import org.openmrs.module.conceptpropose.web.dto.*;
@@ -76,6 +77,15 @@ public class DictionaryManagerController {
     public @ResponseBody ProposedConceptReviewPackageDto getSubmissionStatus(@PathVariable String sourceUUID) {
         final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
         final ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageByProposalUuid(sourceUUID);
+        // do not return null. utilized for proposer's refreshing of proposals
+        // need a positive response from the server to differentiate from no server connectivity
+        if(aPackage ==  null){
+            ProposedConceptReviewPackage notExistingPackage = new ProposedConceptReviewPackage();
+            notExistingPackage.setProposedConceptPackageUuid(sourceUUID);
+            notExistingPackage.setStatus(PackageStatus.DOESNOTEXIST);
+            return DtoFactory.createProposedConceptReviewDto(notExistingPackage);
+        }
+
         return DtoFactory.createProposedConceptReviewDto(aPackage);
     }
 

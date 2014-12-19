@@ -153,20 +153,19 @@ public class SubmitProposal {
 		final HttpEntity requestEntity = new HttpEntity(headers);
 
 		final String url = service.getGlobalProperty(CpmConstants.SETTINGS_URL_PROPERTY) + "/ws/conceptreview/dictionarymanager/proposalstatus/" + conceptPackage.getUuid();
-
+        log.info("propose getProposalStatus(): " + url);
 		try {
 			// can't use headers w/ a getForObject? haven't tried
 			// http://stackoverflow.com/questions/25667842/not-getting-headers-passed-with-resttemplate-getforobject
-			final ProposedConceptReviewPackageDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewPackageDto.class);
-			return result;
+			return submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewPackageDto.class);
 		}catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
-			log.error("1: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error("HttpClientErrorException: " + e.getMessage() + "\n" + e.getStackTrace());
 		}catch(RestClientException e){
-			log.error("2: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error("RestClientException: " + e.getMessage() + "\n" + e.getStackTrace());
 		}catch(IllegalArgumentException e){ // 404, due to invalid URL
-			log.error("3: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error("IllegalArgumentException: " + e.getMessage() + "\n" + e.getStackTrace());
 		}catch(Exception e){
-			log.error("4: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error("Exception: " + e.getMessage() + "\n" + e.getStackTrace());
 		}
 		return null;
 	}
