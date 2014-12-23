@@ -18,11 +18,13 @@ define([
         $scope.isLoading = true;
         $scope.contextPath = config.contextPath;
         $scope.resourceLocation = config.resourceLocation;
+        $scope.isDeleted = false;
 
         $scope.menu = Menu.getMenu();
 
         $scope.proposal = ProposalReviews.get({proposalId: proposalId}, function() {
           $scope.isLoading = false;
+          $scope.isDeleted = ($scope.proposal.status === 'DELETED');
         });
 
         $scope.showConcept = function(conceptId) {

@@ -8,5 +8,6 @@ public enum PackageStatus {
 	SUBMITTED,
 	RECEIVED,
 	CLOSED,
-	DELETED
+	DELETED,
+	DOESNOTEXIST
 }

@@ -145,7 +145,7 @@ public class SubmitProposal {
         Context.getService(ProposedConceptService.class).saveProposedConceptPackage(conceptPackage);
 
 	}
-	public ProposedConceptReviewPackageDto getProposalStatus(final ProposedConceptPackage conceptPackage) {
+	public ProposedConceptReviewPackageDto getProposalStatus(final ProposedConceptPackage conceptPackage) throws Exception {
 		checkNotNull(submissionRestTemplate);
 
 		AdministrationService service = Context.getAdministrationService();
@@ -160,15 +160,18 @@ public class SubmitProposal {
 			final ProposedConceptReviewPackageDto result = submissionRestTemplate.postForObject(url, requestEntity, ProposedConceptReviewPackageDto.class);
 			return result;
 		}catch(HttpClientErrorException e) { // exception with Dictionary manager's server, should handle all cases: internal server error / auth / bad request
-			log.error("1: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error(e.getMessage() + "\n" + e.getStackTrace());
+            throw new Exception("Error with Dictionary Manager's server", e);
 		}catch(RestClientException e){
-			log.error("2: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error(e.getMessage() + "\n" + e.getStackTrace());
+            throw new Exception("Error with REST client", e);
 		}catch(IllegalArgumentException e){ // 404, due to invalid URL
-			log.error("3: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error(e.getMessage() + "\n" + e.getStackTrace());
+            throw new Exception("404 Error: Invalid dictionary manager URL", e);
 		}catch(Exception e){
-			log.error("4: " + e.getMessage() + "\n" + e.getStackTrace());
+			log.error(e.getMessage() + "\n" + e.getStackTrace());
+            throw new Exception("Unknown error: Couldn't get proposal status for " + conceptPackage.getUuid(), e);
 		}
-		return null;
 	}
 
 

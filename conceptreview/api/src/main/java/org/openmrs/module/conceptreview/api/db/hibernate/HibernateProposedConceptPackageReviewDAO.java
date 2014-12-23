@@ -37,6 +37,16 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
     }
 
     @Override
+    public List<ProposedConceptReviewPackage> getDeletedConceptProposalReviewPackages(){
+        List<ProposedConceptReviewPackage> result = (List<ProposedConceptReviewPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.status = 'DELETED'").list();
+        if (log.isDebugEnabled()) {
+            log.info("getDeletedConceptProposalReviewPackages returned: " + result.size() + " results");
+        }
+        return result;
+
+    }
+
+    @Override
     public List<ProposedConceptReviewPackage> getOpenConceptProposalReviewPackages(){
         List<ProposedConceptReviewPackage> result = (List<ProposedConceptReviewPackage>) sessionFactory.getCurrentSession().createQuery("from ProposedConceptReviewPackage package where package.status = 'RECEIVED'").list();
         if (log.isDebugEnabled()) {
@@ -116,11 +126,9 @@ public class HibernateProposedConceptPackageReviewDAO implements ProposedConcept
 
 	@Override
 	public void deleteConceptProposalReviewPackageById(final int proposalId) {
-		sessionFactory.
-			getCurrentSession().
-			createQuery("delete from ProposedConceptReviewPackage where id = ?").
-			setParameter(0, proposalId).
-			executeUpdate();
+        ProposedConceptReviewPackage proposedConceptReviewPackage = getConceptProposalReviewPackageById(proposalId);
+        proposedConceptReviewPackage.setStatus(PackageStatus.DELETED);
+        sessionFactory.getCurrentSession().saveOrUpdate(proposedConceptReviewPackage);
 	}
 
 	@Override

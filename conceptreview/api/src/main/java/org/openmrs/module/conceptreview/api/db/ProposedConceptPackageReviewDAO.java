@@ -16,6 +16,8 @@ public interface ProposedConceptPackageReviewDAO {
 
     List<ProposedConceptReviewPackage> getCompletedConceptProposalReviewPackages() throws APIException;
 
+    List<ProposedConceptReviewPackage> getDeletedConceptProposalReviewPackages() throws APIException;
+
     List<ProposedConceptReviewPackage> getOpenConceptProposalReviewPackages() throws APIException;
 	
 	ProposedConceptReviewPackage getConceptProposalReviewPackageById(Integer id) throws APIException;

@@ -1,7 +1,7 @@
 define([
     'angular',
     'config',
-    'js/services/proposalReviews',
+    'js/services/deletedProposalReviews',
     './index'
   ],
   function(angular, config) {
@@ -9,20 +9,17 @@ define([
     'use strict';
 
     angular.module('conceptreview.controllers')
-      .controller('ListIncomingProposalsCtrl',
-        function($scope, $location, ProposalReviews, Menu) {
+      .controller('ListDeletedProposalsCtrl',
+        function($scope, $location, DeletedProposalReviews, Menu) {
 
-          document.title = 'Review Open Concept Proposals';
+          document.title = 'Deleted Concept Proposals';
           $scope.contextPath = config.contextPath;
           $scope.resourceLocation = config.resourceLocation;
           $scope.responseReceived = false;
 
           $scope.menu = Menu.getMenu(1);
 
-          $scope.proposals = ProposalReviews.query(function() {
-            _.each($scope.proposals, function(proposal){
-              proposal.remainingConcepts = _.filter(proposal.concepts, function(i){ return i.status === 'RECEIVED'; }).length;
-            });
+          $scope.proposals = DeletedProposalReviews.query(function() {
             $scope.responseReceived = true;
           });
 

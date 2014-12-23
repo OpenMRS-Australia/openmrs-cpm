@@ -94,8 +94,12 @@ define([
             .success(function(data) {
               console.log(data);
               if(data){
-                $window.alert('Update retrieved. Refreshing page...');
-                $route.reload();
+                if (data.constructor === Array) {
+                  $window.alert('Update retrieved. Refreshing page...');
+                  $route.reload();
+                } else {
+                  $window.alert(data);
+                }
               }
               else{
                 $window.alert('No data retrieved. Please try again');
