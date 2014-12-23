@@ -17,9 +17,7 @@ define([
 
         document.title = 'Manage Concept Proposal Settings';
         $scope.isLoading = true;
-        $scope.isTesting = false;
         $scope.settingsValid = false;
-        $scope.settingsTested = false;
         $scope.connectErrorMessage = '';
 
         $scope.menu = Menu.getMenu(3);
@@ -28,17 +26,18 @@ define([
           $scope.isLoading = false;
         });
 
-        $scope.testConnection=function(){
-            $scope.isTesting = true;
-            $http.post(config.contextPath + '/ws/conceptpropose/settings/connectionResult', $scope.settings)
-                 .success(
-                    function(result){
-                        $scope.settingsValid = (result === 'Success');
-                        $scope.connectErrorMessage = result;
-                        $scope.settingsTested = true;
-                        $scope.isTesting = false;
-                      });
+        $scope.testConnection = function () {
+
+          var responseHandler = function (result) {
+            $scope.settingsValid = (result === 'Success');
+            $scope.connectErrorMessage = typeof result === 'string' ? result : 'Unknown Error';
+            $scope.isLoading = false;
           };
+
+          $scope.isLoading = true;
+          $http.post(config.contextPath + '/ws/conceptpropose/settings/connectionResult', $scope.settings)
+            .success(responseHandler).error(responseHandler);
+        };
 
         $scope.save = function() {
           $scope.isLoading = true;
