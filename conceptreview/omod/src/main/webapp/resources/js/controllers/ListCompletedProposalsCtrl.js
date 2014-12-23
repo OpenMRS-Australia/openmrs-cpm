@@ -12,7 +12,7 @@ define([
       .controller('ListCompletedProposalsCtrl',
         function($scope, $location, CompletedProposalReviews, Menu) {
 
-          document.title = 'Review Concept Proposals';
+          document.title = 'Review Compeleted Concept Proposals';
           $scope.contextPath = config.contextPath;
           $scope.resourceLocation = config.resourceLocation;
           $scope.responseReceived = false;

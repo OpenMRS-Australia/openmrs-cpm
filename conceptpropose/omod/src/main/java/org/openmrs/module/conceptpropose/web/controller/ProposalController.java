@@ -144,64 +144,87 @@ public class ProposalController {
 	}
 	@RequestMapping(value = "/conceptpropose/proposalstatus/{proposalId}", method = RequestMethod.GET)
 	public @ResponseBody
-	ProposedConceptReviewPackageDto getProposalStatusById(@PathVariable final String proposalId) {
+	ProposedConceptReviewPackageDto getProposalStatusById(@PathVariable final String proposalId) throws Exception {
 		final ProposedConceptPackage proposedConceptPackage = Context.getService(ProposedConceptService.class).getProposedConceptPackageById(Integer.valueOf(proposalId));
-		final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
-		for(ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()){
-			for(ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
-				if(proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
-					proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
-					if(proposedConcept.getComments() != null) {
-					    proposedConcept.getComments().clear();
-					    proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(),proposedConcept));
-					}
-					else{
-					    proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-					}
-					break;
-				}
-			}
-		}
-		if(proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED)
-			proposedConceptPackage.setStatus(PackageStatus.CLOSED);
-		else
-			proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+        // do not update these proposals as they are not sent to proposer yet
+        if(proposedConceptPackage.getStatus() != PackageStatus.DRAFT
+                && proposedConceptPackage.getStatus() != PackageStatus.TBS) {
+            final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
+            log.error("Propose: " + proposedConceptPackage.toString());
+            log.error("Review : " + proposedConceptReviewPackageDto.toString());
 
-		if(Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage) == null)
-			return null;
-		return proposedConceptReviewPackageDto;
+            // not all review status should be saved as-is to proposal side
+            if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED
+                    || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DELETED
+                    || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DOESNOTEXIST
+                    ) {
+                proposedConceptPackage.setStatus(proposedConceptReviewPackageDto.getStatus());
+            } else {
+                proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+            }
+            if (proposedConceptReviewPackageDto.getStatus() != PackageStatus.DOESNOTEXIST) {
+                for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
+                    for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+                        if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+                            proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+                            if (proposedConcept.getComments() != null) {
+                                proposedConcept.getComments().clear();
+                                proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+                            } else {
+                                proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage);
+            return proposedConceptReviewPackageDto;
+        } else {
+            throw new Exception("Invalid proposal. Can only refresh statuses of proposals that have been submitted.");
+        }
 	}
 	@RequestMapping(value = "/conceptpropose/proposalstatuses", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<ProposedConceptPackageDto> getAllProposalStatuses() {
+	public @ResponseBody ArrayList<ProposedConceptPackageDto> getAllProposalStatuses() throws Exception {
 		final List<ProposedConceptPackage> allProposedConceptPackages = Context.getService(ProposedConceptService.class).getAllProposedConceptPackages();
 		final ArrayList<ProposedConceptPackageDto> response = new ArrayList<ProposedConceptPackageDto>();
 
 		for (final ProposedConceptPackage proposedConceptPackage : allProposedConceptPackages) {
-			final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
-			if (proposedConceptReviewPackageDto == null) {
-				proposedConceptPackage.setStatus(PackageStatus.DELETED);
-			} else {
-				for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
-					for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
-						if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
-							proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
-							if (proposedConcept.getComments() != null) {
-								proposedConcept.getComments().clear();
-								proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							} else {
-								proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
-							}
-							break;
-						}
-					}
-				}
-				if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED) {
-					proposedConceptPackage.setStatus(PackageStatus.CLOSED);
-				} else {
-					proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
-				}
-			}
-			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage); // Should we throw an error here if we get null?
+            // do not update these proposals as they are not sent to proposer yet
+            if(proposedConceptPackage.getStatus() == PackageStatus.DRAFT
+                    || proposedConceptPackage.getStatus() == PackageStatus.TBS){
+                continue;
+            }
+            final ProposedConceptReviewPackageDto proposedConceptReviewPackageDto = submitProposal.getProposalStatus(proposedConceptPackage);
+            log.error("Propose: " + proposedConceptPackage.toString());
+            log.error("Review : " + proposedConceptReviewPackageDto.toString());
+
+            // not all review status should be saved as-is to proposal side
+            if (proposedConceptReviewPackageDto.getStatus() == PackageStatus.CLOSED
+                    || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DELETED
+                    || proposedConceptReviewPackageDto.getStatus() == PackageStatus.DOESNOTEXIST
+                    ) {
+                proposedConceptPackage.setStatus(proposedConceptReviewPackageDto.getStatus());
+            } else {
+                proposedConceptPackage.setStatus(PackageStatus.SUBMITTED);
+            }
+            if(proposedConceptReviewPackageDto.getStatus() != PackageStatus.DOESNOTEXIST){
+                for (ProposedConcept proposedConcept : proposedConceptPackage.getProposedConcepts()) {
+                    for (ProposedConceptReviewDto proposedConceptReviewDto : proposedConceptReviewPackageDto.getConcepts()) {
+                        if (proposedConceptReviewDto.getSourceUuid().equals(proposedConcept.getConcept().getUuid())) {
+                            proposedConcept.setStatus(proposedConceptReviewDto.getStatus());
+                            if (proposedConcept.getComments() != null) {
+                                proposedConcept.getComments().clear();
+                                proposedConcept.getComments().addAll(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+                            } else {
+                                proposedConcept.setComments(createComments(proposedConceptReviewDto.getComments(), proposedConcept));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+			Context.getService(ProposedConceptService.class).saveProposedConceptPackage(proposedConceptPackage);
 
 			final ProposedConceptPackageDto proposedConceptPackageDto = createProposedConceptPackageDto(proposedConceptPackage);
 			response.add(proposedConceptPackageDto);
@@ -209,6 +232,11 @@ public class ProposalController {
 
 		return response;
 	}
+
+    @ExceptionHandler(Exception.class)
+    public @ResponseBody String handleException(Exception e) {
+        return e.getMessage();
+    }
 
 	@RequestMapping(value = "/conceptpropose/proposals/empty", method = RequestMethod.GET)
 	public @ResponseBody ProposedConceptPackageDto getEmptyProposal() {

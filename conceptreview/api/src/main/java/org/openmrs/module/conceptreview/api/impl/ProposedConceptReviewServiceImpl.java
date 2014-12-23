@@ -33,6 +33,11 @@ public class ProposedConceptReviewServiceImpl extends BaseOpenmrsService impleme
     }
 
     @Override
+    public List<ProposedConceptReviewPackage> getDeletedProposedConceptReviewPackages() throws APIException {
+        return proposalReviewDao.getDeletedConceptProposalReviewPackages();
+    }
+
+    @Override
     public List<ProposedConceptReviewPackage> getOpenProposedConceptReviewPackages() throws APIException {
         return proposalReviewDao.getOpenConceptProposalReviewPackages();
     }

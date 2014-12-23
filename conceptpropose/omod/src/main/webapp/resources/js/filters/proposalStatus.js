@@ -22,6 +22,9 @@ define([
         case 'DELETED':
           return 'Deleted';
 
+        case 'DOESNOTEXIST':
+          return 'Does not exist in reviewer database';
+
         default:
           return '';
         }

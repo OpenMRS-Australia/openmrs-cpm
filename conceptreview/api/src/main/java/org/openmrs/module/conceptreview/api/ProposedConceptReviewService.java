@@ -40,6 +40,20 @@ public interface ProposedConceptReviewService extends OpenmrsService {
 	List<ProposedConceptReviewPackage> getAllProposedConceptReviewPackages() throws APIException;
 
     /**
+     * Gets a list of all of the proposals that have been deleted on this OpenMRS instance. For
+     * instances acting in the role of clients this will return all of the packages that have been
+     * created for submissions. For instances acting in the role of servers this will return all of
+     * the packages that have been received via the REST services
+     *
+     * @return A list of ConceptProposalPackages that may be in a variety of states
+     * @throws org.openmrs.api.APIException
+     * @since 1.0
+     */
+    @Authorized(ConceptReviewConsts.MODULE_PRIVILEGE)
+    @Transactional
+    List<ProposedConceptReviewPackage> getDeletedProposedConceptReviewPackages() throws APIException;
+
+    /**
      * Gets a list of all of the proposals that have been completed on this OpenMRS instance. For
      * instances acting in the role of clients this will return all of the packages that have been
      * created for submissions. For instances acting in the role of servers this will return all of
