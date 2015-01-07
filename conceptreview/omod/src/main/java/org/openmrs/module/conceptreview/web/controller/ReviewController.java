@@ -11,28 +11,35 @@ import org.openmrs.PersonName;
 import org.openmrs.User;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.conceptpropose.PackageStatus;
 import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewDto;
+import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptpropose.web.dto.UserDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.ConceptDto;
 import org.openmrs.module.conceptpropose.web.dto.concept.SearchConceptResultDto;
-
 import org.openmrs.module.conceptpropose.web.dto.factory.DescriptionDtoFactory;
 import org.openmrs.module.conceptpropose.web.dto.factory.NameDtoFactory;
-import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
-import org.openmrs.util.OpenmrsConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.openmrs.module.conceptreview.ProposedConceptReview;
+import org.openmrs.module.conceptreview.ProposedConceptReviewComment;
 import org.openmrs.module.conceptreview.ProposedConceptReviewPackage;
-import org.openmrs.module.conceptpropose.web.dto.ProposedConceptReviewPackageDto;
 import org.openmrs.module.conceptreview.api.ProposedConceptReviewService;
 import org.openmrs.module.conceptreview.web.dto.factory.DtoFactory;
+import org.openmrs.util.OpenmrsConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -107,11 +114,50 @@ public class ReviewController {
         return response;
     }
 
-	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
-	public @ResponseBody ProposedConceptReviewPackageDto getProposalReview(@PathVariable int proposalId) {
-		return createProposedConceptReviewPackageDto(Context.
+	@RequestMapping(value = "/conceptreview/deletedProposalReviews/{proposalId}", method = RequestMethod.GET)
+	public ResponseEntity<ProposedConceptReviewPackageDto> getDeletedProposalReview(@PathVariable int proposalId) {
+		ProposedConceptReviewPackage proposalPackage = Context.
 				getService(ProposedConceptReviewService.class).
-				getProposedConceptReviewPackageById(proposalId));
+				getProposedConceptReviewPackageById(proposalId);
+
+		if (proposalPackage.getStatus() == PackageStatus.DELETED) {
+			return new ResponseEntity<ProposedConceptReviewPackageDto>(
+					createProposedConceptReviewPackageDto(proposalPackage), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ProposedConceptReviewPackageDto>(
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/conceptreview/deletedProposalReviews/{proposalId}/concepts/{conceptId}",
+			method = RequestMethod.GET)
+	public ResponseEntity<ProposedConceptReviewDto> getDeletedProposalConcept(@PathVariable int proposalId,
+																			  @PathVariable int conceptId) {
+		ProposedConceptReviewPackage reviewPackage = Context.getService(ProposedConceptReviewService.class)
+				.getProposedConceptReviewPackageById(proposalId);
+
+		if (reviewPackage.getStatus() == PackageStatus.DELETED) {
+			return new ResponseEntity<ProposedConceptReviewDto>(DtoFactory.createProposedConceptReviewDto(reviewPackage
+					.getProposedConcept(conceptId)),
+					HttpStatus.OK);
+		} else {
+			return new ResponseEntity<ProposedConceptReviewDto>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.GET)
+	public ResponseEntity<ProposedConceptReviewPackageDto> getProposalReview(@PathVariable int proposalId) {
+		ProposedConceptReviewPackage proposalPackage = Context.
+				getService(ProposedConceptReviewService.class).
+				getProposedConceptReviewPackageById(proposalId);
+
+		if (proposalPackage.isDeletedOrDoesNotExist()) {
+			return new ResponseEntity<ProposedConceptReviewPackageDto>(
+					HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<ProposedConceptReviewPackageDto>(
+					createProposedConceptReviewPackageDto(proposalPackage), HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}", method = RequestMethod.DELETE)
@@ -141,22 +187,35 @@ public class ReviewController {
 	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.GET)
-	public @ResponseBody
-	ProposedConceptReviewDto getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
-		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
-		final ProposedConceptReview proposedConcept = service.getProposedConceptReviewPackageById(proposalId).getProposedConcept(conceptId);
-		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
+	public ResponseEntity<ProposedConceptReviewDto> getConceptReview(@PathVariable int proposalId, @PathVariable int conceptId) {
+		ProposedConceptReviewPackage reviewPackage = Context.getService(ProposedConceptReviewService.class)
+				.getProposedConceptReviewPackageById(proposalId);
+
+		if (reviewPackage.isDeletedOrDoesNotExist()) {
+			return new ResponseEntity<ProposedConceptReviewDto>(HttpStatus.NOT_FOUND);
+		}
+
+		ProposedConceptReview proposedConcept = reviewPackage
+				.getProposedConcept(conceptId);
+		return new ResponseEntity<ProposedConceptReviewDto>(DtoFactory.createProposedConceptReviewDto(proposedConcept),
+				HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/conceptreview/proposalReviews/{proposalId}/concepts/{conceptId}", method = RequestMethod.PUT)
-	public @ResponseBody
-	ProposedConceptReviewDto updateConceptReview(@PathVariable int proposalId, @PathVariable int conceptId, @RequestBody ProposedConceptReviewDto updatedProposalReview) {
-		final ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
-		final ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageById(proposalId);
+	public ResponseEntity<ProposedConceptReviewDto> updateConceptReview(
+			@PathVariable int proposalId, @PathVariable int conceptId,
+			@RequestBody ProposedConceptReviewDto updatedProposalReview) {
+		ProposedConceptReviewService service = Context.getService(ProposedConceptReviewService.class);
+		ProposedConceptReviewPackage aPackage = service.getProposedConceptReviewPackageById(proposalId);
+
+		if (aPackage.isDeletedOrDoesNotExist()) {
+			return new ResponseEntity<ProposedConceptReviewDto>(HttpStatus.NOT_FOUND);
+		}
+
 		final ProposedConceptReview proposedConcept = aPackage.getProposedConcept(conceptId);
 		if (proposedConcept != null) {
 			proposedConcept.setReviewComment(updatedProposalReview.getReviewComment());
-			if(updatedProposalReview.getNewCommentText() != null && updatedProposalReview.getNewCommentText() != "") {
+			if(updatedProposalReview.getNewCommentText() != null && !"".equals(updatedProposalReview.getNewCommentText())) {
 				final ProposedConceptReviewComment newComment = new ProposedConceptReviewComment(updatedProposalReview.getNewCommentName(), updatedProposalReview.getNewCommentEmail(), updatedProposalReview.getNewCommentText());
 				newComment.setProposedConceptReview(proposedConcept);
 				proposedConcept.getComments().add(newComment);
@@ -170,7 +229,8 @@ public class ReviewController {
 			service.saveProposedConceptReviewPackage(aPackage);
 		}
 
-		return DtoFactory.createProposedConceptReviewDto(proposedConcept);
+		return new ResponseEntity<ProposedConceptReviewDto>(DtoFactory.createProposedConceptReviewDto(proposedConcept),
+				HttpStatus.OK);
 	}
 
 	private ProposedConceptReviewPackageDto createProposedConceptReviewPackageDto(final ProposedConceptReviewPackage responsePackage) {
