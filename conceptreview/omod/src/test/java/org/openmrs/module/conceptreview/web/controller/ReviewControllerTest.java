@@ -76,7 +76,7 @@ public class ReviewControllerTest {
 	public void getProposalReview_shouldRetrieveProposalReview() {
 		setupProposalMock();
 		
-		ProposedConceptReviewPackageDto proposalDto = controller.getProposalReview(1);
+		ProposedConceptReviewPackageDto proposalDto = controller.getProposalReview(1).getBody();
 		
 		verifyProposalDto(proposalDto);
 	}
