@@ -22,7 +22,7 @@ define([
         $scope.menu = Menu.getMenu();
 
         $scope.loadConcept = function() {
-          $scope.concept = ProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
+          $scope.concept = DeletedProposalReviewConcepts.get({ proposalId: proposalId, conceptId: conceptId }, function() {
             $http.get('/openmrs/ws/conceptreview/userDetails', {})
               .success(function(data) {
                 data = data || {};
