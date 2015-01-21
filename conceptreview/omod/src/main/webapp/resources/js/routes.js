@@ -27,6 +27,14 @@ define([
         when('/edit/:proposalId/concept/:conceptId', {
           controller: 'ReviewConceptCtrl',
           templateUrl: config.resourceLocation + '/partials/ReviewConcept.html'
+        }).
+        when('/deleted/:proposalId', {
+          controller: 'ReviewDeletedProposalCtrl',
+          templateUrl: config.resourceLocation + '/partials/ReviewDeletedProposal.html'
+        }).
+        when('/deleted/:proposalId/concept/:conceptId', {
+          controller: 'ReviewConceptOfDeletedProposalCtrl',
+          templateUrl: config.resourceLocation + '/partials/ReviewConceptOfDeletedProposal.html'
         });
     });
   }

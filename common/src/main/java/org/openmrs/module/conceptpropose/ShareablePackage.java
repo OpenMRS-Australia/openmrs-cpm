@@ -89,7 +89,12 @@ public abstract class ShareablePackage<P extends ShareableProposal> extends Base
 	/*
 	 * Utility methods
 	 */
-	
+
+	@Transient
+	public boolean isDeletedOrDoesNotExist() {
+		return this.status == PackageStatus.DELETED && this.status == PackageStatus.DOESNOTEXIST;
+	}
+
 	public void addProposedConcept(final P proposedConcept) {
 		if (proposedConcept == null) {
 			log.warn("Ignoring request to add null concept");

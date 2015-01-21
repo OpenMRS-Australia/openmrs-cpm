@@ -4,6 +4,8 @@ define([
     'js/controllers/ListDeletedProposalsCtrl',
     'js/controllers/ReviewProposalCtrl',
     'js/controllers/ReviewConceptCtrl',
+    'js/controllers/ReviewConceptOfDeletedProposalCtrl',
+    'js/controllers/ReviewDeletedProposalCtrl',
     'js/directives/conceptreviewMenu',
     'js/filters/proposalReviewStatus',
     'js/filters/dashOnNull',

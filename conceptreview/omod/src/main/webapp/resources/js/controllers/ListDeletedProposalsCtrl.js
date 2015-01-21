@@ -24,7 +24,7 @@ define([
           });
 
           $scope.editProposal = function(proposalId) {
-            $location.path('/edit/' + proposalId);
+            $location.path('/deleted/' + proposalId);
           };
         }
       );
