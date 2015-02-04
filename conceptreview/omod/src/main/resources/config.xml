@@ -4,7 +4,7 @@
 
     <id>conceptreview</id>
     <name>Concept Review Module</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <package>org.openmrs.module.conceptreview</package>
     <author>OpenMRS Australia</author>
     <description>
@@ -14,7 +14,7 @@
     <require_version>1.9.2</require_version>
 
     <require_modules>
-        <require_module version="1.0-SNAPSHOT">org.openmrs.module.conceptpropose</require_module>
+        <require_module version="1.0.1">org.openmrs.module.conceptpropose</require_module>
     </require_modules>
 
 	
