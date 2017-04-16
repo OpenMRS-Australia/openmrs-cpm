@@ -34,6 +34,14 @@ task createOmod(type: Jar, dependsOn: subprojects.tasks['build']) {
     }
 }
 
+task karmaTest(type:Exec) {
+    executable 'grunt'
+    args 'karma', '--single-run true'
+    workingDir projectDir
+}
+
+tasks.test.dependsOn karmaTest
+
 artifacts {
     archives createOmod
 }
